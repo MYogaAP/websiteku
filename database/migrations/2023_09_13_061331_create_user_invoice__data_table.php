@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Data_Paket_Iklan', function (Blueprint $table) {
-            $table->id('Nama Paket');
-            $table->integer('Tinggi');
-            $table->integer('Kolom');
-            $table->enum('Format Warna', ['Full Color', 'Black White']);
-            $table->integer('Harga Paket');
+        Schema::create('user_invoice__data', function (Blueprint $table) {
+            $table->integer('User_ID');
+            $table->integer('Invoice');
+            $table->primary(['User_ID', 'Invoice']);
         });
     }
 
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('Data_Paket_Iklan');
+        Schema::dropIfExists('user_invoice__data');
     }
 };
