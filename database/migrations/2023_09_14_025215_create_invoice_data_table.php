@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_order__data', function (Blueprint $table) {
-            $table->integer('User_ID');
-            $table->integer('Order_ID');
-            $table->primary(['User_ID', 'Order_ID']);
+        Schema::create('invoice_data', function (Blueprint $table) {
+            $table->id('invoice_id');
+            $table->string('invoice', 255);
+            $table->dateTimeTz('tanggal_bayar', $precision = 0);
+            $table->enum('status_pembayaran', ['menunggu pembayaran', 'lunas']);
         });
     }
 
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_order__data');
+        Schema::dropIfExists('invoice_data');
     }
 };
