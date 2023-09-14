@@ -20,8 +20,7 @@ class UserData extends Model
     protected $fillable = [
         'username',
         'email',
-        'password',
-        'role'
+        'password'
     ];
 
     /**
