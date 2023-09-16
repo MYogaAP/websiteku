@@ -15,7 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('invoice_id');
 
-            $table->foreign('user_id')->references('user_id')->on('user_data');
+            $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('invoice_id')->references('invoice_id')->on('invoice_data');
         });
     }
