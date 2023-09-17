@@ -9,11 +9,6 @@ class OrderData extends Model
 {
     use HasFactory;
     
-    /**
-     * fillable
-     *
-     * @var array
-     */
     protected $fillable = [
         'nama_instansi',
         'email_instansi',
@@ -21,7 +16,15 @@ class OrderData extends Model
         'deskripsi_iklan',
         'mulai_iklan',
         'akhir_iklan',
-        'lama_hari Iklan',
+        'lama_hari',
         'foto_iklan',
+        'status_iklan',
+        'order_iklan',
+        'status_pembayaran',
+        'dibayar_pada',
     ];
+
+    public $timestamps = false;
+
+    protected $primaryKey = 'order_id';
 }

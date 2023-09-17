@@ -43,4 +43,16 @@ class User extends Model
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    public function Order(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Order::class, 
+            UserOrder::class,
+            'user_id',
+            'order_id',
+            'user_id',
+            'order_id',
+        );
+    }
 }

@@ -15,8 +15,6 @@ class RegisterController extends Controller
                 'unique:users,username',
                 'max:255',
                 'min:5',
-                'regex:/\w*$/',
-                'regex:/\S/',
                 'alpha_dash',
             ],
             'email' => [
@@ -34,12 +32,26 @@ class RegisterController extends Controller
             ],
         ]);
 
-        $request->merge(['role' => 'customer']);
+        $request->merge(['role' => 'customer']); // Making the user as costumer
 
         $newData = User::create($request->all());
 
         return response()->json([
             'message' => 'Account has been succesfully made.',
+        ]);
+    }
+
+    function EmailCheck(Request $request) {
+        $request->validate([
+            'email' => [
+                'required',
+                'email',
+                'unique:users,email',
+            ],
+        ]);
+
+        return response()->json([
+            'message' => 'The email is available.',
         ]);
     }
 }

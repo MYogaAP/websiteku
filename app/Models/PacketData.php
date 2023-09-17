@@ -8,12 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class PacketData extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
-    /**
-     * fillable
-     *
-     * @var array
-     */
     protected $fillable = [
         'nama_paket',
         'tinggi',

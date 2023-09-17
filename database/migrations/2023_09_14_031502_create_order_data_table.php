@@ -21,6 +21,10 @@ return new class extends Migration
             $table->date('akhir_iklan');
             $table->integer('lama_hari');
             $table->string('foto_iklan');
+            $table->enum('status_iklan', ['Menunggu Konfirmasi', 'Diterima', 'Ditolak', 'Dibatalkan']);
+            $table->string('order_invoice', 255)->nullable();
+            $table->enum('status_pembayaran', ['Menunggu Pembayaran', 'Berhasil', 'Gagal', 'Dibatalkan'])->default('Menunggu Pembayaran');
+            $table->date('dibayar_pada')->nullable();
         });
     }
 
