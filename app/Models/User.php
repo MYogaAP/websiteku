@@ -44,15 +44,8 @@ class User extends Model
         'password' => 'hashed',
     ];
 
-    public function Order(): HasManyThrough
+    public function UserOrder(): HasMany
     {
-        return $this->hasManyThrough(
-            Order::class, 
-            UserOrder::class,
-            'user_id',
-            'order_id',
-            'user_id',
-            'order_id',
-        );
+        return $this->hasMany(OrderData::class, 'user_id', 'user_id');
     }
 }

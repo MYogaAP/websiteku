@@ -27,4 +27,14 @@ class OrderData extends Model
     public $timestamps = false;
 
     protected $primaryKey = 'order_id';
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
+
+    public function packet(): BelongsTo
+    {
+        return $this->belongsTo(PacketData::class, 'packet_id', 'packet_id');
+    }
 }

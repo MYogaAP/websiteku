@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id('order_id');
             $table->string('nama_instansi');
             $table->string('email_instansi');
-            $table->enum('keperluan_iklan', ['instansi', 'pribadi', 'akademik', 'penjualan', 'politik']);
-            $table->text('deskripsi_iklan', 255);
+            $table->text('deskripsi_iklan');
             $table->date('mulai_iklan');
             $table->date('akhir_iklan');
             $table->integer('lama_hari');
@@ -25,6 +24,11 @@ return new class extends Migration
             $table->string('order_invoice', 255)->nullable();
             $table->enum('status_pembayaran', ['Menunggu Pembayaran', 'Berhasil', 'Gagal', 'Dibatalkan'])->default('Menunggu Pembayaran');
             $table->date('dibayar_pada')->nullable();
+            
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('packet_id');
+            $table->foreign('packet_id')->references('packet_id')->on('packet_data');
+            $table->foreign('user_id')->references('user_id')->on('users');
         });
     }
 

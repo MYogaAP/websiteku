@@ -17,4 +17,9 @@ class PacketData extends Model
         'format_warna',
         'harga_paket',
     ];
+
+    public function PacketOrder(): HasMany
+    {
+        return $this->hasMany(OrderData::class, 'packet_id', 'packet_id');
+    }
 }

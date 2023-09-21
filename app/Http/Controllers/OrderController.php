@@ -20,11 +20,11 @@ class OrderController extends Controller
         $validate = $request ->validate([
             'nama_instansi' => 'required|max:255',
             'email_instansi' => 'required|email',
-            'keperluan_iklan' => 'required',
             'deskripsi_iklan' => 'required',
             'mulai_iklan' => 'required|date',
             'akhir_iklan'  => 'required|date',
             'image'=>'required|image',
+            'packet_id'=>'required',
         ]);
 
         $fileName = '';
@@ -43,13 +43,11 @@ class OrderController extends Controller
         $days = 1 + ($end->diffInDays($start));
 
         $request['foto_iklan'] = $fullName;
-        $request->merge(['lama_hari' => $days]);
+        $request->merge([
+            'lama_hari' => $days,
+            'user_id'=> Auth::user()->user_id,
+        ]);
         $order_data = OrderData::create($request->all());
-        
-        $userOrder = new UserOrder();
-        $userOrder->user_id = Auth::user()->user_id;
-        $userOrder->order_id = $order_data->order_id;
-        $userOrder->save();
 
         return response()->json([
             'message' => 'Order has been succesfully made.',
