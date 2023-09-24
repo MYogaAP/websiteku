@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
+use App\Models\PacketData;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OrderData extends Model
 {
@@ -12,7 +15,6 @@ class OrderData extends Model
     protected $fillable = [
         'nama_instansi',
         'email_instansi',
-        'keperluan_iklan',
         'deskripsi_iklan',
         'mulai_iklan',
         'akhir_iklan',
@@ -20,11 +22,16 @@ class OrderData extends Model
         'foto_iklan',
         'status_iklan',
         'order_iklan',
+        'order_invoice',
         'status_pembayaran',
         'dibayar_pada',
+        'user_id',
+        'packet_id',
     ];
 
-    public $timestamps = false;
+    protected $hidden = [
+        'user_id'
+    ];
 
     protected $primaryKey = 'order_id';
 
@@ -33,7 +40,7 @@ class OrderData extends Model
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
-    public function packet(): BelongsTo
+    public function PacketData(): BelongsTo
     {
         return $this->belongsTo(PacketData::class, 'packet_id', 'packet_id');
     }

@@ -54,4 +54,20 @@ class RegisterController extends Controller
             'message' => 'The email is available.',
         ]);
     }
+
+    function UsernameCheck(Request $request) {
+        $request->validate([
+            'username' => [
+                'required',
+                'unique:users,username',
+                'max:255',
+                'min:5',
+                'alpha_dash',
+            ],
+        ]);
+
+        return response()->json([
+            'message' => 'The username is available.',
+        ]);
+    }
 }

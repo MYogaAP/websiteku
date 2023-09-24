@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('kolom');
             $table->enum('format_warna', ['fc', 'bw']);
             $table->integer('harga_paket');
+            $table->string('contoh_foto');
         });
     }
 

@@ -35,7 +35,7 @@ class AuthenticationController extends Controller
         
         $token = $user->createToken($request->username)->plainTextToken;
 
-        return $token;
+        return ''.$token;
     }
 
     function Logout(Request $request) {

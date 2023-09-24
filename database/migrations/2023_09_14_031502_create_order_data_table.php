@@ -29,6 +29,7 @@ return new class extends Migration
             $table->unsignedBigInteger('packet_id');
             $table->foreign('packet_id')->references('packet_id')->on('packet_data');
             $table->foreign('user_id')->references('user_id')->on('users');
+            $table->timestamps();
         });
     }
 

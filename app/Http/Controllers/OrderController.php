@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
-    function GetUserOrders($id) {
-        
+    function GetUserOrders() {
+        $orders = OrderData::where("user_id", Auth::user()->user_id)->get();
+        return $orders;
     }
 
     function StoreOrder(Request $request) {
@@ -43,10 +44,8 @@ class OrderController extends Controller
         $days = 1 + ($end->diffInDays($start));
 
         $request['foto_iklan'] = $fullName;
-        $request->merge([
-            'lama_hari' => $days,
-            'user_id'=> Auth::user()->user_id,
-        ]);
+        $request['user_id'] = Auth::user()->user_id;
+        $request['lama_hari'] = $days;
         $order_data = OrderData::create($request->all());
 
         return response()->json([

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\OrderData;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PacketData extends Model
 {
@@ -16,6 +18,7 @@ class PacketData extends Model
         'kolom',
         'format_warna',
         'harga_paket',
+        'contoh_foto',
     ];
 
     public function PacketOrder(): HasMany
