@@ -26,4 +26,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/AddPacket', [PacketController::class, 'AddPacket']);
+    Route::get('/PacketList', [PacketController::class, 'GetPacketList']);
+    Route::get('/AgentPacketList', [PacketController::class, 'AgentPacketList']);
+    Route::put('/HidePacket/{packet_id}', [PacketController::class, 'HidePacket']);
+    Route::put('/UnHidePacket/{packet_id}', [PacketController::class, 'UnHidePacket']);
 });
