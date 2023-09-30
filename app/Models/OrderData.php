@@ -21,7 +21,6 @@ class OrderData extends Model
         'lama_hari',
         'foto_iklan',
         'status_iklan',
-        'order_iklan',
         'order_invoice',
         'status_pembayaran',
         'dibayar_pada',
@@ -30,12 +29,12 @@ class OrderData extends Model
     ];
 
     protected $hidden = [
-        'user_id'
+        'user_id', 'packet_id'
     ];
 
     protected $primaryKey = 'order_id';
 
-    public function user(): BelongsTo
+    public function User(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }

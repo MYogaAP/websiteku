@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('hidden', ['yes', 'no'])->default('yes');
             $table->integer('harga_paket');
             $table->string('contoh_foto');
+            $table->softDeletes();
         });
     }
 

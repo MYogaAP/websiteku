@@ -9,12 +9,26 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\OrdersListResource;
+use App\Http\Resources\OrderDetailResource;
 
 class OrderController extends Controller
 {
-    function GetUserOrders() {
+    function GetUserOrdersList() {
         $orders = OrderData::where("user_id", Auth::user()->user_id)->get();
-        return $orders;
+        return OrdersListResource::collection($orders);
+    }
+
+    function GetOrderDetail($order_id) {
+        $order = OrderData::with('PacketData')
+        ->where("order_id", $order_id)
+        ->get();
+        return OrderDetailResource::collection($order);
+    }
+
+    function AllOrders() {
+        $orders = OrderData::all();
+        return OrdersListResource::collection($orders);
     }
 
     function StoreOrder(Request $request) {
@@ -51,6 +65,10 @@ class OrderController extends Controller
         return response()->json([
             'message' => 'Order has been succesfully made.',
         ]);
+    }
+
+    function CheckImage(Request $request) {
+        
     }
 
     function CancelOrder($order_id) {
