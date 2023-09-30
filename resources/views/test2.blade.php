@@ -20,7 +20,7 @@
         }
 
         .judul {
-            font-family: 'Bodoni Moda', serif;
+            font-family: 'Bodoni MT', serif;
             color: #1450A3;
         }
     </style>
@@ -28,12 +28,7 @@
 
 <body>
     {{-- Navigation Bar --}}
-    <nav class="navbar bg-body-tertiary p-3 shadow-sm">
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 judul">RADAR BANJARMASIN</span>
-            <a href="#" class="text-decoration-none text-black">Kembali</a>
-        </div>
-    </nav>
+    <x-nav-bar />
 
     {{-- Content --}}
     <div class="container text-center">
@@ -50,7 +45,7 @@
                 </div>
                 <button type="button" class="btn btn-primary rounded-pill px-5">Login</button>
                 <div class="mt-5">
-                    <span>Belum memiliki akun? <a href="" class="fw-bold">Daftar Sekarang</a></span>
+                    <span>Belum memiliki akun? <a href="{{ URL('/test3') }}" class="fw-bold">Daftar Sekarang</a></span>
                 </div>
             </div>
         </div>
