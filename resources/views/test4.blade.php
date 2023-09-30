@@ -31,30 +31,33 @@
     <x-nav-bar />
 
     {{-- Content --}}
-    <div class="container text-center">
-        <div class="row align-items-center justify-content-center" style="height: 80vh">
-            <div class="col-4 shadow p-5">
-                <h1 class="mb-5">Daftar</h1>
-                <div class="mb-3">
-                    <input type="email" class="form-control rounded-pill" id="exampleFormControlInput1"
-                        placeholder="email">
-                </div>
-                <div class="mb-3">
-                    <input type="username" class="form-control rounded-pill" id="exampleFormControlInput1"
-                        placeholder="username">
-                </div>
-                <div class="mb-3">
-                    <input type="password" id="inputPassword5" class="form-control rounded-pill"
-                        aria-describedby="passwordHelpBlock" placeholder="password">
-                </div>
-                <div class="mb-3">
-                    <input type="repassword" id="inputPassword6" class="form-control rounded-pill"
-                        aria-describedby="passwordHelpBlock" placeholder="ketik ulang password">
-                </div>
-                <button type="button" class="btn btn-primary rounded-pill px-5">Register</button>
-                <div class="mt-5">
-                    <span>Sudah memiliki akun? <a href="{{ URL('/test2') }}" class="fw-bold">Masuk Sekarang!</a></span>
-                </div>
+    <div class="container text-center mt-5 border rounded-4">
+        <div class="row align-items-start">
+            <div class="col">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Invoice</th>
+                            <th scope="col">Nama Instansi</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>123-12312</td>
+                            <td>PT. Induk</td>
+                            <td class="text-success">Success</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>321-32132</td>
+                            <td>PT. Anakan</td>
+                            <td class="text-danger">Failed</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
