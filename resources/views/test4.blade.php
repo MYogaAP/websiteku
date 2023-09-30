@@ -20,7 +20,7 @@
         }
 
         .judul {
-            font-family: 'Bodoni Moda', serif;
+            font-family: 'Bodoni MT';
             color: #1450A3;
         }
     </style>
@@ -38,23 +38,37 @@
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Invoice</th>
                             <th scope="col">Nama Instansi</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Mulai</th>
+                            <th scope="col">Akhir</th>
+                            <th scope="col">Status Pembayaran</th>
+                            <th scope="col">Status Iklan</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <th scope="row">1</th>
-                            <td>123-12312</td>
-                            <td>PT. Induk</td>
-                            <td class="text-success">Success</td>
+                            <td>PT. Trikora</td>
+                            <td>Senin/04/09/2023</td>
+                            <td>Sabtu/09/09/2023</td>
+                            <td class="text-success">Berhasil</td>
+                            <td class="text-success">Diterima</td>
                         </tr>
                         <tr>
                             <th scope="row">2</th>
-                            <td>321-32132</td>
-                            <td>PT. Anakan</td>
-                            <td class="text-danger">Failed</td>
+                            <td>PT. Ro Ulin</td>
+                            <td>Senin/11/09/2023</td>
+                            <td>Sabtu/16/09/2023</td>
+                            <td class="text-danger">Gagal</td>
+                            <td class="text-danger">Dibatalkan</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>PT. Sutoyo S</td>
+                            <td>Senin/25/09/2023</td>
+                            <td>Sabtu/30/09/2023</td>
+                            <td>Menunggu Pembayaran</td>
+                            <td>Menunggu Konfirmasi</td>
                         </tr>
                     </tbody>
                 </table>

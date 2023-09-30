@@ -20,7 +20,7 @@
         }
 
         .judul {
-            font-family: 'Bodoni Moda', serif;
+            font-family: 'Bodoni MT', serif;
             color: #1450A3;
         }
     </style>
