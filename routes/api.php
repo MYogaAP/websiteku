@@ -17,6 +17,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 //Register API
 Route::post('/UserRegister', [RegisterController::class, 'RegisterCostumer']);
+Route::post('/AgentRegister', [RegisterController::class, 'RegisterAgent'])->middleware(['auth:sanctum', 'an.admin']);
 Route::post('/CheckEmail', [RegisterController::class, 'EmailCheck']);
 Route::post('/CheckUsername', [RegisterController::class, 'UsernameCheck']);
 

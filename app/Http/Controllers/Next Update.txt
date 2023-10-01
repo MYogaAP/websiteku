@@ -1,0 +1,10 @@
+Priority List:
+
+1. User data update
+2. Agent data update
+3. Agent account delete
+4. Agent confirm order
+5. Agent waiting confirm list
+6. Admin agent list
+7. Image Size Check
+8. Payment

@@ -41,6 +41,39 @@ class RegisterController extends Controller
         ]);
     }
 
+    function RegisterAgent(Request $request) {
+        $request->validate([
+            'username' => [
+                'required',
+                'unique:users,username',
+                'max:255',
+                'min:5',
+                'alpha_dash',
+            ],
+            'email' => [
+                'required',
+                'email',
+                'unique:users,email',
+            ],
+            'password' => [
+                'required',
+                Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols(),
+            ],
+        ]);
+
+        $request->merge(['role' => 'agent']); // Making the user as agent
+
+        $newData = User::create($request->all());
+
+        return response()->json([
+            'message' => 'Agent has been succesfully made.',
+        ]);
+    }
+
     function EmailCheck(Request $request) {
         $request->validate([
             'email' => [
