@@ -25,13 +25,18 @@ Route::post('/CheckUsername', [RegisterController::class, 'UsernameCheck']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/UserCheck', [AgentUserController::class, "CheckCurrent"]);
     Route::patch('/UpdateUserPassword', [AgentUserController::class, "UpdatePassword"]);
+    Route::get('/AgentList', [AgentUserController::class, "AgentList"])->middleware('an.admin');
     Route::delete('/DeleteAgent/{user_id}', [AgentUserController::class, "DeleteAgent"])->middleware('an.admin');
 });
 
 // Order API
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/UserOrdersList', [OrderController::class, 'GetUserOrdersList']);
-    Route::get('/AgentAllOrders', [OrderController::class, 'AllOrders'])->middleware('an.agent');
+    Route::middleware(['an.agent'])->group(function () {
+        Route::get('/AgentAllOrders', [OrderController::class, 'AllOrders']);
+        Route::get('/NeedConfirmation', [OrderController::class, 'NeedConfirmation']);
+        Route::patch('/UpdateOrder/{order_id}/{status_iklan}', [OrderController::class, 'UpdateOrder']);
+    });
     Route::get('/OrderDetail/{order_id}', [OrderController::class, 'GetOrderDetail']);
     Route::post('/StoreOrder', [OrderController::class, 'StoreOrder']);
     Route::delete('/CancelOrder/{order_id}', [OrderController::class, 'CancelOrder']);

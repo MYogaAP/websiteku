@@ -6,12 +6,18 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\AgentListResource;
 use Illuminate\Validation\Rules\Password;
 
 class AgentUserController extends Controller
 {
     function CheckCurrent() {
         return response()->json(Auth::user());
+    }
+
+    function AgentList() {
+        $agents = User::where('role', 'agent')->get();
+        return AgentListResource::collection($agents);
     }
     
     function UpdatePassword(Request $request) {

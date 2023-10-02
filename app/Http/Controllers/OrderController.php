@@ -31,6 +31,32 @@ class OrderController extends Controller
         return OrdersListResource::collection($orders);
     }
 
+    function NeedConfirmation() {
+        $orders = OrderData::where('status_pembayaran', 'Berhasil')->get();
+        return OrdersListResource::collection($orders);
+    }
+
+    function UpdateOrder($order_id, $status_iklan) {
+        $confirmOrder = OrderData::findOrFail($order_id);
+
+        $confirmOrder->status_iklan = $status_iklan;
+        $confirmOrder->save();
+        
+        return response()->json([
+            'message' => 'Order has been succesfully updated.',
+        ]);
+    }
+
+    function CheckImage(Request $request) {
+        $validate = $request ->validate([
+            'image'=>[
+                'required',
+                'image',
+                
+            ]
+        ]);
+    }
+
     function StoreOrder(Request $request) {
         $validate = $request ->validate([
             'nama_instansi' => 'required|max:255',
@@ -65,10 +91,6 @@ class OrderController extends Controller
         return response()->json([
             'message' => 'Order has been succesfully made.',
         ]);
-    }
-
-    function CheckImage(Request $request) {
-        
     }
 
     function CancelOrder($order_id) {
