@@ -6,13 +6,13 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PacketController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\AgentUserController;
 use App\Http\Controllers\AuthenticationController;
 
 //Login API
 Route::post('/UserLogin', [AuthenticationController::class, 'Login']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/UserLogout', [AuthenticationController::class, 'Logout']);
-    Route::get('/UserCheck', [AuthenticationController::class, "Check"]);
 });
 
 //Register API
@@ -20,6 +20,13 @@ Route::post('/UserRegister', [RegisterController::class, 'RegisterCostumer']);
 Route::post('/AgentRegister', [RegisterController::class, 'RegisterAgent'])->middleware(['auth:sanctum', 'an.admin']);
 Route::post('/CheckEmail', [RegisterController::class, 'EmailCheck']);
 Route::post('/CheckUsername', [RegisterController::class, 'UsernameCheck']);
+
+//User Data API
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/UserCheck', [AgentUserController::class, "CheckCurrent"]);
+    Route::patch('/UpdateUserPassword', [AgentUserController::class, "UpdatePassword"]);
+    Route::delete('/DeleteAgent/{user_id}', [AgentUserController::class, "DeleteAgent"])->middleware('an.admin');
+});
 
 // Order API
 Route::middleware(['auth:sanctum'])->group(function () {

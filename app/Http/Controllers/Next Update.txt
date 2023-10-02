@@ -1,8 +1,8 @@
 Priority List:
 
-1. User data update
-2. Agent data update
-3. Agent account delete
+1. User data update (Done)
+2. Agent data update (Done)
+3. Agent account delete (Done)
 4. Agent confirm order
 5. Agent waiting confirm list
 6. Admin agent list

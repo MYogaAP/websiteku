@@ -6,13 +6,14 @@ use App\Models\OrderData;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Model
 {
-    use HasFactory, HasApiTokens, Notifiable;
+    use HasFactory, HasApiTokens, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +26,9 @@ class User extends Model
         'password',
         'role'
     ];
+
+    protected $dates = ['deleted_at'];
+    protected $table = 'users';
 
     protected $primaryKey = 'user_id';
 

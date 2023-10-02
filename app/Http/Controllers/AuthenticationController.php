@@ -41,8 +41,4 @@ class AuthenticationController extends Controller
     function Logout(Request $request) {
         $request->user()->currentAccessToken()->delete();
     }
-
-    function Check() {
-        return response()->json(Auth::user());
-    }
 }

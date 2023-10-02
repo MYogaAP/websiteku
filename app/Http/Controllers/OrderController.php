@@ -91,6 +91,6 @@ class OrderController extends Controller
 
         return response()->json([
             'message' => 'Canceling order failed.',
-        ]);
+        ], 404);
     }
 }
