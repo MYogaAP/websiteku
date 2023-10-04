@@ -40,3 +40,7 @@ Route::get('/profile', function () {
 Route::get('/pemesanan', function () {
     return view('pemesanan');
 });
+
+Route::get('/landingPageLogin', function () {
+    return view('landingPageLogin');
+});

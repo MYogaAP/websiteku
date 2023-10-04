@@ -28,7 +28,7 @@
 
 <body>
     {{-- Navigation Bar --}}
-    <x-nav-bar />
+    <x-nav-bar-back />
 
     {{-- Content --}}
     <div class="container text-center mt-5 border rounded-4">

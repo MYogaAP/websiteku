@@ -28,7 +28,7 @@
 
 <body>
     {{-- Navigation Bar --}}
-    <x-nav-bar />
+    <x-nav-bar-back />
 
     {{-- Conetent --}}
 
