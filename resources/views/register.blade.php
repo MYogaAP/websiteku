@@ -34,7 +34,11 @@
     <div class="container text-center">
         <div class="row align-items-center justify-content-center" style="height: 80vh">
             <div class="col-4 shadow p-5">
-                <h1 class="mb-5">Masuk</h1>
+                <h1 class="mb-5">Daftar</h1>
+                <div class="mb-3">
+                    <input type="email" class="form-control rounded-pill" id="exampleFormControlInput1"
+                        placeholder="email">
+                </div>
                 <div class="mb-3">
                     <input type="username" class="form-control rounded-pill" id="exampleFormControlInput1"
                         placeholder="username">
@@ -43,9 +47,13 @@
                     <input type="password" id="inputPassword5" class="form-control rounded-pill"
                         aria-describedby="passwordHelpBlock" placeholder="password">
                 </div>
-                <button type="button" class="btn btn-primary rounded-pill px-5">Login</button>
+                <div class="mb-3">
+                    <input type="repassword" id="inputPassword6" class="form-control rounded-pill"
+                        aria-describedby="passwordHelpBlock" placeholder="ketik ulang password">
+                </div>
+                <button type="button" class="btn btn-primary rounded-pill px-5">Register</button>
                 <div class="mt-5">
-                    <span>Belum memiliki akun? <a href="{{ URL('/test3') }}" class="fw-bold">Daftar Sekarang</a></span>
+                    <span>Sudah memiliki akun? <a href="{{ URL('/login') }}" class="fw-bold">Masuk Sekarang!</a></span>
                 </div>
             </div>
         </div>

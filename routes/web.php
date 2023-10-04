@@ -14,21 +14,29 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landingPage');
 });
 
-Route::get('/test', function () {
-    return view('test');
+Route::get('/landingPage', function () {
+    return view('landingPage');
 });
 
-Route::get('/test2', function () {
-    return view('test2');
+Route::get('/login', function () {
+    return view('login');
 });
 
-Route::get('/test3', function () {
-    return view('test3');
+Route::get('/register', function () {
+    return view('register');
 });
 
-Route::get('/test4', function () {
-    return view('test4');
+Route::get('/invoice', function () {
+    return view('invoice');
+});
+
+Route::get('/profile', function () {
+    return view('profile');
+});
+
+Route::get('/pemesanan', function () {
+    return view('pemesanan');
 });
