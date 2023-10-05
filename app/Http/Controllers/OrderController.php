@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\OrderData;
 use App\Models\UserOrder;
+use App\Models\PacketData;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\OrdersListResource;
 use App\Http\Resources\OrderDetailResource;
+use Illuminate\Validation\Rules\Dimensions;
 
 class OrderController extends Controller
 {
@@ -48,12 +50,26 @@ class OrderController extends Controller
     }
 
     function CheckImage(Request $request) {
-        $validate = $request ->validate([
+        $packet = PacketData::where("packet_id", $request->packet_id)->get();
+        $width = floor($packet[0]->kolom * 500);
+        $height = floor(($packet[0]->tinggi/50) * 500);
+
+        $rules = [
             'image'=>[
                 'required',
                 'image',
-                
-            ]
+                'dimensions:width='.$width.',height='.$height,
+            ],
+        ];
+
+        $messages = [
+            'dimensions' => 'The file width and height should be '.$width.'px and '.$height.'px',
+        ];
+
+        $validate = $request->validate($rules, $messages);
+
+        return response()->json([
+            'message' => 'Image size is correct.',
         ]);
     }
 
