@@ -23,9 +23,3 @@ Route::get('/test4', function () {
     return view('test4');
 });
 
-Route::get('/login-test', function () {
-    return view('login-test');
-});
-
-Route::post('/logincall', [LoginCallController::class, 'LoginCall'])->name('logincall');
-
