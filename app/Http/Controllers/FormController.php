@@ -56,8 +56,8 @@ class FormController extends Controller
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
         CURLOPT_POSTFIELDS =>'{
-            "username" : "'.$request->username.'",
             "email" : "'.$request->email.'",
+            "username" : "'.$request->username.'",
             "password" : "'.$request->password.'"
         }',
         CURLOPT_HTTPHEADER => array(
@@ -69,7 +69,7 @@ class FormController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
         $response = json_decode($response);
-
+        
         if(!empty($response->message)) {
             return view('register', ['message' => $response->message]);
         }

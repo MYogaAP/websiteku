@@ -35,12 +35,9 @@
         <div class="row align-items-center justify-content-center" style="height: 80vh">
             <div class="col-4 shadow p-5">
                 <h1 class="mb-5">Daftar</h1>
-                <div class="mb-3">
-
                 @if(Cookie::get('auth'))
                     <script>location.href='welcome.blade.php';</script>
                 @endif
-
                 @if(isset($message))
                     <p>Kalimat: {{ $message }}</p>
                 @else
@@ -49,16 +46,18 @@
 
                 <form method="POST" action="{{ route('RegisterCall')}}">
                 @csrf
-                    <input type="email" class="form-control rounded-pill" id="email" placeholder="Ketik email disini">
+                <div class="mb-3">
+                    <input type="email" name="email" class="form-control rounded-pill" id="email" placeholder="Ketik email disini">
                 </div>
                 <div class="mb-3">
-                    <input type="username" class="form-control rounded-pill" id="username" placeholder="Ketik username disini">
+                    <input type="username" name="username" class="form-control rounded-pill" id="username" placeholder="Ketik username disini">
                 </div>
                 <div class="mb-3">
-                    <input type="password" id="password" class="form-control rounded-pill" aria-describedby="passwordHelpBlock" placeholder="Ketik password disini">
+                    <input type="password" id="password" name="password" class="form-control rounded-pill" aria-describedby="passwordHelpBlock" placeholder="Ketik password disini">
                 </div>
-                <button type="submit" class="btn btn-primary rounded-pill px-5">Register</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-5">Register</button>
                 </form>
+
                 <div class="mt-5">
                     <span>Sudah memiliki akun? <a href="{{ URL('/login') }}" class="fw-bold">Masuk Sekarang!</a></span>
                 </div>
