@@ -28,7 +28,8 @@ class RegisterController extends Controller
                     ->letters()
                     ->mixedCase()
                     ->numbers()
-                    ->symbols(),
+                    ->symbols()
+                    ->uncompromised(3),
             ],
         ]);
 

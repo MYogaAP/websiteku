@@ -25,7 +25,7 @@ Route::get('/test4', function () {
 
 Route::get('/login-test', function () {
     return view('login-test');
-});
+})->name('LandingPage');
 
 Route::get('/register-test', function () {
     return view('register-test');
