@@ -21,7 +21,7 @@ class FormController extends Controller
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
         CURLOPT_POSTFIELDS =>'{
-            "username" : "'.$request->email.'",
+            "username" : "'.$request->username.'",
             "password" : "'.$request->password.'"
         }',
         CURLOPT_HTTPHEADER => array(
@@ -40,7 +40,7 @@ class FormController extends Controller
 
         Cookie::queue('auth', $response->auth, 1440, null, null, false, true);
 
-        return view('login');
+        return view('landingPageLogin');
     }
 
     function RegisterCall(Request $request) {

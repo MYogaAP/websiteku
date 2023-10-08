@@ -35,13 +35,11 @@
         <div class="row align-items-center justify-content-center" style="height: 80vh">
             <div class="col-4 shadow p-5">
                 <h1 class="mb-5">Daftar</h1>
-                @if(Cookie::get('auth'))
-                    <script>location.href='welcome.blade.php';</script>
-                @endif
+
                 @if(isset($message))
-                    <p>Kalimat: {{ $message }}</p>
+                    <p>{{ $message }}</p>
                 @else
-                    <p>kalimat: -------.</p>
+                    <p></p>
                 @endif
 
                 <form method="POST" action="{{ route('RegisterCall')}}">
@@ -59,7 +57,7 @@
                 </form>
 
                 <div class="mt-5">
-                    <span>Sudah memiliki akun? <a href="{{ URL('/login') }}" class="fw-bold">Masuk Sekarang!</a></span>
+                    <span>Sudah memiliki akun? <a href="{{ route('loginPage') }}" class="fw-bold">Masuk Sekarang!</a></span>
                 </div>
             </div>
         </div>

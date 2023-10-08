@@ -37,26 +37,24 @@
                 <h1 class="mb-5">Masuk</h1>
                 <div class="mb-3">
 
-                @if(Cookie::get('auth'))
-                    <script>location.href='welcome.blade.php';</script>
-                @endif
-
                 @if(isset($message))
-                    <p>Kalimat: {{ $message }}</p>
+                    <p>{{ $message }}</p>
                 @else
-                    <p>kalimat: -------.</p>
+                    <p></p>
                 @endif
 
                 <form method="POST" action="{{ route('LoginCall')}}">
-                    <input type="username" class="form-control rounded-pill" id="exampleFormControlInput1" placeholder="username">
+                @csrf
+                    <input type="username" name="username" class="form-control rounded-pill" id="exampleFormControlInput1" placeholder="username">
                 </div>
                 <div class="mb-3">
-                    <input type="password" id="inputPassword5" class="form-control rounded-pill" aria-describedby="passwordHelpBlock" placeholder="password">
+                    <input type="password" name="password" id="inputPassword5" class="form-control rounded-pill" aria-describedby="passwordHelpBlock" placeholder="password">
                 </div>
-                <button type="submit" class="btn btn-primary rounded-pill px-5">Login</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-5">Login</button>
                 </form>
+
                 <div class="mt-5">
-                    <span>Belum memiliki akun? <a href="{{ URL('/register') }}" class="fw-bold">Daftar Sekarang</a></span>
+                    <span>Belum memiliki akun? <a href="{{ route('registerPage') }}" class="fw-bold">Daftar Sekarang</a></span>
                 </div>
             </div>
         </div>
