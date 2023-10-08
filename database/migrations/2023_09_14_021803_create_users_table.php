@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('role', ['admin', 'agent', 'customer']);
+            $table->enum('role', ['admin', 'agent', 'costumer'])->default('costumer');
             $table->timestamps();
             $table->softDeletes();
         });

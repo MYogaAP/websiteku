@@ -32,7 +32,7 @@ class RegisterController extends Controller
             ],
         ]);
 
-        $request->merge(['role' => 'customer']); // Making the user as costumer
+        $request->merge(['role' => 'costumer']); // Making the user as costumer
 
         $newData = User::create($request->all());
 

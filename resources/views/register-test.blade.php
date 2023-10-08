@@ -25,7 +25,7 @@
 
         <div>
             <label for="username">username</label>
-            <input type="text" name="username" id="usernameusername" value="{{ old('username') }}" required autofocus>
+            <input type="text" name="username" id="username" value="{{ old('username') }}" required autofocus>
         </div>
 
         <div>
