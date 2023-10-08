@@ -27,5 +27,10 @@ Route::get('/login-test', function () {
     return view('login-test');
 });
 
+Route::get('/register-test', function () {
+    return view('register-test');
+});
+
 Route::post('/logincall', [LoginCallController::class, 'LoginCall'])->name('logincall');
+Route::post('/registercall', [LoginCallController::class, 'RegisterCall'])->name('registercall');
 
