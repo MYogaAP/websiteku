@@ -70,6 +70,8 @@ class LoginCallController extends Controller
         curl_close($curl);
         $response = json_decode($response);
 
+        dd($request);
+
         if(!empty($response->message)) {
             return view('register-test', ['message' => $response->message]);
         }
