@@ -1,36 +1,41 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginCallController;
+use App\Http\Controllers\FormController;
+
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landingPage');
 });
 
-Route::get('/test', function () {
-    return view('test');
+Route::get('/landingPage', function () {
+    return view('landingPage');
 });
 
-Route::get('/test2', function () {
-    return view('test2');
+Route::get('/login', function () {
+    return view('login');
 });
 
-Route::get('/test3', function () {
-    return view('test3');
+Route::get('/register', function () {
+    return view('register');
 });
 
-Route::get('/test4', function () {
-    return view('test4');
+Route::get('/invoice', function () {
+    return view('invoice');
 });
 
-Route::get('/login-test', function () {
-    return view('login-test');
+Route::get('/profile', function () {
+    return view('profile');
 });
 
-Route::get('/register-test', function () {
-    return view('register-test');
+Route::get('/pemesanan', function () {
+    return view('pemesanan');
 });
 
-Route::post('/logincall', [LoginCallController::class, 'LoginCall'])->name('logincall');
-Route::post('/registercall', [LoginCallController::class, 'RegisterCall'])->name('registercall');
+Route::get('/landingPageLogin', function () {
+    return view('landingPageLogin');
+});
+
+Route::post('/LoginCall', [FormController::class, 'LoginCall'])->name('LoginCall');
+Route::post('/RegisterCall', [FormController::class, 'RegisterCall'])->name('RegisterCall');
 
