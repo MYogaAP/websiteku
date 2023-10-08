@@ -22,12 +22,11 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        DB::table('user_data')->insert([
-            'username' => fake()->name(),
+        DB::table('users')->insert([
+            'username' => fake()->username(),
             'email' => fake()->unique()->safeEmail(),
             'password' => Hash::make('password'),
             'role'=>'customer',
-            'remember_token' => Str::random(10),
         ]);
     }
 }

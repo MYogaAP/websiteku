@@ -17,7 +17,10 @@ return new class extends Migration
             $table->integer('tinggi');
             $table->integer('kolom');
             $table->enum('format_warna', ['fc', 'bw']);
+            $table->enum('hidden', ['yes', 'no'])->default('yes');
             $table->integer('harga_paket');
+            $table->string('contoh_foto');
+            $table->softDeletes();
         });
     }
 
