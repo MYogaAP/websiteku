@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->enum('role', ['admin', 'agent', 'costumer'])->default('costumer');
+            $table->string('no_hp')->nullable();
+            $table->string('pekerjaan')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -53,6 +53,28 @@ class AgentUserController extends Controller
         ]);
     }
 
+    function UpdateProfile(Request $request) {
+        $newProfile = $request->validate([
+            'no_hp' => [
+                'numeric'
+            ],
+            'pekerjaan' => [
+                'max:255'
+            ]
+        ]);
+
+        $currentAccount = Auth::user()->user_id;
+
+        $updateData = User::findOrFail($currentAccount);
+        $updateData->no_hp = $newProfile["no_hp"];
+        $updateData->pekerjaan = $newProfile["pekerjaan"];
+        $updateData->save();
+
+        return response()->json([
+            'message' => 'Profile has been updated.',
+        ]);
+    }
+
     function DeleteAgent($user_id) {
         $deleteData = User::findOrFail($user_id);
 

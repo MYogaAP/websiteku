@@ -23,7 +23,10 @@ class User extends Model
     protected $fillable = [
         'username',
         'email',
-        'password'
+        'password',
+        'role',
+        'no_hp',
+        'pekerjaan'
     ];
 
     protected $dates = ['deleted_at'];
