@@ -24,6 +24,7 @@
             color: #1450A3;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -32,74 +33,89 @@
 
     {{-- Conetent --}}
 
-    @php
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => '127.0.0.1/websiteku/public/api/UserCheck',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'GET',
-        CURLOPT_HTTPHEADER => array(
-            'Accept: application/json',
-            'Authorization: Bearer jk8hRBZH7NonOuQTYvM7ZWeviRt9FzloHeUljhkr79c2defd'
-        ),
-        ));
-        $data = curl_exec($curl);
-        $data = json_decode($data);
-    @endphp
+    @if(!Cookie::has('auth'))
+        <script>window.location='/login';</script>
+    @else
+        @php
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => '127.0.0.1/websiteku/public/api/UserCheck',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Authorization: Bearer '.Cookie::get('auth')
+            ),
+            ));
+            $data = curl_exec($curl);
+            $data = json_decode($data);
+        @endphp
 
-    <div>
-        <div class="container">
-            <div class="row mt-5">
-                <h1 class="text-center">Identitas Profil Akun</h1>
-            </div>
-            <div class="row mt-5">
-                <div class="col-4">
-                    <div class="text-center">
-                        <img src="{{ asset('storage/images/koran.jpg') }}" alt="" width="200px" class="border">
-                    </div>
-                    <div class="text-center mt-3">
-                        <button type="button" class="btn btn-primary rounded-pill px-3 mb-3">Ganti Foto</button>
-                    </div>
+        <div>
+            <div class="container">
+                <div class="mt-5 ">
+                    <h1 class="text-center">Identitas Profil Akun</h1>
                 </div>
-                <div class="col-6">
-                    <div class="mb-3">
-                        <input type="username" class="form-control rounded-pill" id="exampleFormControlInput1"
-                            placeholder="username" value="{{$data->username}}">
-                    </div>
-                    <div class="mb-3">
-                        <input type="password" class="form-control rounded-pill" id="exampleFormControlInput1"
-                            placeholder="password" value="YourPassword">
-                    </div>
-                    <div class="text-end">
-                        <button type="button" class="btn btn-secondary round-5 px-3 mb-3">Ganti Password</button>
-                    </div>
-                    <div class="mb-3">
-                        <input type="username" class="form-control rounded-pill" id="exampleFormControlInput1"
-                            placeholder="No HP" value="{{$data->no_hp}}">
-                    </div>
-                    <div class="mb-3">
-                        <input type="username" class="form-control rounded-pill" id="exampleFormControlInput1"
-                            placeholder="Pekerjaan" value="{{$data->perkerjaan}}">
-                    </div>
-                    <div class="d-flex  justify-content-between">
-                        <div class="text-end">
-                            <a href="">
-                            <button type="button" class="btn btn-danger rounded-pill px-5 mb-3">Keluar</button>
-                            </a>
+                <div class="mt-5 d-flex justify-content-center">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <input type="username" class="form-control rounded-pill" id="username" name='username'
+                                placeholder="username" value="{{$data->username}}" disabled>
                         </div>
-                        <div class="text-start">
-                            <button type="button" class="btn btn-primary rounded-pill px-5 mb-3">Simpan</button>
+                        <form action="{{route('UpdatePasswordCall')}}" method="post" id="UpdatePassword">
+                            @method('PATCH')
+                            @csrf
+                            <div class="mb-3">
+                                <input type="password" class="form-control rounded-pill" id="password" name="password"
+                                    placeholder="password" value="YourPassword">
+                            </div>
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-secondary round-5 px-3 mb-3">Ganti Password</button>
+                            </div>
+                        </form>
+
+                        <form action="{{route('UpdateProfileCall')}}" method="POST">
+                        @method('PATCH')
+                        @csrf
+
+                        <div class="mb-3">
+                            <input type="username" class="form-control rounded-pill" id="no_hp" name="no_hp"
+                                placeholder="No HP" value="{{$data->no_hp}}">
                         </div>
+                        <div class="mb-3">
+                            <input type="username" class="form-control rounded-pill" id="pekerjaan" name="pekerjaan"
+                                placeholder="Pekerjaan" value="{{$data->pekerjaan}}">
+                        </div>
+                        <div class="d-flex flex-row-reverse justify-content-between">
+                            <div class="text-start m">
+                                <button type="submit" class="btn btn-primary rounded-pill px-5 mb-3">Simpan</button>
+                            </div>
+                            
+                        </form>
+                            <div class="text-end">
+                                <form action="{{route('LogoutCall')}}" method='POST'>
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger rounded-pill px-5 mb-3">Keluar</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        @if(!empty($MessageUpdate))
+                            <div class="mb-3 alert alert-success">
+                                {{ $MessageUpdate }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">

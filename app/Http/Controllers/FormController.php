@@ -77,4 +77,87 @@ class FormController extends Controller
         return view('login');
     }
 
+    function UpdateProfileCall(Request $request) {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => '127.0.0.1/websiteku/public/api/UpdateUserProfile',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'PATCH',
+        CURLOPT_POSTFIELDS =>'{
+            "no_hp" : "'.$request->no_hp.'",
+            "pekerjaan" : "'.$request->pekerjaan.'"
+        }',
+        CURLOPT_HTTPHEADER => array(
+            'Accept: application/json',
+            'Authorization: Bearer '.Cookie::get('auth'),
+            'Content-Type: application/json'
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        $response = json_decode($response);
+        curl_close($curl);
+
+        return View('profile')->with(['MessageUpdate' => $response->message]);
+    }
+
+    function UpdatePasswordCall(Request $request) {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => '127.0.0.1/websiteku/public/api/UpdateUserPassword',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'PATCH',
+        CURLOPT_POSTFIELDS =>'{
+            "password" : "'.$request->password.'"
+        }',
+        CURLOPT_HTTPHEADER => array(
+            'Accept: application/json',
+            'Authorization: Bearer '.Cookie::get('auth'),
+            'Content-Type: application/json'
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        return View('profile');
+    }
+
+    function LogoutCall(Request $request) {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => '127.0.0.1/websiteku/public/api/UserLogout',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'Accept: application/json',
+            'Authorization: Bearer '.Cookie::get('auth')
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        Cookie::queue(Cookie::forget('auth'));
+
+        return View('profile');
+    }
 }

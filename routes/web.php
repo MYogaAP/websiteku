@@ -38,5 +38,8 @@ Route::get('/landingPageLogin', function () {
 
 Route::post('/LoginCall', [FormController::class, 'LoginCall'])->name('LoginCall');
 Route::post('/RegisterCall', [FormController::class, 'RegisterCall'])->name('RegisterCall');
+Route::patch('/UpdateProfileCall', [FormController::class, 'UpdateProfileCall'])->name('UpdateProfileCall');
+Route::patch('/UpdatePasswordCall', [FormController::class, 'UpdatePasswordCall'])->name('UpdatePasswordCall');
+Route::delete('/LogoutCall', [FormController::class, 'LogoutCall'])->name('LogoutCall');
 
 
