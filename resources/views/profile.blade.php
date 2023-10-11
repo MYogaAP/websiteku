@@ -80,11 +80,11 @@
                     </div>
                     <div class="mb-3">
                         <input type="username" class="form-control rounded-pill" id="exampleFormControlInput1"
-                            placeholder="No HP">
+                            placeholder="No HP" value="{{$data->no_hp}}">
                     </div>
                     <div class="mb-3">
                         <input type="username" class="form-control rounded-pill" id="exampleFormControlInput1"
-                            placeholder="Pekerjaan">
+                            placeholder="Pekerjaan" value="{{$data->perkerjaan}}">
                     </div>
                     <div class="d-flex  justify-content-between">
                         <div class="text-end">
