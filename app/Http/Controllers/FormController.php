@@ -76,4 +76,5 @@ class FormController extends Controller
 
         return view('login');
     }
+
 }

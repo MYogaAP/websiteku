@@ -39,3 +39,4 @@ Route::get('/landingPageLogin', function () {
 Route::post('/LoginCall', [FormController::class, 'LoginCall'])->name('LoginCall');
 Route::post('/RegisterCall', [FormController::class, 'RegisterCall'])->name('RegisterCall');
 
+
