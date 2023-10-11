@@ -6,15 +6,11 @@ use App\Http\Controllers\FormController;
 
 Route::get('/', function () {
     return view('landingPage');
-});
+})->name('landingPage');
 
 Route::get('/home', function () {
     return view('home');
-});
-
-Route::get('/landingPage', function () {
-    return view('landingPage');
-});
+})->name('home');
 
 Route::get('/login', function () {
     return view('login');
@@ -26,15 +22,15 @@ Route::get('/register', function () {
 
 Route::get('/invoice', function () {
     return view('invoice');
-});
+})->name('invoice');
 
 Route::get('/profile', function () {
     return view('profile');
-});
+})->name('profile');
 
 Route::get('/pemesanan', function () {
     return view('pemesanan');
-});
+})->name('pemesanan');
 
 Route::get('/landingPageLogin', function () {
     return view('landingPageLogin');

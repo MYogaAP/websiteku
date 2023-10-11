@@ -5,6 +5,8 @@
 @section('contents')
     <h1 class="mb-0">Profile</h1>
     <hr />
+
+    {{dd(Cookie::get('auth'))}}
  
     <form method="POST" enctype="multipart/form-data" id="profile_setup_frm" action="" >
     <div class="row">
@@ -17,12 +19,12 @@
                 <div class="row mt-2">
   
                     <div class="col-md-6">
-                        <label class="labels">Name</label>
-                        <input type="text" name="name" class="form-control" placeholder="first name" value="{{ auth()->user()->name }}">
-                    </div>
-                    <div class="col-md-6">
                         <label class="labels">Email</label>
                         <input type="text" name="email" disabled class="form-control" value="{{ auth()->user()->email }}" placeholder="Email">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="labels">Password</label>
+                        <input type="text" name="password" class="form-control" placeholder="Ketik Password Baru" value="{{ auth()->user()->password }}">
                     </div>
                 </div>
                 <div class="row mt-2">
