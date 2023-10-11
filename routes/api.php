@@ -25,6 +25,7 @@ Route::post('/CheckUsername', [RegisterController::class, 'UsernameCheck']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/UserCheck', [AgentUserController::class, "CheckCurrent"]);
     Route::patch('/UpdateUserPassword', [AgentUserController::class, "UpdatePassword"]);
+    Route::patch('/UpdateUserProfile', [AgentUserController::class, "UpdateProfile"]);
     Route::get('/AgentList', [AgentUserController::class, "AgentList"])->middleware('an.admin');
     Route::delete('/DeleteAgent/{user_id}', [AgentUserController::class, "DeleteAgent"])->middleware('an.admin');
 });

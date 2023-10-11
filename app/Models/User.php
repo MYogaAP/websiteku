@@ -24,7 +24,9 @@ class User extends Model
         'username',
         'email',
         'password',
-        'role'
+        'role',
+        'no_hp',
+        'pekerjaan'
     ];
 
     protected $dates = ['deleted_at'];
