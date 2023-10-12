@@ -31,7 +31,7 @@
     <x-nav-bar />
 
     @if(Cookie::has('auth'))
-    <script>window.location="{{route('landingPageLogin')}}";</script>
+        <script>window.location="{{route('landingPageLogin')}}";</script>
     @endif
 
     {{-- Content --}}

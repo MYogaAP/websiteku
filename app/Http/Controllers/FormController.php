@@ -104,6 +104,10 @@ class FormController extends Controller
         $response = json_decode($response);
         curl_close($curl);
 
+        if(!Cookie::has('auth')){
+            return View('profile');
+        }
+
         return View('profile')->with(['MessageSuccess' => $response->message]);
     }
 
@@ -133,7 +137,9 @@ class FormController extends Controller
         curl_close($curl);
         $response = json_decode($response);
 
-        // dd($response->errors->password);
+        if(!Cookie::has('auth')){
+            return View('profile');
+        }
 
         return View('profile')->with([
             "MessageWarning" => $response->errors->password
@@ -161,7 +167,7 @@ class FormController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
 
-        Cookie::queue(Cookie::forget('auth'));
+        setcookie("auth", "", time() - 3600, "/");
 
         return View('profile');
     }
