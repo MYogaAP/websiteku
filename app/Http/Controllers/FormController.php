@@ -104,7 +104,7 @@ class FormController extends Controller
         $response = json_decode($response);
         curl_close($curl);
 
-        return View('profile')->with(['MessageUpdate' => $response->message]);
+        return View('profile')->with(['MessageSuccess' => $response->message]);
     }
 
     function UpdatePasswordCall(Request $request) {
@@ -131,8 +131,13 @@ class FormController extends Controller
 
         $response = curl_exec($curl);
         curl_close($curl);
+        $response = json_decode($response);
 
-        return View('profile');
+        // dd($response->errors->password);
+
+        return View('profile')->with([
+            "MessageWarning" => $response->errors->password
+        ]);
     }
 
     function LogoutCall(Request $request) {

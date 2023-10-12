@@ -34,7 +34,7 @@
     {{-- Conetent --}}
 
     @if(!Cookie::has('auth'))
-        <script>window.location='/login';</script>
+        <script>window.location="{{route('loginPage')}}";</script>
     @else
         @php
             $curl = curl_init();
@@ -54,6 +54,11 @@
             ));
             $data = curl_exec($curl);
             $data = json_decode($data);
+            
+            if(!empty($data->message)){
+                header("Location: " . URL::to('/login'), true, 302);
+                exit();
+            }
         @endphp
 
         <div>
@@ -67,6 +72,7 @@
                             <input type="username" class="form-control rounded-pill" id="username" name='username'
                                 placeholder="username" value="{{$data->username}}" disabled>
                         </div>
+
                         <form action="{{route('UpdatePasswordCall')}}" method="post" id="UpdatePassword">
                             @method('PATCH')
                             @csrf
@@ -106,10 +112,18 @@
                             </div>
                         </div>
 
-                        @if(!empty($MessageUpdate))
+                        @if(!empty($MessageSuccess))
                             <div class="mb-3 alert alert-success">
-                                {{ $MessageUpdate }}
+                                {{ $MessageSuccess }}
                             </div>
+                        @endif
+
+                        @if(!empty($MessageWarning))
+                            @foreach ($MessageWarning as $message)
+                                <div class="mb-3 alert alert-danger">
+                                    {{$message}}
+                                </div>
+                            @endforeach
                         @endif
                     </div>
                 </div>
