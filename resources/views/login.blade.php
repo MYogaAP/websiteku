@@ -30,6 +30,10 @@
     {{-- Navigation Bar --}}
     <x-nav-bar />
 
+    @if(Cookie::has('auth'))
+        <script>window.location="{{route('landingPageLogin')}}";</script>
+    @endif
+
     {{-- Content --}}
     <div class="container text-center">
         <div class="row align-items-center justify-content-center" style="height: 80vh">

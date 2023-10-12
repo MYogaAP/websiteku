@@ -56,6 +56,7 @@
             $data = json_decode($data);
             
             if(!empty($data->message)){
+                Cookie::queue(Cookie::forget('auth'));
                 header("Location: " . URL::to('/login'), true, 302);
                 exit();
             }

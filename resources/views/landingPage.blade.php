@@ -30,6 +30,10 @@
     {{-- Navigation Bar --}}
     <x-nav-bar />
 
+    @if(Cookie::has('auth'))
+    <script>window.location="{{route('landingPageLogin')}}";</script>
+    @endif
+
     {{-- Content --}}
     <div>
         <div class="container text-center">
