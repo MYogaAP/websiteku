@@ -101,10 +101,11 @@ class FormController extends Controller
         ));
 
         $response = curl_exec($curl);
+        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $response = json_decode($response);
         curl_close($curl);
 
-        if(!Cookie::has('auth')){
+        if($http_status == 401){
             return View('profile');
         }
 
@@ -134,10 +135,11 @@ class FormController extends Controller
         ));
 
         $response = curl_exec($curl);
+        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
         $response = json_decode($response);
 
-        if(!Cookie::has('auth')){
+        if($http_status == 401){
             return View('profile');
         }
 
