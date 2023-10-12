@@ -17,7 +17,7 @@ use Illuminate\Validation\Rules\Dimensions;
 class OrderController extends Controller
 {
     function GetUserOrdersList() {
-        $orders = OrderData::where("user_id", Auth::user()->user_id)->get();
+        $orders = OrderData::where("user_id", Auth::user()->user_id)->simplePaginate(5);
         return OrdersListResource::collection($orders);
     }
 
@@ -34,7 +34,7 @@ class OrderController extends Controller
     }
 
     function NeedConfirmation() {
-        $orders = OrderData::where('status_pembayaran', 'Berhasil')->get();
+        $orders = OrderData::where('status_pembayaran', 'Berhasil')->simplePaginate(5);
         return OrdersListResource::collection($orders);
     }
 

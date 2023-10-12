@@ -16,7 +16,7 @@ class AgentUserController extends Controller
     }
 
     function AgentList() {
-        $agents = User::where('role', 'agent')->get();
+        $agents = User::where('role', 'agent')->simplePaginate(5);
         return AgentListResource::collection($agents);
     }
     
