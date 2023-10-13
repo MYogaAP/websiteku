@@ -44,6 +44,10 @@ Route::get('/landingPageLogin', function () {
     return view('landingPageLogin');
 })->name('landingPageLogin');
 
+Route::get('/uploadandview', function () {
+    return view('uploadandview');
+})->name('uploadandview');
+
 Route::post('/LoginCall', [FormController::class, 'LoginCall'])->name('LoginCall');
 Route::post('/RegisterCall', [FormController::class, 'RegisterCall'])->name('RegisterCall');
 Route::patch('/UpdateProfileCall', [FormController::class, 'UpdateProfileCall'])->name('UpdateProfileCall');
