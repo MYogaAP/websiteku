@@ -14,6 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,800&family=Montserrat&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -32,51 +33,57 @@
 
     {{-- Content --}}
     <div class="container text-center">
-        <div class="row mt-5">
+        <div class="row mt-4">
             <div class="col">
                 <h3 class="fw-bold">Pilih Paket Ukuran Iklan</h3>
             </div>
         </div>
-        <div class="row mt-5">
+        <div class="row mt-3 align-items-center">
+            <div class="col-1">
+                <button class="btn-outline-primary rounded-pill text-center" style="width:60px; height:60px; font-size:35px; background-color:white;"><i class="fa-solid fa-chevron-left"></i></button>
+            </div>
             <div class="col">
-                <div class="card mx-auto" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
+                <div class="card mx-auto shadow-sm" style="width: 17rem;">
+                    <img src="{{ asset('images/Paket1.png') }}" class="card-img-top" alt="..." style="border: 1px solid black">
                     <div class="card-body">
                         <h5 class="card-title">Contoh Ukuran A x B</h5>
                         <p class="card-text">Harga Rp. .... /</p>
-                        <a href="#" class="btn btn-primary">Pilih Paket</a>
+                        <a href="#" class="btn btn-primary" style="background-color: #0094E7; color:white">Pilih Paket</a>
                     </div>
                 </div>
             </div>
             <div class="col">
-                <div class="card mx-auto" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
+                <div class="card mx-auto shadow-sm" style="width: 17rem;">
+                    <img src="{{ asset('images/Paket2.png') }}" class="card-img-top" alt="..." style="border: 1px solid black">
                     <div class="card-body">
                         <h5 class="card-title">Contoh Ukuran A x B</h5>
                         <p class="card-text">Harga Rp. .... /</p>
-                        <a href="#" class="btn btn-primary">Pilih Paket</a>
+                        <a href="#" class="btn btn-primary" style="background-color: #0094E7; color:white">Pilih Paket</a>
                     </div>
                 </div>
             </div>
             <div class="col">
-                <div class="card mx-auto" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
+                <div class="card mx-auto shadow-sm" style="width: 17rem;">
+                    <img src="{{ asset('images/Paket3.png') }}" class="card-img-top" alt="..." style="border: 1px solid black">
                     <div class="card-body">
                         <h5 class="card-title">Contoh Ukuran A x B</h5>
                         <p class="card-text">Harga Rp. .... /</p>
-                        <a href="#" class="btn btn-primary">Pilih Paket</a>
+                        <a href="#" class="btn btn-primary" style="background-color: #0094E7; color:white">Pilih Paket</a>
                     </div>
                 </div>
+            </div>
+            <div class="col-1">
+                <button class="btn-outline-primary rounded-pill text-center" style="width:60px; height:60px; font-size:35px; background-color:white;"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-5">
+            <div class="col-5" style="margin-top: -15px">
                 <div class="d-flex justify-content-between mt-5">
                     <div class="text-end">
-                        <button type="button" class="btn btn-primary rounded px-5 mb-3">Sebelumnya</button>
+                        <button type="button" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white">Sebelumnya</button>
                     </div>
                     <div class="text-start">
-                        <button type="button" class="btn btn-primary rounded px-5 mb-3">Selanjutnya</button>
+                        <button type="button" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white">Selanjutnya</button>
                     </div>
                 </div>
             </div>

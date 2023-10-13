@@ -28,6 +28,14 @@ Route::get('/profile', function () {
     return view('profile');
 })->name('profile');
 
+Route::get('/riwayat', function () {
+    return view('riwayat');
+})->name('riwayat');
+
+Route::get('/detailukuran', function () {
+    return view('DetailUkuran');
+})->name('detailukuran');
+
 Route::get('/pemesanan', function () {
     return view('pemesanan');
 })->name('pemesanan');
