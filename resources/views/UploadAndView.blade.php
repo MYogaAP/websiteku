@@ -14,6 +14,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,800&family=Montserrat&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -32,23 +35,34 @@
 
     {{-- Content --}}
     <div class="container text-center">
-        <div class="row">
-            <div class="col">
-                1 of 2
-            </div>
-            <div class="col">
-                2 of 2
+        <div class="row  mt-5">
+            <div class="col fw-bold">
+                Upload Format Iklan
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-5">
             <div class="col">
-                1 of 3
+                <img src="" alt="#">
+                <p>Catatan : <br>Gambar dan Jenis warna iklan harus sesuai!</p>
             </div>
-            <div class="col">
-                2 of 3
-            </div>
-            <div class="col">
-                3 of 3
+            <div class="col text-start">
+                <p>Upload Gambar Iklan</p>
+                <button type="button" class="btn btn-primary px-5 rounded-3">Pilih Gambar</button>
+                <p class="mt-3">Jenis Warna Iklan</p>
+                <div>
+                    <button type="button" class="btn btn-outline-primary rounded-pill"><i
+                            class="fa-solid fa-circle me-1"></i>Full Warna</button>
+                    <button type="button" class="btn btn-outline-secondary rounded-pill ms-2"><i
+                            class="fa-solid fa-circle me-1"></i>Hitam Putih</button>
+                </div>
+                <p class="mt-3">Status</p>
+                <div class="border border-black text-center p-3">
+                    <p>gambar dan Jenis warna tidak sesuai
+                        <br> Mohon upload ulang dan hubungi nomor dibawah :
+                    </p>
+                    <button type="button" class="btn btn-success btn-sm rounded-3">Contact Support <i
+                            class="fa-solid fa-phone mx-2"></i></button>
+                </div>
             </div>
         </div>
     </div>
