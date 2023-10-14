@@ -18,7 +18,7 @@ class PacketController extends Controller
     }
 
     function AgentPacketList() {
-        $packets = PacketData::all();
+        $packets = PacketData::simplePaginate(5);
         return response()->json(['data' => $packets]);
     }
 

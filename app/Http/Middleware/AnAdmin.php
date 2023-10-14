@@ -21,7 +21,7 @@ class AnAdmin
         if ($currentUser->role != 'admin') {
             return response()->json([
                 'message' => 'You are not an admin.',
-            ], 404);
+            ], 401);
         }
 
         return $next($request);
