@@ -32,7 +32,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // Order API
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/UserOrdersList', [OrderController::class, 'GetUserOrdersList']);
-    Route::post('/CheckImageSize', [OrderController::class, 'CheckImage']);
+    Route::post('/CheckImage', [OrderController::class, 'CheckImage']);
     Route::middleware(['an.agent'])->group(function () {
         Route::get('/AgentAllOrders', [OrderController::class, 'AllOrders']);
         Route::get('/NeedConfirmation', [OrderController::class, 'NeedConfirmation']);

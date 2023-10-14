@@ -21,7 +21,7 @@ class AnAgent
         if ($currentUser->role == 'customer') {
             return response()->json([
                 'message' => 'You are not an agent.',
-            ], 404);
+            ], 401);
         }
 
         return $next($request);
