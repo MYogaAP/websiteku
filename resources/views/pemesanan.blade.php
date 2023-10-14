@@ -56,7 +56,9 @@
     {{-- Conetent --}}
     <div class="container text-center mt-5">
         <div class="row fw-bold">
-            <div class="col">Detail Pemesanan Iklan</div>
+            <div class="col">
+                <h3 class="fw-bold">Pemesanan Iklan</h3> 
+            </div>
         </div>
         <div class="row justify-content-center mt-5">
             <div class="col-6">
@@ -92,7 +94,7 @@
                         <button type="button" class="btn btn-danger rounded-pill px-5 mb-3">Keluar</button>
                     </div> --}}
                     <div class="text-end">
-                            <a href="{{ route('detailukuran') }}" class="btn btn-primary rounded-pill px-5 mb-3">Selanjutnya</a>
+                        <a href="{{ route('detailukuran') }}" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white">Selanjutnya</a>
                     </div>
                 </div>
             </div>

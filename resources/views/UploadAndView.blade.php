@@ -37,7 +37,7 @@
     <div class="container text-center">
         <div class="row  mt-5">
             <div class="col fw-bold">
-                Upload Format Iklan
+                <h3 class="fw-bold">Upload Format Iklan</h3>
             </div>
         </div>
         <div class="row mt-5">
@@ -62,6 +62,18 @@
                     </p>
                     <button type="button" class="btn btn-success btn-sm rounded-3">Contact Support <i
                             class="fa-solid fa-phone mx-2"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-5" style="margin-top: -15px">
+                <div class="d-flex justify-content-between mt-5">
+                    <div class="text-end">
+                        <a href="{{ route('detailukuran') }}" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white">Sebelumnya</a>
+                    </div>
+                    <div class="text-start">
+                        <a href="{{ route('invoice') }}" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white">Selanjutnya</a>
+                    </div>
                 </div>
             </div>
         </div>

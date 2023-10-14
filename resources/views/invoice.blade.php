@@ -29,7 +29,7 @@
 
 <body>
     {{-- Navigation Bar --}}
-    <x-nav-bar-login />
+    <x-nav-bar-back />
 
     {{-- Content --}}
     <div class="container text-center" style="width: 55rem">
