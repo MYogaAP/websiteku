@@ -48,6 +48,10 @@ Route::get('/uploadandview', function () {
     return view('uploadandview');
 })->name('uploadandview');
 
+Route::get('/panduan', function () {
+    return view('panduan');
+})->name('panduan');
+
 Route::post('/LoginCall', [FormController::class, 'LoginCall'])->name('LoginCall');
 Route::post('/RegisterCall', [FormController::class, 'RegisterCall'])->name('RegisterCall');
 Route::patch('/UpdateProfileCall', [FormController::class, 'UpdateProfileCall'])->name('UpdateProfileCall');

@@ -80,10 +80,10 @@
             <div class="col-5" style="margin-top: -15px">
                 <div class="d-flex justify-content-between mt-5">
                     <div class="text-end">
-                        <button type="button" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white">Sebelumnya</button>
+                        <a href="{{ route('pemesanan') }}" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white">Sebelumnya</a>
                     </div>
                     <div class="text-start">
-                        <button type="button" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white">Selanjutnya</button>
+                        <a href="{{ route('pemesanan') }}" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white">Selanjutnya</a>
                     </div>
                 </div>
             </div>

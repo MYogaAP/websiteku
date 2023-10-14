@@ -51,7 +51,7 @@
 
 <body>
     {{-- Navigation Bar --}}
-    <x-nav-bar />
+    <x-nav-bar-back />
 
     {{-- Conetent --}}
     <div class="container text-center mt-5">
@@ -92,7 +92,7 @@
                         <button type="button" class="btn btn-danger rounded-pill px-5 mb-3">Keluar</button>
                     </div> --}}
                     <div class="text-end">
-                        <button type="button" class="btn btn-primary rounded-pill px-5 mb-3">Selanjutnya</button>
+                            <a href="{{ route('detailukuran') }}" class="btn btn-primary rounded-pill px-5 mb-3">Selanjutnya</a>
                     </div>
                 </div>
             </div>

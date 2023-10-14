@@ -41,12 +41,12 @@
                         memaksimalkan
                         visibilitas usaha Anda secara efektif.</p>
                     <div class="mt-3">
-                        <button type="button" class="btn btn-primary rounded-pill">Pesan Jasa</button>
-                        <button type="button" class="btn btn-secondary rounded-pill">Baca Panduan</button>
+                            <a href="{{ route('pemesanan') }}" class="btn btn-primary rounded-pill">Pesan Jasa</a>
+                            <a href="{{ route('panduan') }}" class="btn btn-secondary rounded-pill">Baca Panduan</a>
                     </div>
                 </div>
                 <div class="col">
-                    <img class="shadow-lg" style="max-height: 50vh" src="{{ asset('storage/images/koran.jpg') }}"
+                    <img class="shadow-lg" style="max-height: 50vh" src="{{ asset('images/koran.png') }}"
                         alt="">
                 </div>
             </div>

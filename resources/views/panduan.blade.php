@@ -20,7 +20,7 @@
         }
 
         .judul {
-            font-family: 'Bodoni MT', serif;
+            font-family: 'Bodoni MT';
             color: #1450A3;
         }
     </style>
@@ -28,34 +28,9 @@
 
 <body>
     {{-- Navigation Bar --}}
-    <x-nav-bar />
-
-    @if(Cookie::has('auth'))
-        <script>window.location="{{route('landingPageLogin')}}";</script>
-    @endif
+    <x-nav-bar-back />
 
     {{-- Content --}}
-    <div>
-        <div class="container text-center">
-            <div class="row align-items-center justify-content-evenly" style="height: 80vh">
-                <div class="col text-start">
-                    <h1 class="fw-bold">Jasa Iklan Radar Banjarmasin</h1>
-                    <p>Radar Banjarmasin menawarkan platform iklan terpercaya untuk mempromosikan bisnis
-                        Anda di Kalimantan Selatan. Dengan jangkauan luas dan target audiens lokal, layanan ini
-                        memaksimalkan
-                        visibilitas usaha Anda secara efektif.</p>
-                    <div class="mt-3">
-                        <a href="{{ route('loginPage') }}" class="btn btn-primary rounded-pill">Pesan Jasa</a>
-                        <a href="{{ route('loginPage') }}" class="btn btn-secondary rounded-pill">Baca Panduan</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <img class="shadow-lg" style="max-height: 50vh" src="{{ asset('images/koran.png') }}"
-                        alt="">
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
