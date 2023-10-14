@@ -49,7 +49,7 @@
             </div>
             <div class="col">
                 <div class="card mx-auto shadow-sm rounded-3" style="width: 20rem; height: 19rem">
-                    <div class="card-body bg-outline-primary rounded-3" style="background-color: #4E95F8">
+                    <div class="card-body bg-outline-primary rounded-3" style="background-color: #4E95F8; color:white">
                         <h5 style="color: white" class="fw-bold mb-3">Detail Pembayaran</h5>
                         <hr>
                         <div class="container text-center">
@@ -79,7 +79,7 @@
         </div>
         <div class="row mt-4">
             <div class="col">
-                <button class="btn rounded-4 ps-4 pe-4 fw-bold" style="background-color: #2bd810; color:white">Segarkan</button>
+                <button class="btn rounded-4 ps-4 pe-4 fw-bold" style="background-color: #2bd810; color:white">Refresh</button>
             </div>
         </div>
     </div>
