@@ -85,36 +85,33 @@
             </div>
         </div>
     </div>
-    
-    <script>
-        var uploader = document.getElementById('image')
-        uploader.onchange = function() {
-            function getCookie(name) {
-                const value = `; ${document.cookie}`;
-                const parts = value.split(`; ${name}=`);
-                if (parts.length === 2) return parts.pop().split(';').shift();
-            }
 
-            var myCookieValue = getCookie('auth');
-            console.log(myCookieValue);
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+    <script>
+        document.getElementById('image').addEventListener('change', function() {
+            var myCookieValue = "";
+            console.log(Cookies.get('auth'));
             var photo = this.files[0];
             var packet_id = 1;
-
+    
             var myHeaders = new Headers();
             myHeaders.append("Accept", "application/json");
             myHeaders.append("Authorization", "Bearer " + myCookieValue);
-
+    
             var formdata = new FormData();
             formdata.append("image", photo);
             formdata.append("packet_id", packet_id);
-
+    
             var requestOptions = {
                 method: 'POST',
                 headers: myHeaders,
                 body: formdata,
                 redirect: 'follow'
             }
-
+    
             fetch("127.0.0.1/websiteku/public/api/CheckImage", requestOptions)
             .then(response => response.json())
             .then(data => {
@@ -128,12 +125,7 @@
                 // }
             })
             .catch(error => console.log('error', error));
-        }
-    </script>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+        });
     </script>
 </body>
 
