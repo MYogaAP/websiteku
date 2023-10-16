@@ -64,8 +64,8 @@
                     
                 <p class="mt-3">Status</p>
                 <div class="border border-black text-center p-3">
-                    <p>Ukuran tidak sesuai
-                        <br> Mohon upload ulang dan hubungi nomor dibawah :
+                    <p><label id="ukuran">Ukuran tidak sesuai</label> 
+                        <br> upload ulang atau hubungi nomor dibawah :
                     </p>
                     <button type="button" class="btn btn-success btn-sm rounded-3">Contact Support <i
                             class="fa-solid fa-phone mx-2"></i></button>
@@ -87,28 +87,18 @@
     </div>
     
     <script>
-        document.getElementById('image').addEventListener('change', function() {
+        var uploader = document.getElementById('image')
+        uploader.onchange = function() {
             function getCookie(name) {
-                var cookies = document.cookie.split(';');
-
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = cookies[i].trim(); // Remove leading/trailing spaces
-                    var parts = cookie.split('=');
-                    var cookieName = parts[0];
-                    var cookieValue = parts[1];
-
-                    if (cookieName === name) {
-                        return decodeURIComponent(cookieValue); // Decode the value in case it's URL-encoded
-                    }
-                }
-
-                return null; // Return null if the cookie is not found
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
             }
 
-            // Usage example
             var myCookieValue = getCookie('auth');
+            console.log(myCookieValue);
             var photo = this.files[0];
-            var packet_id = "";
+            var packet_id = 1;
 
             var myHeaders = new Headers();
             myHeaders.append("Accept", "application/json");
@@ -116,41 +106,29 @@
 
             var formdata = new FormData();
             formdata.append("image", photo);
-            formdata.append("packet_id", 1);
+            formdata.append("packet_id", packet_id);
 
             var requestOptions = {
                 method: 'POST',
                 headers: myHeaders,
                 body: formdata,
                 redirect: 'follow'
-            };
+            }
 
             fetch("127.0.0.1/websiteku/public/api/CheckImage", requestOptions)
             .then(response => response.json())
             .then(data => {
                 console.log('Response:', data);
-                // Handle the response as needed
+                // if(data.success) {
+                //     var successMessage = document.getElementById('ukuran');
+                //     successMessage.innerText = data.success;
+                // } else if (data.error) {
+                //     var errorMessage = document.getElementById('ukuran');
+                //     errorMessage.innerText = data.error;
+                // }
             })
             .catch(error => console.log('error', error));
-
-            //////////////////////////////////////////////////
-            var formData = new FormData();
-            formData.append('photo', photo);
-
-            fetch('{{ route('upload.store') }}', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Response:', data);
-                // Handle the response as needed
-            })
-            .catch(error => console.error('Error:', error));
-        });
+        }
     </script>
 
 
