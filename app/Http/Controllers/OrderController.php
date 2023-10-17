@@ -63,7 +63,7 @@ class OrderController extends Controller
         ];
 
         $messages = [
-            'dimensions' => 'The file width and height should be '.$width.'px and '.$height.'px',
+            'dimensions' => 'Ukuran yang diupload tidak sesuai. Ukuran yang disarankan adalah '.$width.'px dan '.$height.'px.',
         ];
 
         $validate = $request->validate($rules, $messages);

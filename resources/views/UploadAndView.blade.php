@@ -33,6 +33,36 @@
     {{-- Navigation Bar --}}
     <x-nav-bar-back />
 
+    @if(!Cookie::has('auth'))
+        <script>window.location="{{route('loginPage')}}";</script>
+    @else
+        @php
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => '127.0.0.1/websiteku/public/api/UserCheck',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Authorization: Bearer '.Cookie::get('auth')
+            ),
+            ));
+            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            $auth = Cookie::get('auth');
+            
+            if($http_status == 401){
+                setcookie("auth", "", time() - 3600, "/");
+                header("Location: " . URL::to('/login'), true, 302);
+                exit();
+            }
+        @endphp
+    @endif
+
     {{-- Content --}}
     <div class="container text-center">
         <div class="row  mt-5">
@@ -62,10 +92,10 @@
                 <input type="radio" class="btn-check" name="options" id="option2" value="bw" readonly>
                 <label class="btn btn-secondary" for="option2">Hitam Putih</label>
                     
-                <p class="mt-3">Status</p>
-                <div class="border border-black text-center p-3">
+                <p id="status" class="mt-3" style="visibility: hidden">Status</p>
+                <div id="statusBorder" class="border border-black text-center p-3" style="visibility: hidden">
                     <p><label id="ukuran">Ukuran tidak sesuai</label> 
-                        <br> upload ulang atau hubungi nomor dibawah :
+                        <br>Mohon upload ulang atau hubungi nomor dibawah :
                     </p>
                     <button type="button" class="btn btn-success btn-sm rounded-3">Contact Support <i
                             class="fa-solid fa-phone mx-2"></i></button>
@@ -86,16 +116,21 @@
         </div>
     </div>
 
+    <p id="2BW0TmvQmi3yMQqjfWTpZcDkmQ2HdymY" class="invisible visually-hidden">{{$auth}}</p>
+
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
     <script>
         document.getElementById('image').addEventListener('change', function() {
-            var myCookieValue = "";
-            console.log(Cookies.get('auth'));
+            var myCookie = document.getElementById("2BW0TmvQmi3yMQqjfWTpZcDkmQ2HdymY");
+            var myCookieValue = myCookie.textContent;
+
             var photo = this.files[0];
             var packet_id = 1;
+            const APIURL = window.location.protocol + "//" + window.location.hostname + "/websiteku/public/api/CheckImage";
+            const RESULT = document.getElementById('ukuran');
     
             var myHeaders = new Headers();
             myHeaders.append("Accept", "application/json");
@@ -112,19 +147,17 @@
                 redirect: 'follow'
             }
     
-            fetch("127.0.0.1/websiteku/public/api/CheckImage", requestOptions)
+            fetch(APIURL, requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log('Response:', data);
-                // if(data.success) {
-                //     var successMessage = document.getElementById('ukuran');
-                //     successMessage.innerText = data.success;
-                // } else if (data.error) {
-                //     var errorMessage = document.getElementById('ukuran');
-                //     errorMessage.innerText = data.error;
-                // }
+                console.log(data);
+                RESULT.textContent = data.message;
+                document.getElementById('status').style.visibility = "visible"
+                document.getElementById('statusBorder').style.visibility = "visible"
             })
-            .catch(error => console.log('error', error));
+            .catch(error => {
+                console.log('error', error);
+            });
         });
     </script>
 </body>

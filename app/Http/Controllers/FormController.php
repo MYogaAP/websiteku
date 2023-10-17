@@ -10,9 +10,10 @@ class FormController extends Controller
 {
     function LoginCall(Request $request) {
         $curl = curl_init();
+        $host = $request->getHost();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => '127.0.0.1/websiteku/public/api/UserLogin',
+        CURLOPT_URL => $host.'/websiteku/public/api/UserLogin',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -45,9 +46,10 @@ class FormController extends Controller
 
     function RegisterCall(Request $request) {
         $curl = curl_init();
+        $host = $request->getHost();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => '127.0.0.1/websiteku/public/api/UserRegister',
+        CURLOPT_URL => $host.'/websiteku/public/api/UserRegister',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -79,9 +81,10 @@ class FormController extends Controller
 
     function UpdateProfileCall(Request $request) {
         $curl = curl_init();
+        $host = $request->getHost();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => '127.0.0.1/websiteku/public/api/UpdateUserProfile',
+        CURLOPT_URL => $host.'/websiteku/public/api/UpdateUserProfile',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -114,9 +117,10 @@ class FormController extends Controller
 
     function UpdatePasswordCall(Request $request) {
         $curl = curl_init();
+        $host = $request->getHost();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => '127.0.0.1/websiteku/public/api/UpdateUserPassword',
+        CURLOPT_URL => $host.'/websiteku/public/api/UpdateUserPassword',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -150,9 +154,10 @@ class FormController extends Controller
 
     function LogoutCall(Request $request) {
         $curl = curl_init();
+        $host = $request->getHost();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => '127.0.0.1/websiteku/public/api/UserLogout',
+        CURLOPT_URL => $host.'/websiteku/public/api/UserLogout',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
