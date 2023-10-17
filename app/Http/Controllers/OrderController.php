@@ -69,7 +69,7 @@ class OrderController extends Controller
         $validate = $request->validate($rules, $messages);
 
         return response()->json([
-            'message' => 'Image size is correct.',
+            'message' => 'Ukuran gambar sudah tepat.',
         ]);
     }
 

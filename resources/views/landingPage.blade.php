@@ -27,12 +27,37 @@
 </head>
 
 <body>
-    {{-- Navigation Bar --}}
-    <x-nav-bar />
 
     @if(Cookie::has('auth'))
+        @php
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => gethostname().'/websiteku/public/api/UserCheck',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Authorization: Bearer '.Cookie::get('auth')
+            ),
+            ));
+            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            
+            if($http_status == 401){
+                setcookie("auth", "", time() - 3600, "/");
+                header("Location: " . URL::to('/login'), true, 302);
+                exit();
+            }
+        @endphp
         <script>window.location="{{route('landingPageLogin')}}";</script>
     @endif
+
+    {{-- Navigation Bar --}}
+    <x-nav-bar />
 
     {{-- Content --}}
     <div>

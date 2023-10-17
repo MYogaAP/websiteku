@@ -93,8 +93,8 @@
                 <label class="btn btn-secondary" for="option2">Hitam Putih</label>
                     
                 <p id="status" class="mt-3" style="visibility: hidden">Status</p>
-                <div id="statusBorder" class="border border-black text-center p-3" style="visibility: hidden">
-                    <p><label id="ukuran">Ukuran tidak sesuai</label> 
+                <div id="statusBorder" class="border border-black text-center p-3 alert alert-warning" style="visibility: hidden">
+                    <p><label id="ukuran">Ukuran yang diupload tidak sesuai. Ukuran yang disarankan adalah ####px dan ####px.</label> 
                         <br>Mohon upload ulang atau hubungi nomor dibawah :
                     </p>
                     <button type="button" class="btn btn-success btn-sm rounded-3">Contact Support <i
@@ -150,14 +150,12 @@
             fetch(APIURL, requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 RESULT.textContent = data.message;
                 document.getElementById('status').style.visibility = "visible"
                 document.getElementById('statusBorder').style.visibility = "visible"
+                
             })
-            .catch(error => {
-                console.log('error', error);
-            });
+            .catch(error => console.error(error));
         });
     </script>
 </body>
