@@ -54,6 +54,7 @@ Route::get('/panduan', function () {
 
 Route::post('/LoginCall', [FormController::class, 'LoginCall'])->name('LoginCall');
 Route::post('/RegisterCall', [FormController::class, 'RegisterCall'])->name('RegisterCall');
+Route::post('/SimpanPesanan', [FormController::class, 'SimpanPesanan'])->name('SimpanPesanan');
 Route::patch('/UpdateProfileCall', [FormController::class, 'UpdateProfileCall'])->name('UpdateProfileCall');
 Route::patch('/UpdatePasswordCall', [FormController::class, 'UpdatePasswordCall'])->name('UpdatePasswordCall');
 Route::delete('/LogoutCall', [FormController::class, 'LogoutCall'])->name('LogoutCall');
