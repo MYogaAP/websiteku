@@ -52,6 +52,10 @@ Route::get('/panduan', function () {
     return view('panduan');
 })->name('panduan');
 
+Route::get('/adminDashboard', function () {
+    return view('adminDashboard');
+})->name('adminDashboard');
+
 Route::post('/LoginCall', [FormController::class, 'LoginCall'])->name('LoginCall');
 Route::post('/RegisterCall', [FormController::class, 'RegisterCall'])->name('RegisterCall');
 Route::post('/SimpanPesanan', [FormController::class, 'SimpanPesanan'])->name('SimpanPesanan');
