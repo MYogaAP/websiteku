@@ -13,7 +13,7 @@ use App\Http\Resources\UserPacketResource;
 class PacketController extends Controller
 {
     function GetPacketList() {
-        $packets = PacketData::where("hidden", 'no')->get();
+        $packets = PacketData::where("hidden", 'no')->simplePaginate(3);
         return UserPacketResource::collection($packets);
     }
 
@@ -42,7 +42,7 @@ class PacketController extends Controller
             'format_warna' => 'required|in:fc,bw',
             'hidden' => 'in:yes,no',
             'harga_paket'  => 'numeric',
-            'image'=>'required|image',
+            'image'=>'required|image|dimensions:ratio=21/26',
         ]);
 
         $fileName = '';

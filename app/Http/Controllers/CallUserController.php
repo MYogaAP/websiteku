@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cookie;
 
-class FormController extends Controller
+class CallUserController extends Controller
 {
     function LoginCall(Request $request) {
         $curl = curl_init();

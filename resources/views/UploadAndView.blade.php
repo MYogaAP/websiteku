@@ -39,7 +39,7 @@
         @php
             $curl = curl_init();
             curl_setopt_array($curl, array(
-            CURLOPT_URL => '127.0.0.1/websiteku/public/api/UserCheck',
+            CURLOPT_URL => gethostname().'/websiteku/public/api/UserCheck',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -79,7 +79,6 @@
                 <p>Upload Gambar Iklan</p>
                 <form action="{{route('RegisterCall')}}" method="POST">
                     @csrf
-                    @method('POST')
                     <label for="image" class="btn btn-primary px-5 rounded-3">
                         <input name="image" id="image" type="file" class="visually-hidden">
                         Pilih Gambar
@@ -153,7 +152,6 @@
                 RESULT.textContent = data.message;
                 document.getElementById('status').style.visibility = "visible"
                 document.getElementById('statusBorder').style.visibility = "visible"
-                
             })
             .catch(error => console.error(error));
         });

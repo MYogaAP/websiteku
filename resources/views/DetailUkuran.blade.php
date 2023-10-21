@@ -31,6 +31,59 @@
     {{-- Navigation Bar --}}
     <x-nav-bar-back />
 
+    @if(!Cookie::has('auth'))
+        <script>window.location="{{route('loginPage')}}";</script>
+    @else
+        @php
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => gethostname().'/websiteku/public/api/UserCheck',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Authorization: Bearer '.Cookie::get('auth')
+            ),
+            ));
+            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            
+            if($http_status == 401){
+                setcookie("auth", "", time() - 3600, "/");
+                header("Location: " . URL::to('/login'), true, 302);
+                exit();
+            }
+        @endphp
+
+        @php
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => gethostname().'/websiteku/public/api/PacketList',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Authorization: Bearer '.Cookie::get('auth')
+            ),
+            ));
+            $response = curl_exec($curl);
+            $response = json_decode($response);
+
+            curl_close($curl);
+        @endphp
+    @endif
+
+
+
     {{-- Content --}}
     <div class="container text-center">
         <div class="row mt-4">
@@ -39,42 +92,29 @@
             </div>
         </div>
         <div class="row mt-3 align-items-center">
-            <div class="col-1">
-                <button class="btn-outline-primary rounded-pill text-center" style="width:60px; height:60px; font-size:35px; background-color:white;"><i class="fa-solid fa-chevron-left"></i></button>
-            </div>
-            <div class="col">
-                <div class="card mx-auto shadow-sm" style="width: 17rem;">
-                    <img src="{{ asset('images/Paket1.png') }}" class="card-img-top" alt="..." style="border: 1px solid black">
-                    <div class="card-body">
-                        <h5 class="card-title">Contoh Ukuran A x B</h5>
-                        <p class="card-text">Harga Rp. .... /</p>
-                        <a href="#" class="btn btn-primary" style="background-color: #0094E7; color:white">Pilih Paket</a>
+            {{-- @dd($response->links); --}}
+            @if(isset($response->links->prev))
+                <div class="col-1">
+                    <button class="btn-outline-primary rounded-pill text-center" style="width:60px; height:60px; font-size:35px; background-color:white;"><i class="fa-solid fa-chevron-left"></i></button>
+                </div>
+            @endif
+            @foreach ($response->data as $packet)
+                <div class="col">
+                    <div class="card mx-auto shadow-sm" style="width: 17rem;">
+                        <img src="{{ asset('storage/image_example/'.$packet->contoh_foto) }}" class="card-img-top" alt="..." style="border: 1px solid black">
+                        <div class="card-body">
+                            <h5 class="card-title">Contoh Ukuran {{$packet->tinggi}} mm x {{$packet->kolom}} kolom</h5>
+                            <p class="card-text">Harga Rp. @money($packet->harga_paket)</p>
+                            <a href="#" class="btn btn-primary" style="background-color: #0094E7; color:white">Pilih Paket</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card mx-auto shadow-sm" style="width: 17rem;">
-                    <img src="{{ asset('images/Paket2.png') }}" class="card-img-top" alt="..." style="border: 1px solid black">
-                    <div class="card-body">
-                        <h5 class="card-title">Contoh Ukuran A x B</h5>
-                        <p class="card-text">Harga Rp. .... /</p>
-                        <a href="#" class="btn btn-primary" style="background-color: #0094E7; color:white">Pilih Paket</a>
-                    </div>
+            @endforeach
+            @if (isset($response->links->next))
+                <div class="col-1">
+                    <button class="btn-outline-primary rounded-pill text-center" style="width:60px; height:60px; font-size:35px; background-color:white;"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card mx-auto shadow-sm" style="width: 17rem;">
-                    <img src="{{ asset('images/Paket3.png') }}" class="card-img-top" alt="..." style="border: 1px solid black">
-                    <div class="card-body">
-                        <h5 class="card-title">Contoh Ukuran A x B</h5>
-                        <p class="card-text">Harga Rp. .... /</p>
-                        <a href="#" class="btn btn-primary" style="background-color: #0094E7; color:white">Pilih Paket</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-1">
-                <button class="btn-outline-primary rounded-pill text-center" style="width:60px; height:60px; font-size:35px; background-color:white;"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
+            @endif
         </div>
         <div class="row justify-content-center">
             <div class="col-5" style="margin-top: -15px">

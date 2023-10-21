@@ -77,7 +77,7 @@ class OrderController extends Controller
         $validate = $request ->validate([
             'nama_instansi' => 'required|max:255',
             'email_instansi' => 'required|email',
-            'deskripsi_iklan' => 'required',
+            'deskripsi_iklan' => 'min:0',
             'mulai_iklan' => 'required|date',
             'akhir_iklan'  => 'required|date',
             'image'=>'required|image',

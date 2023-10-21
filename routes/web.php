@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FormController;
-
+use App\Http\Controllers\CallUserController;
+use App\Http\Controllers\DataLinkerController;
 
 Route::get('/', function () {
     return view('landingPage');
@@ -54,13 +54,14 @@ Route::get('/panduan', function () {
 
 Route::get('/adminDashboard', function () {
     return view('adminDashboard');
-})->name('adminDashboard');
+})->name('admindashboard');
 
-Route::post('/LoginCall', [FormController::class, 'LoginCall'])->name('LoginCall');
-Route::post('/RegisterCall', [FormController::class, 'RegisterCall'])->name('RegisterCall');
-Route::post('/SimpanPesanan', [FormController::class, 'SimpanPesanan'])->name('SimpanPesanan');
-Route::patch('/UpdateProfileCall', [FormController::class, 'UpdateProfileCall'])->name('UpdateProfileCall');
-Route::patch('/UpdatePasswordCall', [FormController::class, 'UpdatePasswordCall'])->name('UpdatePasswordCall');
-Route::delete('/LogoutCall', [FormController::class, 'LogoutCall'])->name('LogoutCall');
+// User Data
+Route::post('/LoginCall', [CallUserController::class, 'LoginCall'])->name('LoginCall');
+Route::post('/RegisterCall', [CallUserController::class, 'RegisterCall'])->name('RegisterCall');
+Route::patch('/UpdateProfileCall', [CallUserController::class, 'UpdateProfileCall'])->name('UpdateProfileCall');
+Route::patch('/UpdatePasswordCall', [CallUserController::class, 'UpdatePasswordCall'])->name('UpdatePasswordCall');
+Route::delete('/LogoutCall', [CallUserController::class, 'LogoutCall'])->name('LogoutCall');
 
-
+// Order Data
+Route::post('/SimpanPesanan', [DataLinkerController::class, 'SendToDetailUkuran'])->name('SimpanPesanan');
