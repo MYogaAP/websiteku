@@ -57,32 +57,9 @@
                 header("Location: " . URL::to('/login'), true, 302);
                 exit();
             }
-        @endphp
-
-        @php
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-            CURLOPT_URL => gethostname().'/websiteku/public/api/PacketList',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPHEADER => array(
-                'Accept: application/json',
-                'Authorization: Bearer '.Cookie::get('auth')
-            ),
-            ));
-            $response = curl_exec($curl);
-            $response = json_decode($response);
-
-            curl_close($curl);
+            $response = session('response');
         @endphp
     @endif
-
-
 
     {{-- Content --}}
     <div class="container text-center">
@@ -91,46 +68,59 @@
                 <h3 class="fw-bold">Pilih Paket Ukuran Iklan</h3>
             </div>
         </div>
-        <div class="row mt-3 align-items-center">
-            {{-- @dd($response->links); --}}
-            @if(isset($response->links->prev))
-                <div class="col-1">
-                    <button class="btn-outline-primary rounded-pill text-center" style="width:60px; height:60px; font-size:35px; background-color:white;"><i class="fa-solid fa-chevron-left"></i></button>
-                </div>
-            @endif
-            @foreach ($response->data as $packet)
-                <div class="col">
-                    <div class="card mx-auto shadow-sm" style="width: 17rem;">
-                        <div class="container" style="width: 17rem; height: 21rem; overflow: hidden">   
-                            <img src="{{ asset('storage/image_example/'.$packet->contoh_foto) }}" class="card-img-top" alt="..." style="border: 1px solid black; object-fit: cover; width: 100%; height: 100%">
-                        </div>    
-                        <div class="card-body">
-                            <h5 class="card-title">Contoh Ukuran {{$packet->tinggi}} mm x {{$packet->kolom}} kolom</h5>
-                            <p class="card-text">Harga Rp. @money($packet->harga_paket)</p>
-                            <a href="#" class="btn btn-primary" style="background-color: #0094E7; color:white">Pilih Paket</a>
+        <form action="{{ route('SimpanUkuran') }}" method="POST">
+            @csrf
+            <div class="row mt-3 align-items-center">
+                @if(isset($response->links->prev))
+                    <div class="col-1">
+                        <a href="{{ route('UkuranHalamanSebelumnya') }}" class="link-primary" style="width:60px; height:60px; font-size:35px;"><i class="fa-solid fa-chevron-left"></i></a>
+                    </div>
+                @else
+                    <div class="col-1">
+                        <a href="#" class="link-secondary" style="width:60px; height:60px; font-size:35px; pointer-events: none;"><i class="fa-solid fa-chevron-left"></i></a>
+                    </div>
+                @endif
+                @foreach ($response->data as $packet)
+                    <div class="col">
+                        <div class="card mx-auto shadow-sm" style="width: 17rem;">
+                            <div class="container" style="width: 17rem; height: 21rem; overflow: hidden">   
+                                <img src="{{ asset('storage/image_example/'.$packet->contoh_foto) }}" class="card-img-top" alt="..." style="border: 1px solid black; object-fit: cover; width: 100%; height: 100%">
+                            </div>    
+                            <div class="card-body">
+                                <h5 class="card-title">Contoh Ukuran {{$packet->tinggi}} mm x {{$packet->kolom}} kolom</h5>
+                                <p class="card-text">Harga Rp. @money($packet->harga_paket)</p>
+                                {{-- <a href="#" class="btn btn-primary" style="background-color: #0094E7; color:white">Pilih Paket</a> --}}
+                                <input type="radio" class="btn-check" name="data_paket" id="{{$packet->nama_paket}}" value="{{$packet->packet_id}}" required>
+                                <label class="btn btn-outline-primary" for="{{$packet->nama_paket}}">Pilih Paket</label>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+                @if(isset($response->links->next))
+                    <div class="col-1">
+                        <a href="{{ route('UkuranHalamanSelanjutnya') }}" class="link-primary" style="width:60px; height:60px; font-size:35px;"><i class="fa-solid fa-chevron-right"></i></a>
+                    </div>
+                @else
+                    <div class="col-1">
+                        <a href="#" class="link-secondary" style="width:60px; height:60px; font-size:35px; pointer-events: none;"><i class="fa-solid fa-chevron-right"></i></a>
+                    </div>
+                @endif
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-5" style="margin-top: -15px">
+                    <div class="d-flex justify-content-between mt-5">
+                        <div class="text-end">
+                            <a href="{{ route('pemesanan') }}" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white">Sebelumnya</a>
+                        </div>
+                        <div class="text-start">
+                            <input type="submit" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white" value="Selanjutnya">
                         </div>
                     </div>
                 </div>
-            @endforeach
-            @if (isset($response->links->next))
-                <div class="col-1">
-                    <button class="btn-outline-primary rounded-pill text-center" style="width:60px; height:60px; font-size:35px; background-color:white;"><i class="fa-solid fa-chevron-right"></i></button>
-                </div>
-            @endif
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-5" style="margin-top: -15px">
-                <div class="d-flex justify-content-between mt-5">
-                    <div class="text-end">
-                        <a href="{{ route('pemesanan') }}" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white">Sebelumnya</a>
-                    </div>
-                    <div class="text-start">
-                        <a href="{{ route('uploadandview') }}" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white">Selanjutnya</a>
-                    </div>
-                </div>
             </div>
-        </div>
+        </form>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>

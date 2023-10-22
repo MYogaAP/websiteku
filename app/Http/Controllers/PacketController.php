@@ -22,6 +22,16 @@ class PacketController extends Controller
         return response()->json(['data' => $packets]);
     }
 
+    function GetPacket($packet_id) {
+        $packet = PacketData::where("packet_id", $packet_id)->get();
+        return response()->json(['data' => $packet]);
+    }
+
+    function GetPacketColor($packet_id) {
+        $packet = PacketData::where("packet_id", $packet_id)->get(['format_warna', 'contoh_foto']);
+        return response()->json(['data' => $packet]);
+    }
+
     function UnHidePacket($packet_id) {
         $affected = PacketData::where('packet_id', $packet_id)
         ->update(['hidden'=>'no']);

@@ -60,6 +60,7 @@
                 header("Location: " . URL::to('/login'), true, 302);
                 exit();
             }
+            $packet = session("packet_data");
         @endphp
     @endif
 
@@ -72,24 +73,33 @@
         </div>
         <div class="row mt-5">
             <div class="col">
-                <img src="" alt="#">
-                <p>Catatan : <br>Gambar dan Jenis warna iklan harus sesuai!</p>
+                <div class="container" style="width: 17rem; height: 21rem; overflow: hidden"> 
+                    <img src="{{ asset('storage/image_example/'.$packet["contoh_foto"]) }}" class="card-img-top" alt="..." style="border: 1px solid black; object-fit: cover; width: 100%; height: 100%">
+                </div>
+                <p>Catatan : <br>Ukuran gambar iklan harus sesuai!</p>
             </div>
             <div class="col text-start">
                 <p>Upload Gambar Iklan</p>
                 <form action="{{route('RegisterCall')}}" method="POST">
                     @csrf
                     <label for="image" class="btn btn-primary px-5 rounded-3">
-                        <input name="image" id="image" type="file" class="visually-hidden">
+                        <input name="image" id="image" type="file" class="visually-hidden" required>
                         Pilih Gambar
                     </label>
                 </form>
 
                 <p class="mt-3">Jenis Warna Iklan</p>
-                <input type="radio" class="btn-check" name="options" id="option1" value="fc" readonly>
-                <label class="btn btn-primary" for="option1">Full Warna</label>
-                <input type="radio" class="btn-check" name="options" id="option2" value="bw" readonly>
-                <label class="btn btn-secondary" for="option2">Hitam Putih</label>
+                @if ($packet["format_warna"] == "fc")
+                    <input type="radio" class="btn-check" name="options" id="option1" value="fc" checked>
+                    <label class="btn btn-outline-primary" for="option1">Full Warna</label>
+                    <input type="radio" class="btn-check" name="options" id="option2" value="bw" disabled>
+                    <label class="btn btn-outline-primary" for="option2">Hitam Putih</label>
+                @else
+                    <input type="radio" class="btn-check" name="options" id="option1" value="fc" disabled>
+                    <label class="btn btn-outline-primary" for="option1">Full Warna</label>
+                    <input type="radio" class="btn-check" name="options" id="option2" value="bw" checked>
+                    <label class="btn btn-outline-primary" for="option2">Hitam Putih</label>
+                @endif
                     
                 <p id="status" class="mt-3" style="visibility: hidden">Status</p>
                 <div id="statusBorder" class="border border-black text-center p-3 alert alert-warning" style="visibility: hidden">

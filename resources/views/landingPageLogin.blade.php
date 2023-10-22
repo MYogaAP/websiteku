@@ -51,6 +51,8 @@
                 header("Location: " . URL::to('/login'), true, 302);
                 exit();
             }
+            
+            session()->flush();
         @endphp
     @endif
 
