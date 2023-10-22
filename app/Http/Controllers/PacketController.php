@@ -42,7 +42,7 @@ class PacketController extends Controller
             'format_warna' => 'required|in:fc,bw',
             'hidden' => 'in:yes,no',
             'harga_paket'  => 'numeric',
-            'image'=>'required|image|dimensions:ratio=21/26',
+            'image'=>'required|image',
         ]);
 
         $fileName = '';
