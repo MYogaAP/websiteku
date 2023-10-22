@@ -101,7 +101,9 @@
             @foreach ($response->data as $packet)
                 <div class="col">
                     <div class="card mx-auto shadow-sm" style="width: 17rem;">
-                        <img src="{{ asset('storage/image_example/'.$packet->contoh_foto) }}" class="card-img-top" alt="..." style="border: 1px solid black">
+                        <div class="container" style="width: 17rem; height: 21rem; overflow: hidden">   
+                            <img src="{{ asset('storage/image_example/'.$packet->contoh_foto) }}" class="card-img-top" alt="..." style="border: 1px solid black; object-fit: cover; width: 100%; height: 100%">
+                        </div>    
                         <div class="card-body">
                             <h5 class="card-title">Contoh Ukuran {{$packet->tinggi}} mm x {{$packet->kolom}} kolom</h5>
                             <p class="card-text">Harga Rp. @money($packet->harga_paket)</p>
