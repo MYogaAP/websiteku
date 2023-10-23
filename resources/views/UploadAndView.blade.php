@@ -60,72 +60,79 @@
                 header("Location: " . URL::to('/login'), true, 302);
                 exit();
             }
+
             $packet = session("packet_data");
+            if(!isset($packet)){
+                header("Location: " . route("landingPageLogin"), true, 302);
+                exit();
+            }
         @endphp
     @endif
 
     {{-- Content --}}
     <div class="container text-center">
-        <div class="row  mt-5">
-            <div class="col fw-bold">
-                <h3 class="fw-bold">Upload Format Iklan</h3>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col">
-                <div class="container" style="width: 17rem; height: 21rem; overflow: hidden"> 
-                    <img src="{{ asset('storage/image_example/'.$packet["contoh_foto"]) }}" class="card-img-top" alt="..." style="border: 1px solid black; object-fit: cover; width: 100%; height: 100%">
+        <form action="{{route('NewOrderCall')}}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="row  mt-5">
+                <div class="col fw-bold">
+                    <h3 class="fw-bold">Upload Format Iklan</h3>
                 </div>
-                <p>Catatan : <br>Ukuran gambar iklan harus sesuai!</p>
             </div>
-            <div class="col text-start">
-                <p>Upload Gambar Iklan</p>
-                <form action="{{route('RegisterCall')}}" method="POST">
-                    @csrf
-                    <label for="image" class="btn btn-primary px-5 rounded-3">
-                        <input name="image" id="image" type="file" class="visually-hidden" required>
-                        Pilih Gambar
-                    </label>
-                </form>
-
-                <p class="mt-3">Jenis Warna Iklan</p>
-                @if ($packet["format_warna"] == "fc")
-                    <input type="radio" class="btn-check" name="options" id="option1" value="fc" checked>
-                    <label class="btn btn-outline-primary" for="option1">Full Warna</label>
-                    <input type="radio" class="btn-check" name="options" id="option2" value="bw" disabled>
-                    <label class="btn btn-outline-primary" for="option2">Hitam Putih</label>
-                @else
-                    <input type="radio" class="btn-check" name="options" id="option1" value="fc" disabled>
-                    <label class="btn btn-outline-primary" for="option1">Full Warna</label>
-                    <input type="radio" class="btn-check" name="options" id="option2" value="bw" checked>
-                    <label class="btn btn-outline-primary" for="option2">Hitam Putih</label>
-                @endif
+            <div class="row mt-5">
+                <div class="col">
+                    <div class="container" style="width: 17rem; height: 21rem; overflow: hidden"> 
+                        <img src="{{ asset('storage/image_example/'.$packet["contoh_foto"]) }}" class="card-img-top" alt="..." style="border: 1px solid black; object-fit: cover; width: 100%; height: 100%">
+                    </div>
+                    <p>Catatan : <br>Ukuran gambar iklan harus sesuai!</p>
+                </div>
+                <div class="col text-start">
+                    <p>Upload Gambar Iklan</p>
                     
-                <p id="status" class="mt-3" style="visibility: hidden">Status</p>
-                <div id="statusBorder" class="border border-black text-center p-3 alert alert-warning" style="visibility: hidden">
-                    <p><label id="ukuran">Ukuran yang diupload tidak sesuai. Ukuran yang disarankan adalah ####px dan ####px.</label> 
-                        <br>Mohon upload ulang atau hubungi nomor dibawah :
-                    </p>
-                    <button type="button" class="btn btn-success btn-sm rounded-3">Contact Support <i
-                            class="fa-solid fa-phone mx-2"></i></button>
+                        <label for="image" class="btn btn-primary px-5 rounded-3">
+                            <input name="image" id="image" type="file" class="visually-hidden" required>
+                            Pilih Gambar
+                        </label>
+
+                    <p class="mt-3">Jenis Warna Iklan</p>
+                    @if ($packet["format_warna"] == "fc")
+                        <input type="radio" class="btn-check" name="options" id="option1" value="fc" checked>
+                        <label class="btn btn-outline-primary" for="option1">Full Warna</label>
+                        <input type="radio" class="btn-check" name="options" id="option2" value="bw" disabled>
+                        <label class="btn btn-outline-primary" for="option2">Hitam Putih</label>
+                    @else
+                        <input type="radio" class="btn-check" name="options" id="option1" value="fc" disabled>
+                        <label class="btn btn-outline-primary" for="option1">Full Warna</label>
+                        <input type="radio" class="btn-check" name="options" id="option2" value="bw" checked>
+                        <label class="btn btn-outline-primary" for="option2">Hitam Putih</label>
+                    @endif
+                        
+                    <p id="status" class="mt-3" style="visibility: hidden">Status</p>
+                    <div id="status-border" class="border border-black text-center p-3 alert alert-warning" style="visibility: hidden">
+                        <p><label id="ukuran">Ukuran yang diupload tidak sesuai. Ukuran yang disarankan adalah ####px dan ####px.</label> 
+                            <br><label id="contact-text">Mohon upload ulang atau hubungi nomor dibawah :</label>
+                        </p>
+                        <button type="button" class="btn btn-success btn-sm rounded-3">Contact Support <i
+                                class="fa-solid fa-phone mx-2"></i></button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-5" style="margin-top: -15px">
-                <div class="d-flex justify-content-between mt-5">
-                    <div class="text-end">
-                        <a href="{{ route('detailukuran') }}" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white">Sebelumnya</a>
-                    </div>
-                    <div class="text-start">
-                        <a href="{{ route('invoice') }}" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white">Selanjutnya</a>
+            <div class="row justify-content-center">
+                <div class="col-5" style="margin-top: -15px">
+                    <div class="d-flex justify-content-between mt-5">
+                        <div class="text-end">
+                            <a href="{{ route('detailukuran') }}" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white">Sebelumnya</a>
+                        </div>
+                        <div class="text-start">
+                            <input type="submit" id="submit-btn" value="Buat Invoice" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white" disabled>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 
     <p id="2BW0TmvQmi3yMQqjfWTpZcDkmQ2HdymY" class="invisible visually-hidden">{{$auth}}</p>
+    <p id="clAXLgmxnapTRttSvxaJspEXKgGUESrS" class="invisible visually-hidden">{{$packet["packet_id"]}}</p>
 
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -133,13 +140,19 @@
     </script>
     <script>
         document.getElementById('image').addEventListener('change', function() {
-            var myCookie = document.getElementById("2BW0TmvQmi3yMQqjfWTpZcDkmQ2HdymY");
-            var myCookieValue = myCookie.textContent;
-
+            var myCookieValue = document.getElementById("2BW0TmvQmi3yMQqjfWTpZcDkmQ2HdymY").textContent;
             var photo = this.files[0];
-            var packet_id = 1;
+            var packet_id = document.getElementById("clAXLgmxnapTRttSvxaJspEXKgGUESrS").textContent;
             const APIURL = window.location.protocol + "//" + window.location.hostname + "/websiteku/public/api/CheckImage";
             const RESULT = document.getElementById('ukuran');
+            const CONTACT = document.getElementById('contact-text');
+
+            var subBtn = document.getElementById('submit-btn');
+            var statusText = document.getElementById('status');
+            var statusBorder = document.getElementById('status-border');
+            subBtn.disabled = true;
+            statusText.style.visibility = "hidden";
+            statusBorder.style.visibility = "hidden";
     
             var myHeaders = new Headers();
             myHeaders.append("Accept", "application/json");
@@ -159,9 +172,23 @@
             fetch(APIURL, requestOptions)
             .then(response => response.json())
             .then(data => {
-                RESULT.textContent = data.message;
-                document.getElementById('status').style.visibility = "visible"
-                document.getElementById('statusBorder').style.visibility = "visible"
+                if(data.berhasil){
+                    RESULT.textContent = data.message;
+                    CONTACT.textContent = "Jika ada masalah lain, hubungi nomor dibawah :"
+                    subBtn.disabled = false;
+                    statusText.style.visibility = "visible";
+                    statusBorder.style.visibility = "visible";
+                    statusBorder.classList.add("alert-success");
+                    statusBorder.classList.remove("alert-warning");
+                } else {
+                    RESULT.textContent = data.message;
+                    CONTACT.textContent = "Mohon upload ulang atau hubungi nomor dibawah :"
+                    subBtn.disabled = true;
+                    statusText.style.visibility = "visible";
+                    statusBorder.style.visibility = "visible";
+                    statusBorder.classList.add("alert-warning");
+                    statusBorder.classList.remove("alert-success");
+                }
             })
             .catch(error => console.error(error));
         });

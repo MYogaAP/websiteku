@@ -57,7 +57,12 @@
                 header("Location: " . URL::to('/login'), true, 302);
                 exit();
             }
+            
             $response = session('response');
+            if(!isset($response)){
+                header("Location: " . route("landingPageLogin"), true, 302);
+                exit();
+            }
         @endphp
     @endif
 

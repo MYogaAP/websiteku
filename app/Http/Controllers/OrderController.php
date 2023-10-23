@@ -70,6 +70,7 @@ class OrderController extends Controller
 
         return response()->json([
             'message' => 'Ukuran gambar sudah tepat.',
+            'berhasil' => true,
         ]);
     }
 

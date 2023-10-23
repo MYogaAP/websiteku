@@ -54,6 +54,10 @@
                         <hr>
                         <div class="container text-center">
                             <div class="row">
+                                <div class="col-sm-5 col-md-6">Nama Iklan</div>
+                                <div class="col-sm-5 offset-sm-2 col-md-6 offset-md-0">Paket AxB</div>
+                            </div>
+                            <div class="row">
                                 <div class="col-sm-5 col-md-6">Jenis Iklan</div>
                                 <div class="col-sm-5 offset-sm-2 col-md-6 offset-md-0">Paket AxB</div>
                             </div>
@@ -79,7 +83,7 @@
         </div>
         <div class="row mt-4">
             <div class="col">
-                <button class="btn rounded-4 ps-4 pe-4 fw-bold" style="background-color: #2bd810; color:white">Refresh</button>
+                <button class="btn rounded-4 ps-4 pe-4 fw-bold btn-success">Refresh</button>
             </div>
         </div>
     </div>

@@ -134,7 +134,7 @@
                         @endif>
                     </div>
                     <div class="mb-3">
-                        <input type="text" id="email_instansi" name="email_instansi" class="form-control rounded-pill" placeholder="Email Instansi Yang Dapat Dihubungi" required
+                        <input type="email" id="email_instansi" name="email_instansi" class="form-control rounded-pill" placeholder="Email Instansi Yang Dapat Dihubungi" required
                         value=@if(isset($email))
                         {{ $email }}
                         @endif>

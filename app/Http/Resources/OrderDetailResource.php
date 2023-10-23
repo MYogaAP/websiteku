@@ -19,7 +19,7 @@ class OrderDetailResource extends JsonResource
         return [
             'order_id' => $this->order_id,
             'nama_instansi' => $this->nama_instansi,
-            'email_instansi' => $this->emil_instansi,
+            'email_instansi' => $this->email_instansi,
             'deskripsi_iklan' => $this->deskripsi_iklan,
             'mulai_iklan' => $this->mulai_iklan,
             'akhir_iklan'=> $this->akhir_iklan,

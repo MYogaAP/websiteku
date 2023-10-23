@@ -27,7 +27,7 @@ class DataLinkerController extends Controller
         $response = json_decode($response);
         curl_close($curl);
 
-        $desc = isset($request->deskripsi_iklan)? $request->deskripsi_iklan : "";
+        $desc = isset($request->deskripsi_iklan)? $request->deskripsi_iklan : "-";
         
         $data = [
             "nama_instansi" => $request->nama_instansi,
