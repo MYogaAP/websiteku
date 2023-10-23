@@ -109,74 +109,82 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid mt-4">
-                    <div class="row">
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Tambah Agent</div>
-                                            <a href="#" class="btn btn-primary btn-icon-split">
-                                                <span class="icon text-white-50">
-                                                    <i class="fas fa-flag"></i>
-                                                </span>
-                                                <span class="text">Split Button Primary</span>
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-                    <p class="mb-4">
-                        DataTables is a third party plugin that is used to generate the
-                        demo table below. For more information about DataTables, please
-                        visit the
-                        <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.
-                    </p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">
-                                DataTables Example
-                            </h6>
+                            <h5 class="m-0 font-weight-bold text-primary mb-2">
+                                Paket Data
+                            </h5>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <a href="#" class="btn btn-primary btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-plus"></i>
+                                        </span>
+                                        <span class="text">Tambah Paket</span>
+                                    </a>
+                                </div>
+
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>Id Paket</th>
+                                            <th>Nama Paket</th>
+                                            <th>Tinggi</th>
+                                            <th>Kolom</th>
+                                            <th>Format Warna</th>
+                                            <th>Hidden Status</th>
+                                            <th>Harga Paket</th>
+                                            <th>Contoh Foto</th>
+                                            <th>Deleted</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>Id Paket</th>
+                                            <th>Nama Paket</th>
+                                            <th>Tinggi</th>
+                                            <th>Kolom</th>
+                                            <th>Format Warna</th>
+                                            <th>Hidden Status</th>
+                                            <th>Harga Paket</th>
+                                            <th>Contoh Foto</th>
+                                            <th>Deleted</th>
+                                            <th>Action</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
+                                            <td>000</td>
+                                            <td>Agoy De Packet Tour</td>
+                                            <td>167 Km</td>
+                                            <td>Lebar</td>
+                                            <td>Sawo Matang</td>
+                                            <td>PNG</td>
+                                            <td>Rp. 300</td>
+                                            <td>Foto</td>
+                                            <td>Null</td>
+                                            <td>
+                                                <div class="dropdown mb-4">
+                                                    <button class="btn btn-primary " type="button"
+                                                        id="dropdownMenuButton" data-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fas fa-pen-nib"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu animated--fade-in"
+                                                        aria-labelledby="dropdownMenuButton">
+                                                        <a class="dropdown-item" href="#">Hide</a>
+                                                        <a class="dropdown-item" href="#">Unhide</a>
+                                                        <a class="dropdown-item" href="#">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -230,6 +238,30 @@
             </div>
         </div>
     </div>
+
+    <!-- Delete Modal-->
+    {{-- <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Hapus Paket?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Anda berencana untuk menghapus paket ini.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
+                        Tidak
+                    </button>
+                    <a class="btn btn-primary" href="login.html">Ya</a>
+                </div>
+            </div>
+        </div>
+    </div> --}}
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('adminStyle/vendor/jquery/jquery.min.js') }}"></script>
