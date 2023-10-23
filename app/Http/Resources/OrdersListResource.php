@@ -21,6 +21,7 @@ class OrdersListResource extends JsonResource
             'akhir_iklan'=> $this->akhir_iklan,
             'status_pembayaran' => $this->status_pembayaran,
             'status_iklan' => $this->status_iklan,
+            'order_invoice' => $this->order_invoice,
         ];
     }
 }

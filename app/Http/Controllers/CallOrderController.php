@@ -45,6 +45,6 @@ class CallOrderController extends Controller
         $response = json_decode($response);
         curl_close($curl);
 
-        return redirect()->route('invoice')->with('data', $response);
+        return redirect()->route('riwayat');
     }
 }

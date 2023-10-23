@@ -30,6 +30,37 @@
     {{-- Navigation Bar --}}
     <x-nav-bar-back />
 
+    @if(!Cookie::has('auth'))
+        <script>window.location="{{route('loginPage')}}";</script>
+    @else
+        @php
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => gethostname().'/websiteku/public/api/UserOrdersList',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Authorization: Bearer '.Cookie::get('auth')
+            ),
+            ));
+            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            $response = curl_exec($curl);
+            $response = json_decode($response);
+            
+            if($http_status == 401){
+                setcookie("auth", "", time() - 3600, "/");
+                header("Location: " . URL::to('/login'), true, 302);
+                exit();
+            }
+        @endphp
+    @endif
+
     {{-- Content --}}
     <div class="container text-center mt-5 border rounded-4">
         <div class="row align-items-start">
@@ -43,33 +74,21 @@
                             <th scope="col">Akhir</th>
                             <th scope="col">Status Pembayaran</th>
                             <th scope="col">Status Iklan</th>
+                            <th scope="col">Invoice</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>PT. Trikora</td>
-                            <td>Senin/04/09/2023</td>
-                            <td>Sabtu/09/09/2023</td>
-                            <td class="text-success">Berhasil</td>
-                            <td class="text-success">Diterima</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>PT. Ro Ulin</td>
-                            <td>Senin/11/09/2023</td>
-                            <td>Sabtu/16/09/2023</td>
-                            <td class="text-danger">Gagal</td>
-                            <td class="text-danger">Dibatalkan</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>PT. Sutoyo S</td>
-                            <td>Senin/25/09/2023</td>
-                            <td>Sabtu/30/09/2023</td>
-                            <td>Menunggu Pembayaran</td>
-                            <td>Menunggu Konfirmasi</td>
-                        </tr>
+                        @foreach ($response->data as $order)
+                            <tr>
+                                <th scope="row">{{$order->order_id}}</th>
+                                <td>{{$order->nama_instansi}}</td>
+                                <td>{{$order->mulai_iklan}}</td>
+                                <td>{{$order->akhir_iklan}}</td>
+                                <td class="text-primary">{{$order->status_pembayaran}}</td>
+                                <td class="text-primary">{{$order->status_iklan}}</td>
+                                <td><a href="{{isset($order->order_invoice)? $order->order_invoice : "#"}}">Disini</a></td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

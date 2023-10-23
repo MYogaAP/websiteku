@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CallUserController;
 use App\Http\Controllers\CallOrderController;
 use App\Http\Controllers\DataLinkerController;
+use App\Http\Controllers\CallInvoiceController;
 
 Route::get('/', function () {
     return view('landingPage');
@@ -55,7 +56,7 @@ Route::get('/panduan', function () {
 
 Route::get('/adminDashboard', function () {
     return view('adminDashboard');
-})->name('admindashboard');
+})->name('adminDashboard');
 
 // User Data
 Route::post('/LoginCall', [CallUserController::class, 'LoginCall'])->name('LoginCall');
@@ -70,3 +71,7 @@ Route::post('/SimpanUkuran', [DataLinkerController::class, 'SendToUploadAndView'
 Route::get('/UkuranHalamanSelanjutnya', [DataLinkerController::class, 'LoadNextPacketData'])->name('UkuranHalamanSelanjutnya');
 Route::get('/UkuranHalamanSebelumnya', [DataLinkerController::class, 'LoadPrevPacketData'])->name('UkuranHalamanSebelumnya');
 Route::post('/NewOrderCall', [CallOrderController::class, 'NewOrderCall'])->name('NewOrderCall');
+
+// Invoice
+Route::post('/NewInvoiceCall', [CallInvoiceController::class, 'NewInvoiceCall'])->name('NewInvoiceCall');
+

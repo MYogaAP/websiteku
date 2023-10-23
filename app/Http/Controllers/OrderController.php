@@ -17,7 +17,7 @@ use Illuminate\Validation\Rules\Dimensions;
 class OrderController extends Controller
 {
     function GetUserOrdersList() {
-        $orders = OrderData::where("user_id", Auth::user()->user_id)->simplePaginate(5);
+        $orders = OrderData::where("user_id", Auth::user()->user_id)->simplePaginate(10);
         return OrdersListResource::collection($orders);
     }
 
