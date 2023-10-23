@@ -11,6 +11,9 @@
 
     <title>SB Admin 2 - Tables</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
     <!-- Custom fonts for this template -->
     <link href="{{ asset('adminStyle/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
@@ -122,7 +125,8 @@
                                         <span class="icon text-white-50">
                                             <i class="fas fa-plus"></i>
                                         </span>
-                                        <span class="text">Tambah Paket</span>
+                                        <span class="text" data-toggle="modal" data-target="#TambahModal">Tambah
+                                            Paket</span>
                                     </a>
                                 </div>
 
@@ -133,30 +137,30 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Id Paket</th>
-                                            <th>Nama Paket</th>
-                                            <th>Tinggi</th>
-                                            <th>Kolom</th>
-                                            <th>Format Warna</th>
-                                            <th>Hidden Status</th>
-                                            <th>Harga Paket</th>
-                                            <th>Contoh Foto</th>
-                                            <th>Deleted</th>
-                                            <th>Action</th>
+                                            <th class="text-secondary">Id Paket</th>
+                                            <th class="text-secondary">Nama Paket</th>
+                                            <th class="text-secondary">Tinggi</th>
+                                            <th class="text-secondary">Kolom</th>
+                                            <th class="text-secondary">Format Warna</th>
+                                            <th class="text-secondary">Hidden Status</th>
+                                            <th class="text-secondary">Harga Paket</th>
+                                            <th class="text-secondary">Contoh Foto</th>
+                                            <th class="text-secondary">Deleted</th>
+                                            <th class="text-secondary">Action</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Id Paket</th>
-                                            <th>Nama Paket</th>
-                                            <th>Tinggi</th>
-                                            <th>Kolom</th>
-                                            <th>Format Warna</th>
-                                            <th>Hidden Status</th>
-                                            <th>Harga Paket</th>
-                                            <th>Contoh Foto</th>
-                                            <th>Deleted</th>
-                                            <th>Action</th>
+                                            <th class="text-secondary">Id Paket</th>
+                                            <th class="text-secondary">Nama Paket</th>
+                                            <th class="text-secondary">Tinggi</th>
+                                            <th class="text-secondary">Kolom</th>
+                                            <th class="text-secondary">Format Warna</th>
+                                            <th class="text-secondary">Hidden Status</th>
+                                            <th class="text-secondary">Harga Paket</th>
+                                            <th class="text-secondary">Contoh Foto</th>
+                                            <th class="text-secondary">Deleted</th>
+                                            <th class="text-secondary">Action</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -240,28 +244,63 @@
     </div>
 
     <!-- Delete Modal-->
-    {{-- <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="TambahModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Hapus Paket?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Paket</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    Anda berencana untuk menghapus paket ini.
+                    <form class="user">
+                        <div class="form-group">
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label">Default file input example</label>
+                                <input class="form-control" type="file" id="formFile">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Nama Paket</label>
+                                <input type="email" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="cth. Paket1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Tinggi</label>
+                                <input type="email" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="cth. 50">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Kolom</label>
+                                <input type="email" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="cth. 40">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Format Warna</label>
+                                <input type="email" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="cth. fc">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Harga Paket</label>
+                                <input type="email" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="cth. 100000">
+                            </div>
+                        </div>
+                        <a href="login.html" class="btn btn-primary btn-user btn-block">
+                            Tambah
+                        </a>
+                    </form>
                 </div>
-                <div class="modal-footer">
+                {{-- <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">
                         Tidak
                     </button>
                     <a class="btn btn-primary" href="login.html">Ya</a>
-                </div>
+                </div> --}}
             </div>
         </div>
-    </div> --}}
+    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('adminStyle/vendor/jquery/jquery.min.js') }}"></script>
