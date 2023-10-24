@@ -54,9 +54,9 @@ Route::get('/panduan', function () {
     return view('panduan');
 })->name('panduan');
 
-Route::get('/adminDashboard', function () {
-    return view('adminDashboard');
-})->name('adminDashboard');
+Route::get('/paketData', function () {
+    return view('paketData');
+})->name('paketData');
 
 // User Data
 Route::post('/LoginCall', [CallUserController::class, 'LoginCall'])->name('LoginCall');
