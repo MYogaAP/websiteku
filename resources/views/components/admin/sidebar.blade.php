@@ -20,14 +20,14 @@
 
         <!-- Nav Item - Order Data -->
         <li class="nav-item">
-            <a class="nav-link" href="tables.html">
+            <a class="nav-link" href="{{ route('orderData') }}">
                 <i class="fas fa-fw fa-address-card"></i>
                 <span>Order Data</span></a>
         </li>
 
         <!-- Nav Item - Tables -->
-        <li class="nav-item active">
-            <a class="nav-link" href="tables.html">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('paketData') }}">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Paket Data</span></a>
         </li>
@@ -39,7 +39,7 @@
         <div class="sidebar-heading">Utility</div>
 
         <li class="nav-item">
-            <a class="nav-link" href="tables.html">
+            <a class="nav-link" href="">
                 <i class="fas fa-fw fa-user-lock"></i>
                 <span>Agent</span></a>
         </li>

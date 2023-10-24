@@ -58,6 +58,10 @@ Route::get('/paketData', function () {
     return view('paketData');
 })->name('paketData');
 
+Route::get('/orderData', function () {
+    return view('orderData');
+})->name('orderData');
+
 // User Data
 Route::post('/LoginCall', [CallUserController::class, 'LoginCall'])->name('LoginCall');
 Route::post('/RegisterCall', [CallUserController::class, 'RegisterCall'])->name('RegisterCall');
