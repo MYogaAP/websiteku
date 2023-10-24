@@ -62,6 +62,10 @@ Route::get('/orderData', function () {
     return view('orderData');
 })->name('orderData');
 
+Route::get('/agentData', function () {
+    return view('agentData');
+})->name('agentData');
+
 // User Data
 Route::post('/LoginCall', [CallUserController::class, 'LoginCall'])->name('LoginCall');
 Route::post('/RegisterCall', [CallUserController::class, 'RegisterCall'])->name('RegisterCall');

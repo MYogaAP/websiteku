@@ -39,7 +39,7 @@
         <div class="sidebar-heading">Utility</div>
 
         <li class="nav-item">
-            <a class="nav-link" href="">
+            <a class="nav-link" href="{{ route('agentData') }}">
                 <i class="fas fa-fw fa-user-lock"></i>
                 <span>Agent</span></a>
         </li>
