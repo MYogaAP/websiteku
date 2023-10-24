@@ -74,8 +74,5 @@ Route::post('/SimpanPesanan', [DataLinkerController::class, 'SendToDetailUkuran'
 Route::post('/SimpanUkuran', [DataLinkerController::class, 'SendToUploadAndView'])->name('SimpanUkuran');
 Route::get('/UkuranHalamanSelanjutnya', [DataLinkerController::class, 'LoadNextPacketData'])->name('UkuranHalamanSelanjutnya');
 Route::get('/UkuranHalamanSebelumnya', [DataLinkerController::class, 'LoadPrevPacketData'])->name('UkuranHalamanSebelumnya');
-Route::post('/NewOrderCall', [CallOrderController::class, 'NewOrderCall'])->name('NewOrderCall');
-
-// Invoice
-Route::post('/NewInvoiceCall', [CallInvoiceController::class, 'NewInvoiceCall'])->name('NewInvoiceCall');
+Route::post('/NewOrderCall', [CallOrderController::class, 'NewOrderAndInvoiceCall'])->name('NewOrderCall');
 
