@@ -45,11 +45,11 @@
                             <p class="text-start">
                                 Iklan display yang besarannya ditentukan jumlah
                                 kolom (lebar) dan satuan milimeter (tinggi). 
-                                Maksimal sebesar 6 kolom x 530 milimeter.
+                                Maksimal sebesar 6 kolom x 530 milimeter (6 kolom = 3000 pixel, 530 milimeter = 5300 pixel).
                             </p>    
                         <div class="fw-bold text-start">Iklan Deret/Baris</div> 
                             <p class="text-start">
-                                Iklan teks berukuran 1 kolom (47 milimeter).
+                                Iklan teks berukuran 1 kolom (50 milimeter / 500 pixel).
                                 Iklan ini bisa dilampirkan dengan gambar ataupun tanpa gambar.
                                 Iklan deret/baris ini dikelompokkan menjadi satu halaman iklan baris.
                             </p>
