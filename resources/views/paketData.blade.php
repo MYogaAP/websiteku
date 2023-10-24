@@ -76,47 +76,35 @@
                                             <th class="text-secondary">Action</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th class="text-secondary">Id Paket</th>
-                                            <th class="text-secondary">Nama Paket</th>
-                                            <th class="text-secondary">Tinggi</th>
-                                            <th class="text-secondary">Kolom</th>
-                                            <th class="text-secondary">Format Warna</th>
-                                            <th class="text-secondary">Hidden Status</th>
-                                            <th class="text-secondary">Harga Paket</th>
-                                            <th class="text-secondary">Contoh Foto</th>
-                                            <th class="text-secondary">Deleted</th>
-                                            <th class="text-secondary">Action</th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
-                                        <tr>
-                                            <td>000</td>
-                                            <td>Agoy De Packet Tour</td>
-                                            <td>167 Km</td>
-                                            <td>Lebar</td>
-                                            <td>Sawo Matang</td>
-                                            <td>PNG</td>
-                                            <td>Rp. 300</td>
-                                            <td>Foto</td>
-                                            <td>Null</td>
-                                            <td>
-                                                <div class="dropdown mb-4">
-                                                    <button class="btn btn-primary " type="button"
-                                                        id="dropdownMenuButton" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false">
-                                                        <i class="fas fa-pen-nib"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu animated--fade-in"
-                                                        aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="#">Hide</a>
-                                                        <a class="dropdown-item" href="#">Unhide</a>
-                                                        <a class="dropdown-item" href="#">Delete</a>
+                                        @foreach ($response->data as $list)
+                                            <tr>
+                                                <th scope="row">{{$list->order_id}}</th>
+                                                <td>Agoy De Packet Tour</td>
+                                                <td>167 Km</td>
+                                                <td>Lebar</td>
+                                                <td>Sawo Matang</td>
+                                                <td>PNG</td>
+                                                <td>Rp. 300</td>
+                                                <td>Foto</td>
+                                                <td>Null</td>
+                                                <td>
+                                                    <div class="dropdown mb-4">
+                                                        <button class="btn btn-primary " type="button"
+                                                            id="dropdownMenuButton" data-toggle="dropdown"
+                                                            aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fas fa-pen-nib"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu animated--fade-in"
+                                                            aria-labelledby="dropdownMenuButton">
+                                                            <a class="dropdown-item" href="#">Hide</a>
+                                                            <a class="dropdown-item" href="#">Unhide</a>
+                                                            <a class="dropdown-item" href="#">Delete</a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
+                                            @endforeach
                                     </tbody>
                                 </table>
                             </div>

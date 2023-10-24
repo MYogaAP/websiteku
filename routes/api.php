@@ -7,6 +7,8 @@ use App\Http\Controllers\PacketController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AgentUserController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\DashboardController;
+
 
 //Login API
 Route::post('/UserLogin', [AuthenticationController::class, 'Login']);
@@ -56,3 +58,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/DeletePacket/{packet_id}', [PacketController::class, 'DeletePacket']);
     });
 });
+
+//Dashboard API
+
