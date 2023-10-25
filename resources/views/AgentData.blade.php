@@ -80,7 +80,7 @@
                                             <td>
                                                 <button class="btn btn-primary " type="button" id="dropdownMenuButton"
                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-minus"></i>
+                                                    <i class="fas fa-minus"></i> Hapus
                                                 </button>
                                             </td>
                                         </tr>
@@ -154,17 +154,17 @@
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Username</label>
                                 <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. Paket1">
+                                    placeholder="cth. user26">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. 50">
+                                    placeholder="cth. user@radar.com">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Password</label>
                                 <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. 40">
+                                    placeholder="cth. User@radar21">
                             </div>
                         </div>
                         <a href="login.html" class="btn btn-primary btn-user btn-block">
