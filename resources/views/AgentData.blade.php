@@ -29,6 +29,38 @@
 </head>
 
 <body id="page-top">
+    @if (!Cookie::has('auth'))
+        <script>
+            window.location = "{{ route('loginPage') }}";
+        </script>
+    @else
+        @php
+            $curl = curl_init();
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, [
+                CURLOPT_URL => '127.0.0.1/websiteku/public/api/AgentList',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => ['Accept: application/json', 'Authorization: Bearer ' . Cookie::get('auth')],
+            ]);
+            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            $response = curl_exec($curl);
+            $response = json_decode($response);
+
+            if ($http_status == 401) {
+                setcookie('auth', '', time() - 3600, '/');
+                header('Location: ' . URL::to('/login'), true, 302);
+                exit();
+            }
+        @endphp
+    @endif
     <!-- Page Wrapper -->
     <div id="wrapper">
         <x-admin.sidebar />
@@ -72,18 +104,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>000</td>
-                                            <td>deeznut</td>
-                                            <td>agoy@agoy.com</td>
-                                            <td>agent</td>
-                                            <td>
-                                                <button class="btn btn-primary " type="button" id="dropdownMenuButton"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-minus"></i> Hapus
-                                                </button>
-                                            </td>
-                                        </tr>
+                                        @foreach ($response->data as $agent)
+                                            <tr>
+                                                <td>{{ $agent->user_id }}</td>
+                                                <td>{{ $agent->username }}</td>
+                                                <td>{{ $agent->email }}</td>
+                                                <td>{{ $agent->role }}</td>
+                                                <td>
+                                                    <button class="btn btn-primary " type="button"
+                                                        id="dropdownMenuButton" data-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fas fa-minus"></i> Hapus
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

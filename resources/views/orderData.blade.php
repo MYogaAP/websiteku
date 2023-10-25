@@ -29,6 +29,36 @@
 </head>
 
 <body id="page-top">
+    @if (!Cookie::has('auth'))
+        <script>
+            window.location = "{{ route('loginPage') }}";
+        </script>
+    @else
+        @php
+            $curl = curl_init();
+
+            curl_setopt_array($curl, [
+                CURLOPT_URL => '127.0.0.1/websiteku/public/api/AgentAllOrders',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => ['Accept: application/json', 'Authorization: Bearer ' . Cookie::get('auth')],
+            ]);
+            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            $response = curl_exec($curl);
+            $response = json_decode($response);
+
+            if ($http_status == 401) {
+                setcookie('auth', '', time() - 3600, '/');
+                header('Location: ' . URL::to('/login'), true, 302);
+                exit();
+            }
+        @endphp
+    @endif
     <!-- Page Wrapper -->
     <div id="wrapper">
         <x-admin.sidebar />
@@ -74,29 +104,31 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <tr>
-                                            <td>000</td>
-                                            <td>PT CV Perusahaan Yoga Mencari cinta sejati</td>
-                                            <td>32/02/2077</td>
-                                            <td>32/02/2078</td>
-                                            <td>Menunggak</td>
-                                            <td>Sedang Tayang</td>
-                                            <td>001</td>
-                                            <td>
-                                                <div class="dropdown mb-4">
-                                                    <button class="btn btn-primary " type="button"
-                                                        id="dropdownMenuButton" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false">
-                                                        <i class="fas fa-pen-nib"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu animated--fade-in"
-                                                        aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="#">Konfirmasi
-                                                            Pembayaran</a>
+                                        @foreach ($response->data as $order)
+                                            <tr>
+                                                <td>{{ $order->order_id }}</td>
+                                                <td>{{ $order->nama_instansi }}</td>
+                                                <td>{{ $order->mulai_iklan }}</td>
+                                                <td>{{ $order->akhir_iklan }}</td>
+                                                <td>{{ $order->status_pembayaran }}</td>
+                                                <td>{{ $order->status_iklan }}</td>
+                                                <td>{{ $order->order_invoice }}</td>
+                                                <td>
+                                                    <div class="dropdown mb-4">
+                                                        <button class="btn btn-primary " type="button"
+                                                            id="dropdownMenuButton" data-toggle="dropdown"
+                                                            aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fas fa-pen-nib"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu animated--fade-in"
+                                                            aria-labelledby="dropdownMenuButton">
+                                                            <a class="dropdown-item" href="#">Konfirmasi
+                                                                Pembayaran</a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
