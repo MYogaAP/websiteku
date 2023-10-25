@@ -13,10 +13,10 @@ class DashboardController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    function lihatPaket(Request $request) {
+    function LihatPaket() {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => '127.0.0.1/websiteku/public/api/AgentPacketList',
+        CURLOPT_URL => gethostname().'/websiteku/public/api/AgentPacketList',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -33,15 +33,7 @@ class DashboardController extends Controller
         $response = json_decode($response);
         curl_close($curl);
 
-        $validate = $request ->validate([
-            'nama_paket' => 'required|max:255|unique:packet_data,nama_paket',
-            'tinggi' => 'required|numeric',
-            'kolom' => 'required|numeric',
-            'format_warna' => 'required|in:fc,bw',
-            'hidden' => 'in:yes,no',
-            'harga_paket'  => 'numeric',
-            'image'=>'required|image',
-        ]);
+        return redirect()->route('paketData');
     }
 
 }

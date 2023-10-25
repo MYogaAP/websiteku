@@ -5,6 +5,7 @@ use App\Http\Controllers\CallUserController;
 use App\Http\Controllers\CallOrderController;
 use App\Http\Controllers\DataLinkerController;
 use App\Http\Controllers\CallInvoiceController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('landingPage');
@@ -75,3 +76,5 @@ Route::post('/NewOrderCall', [CallOrderController::class, 'NewOrderCall'])->name
 // Invoice
 Route::post('/NewInvoiceCall', [CallInvoiceController::class, 'NewInvoiceCall'])->name('NewInvoiceCall');
 
+//dashboard
+Route::get('/LihatPaket', [DashboardController::class, 'LihatPaket'])->name('LihatPaket');

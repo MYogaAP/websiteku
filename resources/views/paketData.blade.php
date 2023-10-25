@@ -77,17 +77,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($response->data as $list)
+                                        @foreach ($packet->data as $list)
                                             <tr>
-                                                <th scope="row">{{$list->order_id}}</th>
-                                                <td>Agoy De Packet Tour</td>
-                                                <td>167 Km</td>
-                                                <td>Lebar</td>
-                                                <td>Sawo Matang</td>
-                                                <td>PNG</td>
-                                                <td>Rp. 300</td>
-                                                <td>Foto</td>
-                                                <td>Null</td>
+                                                <th scope="row">{{$list->packet_id}}</th>
+                                                <td>{{$list->nama_paket}}</td>
+                                                <td>{{$list->tinggi}}</td>
+                                                <td>{{$list->kolom}}</td>
+                                                <td>{{$list->format_warna}}</td>
+                                                <td>{{$list->hidden}}</td>
+                                                <td>{{$list->harga_paket}}</td>
+                                                <td>{{$list->contoh_foto}}</td>
+                                                <td>{{$list->deleted_at}}</td>
                                                 <td>
                                                     <div class="dropdown mb-4">
                                                         <button class="btn btn-primary " type="button"
@@ -104,7 +104,7 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            @endforeach
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
