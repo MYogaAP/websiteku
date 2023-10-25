@@ -59,6 +59,14 @@ Route::get('/paketData', function () {
     return view('paketData');
 })->name('paketData');
 
+Route::get('/orderData', function () {
+    return view('orderData');
+})->name('orderData');
+
+Route::get('/agentData', function () {
+    return view('agentData');
+})->name('agentData');
+
 // User Data
 Route::post('/LoginCall', [CallUserController::class, 'LoginCall'])->name('LoginCall');
 Route::post('/RegisterCall', [CallUserController::class, 'RegisterCall'])->name('RegisterCall');
@@ -71,10 +79,7 @@ Route::post('/SimpanPesanan', [DataLinkerController::class, 'SendToDetailUkuran'
 Route::post('/SimpanUkuran', [DataLinkerController::class, 'SendToUploadAndView'])->name('SimpanUkuran');
 Route::get('/UkuranHalamanSelanjutnya', [DataLinkerController::class, 'LoadNextPacketData'])->name('UkuranHalamanSelanjutnya');
 Route::get('/UkuranHalamanSebelumnya', [DataLinkerController::class, 'LoadPrevPacketData'])->name('UkuranHalamanSebelumnya');
-Route::post('/NewOrderCall', [CallOrderController::class, 'NewOrderCall'])->name('NewOrderCall');
-
-// Invoice
-Route::post('/NewInvoiceCall', [CallInvoiceController::class, 'NewInvoiceCall'])->name('NewInvoiceCall');
+Route::post('/NewOrderCall', [CallOrderController::class, 'NewOrderAndInvoiceCall'])->name('NewOrderCall');
 
 //dashboard
 Route::get('/LihatPaket', [DashboardController::class, 'LihatPaket'])->name('LihatPaket');

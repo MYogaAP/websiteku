@@ -54,8 +54,9 @@
             ));
             $data = curl_exec($curl);
             $data = json_decode($data);
+            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             
-            if(!empty($data->message)){
+            if($http_status == 401){
                 setcookie("auth", "", time() - 3600, "/");
                 header("Location: " . URL::to('/login'), true, 302);
                 exit();
