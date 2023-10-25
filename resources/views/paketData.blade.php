@@ -77,34 +77,38 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($packet->data as $list)
-                                            <tr>
-                                                <th scope="row">{{$list->packet_id}}</th>
-                                                <td>{{$list->nama_paket}}</td>
-                                                <td>{{$list->tinggi}}</td>
-                                                <td>{{$list->kolom}}</td>
-                                                <td>{{$list->format_warna}}</td>
-                                                <td>{{$list->hidden}}</td>
-                                                <td>{{$list->harga_paket}}</td>
-                                                <td>{{$list->contoh_foto}}</td>
-                                                <td>{{$list->deleted_at}}</td>
-                                                <td>
-                                                    <div class="dropdown mb-4">
-                                                        <button class="btn btn-primary " type="button"
-                                                            id="dropdownMenuButton" data-toggle="dropdown"
-                                                            aria-haspopup="true" aria-expanded="false">
-                                                            <i class="fas fa-pen-nib"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu animated--fade-in"
-                                                            aria-labelledby="dropdownMenuButton">
-                                                            <a class="dropdown-item" href="#">Hide</a>
-                                                            <a class="dropdown-item" href="#">Unhide</a>
-                                                            <a class="dropdown-item" href="#">Delete</a>
+                                        {{-- @foreach ($packet->data as $list) --}}
+                                        {{-- @foreach ($data as $list) --}}
+                                        @if(session('packet_data'))
+                                            @foreach (session('packet_data')->data as $list)
+                                                <tr>
+                                                    <th scope="row">{{$list->packet_id}}</th>
+                                                    <td>{{$list->nama_paket}}</td>
+                                                    <td>{{$list->tinggi}}</td>
+                                                    <td>{{$list->kolom}}</td>
+                                                    <td>{{$list->format_warna}}</td>
+                                                    <td>{{$list->hidden}}</td>
+                                                    <td>{{$list->harga_paket}}</td>
+                                                    <td>{{$list->contoh_foto}}</td>
+                                                    <td>{{$list->deleted_at}}</td>
+                                                    <td>
+                                                        <div class="dropdown mb-4">
+                                                            <button class="btn btn-primary " type="button"
+                                                                id="dropdownMenuButton" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false">
+                                                                <i class="fas fa-pen-nib"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu animated--fade-in"
+                                                                aria-labelledby="dropdownMenuButton">
+                                                                <a class="dropdown-item" href="#">Hide</a>
+                                                                <a class="dropdown-item" href="#">Unhide</a>
+                                                                <a class="dropdown-item" href="#">Delete</a>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

@@ -47,17 +47,17 @@
                 @endif
 
                 <form method="POST" action="{{ route('RegisterCall')}}">
-                @csrf
-                <div class="mb-3">
-                    <input type="email" name="email" class="form-control rounded-pill" id="email" placeholder="Ketik email disini">
-                </div>
-                <div class="mb-3">
-                    <input type="username" name="username" class="form-control rounded-pill" id="username" placeholder="Ketik username disini">
-                </div>
-                <div class="mb-3">
-                    <input type="password" id="password" name="password" class="form-control rounded-pill" aria-describedby="passwordHelpBlock" placeholder="Ketik password disini">
-                </div>
-                    <button type="submit" class="btn btn-primary rounded-pill px-5">Register</button>
+                    @csrf
+                        <div class="mb-3">
+                            <input type="email" name="email" class="form-control rounded-pill" id="email" placeholder="Ketik email disini">
+                        </div>
+                        <div class="mb-3">
+                            <input type="username" name="username" class="form-control rounded-pill" id="username" placeholder="Ketik username disini">
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" id="password" name="password" class="form-control rounded-pill" aria-describedby="passwordHelpBlock" placeholder="Ketik password disini">
+                        </div>
+                        <button type="submit" class="btn btn-primary rounded-pill px-5">Register</button>
                 </form>
 
                 <div class="mt-5">
