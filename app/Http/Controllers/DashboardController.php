@@ -38,4 +38,7 @@ class DashboardController extends Controller
         return redirect()->route('paketData');
     }
 
+    function ModalPaket(Request $request) {
+    
+    }
 }

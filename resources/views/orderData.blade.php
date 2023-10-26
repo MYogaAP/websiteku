@@ -91,18 +91,6 @@
                                             <th class="text-secondary">Action</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th class="text-secondary">Id Order</th>
-                                            <th class="text-secondary">Nama Instansi</th>
-                                            <th class="text-secondary">Mulai Iklan</th>
-                                            <th class="text-secondary">Akhir Iklan</th>
-                                            <th class="text-secondary">Status Pembayaran</th>
-                                            <th class="text-secondary">Status Iklan</th>
-                                            <th class="text-secondary">Order Invoice</th>
-                                            <th class="text-secondary">Action</th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
                                         @foreach ($response->data as $order)
                                             <tr>
