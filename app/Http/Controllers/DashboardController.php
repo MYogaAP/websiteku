@@ -37,34 +37,5 @@ class DashboardController extends Controller
         
         return redirect()->route('paketData');
     }
-    
-    function ModalPaket(Request $request) {
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => '/websiteku/public/api/AddPacket',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS => array(
-            'image'=> new \CURLFILE($request->image),
-            'nama_paket' => $nama_paket,
-            'tinggi' => $tinggi,
-            'kolom' => $kolom,
-            'format_warna' => $format_warna,
-            'harga_paket' => $harga_paket,
-        ),
-        CURLOPT_HTTPHEADER => array(
-        'Accept: application/json',
-        'Authorization: Bearer ' .Cookie::get('auth'),
-        ),
-        ));
-        $response = curl_exec($curl);
-        
-        curl_close($curl);
-    }
 
 }
