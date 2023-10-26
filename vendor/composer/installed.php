@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-YogaBranch',
         'version' => 'dev-YogaBranch',
-        'reference' => '199523619b9bf3bcaab8b798eb9092897ba38257',
+        'reference' => '0f3acc7a4df4abacdff9a60afcd452283131c383',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -373,7 +373,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-YogaBranch',
             'version' => 'dev-YogaBranch',
-            'reference' => '199523619b9bf3bcaab8b798eb9092897ba38257',
+            'reference' => '0f3acc7a4df4abacdff9a60afcd452283131c383',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -952,6 +952,15 @@
             'install_path' => __DIR__ . '/../sebastian/version',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'sirajcse/laravel-unique-id-generator' => array(
+            'pretty_version' => 'v1.0.1',
+            'version' => '1.0.1.0',
+            'reference' => '4982afb5a3c9d243500f516c1f9be565fceab4ba',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../sirajcse/laravel-unique-id-generator',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'symfony/console' => array(
             'pretty_version' => 'v6.3.4',

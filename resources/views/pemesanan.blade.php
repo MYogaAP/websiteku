@@ -73,6 +73,8 @@
             ),
             ));
             $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            $data_user = curl_exec($curl);
+            $data_user = json_decode($data_user);
             
             if($http_status == 401){
                 setcookie("auth", "", time() - 3600, "/");
@@ -90,6 +92,7 @@
             $akhir = $form_data['akhir_iklan'];
             $desk = $form_data['deskripsi_iklan'];
             $email = $form_data['email_instansi'];
+            $telp = $form_data['telpon_instansi'];
         @endphp
     @endif
 
@@ -134,9 +137,19 @@
                         @endif>
                     </div>
                     <div class="mb-3">
-                        <input type="email" id="email_instansi" name="email_instansi" class="form-control rounded-pill" placeholder="Email Instansi Yang Dapat Dihubungi" required
+                        <input type="email" id="email_instansi" name="email_instansi" class="form-control rounded-pill" placeholder="Email Yang Dapat Dihubungi" required
                         value=@if(isset($email))
                         {{ $email }}
+                        @elseif (isset($data_user->email))
+                        {{ $data_user->email }}
+                        @endif>
+                    </div>
+                    <div class="mb-3">
+                        <input type="tel" id="telpon_instansi" name="telpon_instansi" class="form-control rounded-pill" placeholder="Nomor Telpon Yang Dapat Dihubungi" required
+                        value=@if(isset($telp))
+                        {{ $telp }}
+                        @elseif (isset($data_user->no_hp))
+                        {{ $data_user->no_hp }}
                         @endif>
                     </div>
                     <div>

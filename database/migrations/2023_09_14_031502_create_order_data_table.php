@@ -13,17 +13,19 @@ return new class extends Migration
     {
         Schema::create('order_data', function (Blueprint $table) {
             $table->id('order_id');
+            $table->string('nomor_order', 255)->nullable();
             $table->string('nama_instansi');
             $table->string('email_instansi');
+            $table->string('nomor_instansi');
             $table->text('deskripsi_iklan');
             $table->date('mulai_iklan');
             $table->date('akhir_iklan');
             $table->integer('lama_hari');
             $table->string('foto_iklan');
             $table->enum('status_iklan', ['Menunggu Konfirmasi', 'Dalam Antrian', 'Sedang Diproses', 'Telah Diupload', 'Dibatalkan'])->default('Menunggu Konfirmasi');
-            $table->string('order_invoice', 255)->nullable();
-            $table->enum('status_pembayaran', ['Menunggu Pembayaran', 'Berhasil', 'Gagal', 'Dibatalkan'])->default('Menunggu Pembayaran');
-            $table->date('dibayar_pada')->nullable();
+            $table->enum('status_pembayaran', ['Belum Bayar', 'Telah Dibayar', 'Dibatalkan'])->default('Belum Bayar');
+            $table->string('nomor_invoice', 255)->nullable();
+            $table->string('invoice_id', 255)->nullable();
             
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('packet_id');

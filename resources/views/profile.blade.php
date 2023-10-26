@@ -92,11 +92,11 @@
                         @csrf
 
                         <div class="mb-3">
-                            <input type="username" class="form-control rounded-pill" id="no_hp" name="no_hp"
+                            <input type="text" class="form-control rounded-pill" id="no_hp" name="no_hp"
                                 placeholder="No HP" value="{{$data->no_hp}}">
                         </div>
                         <div class="mb-3">
-                            <input type="username" class="form-control rounded-pill" id="pekerjaan" name="pekerjaan"
+                            <input type="text" class="form-control rounded-pill" id="pekerjaan" name="pekerjaan"
                                 placeholder="Pekerjaan" value="{{$data->pekerjaan}}">
                         </div>
                         <div class="d-flex flex-row-reverse justify-content-between">

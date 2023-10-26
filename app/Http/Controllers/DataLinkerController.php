@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use App\Providers\RouteServiceProvider;
 
 class DataLinkerController extends Controller
 {
@@ -35,6 +36,7 @@ class DataLinkerController extends Controller
             "akhir_iklan" => $request->akhir_iklan,
             "deskripsi_iklan" => $desc,
             "email_instansi" => $request->email_instansi,
+            "telpon_instansi" => $request->telpon_instansi,
         ];
 
         $request->session()->put('form_data', $data);

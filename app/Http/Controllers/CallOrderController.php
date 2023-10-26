@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Config;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cookie;
 
 class CallOrderController extends Controller
@@ -12,8 +13,19 @@ class CallOrderController extends Controller
     $form_data = $request->session()->get('form_data', 'default');
     $packet_data = $request->session()->get('packet_data', 'default');
     $nama = $form_data['nama_instansi'];
+    $mulai = $form_data['mulai_iklan'];
+    $akhir = $form_data['akhir_iklan'];
+    $desk = $form_data['deskripsi_iklan'];
     $email = $form_data['email_instansi'];
+    $telp = $form_data['telpon_instansi'];
     $packet_id = $packet_data['packet_id'];
+    
+    // Count Days
+    $start = Carbon::parse($mulai); 
+    $end = Carbon::parse($akhir);
+    $days = 1 + ($start->diffInDaysFiltered(function(Carbon $date) {
+      return !$date->isSunday();
+    }, $end));
 
     // Get User Data
     $curl = curl_init();
@@ -64,27 +76,6 @@ class CallOrderController extends Controller
 
     // Make Invoice Xendit
     $curl = curl_init();
-    // curl_setopt_array($curl, array(
-    //   CURLOPT_URL => 'https://api.xendit.co/v2/invoices',
-    //   CURLOPT_RETURNTRANSFER => true,
-    //   CURLOPT_ENCODING => '',
-    //   CURLOPT_MAXREDIRS => 10,
-    //   CURLOPT_TIMEOUT => 0,
-    //   CURLOPT_FOLLOWLOCATION => true,
-    //   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    //   CURLOPT_CUSTOMREQUEST => 'POST',
-    //   CURLOPT_POSTFIELDS =>'{
-    //     "amount": 1000,
-    //     "invoice_duration": 60,
-    //     "payer_email": "customer@domain.com",
-    //     "description": "Invoice Demo #123",
-    //     "payment_methods": []
-    //   }',
-    //   CURLOPT_HTTPHEADER => array(
-    //     'Content-Type: application/json',
-    //     'Authorization: Basic eG5kX3Byb2R1Y3Rpb25fbzlNN1NGcDZJNWdTb3RpUXVqc2MxWkpGVkFrWnZ5eWtJMnl2YUNIdm9XcjZGVlk1U1hsZ0ZOUG1VTU9YWjZtOg=='
-    //   ),
-    // ));
     curl_setopt_array($curl, array(
       CURLOPT_URL => 'https://api.xendit.co/v2/invoices',
       CURLOPT_RETURNTRANSFER => true,
@@ -95,22 +86,22 @@ class CallOrderController extends Controller
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => 'POST',
       CURLOPT_POSTFIELDS => json_encode(array(
-        "external_id" => $data_user->username."_".$data_user->role."_".$data_user->email,
-        "amount" => $data_packet->harga_paket,
+        "external_id" => $data_user->username."-".$data_user->role."-".$data_user->email,
+        "amount" => $days*$data_packet->harga_paket,
         "description" => "Pemesanan pemasangan iklan pada koran Radar Banjarmasin",
         "invoice_duration" => 86400,
         "customer" => [
             "given_names" => $nama,
             "email" => $email,
-            "mobile_number" => $data_user->no_hp,
+            "mobile_number" => $telp,
         ],
-        "success_redirect_url" => route("riwayat"),
         "failure_redirect_url" => route("riwayat"),
         "currency" => "IDR",
+        "locale" => "id",
         "items" => [
             [
-                "name" => $data_packet->nama_paket,
-                "quantity" => 1,
+                "name" => "Iklan Paket ".$data_packet->nama_paket,
+                "quantity" => $days,
                 "price" => $data_packet->harga_paket,
                 "category" => "Promotion",
             ]
@@ -122,6 +113,7 @@ class CallOrderController extends Controller
       ),
     ));
     $createInvoice = curl_exec($curl);
+    $createInvoice = json_decode($createInvoice);
     curl_close($curl);
     dd($createInvoice);
 
@@ -143,7 +135,7 @@ class CallOrderController extends Controller
         'mulai_iklan' => $mulai,
         'akhir_iklan' => $akhir,
         'packet_id' => $packet_id,
-        'order_invoice' => $createInvoice,
+        'nomor' => $createInvoice->id,
     ),
       CURLOPT_HTTPHEADER => array(
         'Accept: application/json',

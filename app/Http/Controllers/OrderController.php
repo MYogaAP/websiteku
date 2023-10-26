@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\OrderData;
 use App\Models\UserOrder;
 use App\Models\PacketData;
@@ -38,10 +37,14 @@ class OrderController extends Controller
         return OrdersListResource::collection($orders);
     }
 
-    function UpdateOrder($order_id, $status_iklan) {
+    function UpdateOrder($order_id, $update_type, $status) {
         $confirmOrder = OrderData::findOrFail($order_id);
 
-        $confirmOrder->status_iklan = $status_iklan;
+        if($update_type == 1){
+            $confirmOrder->status_iklan = $status;
+        } elseif ($update_type == 2){
+            $confirmOrder->status_pembayaran = $status;
+        }
         $confirmOrder->save();
         
         return response()->json([
@@ -76,14 +79,18 @@ class OrderController extends Controller
 
     function StoreOrder(Request $request) {
         $validate = $request ->validate([
+            'nomor_order'=>'required',
             'nama_instansi' => 'required|max:255',
             'email_instansi' => 'required|email',
+            'nomor_instansi' => 'required',
             'deskripsi_iklan' => 'required',
             'mulai_iklan' => 'required|date',
-            'akhir_iklan'  => 'required|date',
+            'akhir_iklan' => 'required|date',
+            "lama_iklan" => 'required',
             'image'=>'required|image',
             'packet_id'=>'required',
-            'order_invoice'=>'required'
+            'nomor_invoice'=>'required',
+            'invoice_id'=>'required',
         ]);
 
         $fileName = '';
@@ -97,13 +104,8 @@ class OrderController extends Controller
             Storage::putFileAs('image', $request->image, $fullName);
         }
 
-        $start = Carbon::parse($request->mulai_iklan); 
-        $end = Carbon::parse($request->akhir_iklan);
-        $days = 1 + ($end->diffInDays($start));
-
         $request['foto_iklan'] = $fullName;
         $request['user_id'] = Auth::user()->user_id;
-        $request['lama_hari'] = $days;
         $order_data = OrderData::create($request->all());
 
         return response()->json([

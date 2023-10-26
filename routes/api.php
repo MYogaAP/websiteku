@@ -38,7 +38,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::middleware(['an.agent'])->group(function () {
         Route::get('/AgentAllOrders', [OrderController::class, 'AllOrders']);
         Route::get('/NeedConfirmation', [OrderController::class, 'NeedConfirmation']);
-        Route::patch('/UpdateOrder/{order_id}/{status_iklan}', [OrderController::class, 'UpdateOrder']);
+        Route::patch('/UpdateOrder/{order_id}/{update_type}/{status}', [OrderController::class, 'UpdateOrder']);
     });
     Route::get('/OrderDetail/{order_id}', [OrderController::class, 'GetOrderDetail']);
     Route::post('/StoreOrder', [OrderController::class, 'StoreOrder']);
@@ -58,6 +58,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/DeletePacket/{packet_id}', [PacketController::class, 'DeletePacket']);
     });
 });
-
-//Dashboard API
 

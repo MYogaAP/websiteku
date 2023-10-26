@@ -13,6 +13,7 @@ class OrderData extends Model
     use HasFactory;
     
     protected $fillable = [
+        'nomor_order',
         'nama_instansi',
         'email_instansi',
         'deskripsi_iklan',
@@ -21,9 +22,10 @@ class OrderData extends Model
         'lama_hari',
         'foto_iklan',
         'status_iklan',
-        'order_invoice',
+        'nomor_invoice',
+        'status_iklan',
         'status_pembayaran',
-        'dibayar_pada',
+        'invoice_id',
         'user_id',
         'packet_id',
     ];

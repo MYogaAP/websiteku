@@ -42,6 +42,10 @@ class ComposerStaticInita6b321c6a5ab29663c29460d3520bfd5
         array (
             'voku\\' => 5,
         ),
+        's' => 
+        array (
+            'sirajcse\\UniqueIdGenerator\\' => 27,
+        ),
         'W' => 
         array (
             'Whoops\\' => 7,
@@ -178,6 +182,10 @@ class ComposerStaticInita6b321c6a5ab29663c29460d3520bfd5
         'voku\\' => 
         array (
             0 => __DIR__ . '/..' . '/voku/portable-ascii/src/voku',
+        ),
+        'sirajcse\\UniqueIdGenerator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sirajcse/laravel-unique-id-generator/src',
         ),
         'Whoops\\' => 
         array (
@@ -6330,6 +6338,9 @@ class ComposerStaticInita6b321c6a5ab29663c29460d3520bfd5
         'Whoops\\Util\\Misc' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/Misc.php',
         'Whoops\\Util\\SystemFacade' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
+        'sirajcse\\UniqueIdGenerator\\Traits\\UniqueIdFactory' => __DIR__ . '/..' . '/sirajcse/laravel-unique-id-generator/src/Traits/UniqueIdFactory.php',
+        'sirajcse\\UniqueIdGenerator\\UniqueIdGenerator' => __DIR__ . '/..' . '/sirajcse/laravel-unique-id-generator/src/UniqueIdGenerator.php',
+        'sirajcse\\UniqueIdGenerator\\UniqueIdGeneratorServiceProvider' => __DIR__ . '/..' . '/sirajcse/laravel-unique-id-generator/src/UniqueIdGeneratorServiceProvider.php',
         'voku\\helper\\ASCII' => __DIR__ . '/..' . '/voku/portable-ascii/src/voku/helper/ASCII.php',
     );
 
