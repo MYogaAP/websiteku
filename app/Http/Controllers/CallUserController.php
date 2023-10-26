@@ -147,6 +147,12 @@ class CallUserController extends Controller
             return View('profile');
         }
 
+        if($http_status == 404){
+            return View('profile')->with([
+                "MessageWarning" => [$response->message]
+            ]);
+        }
+
         return View('profile')->with([
             "MessageWarning" => $response->errors->password
         ]);
