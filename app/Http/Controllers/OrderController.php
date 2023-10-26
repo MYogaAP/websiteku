@@ -63,7 +63,7 @@ class OrderController extends Controller
         ];
 
         $messages = [
-            'dimensions' => 'Ukuran yang diupload tidak sesuai. Ukuran yang disarankan adalah '.$width.'px dan '.$height.'px.',
+            'dimensions' => 'Ukuran yang diupload tidak sesuai. Ukuran yang disarankan adalah '.$width.'px lebar dan '.$height.'px tinggi.',
         ];
 
         $validate = $request->validate($rules, $messages);
@@ -78,11 +78,12 @@ class OrderController extends Controller
         $validate = $request ->validate([
             'nama_instansi' => 'required|max:255',
             'email_instansi' => 'required|email',
-            'deskripsi_iklan' => 'min:0',
+            'deskripsi_iklan' => 'required',
             'mulai_iklan' => 'required|date',
             'akhir_iklan'  => 'required|date',
             'image'=>'required|image',
             'packet_id'=>'required',
+            'order_invoice'=>'required'
         ]);
 
         $fileName = '';
