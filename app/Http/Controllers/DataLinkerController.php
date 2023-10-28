@@ -153,6 +153,8 @@ class DataLinkerController extends Controller
         $response = json_decode($response);
         curl_close($curl);
 
+        $page = $response->meta->current_page;
+
         $request->session()->put('order_data', $response);
         $request->session()->put('order_page', $page);
 

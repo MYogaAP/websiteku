@@ -147,6 +147,6 @@ class CallOrderController extends Controller
     $response = json_decode($response);
     curl_close($curl);
 
-    return redirect()->route('riwayat');
+    return redirect()->route('SendToRiwayatUser');
   }
 }
