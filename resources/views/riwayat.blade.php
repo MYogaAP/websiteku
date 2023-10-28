@@ -84,6 +84,7 @@
                                     Ukuran Iklan<br>
                                     Tanggal Penerbitan<br>
                                     Deskripsi Iklan<br>
+                                    <a href="#" class="text-decoration-none">Detail Lebih Lanjut</a>
                                 </td>
                                 <td class="text-start">
                                     : {{$order->nama_instansi}}<br>
@@ -91,9 +92,90 @@
                                     : {{$order->mulai_iklan}} hingga {{$order->akhir_iklan}}<br>
                                     : {{$order->deskripsi_iklan}}<br>
                                 </td>
-                                <td class="text-primary">{{$order->status_iklan}}</td>
-                                <td></td>
-                                <td><a href="{{isset($order->order_invoice)? $order->order_invoice : "#"}}">Disini</a></td>
+                                <td>
+                                    @if($order->status_iklan == "Telah Diupload")
+                                        <p class="text-success">{{$order->status_iklan}}</p>
+                                    @elseif($order->status_iklan == "Sedang Diproses")
+                                        <p class="text-primary">{{$order->status_iklan}}</p>
+                                    @elseif($order->status_iklan == "Dalam Antrian")
+                                        <p class="text-primary">{{$order->status_iklan}}</p>
+                                    @elseif($order->status_iklan == "Dibatalkan")
+                                        <p class="text-danger">{{$order->status_iklan}}</p>
+                                    @else
+                                        <p class="text-secondary">{{$order->status_iklan}}</p>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="container" style="max-height: 21rem; width: 17rem; overflow: hidden"> 
+                                        <a href="{{ asset('storage/image/'.$order->foto_iklan) }}" target="_blank">
+                                            <img src="{{ asset('storage/image/'.$order->foto_iklan) }}" class="card-img-top" alt="..." style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    @if($order->status_pembayaran == "Belum Lunas")
+                                    @php
+                                        $curl = curl_init();
+                                        curl_setopt_array($curl, array(
+                                        CURLOPT_URL => 'https://api.xendit.co/v2/invoices/'.$order->invoice_id,
+                                        CURLOPT_RETURNTRANSFER => true,
+                                        CURLOPT_ENCODING => '',
+                                        CURLOPT_MAXREDIRS => 10,
+                                        CURLOPT_TIMEOUT => 0,
+                                        CURLOPT_FOLLOWLOCATION => true,
+                                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                        CURLOPT_CUSTOMREQUEST => 'GET',
+                                        CURLOPT_HTTPHEADER => array(
+                                            'Authorization: Basic '.config('xendit.key')
+                                        ),
+                                        ));
+                                        $invoice_data = curl_exec($curl);
+                                        $invoice_data = json_decode($invoice_data);
+                                        curl_close($curl);
+                                        
+                                        if(isset($invoice_data->status)){
+                                            if($invoice_data->status == "PAID" || $invoice_data->status == "SETTLED"){
+                                                $curl = curl_init();
+                                                curl_setopt_array($curl, array(
+                                                CURLOPT_URL => gethostname().'/websiteku/public/api/UpdateOrder/'.$order->order_id.'/2/Lunas',
+                                                CURLOPT_RETURNTRANSFER => true,
+                                                CURLOPT_ENCODING => '',
+                                                CURLOPT_MAXREDIRS => 10,
+                                                CURLOPT_TIMEOUT => 0,
+                                                CURLOPT_FOLLOWLOCATION => true,
+                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                                CURLOPT_CUSTOMREQUEST => 'PATCH',
+                                                CURLOPT_HTTPHEADER => array(
+                                                    'Accept: application/json',
+                                                    'Authorization: Bearer '.Cookie::get('auth')
+                                                ),
+                                                ));
+                                                $response = curl_exec($curl);
+                                                $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                                curl_close($curl);
+                                                
+                                                if($http_status == 401){
+                                                    setcookie("auth", "", time() - 3600, "/");
+                                                    header("Location: " . URL::to('/login'), true, 302);
+                                                    exit();
+                                                }
+                                                $order->status_pembayaran == "Lunas";
+                                            }
+                                        }
+                                    @endphp
+                                        @if($order->status_pembayaran == "Belum Lunas")
+                                            <p class="text-secondary">{{$order->status_pembayaran}}</p>
+                                            <a href="{{isset($order->order_invoice)? $order->order_invoice : "#"}}" class="text-decoration-none">Bayar Disini</a>
+                                        @endif
+                                    @endif
+
+                                    @if($order->status_pembayaran == "Lunas")
+                                        <p class="text-success">{{$order->status_pembayaran}}</p>
+                                        <a href="{{isset($order->order_invoice)? $order->order_invoice : "#"}}" class="text-decoration-none">Invoice Disini</a>
+                                    @elseif($order->status_pembayaran == "Dibatalkan")
+                                        <p class="text-danger">{{$order->status_pembayaran}}</p>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

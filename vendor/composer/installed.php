@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-YogaBranch',
         'version' => 'dev-YogaBranch',
-        'reference' => '0f3acc7a4df4abacdff9a60afcd452283131c383',
+        'reference' => 'd959b2951cd738044e19532c1003bf4a78810b1a',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -373,7 +373,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-YogaBranch',
             'version' => 'dev-YogaBranch',
-            'reference' => '0f3acc7a4df4abacdff9a60afcd452283131c383',
+            'reference' => 'd959b2951cd738044e19532c1003bf4a78810b1a',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -497,9 +497,9 @@
             'dev_requirement' => true,
         ),
         'monolog/monolog' => array(
-            'pretty_version' => '3.4.0',
-            'version' => '3.4.0.0',
-            'reference' => 'e2392369686d420ca32df3803de28b5d6f76867d',
+            'pretty_version' => '3.5.0',
+            'version' => '3.5.0.0',
+            'reference' => 'c915e2634718dbc8a4a15c61b0e62e7a44e14448',
             'type' => 'library',
             'install_path' => __DIR__ . '/../monolog/monolog',
             'aliases' => array(),
@@ -757,8 +757,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '3.0.0',
-                1 => '1.0|2.0|3.0',
+                0 => '1.0|2.0|3.0',
+                1 => '3.0.0',
             ),
         ),
         'psr/simple-cache' => array(

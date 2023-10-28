@@ -18,6 +18,7 @@ class OrdersListResource extends JsonResource
         $packetData = $packetData->packet_data;
         return [
             'order_id' => $this->order_id,
+            'nomor_order' => $this->nomor_order,
             'nama_instansi' => $this->nama_instansi,
             'deskripsi_iklan' => $this->deskripsi_iklan,
             'mulai_iklan' => $this->mulai_iklan,
