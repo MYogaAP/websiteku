@@ -39,7 +39,7 @@ class CallUserController extends Controller
             return view('login', ['message' => $response->message]);
         }
 
-        Cookie::queue('auth', $response->auth, 1440, null, null, false, true);
+        Cookie::queue('auth', $response->auth, 720, null, null, false, true);
 
         return view('landingPageLogin');
     }

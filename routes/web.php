@@ -85,5 +85,11 @@ Route::get('/UkuranHalamanSelanjutnya', [DataLinkerController::class, 'LoadNextP
 Route::get('/UkuranHalamanSebelumnya', [DataLinkerController::class, 'LoadPrevPacketData'])->name('UkuranHalamanSebelumnya');
 Route::post('/NewOrderCall', [CallOrderController::class, 'NewOrderAndInvoiceCall'])->name('NewOrderCall');
 
+//Riwayat
+Route::get('/SendToRiwayat', [DataLinkerController::class, 'SendToRiwayat'])->name('SendToRiwayatUser');
+Route::get('/OrderHalamanSelanjutnya', [DataLinkerController::class, 'LoadNextOrderData'])->name('UserOrderHalamanSelanjutnya');
+Route::get('/OrderHalamanSebelumnya', [DataLinkerController::class, 'LoadPrevOrderData'])->name('UserOrderHalamanSebelumnya');
+Route::get('/OrderHalaman/{page}', [DataLinkerController::class, 'LoadNumberOrderData'])->name('UserOrderHalamanNomor');
+
 //dashboard
 Route::get('/LihatPaket', [DashboardController::class, 'LihatPaket'])->name('LihatPaket');

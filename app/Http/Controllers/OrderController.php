@@ -18,6 +18,10 @@ class OrderController extends Controller
     function GetUserOrdersList() {
         $orders = OrderData::with('PacketData')
         ->where("user_id", Auth::user()->user_id)
+        ->orderBy("status_pembayaran", "asc")
+        ->orderBy("created_at", "desc")
+        ->orderBy("mulai_iklan", "desc")
+        ->orderBy("status_iklan", "desc")
         ->simplePaginate(5);
         return OrdersListResource::collection($orders);
     }

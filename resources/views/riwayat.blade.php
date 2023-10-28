@@ -32,34 +32,16 @@
 
     @if(!Cookie::has('auth'))
         <script>window.location="{{route('loginPage')}}";</script>
-    @else
-        @php
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-            CURLOPT_URL => gethostname().'/websiteku/public/api/UserOrdersList',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPHEADER => array(
-                'Accept: application/json',
-                'Authorization: Bearer '.Cookie::get('auth')
-            ),
-            ));
-            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-            $response = curl_exec($curl);
-            $response = json_decode($response);
-            
-            if($http_status == 401){
-                setcookie("auth", "", time() - 3600, "/");
-                header("Location: " . URL::to('/login'), true, 302);
-                exit();
-            }
-        @endphp
     @endif
+
+    @php
+        if(session("order_data")){
+            $order_list = session("order_data");
+        }else {
+            header("Location: " . route('landingPageLogin'), true, 302);
+            exit();
+        }
+    @endphp
 
     {{-- Content --}}
     <div class="container text-center mt-5 border rounded-4">
@@ -76,7 +58,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($response->data as $order)
+                        @if (!isset($order_list->data[0]))
+                            <tr>
+                                <td colspan="6" class="text-secondary">Anda belum melakukan order iklan</td>
+                            </tr>
+                        @endif
+                        @foreach ($order_list->data as $order)
                             <tr>
                                 <th scope="row">0</th>
                                 <td class="text-start">
@@ -105,7 +92,7 @@
                                         <p class="text-secondary">{{$order->status_iklan}}</p>
                                     @endif
                                 </td>
-                                <td>
+                                <td class="align-middle">
                                     <div class="container" style="max-height: 21rem; width: 17rem; overflow: hidden"> 
                                         <a href="{{ asset('storage/image/'.$order->foto_iklan) }}" target="_blank">
                                             <img src="{{ asset('storage/image/'.$order->foto_iklan) }}" class="card-img-top" alt="..." style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
@@ -150,28 +137,73 @@
                                                     'Authorization: Bearer '.Cookie::get('auth')
                                                 ),
                                                 ));
-                                                $response = curl_exec($curl);
+                                                $update = curl_exec($curl);
                                                 $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
                                                 curl_close($curl);
-                                                
+
                                                 if($http_status == 401){
                                                     setcookie("auth", "", time() - 3600, "/");
                                                     header("Location: " . URL::to('/login'), true, 302);
                                                     exit();
                                                 }
-                                                $order->status_pembayaran == "Lunas";
+                                                $order->status_pembayaran = "Lunas";
+                                            } elseif($invoice_data->status == "EXPIRED"){
+                                                $curl = curl_init();
+                                                curl_setopt_array($curl, array(
+                                                CURLOPT_URL => gethostname().'/websiteku/public/api/UpdateOrder/'.$order->order_id.'/2/Dibatalkan',
+                                                CURLOPT_RETURNTRANSFER => true,
+                                                CURLOPT_ENCODING => '',
+                                                CURLOPT_MAXREDIRS => 10,
+                                                CURLOPT_TIMEOUT => 0,
+                                                CURLOPT_FOLLOWLOCATION => true,
+                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                                CURLOPT_CUSTOMREQUEST => 'PATCH',
+                                                CURLOPT_HTTPHEADER => array(
+                                                    'Accept: application/json',
+                                                    'Authorization: Bearer '.Cookie::get('auth')
+                                                ),
+                                                ));
+                                                $update = curl_exec($curl);
+                                                curl_close($curl);
+
+                                                $curl = curl_init();
+                                                curl_setopt_array($curl, array(
+                                                CURLOPT_URL => gethostname().'/websiteku/public/api/UpdateOrder/'.$order->order_id.'/1/Dibatalkan',
+                                                CURLOPT_RETURNTRANSFER => true,
+                                                CURLOPT_ENCODING => '',
+                                                CURLOPT_MAXREDIRS => 10,
+                                                CURLOPT_TIMEOUT => 0,
+                                                CURLOPT_FOLLOWLOCATION => true,
+                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                                CURLOPT_CUSTOMREQUEST => 'PATCH',
+                                                CURLOPT_HTTPHEADER => array(
+                                                    'Accept: application/json',
+                                                    'Authorization: Bearer '.Cookie::get('auth')
+                                                ),
+                                                ));
+                                                $update = curl_exec($curl);
+                                                $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                                curl_close($curl);
+
+                                                if($http_status == 401){
+                                                    setcookie("auth", "", time() - 3600, "/");
+                                                    header("Location: " . URL::to('/login'), true, 302);
+                                                    exit();
+                                                }
+                                                $order->status_pembayaran = "Dibatalkan";
+                                                $order->status_iklan = "Dibatalkan";
                                             }
                                         }
                                     @endphp
                                         @if($order->status_pembayaran == "Belum Lunas")
                                             <p class="text-secondary">{{$order->status_pembayaran}}</p>
-                                            <a href="{{isset($order->order_invoice)? $order->order_invoice : "#"}}" class="text-decoration-none">Bayar Disini</a>
+                                            <a href="{{isset($order->invoice_id)? $xendit_link.$order->invoice_id : "#"}}" class="text-decoration-none" target="_blank">Bayar Disini</a>
                                         @endif
                                     @endif
 
                                     @if($order->status_pembayaran == "Lunas")
                                         <p class="text-success">{{$order->status_pembayaran}}</p>
-                                        <a href="{{isset($order->order_invoice)? $order->order_invoice : "#"}}" class="text-decoration-none">Invoice Disini</a>
+                                        <a href="{{isset($order->invoice_id)? $xendit_link.$order->invoice_id : "#"}}" class="text-decoration-none" target="_blank">Invoice Disini</a>
                                     @elseif($order->status_pembayaran == "Dibatalkan")
                                         <p class="text-danger">{{$order->status_pembayaran}}</p>
                                     @endif
@@ -180,6 +212,44 @@
                         @endforeach
                     </tbody>
                 </table>
+
+                {{-- PAGINATION --}}
+                @if(isset($order_list->links->next, $order_list->links->prev))
+                    <ul class="pagination justify-content-end">
+                        @if (isset($order_list->links->next))
+                            <li class="page-item">
+                                <a class="page-link" href="{{ route('UserOrderHalamanSebelumnya')}}">Previous</a>
+                            </li>
+                        @else
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#">Previous</a>
+                            </li>
+                        @endif
+                        {{-- Numbers --}}
+                        @for ($i = $order_list->meta->current_page - 1; $i >= $order_list->meta->current_page - 2 && $i >= $order_list->meta->from; $i--)
+                            <li class="page-item">
+                                <a class="page-link" href="{{route('UserOrderHalamanNomor', ['page' => $i])}}">{{$i}}</a>
+                            </li>
+                        @endfor
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">{{$order_list->meta->current_page}}</span>
+                        </li>
+                        @for ($i = $order_list->meta->current_page + 1; $i <= $order_list->meta->current_page + 2 && $i <= $order_list->meta->from; $i++)
+                            <li class="page-item">
+                                <a class="page-link" href="{{route('UserOrderHalamanNomor', ['page' => $i])}}">{{$i}}</a>
+                            </li>
+                        @endfor
+                        @if (isset($order_list->links->next))
+                            <li class="page-item">
+                                <a class="page-link" title="" href="{{ route('UserOrderHalamanSelanjutnya')}}">Next</a>
+                            </li>
+                        @else
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        @endif
+                    </ul>
+                    @endif
             </div>
         </div>
     </div>

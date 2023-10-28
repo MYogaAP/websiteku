@@ -51,6 +51,7 @@
             ),
             ));
             $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            curl_close($curl);
             
             if($http_status == 401){
                 setcookie("auth", "", time() - 3600, "/");
@@ -58,7 +59,7 @@
                 exit();
             }
             
-            $response = session('response');
+            $response = session('ukuran_data');
             if(!isset($response)){
                 header("Location: " . route("landingPageLogin"), true, 302);
                 exit();

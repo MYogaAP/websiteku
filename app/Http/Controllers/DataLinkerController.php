@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 
 class DataLinkerController extends Controller
 {
+    // Pemesanan
     function SendToDetailUkuran(Request $request) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -40,8 +41,8 @@ class DataLinkerController extends Controller
         ];
 
         $request->session()->put('form_data', $data);
-        $request->session()->put('response', $response);
-        $request->session()->put('ukuran_hal', 1);
+        $request->session()->put('ukuran_data', $response);
+        $request->session()->put('ukuran_page', 1);
 
         return redirect()->route('detailukuran');
     }
@@ -78,7 +79,7 @@ class DataLinkerController extends Controller
     }
 
     function LoadNextPacketData(Request $request) {
-        $page = session('ukuran_hal') + 1;
+        $page = session('ukuran_page') + 1;
         $curl = curl_init();
         curl_setopt_array($curl, array(
         CURLOPT_URL => gethostname().'/websiteku/public/api/PacketList?page='.$page,
@@ -98,14 +99,14 @@ class DataLinkerController extends Controller
         $response = json_decode($response);
         curl_close($curl);
 
-        $request->session()->put('response', $response);
-        $request->session()->put('ukuran_hal', $page);
+        $request->session()->put('ukuran_data', $response);
+        $request->session()->put('ukuran_page', $page);
 
         return redirect()->route('detailukuran');
     }
 
     function LoadPrevPacketData(Request $request) {
-        $page = session('ukuran_hal') - 1;
+        $page = session('ukuran_page') - 1;
         $curl = curl_init();
         curl_setopt_array($curl, array(
         CURLOPT_URL => gethostname().'/websiteku/public/api/PacketList?page='.$page,
@@ -125,9 +126,116 @@ class DataLinkerController extends Controller
         $response = json_decode($response);
         curl_close($curl);
 
-        $request->session()->put('response', $response);
-        $request->session()->put('ukuran_hal', $page);
+        $request->session()->put('ukuran_data', $response);
+        $request->session()->put('ukuran_page', $page);
 
         return redirect()->route('detailukuran');
+    }
+
+    // Riwayat
+    function SendToRiwayat(Request $request) {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => gethostname().'/websiteku/public/api/UserOrdersList',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'Accept: application/json',
+            'Authorization: Bearer '.Cookie::get('auth'),
+        ),
+        ));
+        $response = curl_exec($curl);
+        $response = json_decode($response);
+        curl_close($curl);
+
+        $request->session()->put('order_data', $response);
+        $request->session()->put('order_page', $page);
+
+        return redirect()->route('riwayat');
+    }
+
+    function LoadNextUserOrderData(Request $request) {
+        $page = session('order_page') + 1;
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => gethostname().'/websiteku/public/api/UserOrdersList?page='.$page,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'Accept: application/json',
+            'Authorization: Bearer '.Cookie::get('auth'),
+        ),
+        ));
+        $response = curl_exec($curl);
+        $response = json_decode($response);
+        curl_close($curl);
+
+        $request->session()->put('order_data', $response);
+        $request->session()->put('order_page', $page);
+
+        return redirect()->route('riwayat');
+    }
+
+    function LoadPrevUserOrderData(Request $request) {
+        $page = session('order_page') - 1;
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => gethostname().'/websiteku/public/api/UserOrdersList?page='.$page,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'Accept: application/json',
+            'Authorization: Bearer '.Cookie::get('auth'),
+        ),
+        ));
+        $response = curl_exec($curl);
+        $response = json_decode($response);
+        curl_close($curl);
+
+        $request->session()->put('order_data', $response);
+        $request->session()->put('order_page', $page);
+
+        return redirect()->route('riwayat');
+    }
+
+    function LoadNumberOrderData(Request $request, $page) {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => gethostname().'/websiteku/public/api/UserOrdersList?page='.$page,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'Accept: application/json',
+            'Authorization: Bearer '.Cookie::get('auth'),
+        ),
+        ));
+        $response = curl_exec($curl);
+        $response = json_decode($response);
+        curl_close($curl);
+
+        $request->session()->put('order_data', $response);
+        $request->session()->put('order_page', $page);
+
+        return redirect()->route('riwayat');
     }
 }

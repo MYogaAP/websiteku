@@ -115,7 +115,6 @@ class CallOrderController extends Controller
     $createInvoice = curl_exec($curl);
     $createInvoice = json_decode($createInvoice);
     curl_close($curl);
-    dd($createInvoice);
 
     $curl = curl_init();
     curl_setopt_array($curl, array(
@@ -136,7 +135,7 @@ class CallOrderController extends Controller
         'mulai_iklan' => $mulai,
         'akhir_iklan' => $akhir,
         'packet_id' => $packet_id,
-        'lama_iklan' => $days,
+        'lama_hari' => $days,
         'invoice_id' => $createInvoice->id,
     ),
       CURLOPT_HTTPHEADER => array(
