@@ -37,6 +37,7 @@
     @php
         if(session("order_data")){
             $order_list = session("order_data");
+            $xendit_link = "https://checkout.xendit.co/v2/";
         }else {
             header("Location: " . route('landingPageLogin'), true, 302);
             exit();
@@ -197,7 +198,10 @@
                                     @endphp
                                         @if($order->status_pembayaran == "Belum Lunas")
                                             <p class="text-secondary">{{$order->status_pembayaran}}</p>
-                                            <a href="{{isset($order->invoice_id)? $xendit_link.$order->invoice_id : "#"}}" class="text-decoration-none" target="_blank">Bayar Disini</a>
+                                            <p><a href="{{isset($order->invoice_id)? $xendit_link.$order->invoice_id : "#"}}" class="text-decoration-none btn btn-sm w-100 btn-outline-primary rounded" target="_blank">Bayar Disini</a></p>
+                                            <p><form action="" method="DELETE">
+                                                <input type="submit" class="btn btn-outline-danger rounded btn-sm w-100" value="Batalkan">
+                                            </form></p>
                                         @endif
                                     @endif
 

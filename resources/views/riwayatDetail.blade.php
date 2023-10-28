@@ -32,21 +32,30 @@
     <x-nav-bar-back />
 
     {{-- Content --}}
-    <div class="container text-center" style="width: 55rem">
-        <div class="row mt-4">
+    <div class="container text-center mt-5 border rounded-4">
+        <div class="row mt-4 justify-content-md-start text-start">
+            <p class="fw-bold col-sm-7"></p>
+            <p class="fw-bold col-sm-2">No. Order</p>
+            <p class="fw-bold col-sm-auto">: </p>
+        </div>
+        <div class="row justify-content-md-start text-start">
+            <p class="fw-bold col-sm-7"></p>
+            <p class="fw-bold col-sm-2">No. Seri</p>
+            <p class="fw-bold col-sm-auto">: </p>
+        </div>
+        <div class="row justify-content-md-start text-start">
+            <p class="fw-bold col-sm-7"></p>
+            <p class="fw-bold col-sm-2">No. Invoice</p>
+            <p class="fw-bold col-sm-auto">: </p>
+        </div>
+        <div class="row mt-2">
             <div class="col">
                 <h3 class="fw-bold">Detail Order Iklan</h3>
             </div>
         </div>
         <br>
-        <div class="text-end" style="position: absolute; top: 150px; right: 300px; padding: 30px;">
-            <p class="fw-bold">No. Order =</p>
-            <p class="fw-bold">No. Seri =</p>
-            <p class="fw-bold">No. Invoice =</p>
-        </div>
         <br>
-        <br>
-        <div class="text-start" style="position: absolute; top: 300px; Left: 200px; padding: 30px;">
+        <div class="text-start">
             <p class="fw-bold">Nama Pemasang <span style="padding-left: 73px;">=</span></p>
             <p class="fw-bold">Ukuran Iklan <span style="padding-left: 111px;">=</span></p>
             <p class="fw-bold">Tanggal Penerbitan <span style="padding-left: 55px;">=</span></p>

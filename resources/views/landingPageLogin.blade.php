@@ -27,7 +27,11 @@
 </head>
 
 <body>
-    @if(Cookie::has('auth'))
+    @if (!Cookie::has('auth'))
+        <script>
+            window.location = "{{ route('loginPage') }}";
+        </script>
+    @else
         @php
             $curl = curl_init();
             curl_setopt_array($curl, array(
