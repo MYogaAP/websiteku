@@ -78,7 +78,7 @@
             
             if($http_status == 401){
                 setcookie("auth", "", time() - 3600, "/");
-                header("Location: " . URL::to('/login'), true, 302);
+                header("Location: " . route('loginPage'), true, 302);
                 exit();
             }
         @endphp

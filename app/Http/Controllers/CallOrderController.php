@@ -9,6 +9,60 @@ use Illuminate\Support\Facades\Cookie;
 
 class CallOrderController extends Controller
 {
+  function DeleteOrderCall(Request $request, $order) {
+    // Xendit
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://api.xendit.co/invoices/'.$request->xendit_id.'/expire!',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_HTTPHEADER => array(
+        'Authorization: Basic '.config('xendit.key')
+      ),
+    ));
+    $response = curl_exec($curl);
+    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE); 
+    curl_close($curl);
+
+    // DB
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => gethostname().'/websiteku/public/api/CancelOrder/'.$order,
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'DELETE',
+      CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Authorization: Bearer '.Cookie::get('auth')
+      ),
+    ));
+    $cancel = curl_exec($curl);
+    $cancel = json_decode($cancel);
+    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+
+    if($http_status == 401){
+      setcookie("auth", "", time() - 3600, "/");
+      header("Location: " . route('loginPage'), true, 302);
+      exit();
+    }
+
+    $request->session()->put('cancel', $cancel);
+
+    dd($request->session()->get('order_page', 'default'));
+
+    return redirect()->route('UserOrderHalamanNomor', ['page' => $request->session()->get('order_page', 'default')]); 
+  }
+
   function NewOrderAndInvoiceCall(Request $request) {
     $form_data = $request->session()->get('form_data', 'default');
     $packet_data = $request->session()->get('packet_data', 'default');
@@ -49,7 +103,7 @@ class CallOrderController extends Controller
     
     if($http_status == 401){
         setcookie("auth", "", time() - 3600, "/");
-        header("Location: " . URL::to('/login'), true, 302);
+        header("Location: " . route('loginPage'), true, 302);
         exit();
     }
 

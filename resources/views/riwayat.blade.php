@@ -38,6 +38,7 @@
         if(session("order_data")){
             $order_list = session("order_data");
             $xendit_link = "https://checkout.xendit.co/v2/";
+            $canceling = session('cancel');
         }else {
             header("Location: " . route('landingPageLogin'), true, 302);
             exit();
@@ -46,6 +47,13 @@
 
     {{-- Content --}}
     <div class="container text-center mt-5 border rounded-4">
+        @if(isset($canceling->message))
+            <div class="d-flex justify-content-center">
+                <div class="mb-1 mt-3 alert alert-success w-50">
+                    {{ $canceling->message }}
+                </div>
+            </div>
+        @endif
         <div class="row align-items-start">
             <div class="col">
                 <table class="table table-striped">
@@ -65,6 +73,86 @@
                             </tr>
                         @endif
                         @foreach ($order_list->data as $order)
+                            @if($order->status_pembayaran == "Belum Lunas")
+                                @php
+                                    $curl = curl_init();
+                                    curl_setopt_array($curl, array(
+                                    CURLOPT_URL => 'https://api.xendit.co/v2/invoices/'.$order->invoice_id,
+                                    CURLOPT_RETURNTRANSFER => true,
+                                    CURLOPT_ENCODING => '',
+                                    CURLOPT_MAXREDIRS => 10,
+                                    CURLOPT_TIMEOUT => 0,
+                                    CURLOPT_FOLLOWLOCATION => true,
+                                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                    CURLOPT_CUSTOMREQUEST => 'GET',
+                                    CURLOPT_HTTPHEADER => array(
+                                        'Authorization: Basic '.config('xendit.key')
+                                    ),
+                                    ));
+                                    $invoice_data = curl_exec($curl);
+                                    $invoice_data = json_decode($invoice_data);
+                                    curl_close($curl);
+                                    
+                                    if(isset($invoice_data->status)){
+                                        if($invoice_data->status == "PAID" || $invoice_data->status == "SETTLED"){
+                                            $curl = curl_init();
+                                            curl_setopt_array($curl, array(
+                                            CURLOPT_URL => gethostname().'/websiteku/public/api/UpdateOrder/'.$order->order_id.'/2/Lunas',
+                                            CURLOPT_RETURNTRANSFER => true,
+                                            CURLOPT_ENCODING => '',
+                                            CURLOPT_MAXREDIRS => 10,
+                                            CURLOPT_TIMEOUT => 0,
+                                            CURLOPT_FOLLOWLOCATION => true,
+                                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                            CURLOPT_CUSTOMREQUEST => 'PATCH',
+                                            CURLOPT_HTTPHEADER => array(
+                                                'Accept: application/json',
+                                                'Authorization: Bearer '.Cookie::get('auth')
+                                            ),
+                                            ));
+                                            $update = curl_exec($curl);
+                                            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                            curl_close($curl);
+
+                                            if($http_status == 401){
+                                                setcookie("auth", "", time() - 3600, "/");
+                                                header("Location: " . route('loginPage'), true, 302);
+                                                exit();
+                                            }
+                                            $order->status_pembayaran = "Lunas";
+                                        } elseif($invoice_data->status == "EXPIRED"){
+                                            $curl = curl_init();
+                                            curl_setopt_array($curl, array(
+                                            CURLOPT_URL => gethostname().'/websiteku/public/api/CancelOrder/'.$order->order_id,
+                                            CURLOPT_RETURNTRANSFER => true,
+                                            CURLOPT_ENCODING => '',
+                                            CURLOPT_MAXREDIRS => 10,
+                                            CURLOPT_TIMEOUT => 0,
+                                            CURLOPT_FOLLOWLOCATION => true,
+                                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                            CURLOPT_CUSTOMREQUEST => 'DELETE',
+                                            CURLOPT_HTTPHEADER => array(
+                                                'Accept: application/json',
+                                                'Authorization: Bearer '.Cookie::get('auth')
+                                            ),
+                                            ));
+                                            $cancel = curl_exec($curl);
+                                            $cancel = json_decode($cancel);
+                                            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                            curl_close($curl);
+
+                                            if($http_status == 401){
+                                                setcookie("auth", "", time() - 3600, "/");
+                                                header("Location: " . route('loginPage'), true, 302);
+                                                exit();
+                                            }
+                                            $order->status_pembayaran = "Dibatalkan";
+                                            $order->status_iklan = "Dibatalkan";
+                                            $order->foto_iklan = "none";
+                                        }
+                                    }
+                                @endphp
+                            @endif
                             <tr>
                                 <th scope="row">0</th>
                                 <td class="text-start">
@@ -95,114 +183,27 @@
                                 </td>
                                 <td class="align-middle">
                                     <div class="container" style="max-height: 21rem; width: 17rem; overflow: hidden"> 
-                                        <a href="{{ asset('storage/image/'.$order->foto_iklan) }}" target="_blank">
-                                            <img src="{{ asset('storage/image/'.$order->foto_iklan) }}" class="card-img-top" alt="..." style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
-                                        </a>
+                                        @if($order->foto_iklan == "none")
+                                            <a href="{{ asset('images/logo.jpeg') }}" target="_blank">
+                                                <img src="{{ asset('images/logo.jpeg') }}" class="card-img-top" alt="" style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
+                                            </a>
+                                        @else
+                                            <a href="{{ asset('storage/image/'.$order->foto_iklan) }}" target="_blank">
+                                                <img src="{{ asset('storage/image/'.$order->foto_iklan) }}" class="card-img-top" alt="" style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
+                                            </a>
+                                        @endif
                                     </div>
                                 </td>
                                 <td>
                                     @if($order->status_pembayaran == "Belum Lunas")
-                                    @php
-                                        $curl = curl_init();
-                                        curl_setopt_array($curl, array(
-                                        CURLOPT_URL => 'https://api.xendit.co/v2/invoices/'.$order->invoice_id,
-                                        CURLOPT_RETURNTRANSFER => true,
-                                        CURLOPT_ENCODING => '',
-                                        CURLOPT_MAXREDIRS => 10,
-                                        CURLOPT_TIMEOUT => 0,
-                                        CURLOPT_FOLLOWLOCATION => true,
-                                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                        CURLOPT_CUSTOMREQUEST => 'GET',
-                                        CURLOPT_HTTPHEADER => array(
-                                            'Authorization: Basic '.config('xendit.key')
-                                        ),
-                                        ));
-                                        $invoice_data = curl_exec($curl);
-                                        $invoice_data = json_decode($invoice_data);
-                                        curl_close($curl);
-                                        
-                                        if(isset($invoice_data->status)){
-                                            if($invoice_data->status == "PAID" || $invoice_data->status == "SETTLED"){
-                                                $curl = curl_init();
-                                                curl_setopt_array($curl, array(
-                                                CURLOPT_URL => gethostname().'/websiteku/public/api/UpdateOrder/'.$order->order_id.'/2/Lunas',
-                                                CURLOPT_RETURNTRANSFER => true,
-                                                CURLOPT_ENCODING => '',
-                                                CURLOPT_MAXREDIRS => 10,
-                                                CURLOPT_TIMEOUT => 0,
-                                                CURLOPT_FOLLOWLOCATION => true,
-                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                                CURLOPT_CUSTOMREQUEST => 'PATCH',
-                                                CURLOPT_HTTPHEADER => array(
-                                                    'Accept: application/json',
-                                                    'Authorization: Bearer '.Cookie::get('auth')
-                                                ),
-                                                ));
-                                                $update = curl_exec($curl);
-                                                $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                                                curl_close($curl);
-
-                                                if($http_status == 401){
-                                                    setcookie("auth", "", time() - 3600, "/");
-                                                    header("Location: " . URL::to('/login'), true, 302);
-                                                    exit();
-                                                }
-                                                $order->status_pembayaran = "Lunas";
-                                            } elseif($invoice_data->status == "EXPIRED"){
-                                                $curl = curl_init();
-                                                curl_setopt_array($curl, array(
-                                                CURLOPT_URL => gethostname().'/websiteku/public/api/UpdateOrder/'.$order->order_id.'/2/Dibatalkan',
-                                                CURLOPT_RETURNTRANSFER => true,
-                                                CURLOPT_ENCODING => '',
-                                                CURLOPT_MAXREDIRS => 10,
-                                                CURLOPT_TIMEOUT => 0,
-                                                CURLOPT_FOLLOWLOCATION => true,
-                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                                CURLOPT_CUSTOMREQUEST => 'PATCH',
-                                                CURLOPT_HTTPHEADER => array(
-                                                    'Accept: application/json',
-                                                    'Authorization: Bearer '.Cookie::get('auth')
-                                                ),
-                                                ));
-                                                $update = curl_exec($curl);
-                                                curl_close($curl);
-
-                                                $curl = curl_init();
-                                                curl_setopt_array($curl, array(
-                                                CURLOPT_URL => gethostname().'/websiteku/public/api/UpdateOrder/'.$order->order_id.'/1/Dibatalkan',
-                                                CURLOPT_RETURNTRANSFER => true,
-                                                CURLOPT_ENCODING => '',
-                                                CURLOPT_MAXREDIRS => 10,
-                                                CURLOPT_TIMEOUT => 0,
-                                                CURLOPT_FOLLOWLOCATION => true,
-                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                                CURLOPT_CUSTOMREQUEST => 'PATCH',
-                                                CURLOPT_HTTPHEADER => array(
-                                                    'Accept: application/json',
-                                                    'Authorization: Bearer '.Cookie::get('auth')
-                                                ),
-                                                ));
-                                                $update = curl_exec($curl);
-                                                $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                                                curl_close($curl);
-
-                                                if($http_status == 401){
-                                                    setcookie("auth", "", time() - 3600, "/");
-                                                    header("Location: " . URL::to('/login'), true, 302);
-                                                    exit();
-                                                }
-                                                $order->status_pembayaran = "Dibatalkan";
-                                                $order->status_iklan = "Dibatalkan";
-                                            }
-                                        }
-                                    @endphp
-                                        @if($order->status_pembayaran == "Belum Lunas")
-                                            <p class="text-secondary">{{$order->status_pembayaran}}</p>
-                                            <p><a href="{{isset($order->invoice_id)? $xendit_link.$order->invoice_id : "#"}}" class="text-decoration-none btn btn-sm w-100 btn-outline-primary rounded" target="_blank">Bayar Disini</a></p>
-                                            <p><form action="" method="DELETE">
-                                                <input type="submit" class="btn btn-outline-danger rounded btn-sm w-100" value="Batalkan">
-                                            </form></p>
-                                        @endif
+                                        <p class="text-secondary">{{$order->status_pembayaran}}</p>
+                                        <p><a href="{{isset($order->invoice_id)? $xendit_link.$order->invoice_id : "#"}}" class="text-decoration-none btn btn-sm w-100 btn-outline-primary rounded" target="_blank">Bayar Disini</a></p>
+                                        <p><form action="{{route('DeleteOrderCall', ['order' => $order->order_id])}}" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <input type="hidden" name="xendit_id" value="{{$order->invoice_id}}">
+                                            <input type="submit" class="btn btn-outline-danger rounded btn-sm w-100" value="Batalkan">
+                                        </form></p>
                                     @endif
 
                                     @if($order->status_pembayaran == "Lunas")

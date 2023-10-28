@@ -149,10 +149,16 @@ class DataLinkerController extends Controller
             'Authorization: Bearer '.Cookie::get('auth'),
         ),
         ));
+        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $response = curl_exec($curl);
         $response = json_decode($response);
         curl_close($curl);
 
+        if($http_status == 401){
+            setcookie("auth", "", time() - 3600, "/");
+            header("Location: " . route("loginPage"), true, 302);
+            exit();
+        }
         $page = $response->meta->current_page;
 
         $request->session()->put('order_data', $response);
