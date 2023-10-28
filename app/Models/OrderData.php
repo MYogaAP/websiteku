@@ -17,6 +17,7 @@ class OrderData extends Model
         'nama_instansi',
         'email_instansi',
         'deskripsi_iklan',
+        'nomor_instansi',
         'mulai_iklan',
         'akhir_iklan',
         'lama_hari',

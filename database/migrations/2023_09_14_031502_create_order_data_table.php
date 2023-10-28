@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('lama_hari');
             $table->string('foto_iklan');
             $table->enum('status_iklan', ['Menunggu Konfirmasi', 'Dalam Antrian', 'Sedang Diproses', 'Telah Diupload', 'Dibatalkan'])->default('Menunggu Konfirmasi');
-            $table->enum('status_pembayaran', ['Belum Bayar', 'Telah Dibayar', 'Dibatalkan'])->default('Belum Bayar');
+            $table->enum('status_pembayaran', ['Belum Lunas', 'Lunas', 'Dibatalkan'])->default('Belum Lunas');
             $table->string('nomor_invoice', 255)->nullable();
             $table->string('invoice_id', 255)->nullable();
             

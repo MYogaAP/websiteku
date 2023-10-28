@@ -17,7 +17,7 @@ class OrderDetailResource extends JsonResource
         $packetData = json_decode(json_encode(parent::toArray($request)));
         $packetData = $packetData->packet_data;
         return [
-            'order_id' => $this->order_id,
+            'nomor_order' => $this->nomor_order,
             'nama_instansi' => $this->nama_instansi,
             'email_instansi' => $this->email_instansi,
             'deskripsi_iklan' => $this->deskripsi_iklan,
@@ -26,10 +26,12 @@ class OrderDetailResource extends JsonResource
             'lama_hari' => $this->lama_hari,
             'foto_iklan' => $this->foto_iklan,
             'status_iklan' => $this->status_iklan,
-            'order_invoice' => $this->order_invoice,
+            'nomor_invoice' => $this->nomor_invoice,
+            'invoice_id' => $this->invoice_id,
             'status_pembayaran' => $this->status_pembayaran,
-            'dibayar_pada' => $this->dibayar_pada,
             'nama_paket' => $packetData->nama_paket,
+            'tinggi' => $packetData->tinggi,
+            'kolom' => $packetData->kolom,
             'harga_paket' => $packetData->harga_paket,
         ];
     }

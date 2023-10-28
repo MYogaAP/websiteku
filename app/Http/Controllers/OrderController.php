@@ -16,7 +16,9 @@ use Illuminate\Validation\Rules\Dimensions;
 class OrderController extends Controller
 {
     function GetUserOrdersList() {
-        $orders = OrderData::where("user_id", Auth::user()->user_id)->simplePaginate(10);
+        $orders = OrderData::with('PacketData')
+        ->where("user_id", Auth::user()->user_id)
+        ->simplePaginate(5);
         return OrdersListResource::collection($orders);
     }
 
@@ -79,17 +81,17 @@ class OrderController extends Controller
 
     function StoreOrder(Request $request) {
         $validate = $request ->validate([
-            'nomor_order'=>'required',
+            // 'nomor_order'=>'required',
             'nama_instansi' => 'required|max:255',
             'email_instansi' => 'required|email',
-            'nomor_instansi' => 'required',
+            'nomor_instansi' => 'required|numeric',
             'deskripsi_iklan' => 'required',
             'mulai_iklan' => 'required|date',
             'akhir_iklan' => 'required|date',
-            "lama_iklan" => 'required',
+            "lama_hari" => 'required',
             'image'=>'required|image',
             'packet_id'=>'required',
-            'nomor_invoice'=>'required',
+            // 'nomor_invoice'=>'required',
             'invoice_id'=>'required',
         ]);
 
@@ -106,6 +108,7 @@ class OrderController extends Controller
 
         $request['foto_iklan'] = $fullName;
         $request['user_id'] = Auth::user()->user_id;
+        $request['nomor_instansi'] = $request->nomor_instansi;
         $order_data = OrderData::create($request->all());
 
         return response()->json([

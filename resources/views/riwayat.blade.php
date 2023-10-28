@@ -68,24 +68,31 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Nama Instansi</th>
-                            <th scope="col">Mulai</th>
-                            <th scope="col">Akhir</th>
-                            <th scope="col">Status Pembayaran</th>
+                            <th scope="col">No Order</th>
+                            <th scope="col" colspan="2">Detail Iklan</th>
                             <th scope="col">Status Iklan</th>
+                            <th scope="col">Foto Iklan</th>
                             <th scope="col">Invoice</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($response->data as $order)
                             <tr>
-                                <th scope="row">{{$order->order_id}}</th>
-                                <td>{{$order->nama_instansi}}</td>
-                                <td>{{$order->mulai_iklan}}</td>
-                                <td>{{$order->akhir_iklan}}</td>
-                                <td class="text-primary">{{$order->status_pembayaran}}</td>
+                                <th scope="row">0</th>
+                                <td class="text-start">
+                                    Nama Instansi<br>
+                                    Ukuran Iklan<br>
+                                    Tanggal Penerbitan<br>
+                                    Deskripsi Iklan<br>
+                                </td>
+                                <td class="text-start">
+                                    : {{$order->nama_instansi}}<br>
+                                    : {{$order->tinggi}} x {{$order->kolom}} mmk<br>
+                                    : {{$order->mulai_iklan}} hingga {{$order->akhir_iklan}}<br>
+                                    : {{$order->deskripsi_iklan}}<br>
+                                </td>
                                 <td class="text-primary">{{$order->status_iklan}}</td>
+                                <td></td>
                                 <td><a href="{{isset($order->order_invoice)? $order->order_invoice : "#"}}">Disini</a></td>
                             </tr>
                         @endforeach
