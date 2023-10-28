@@ -67,6 +67,10 @@ Route::get('/agentData', function () {
     return view('agentData');
 })->name('agentData');
 
+Route::get('/riwayatDetail', function () {
+    return view('riwayatDetail');
+})->name('riwayatDetail');
+
 // User Data
 Route::post('/LoginCall', [CallUserController::class, 'LoginCall'])->name('LoginCall');
 Route::post('/RegisterCall', [CallUserController::class, 'RegisterCall'])->name('RegisterCall');
