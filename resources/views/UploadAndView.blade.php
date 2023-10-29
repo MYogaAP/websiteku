@@ -52,8 +52,9 @@
                 'Authorization: Bearer '.Cookie::get('auth')
             ),
             ));
+            $response = curl_exec($curl);
             $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-            $auth = Cookie::get('auth');
+            curl_close($curl);
             
             if($http_status == 401){
                 setcookie("auth", "", time() - 3600, "/");

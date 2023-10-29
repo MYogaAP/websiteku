@@ -50,6 +50,7 @@
                 'Authorization: Bearer '.Cookie::get('auth')
             ),
             ));
+            $response = curl_exec($curl);
             $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             curl_close($curl);
             
@@ -59,8 +60,8 @@
                 exit();
             }
             
-            $response = session('ukuran_data');
-            if(!isset($response)){
+            $ukuran = session('ukuran_data');
+            if(empty($ukuran)){
                 header("Location: " . route("landingPageLogin"), true, 302);
                 exit();
             }
@@ -77,7 +78,7 @@
         <form action="{{ route('SimpanUkuran') }}" method="POST">
             @csrf
             <div class="row mt-3 align-items-center">
-                @if(isset($response->links->prev))
+                @if(isset($ukuran->links->prev))
                     <div class="col-1">
                         <a href="{{ route('UkuranHalamanSebelumnya') }}" class="link-primary" style="width:60px; height:60px; font-size:35px;"><i class="fa-solid fa-chevron-left"></i></a>
                     </div>
@@ -86,7 +87,7 @@
                         <a href="#" class="link-secondary" style="width:60px; height:60px; font-size:35px; pointer-events: none;"><i class="fa-solid fa-chevron-left"></i></a>
                     </div>
                 @endif
-                @foreach ($response->data as $packet)
+                @foreach ($ukuran->data as $packet)
                     <div class="col">
                         <div class="card mx-auto shadow-sm" style="width: 17rem;">
                             <div class="container" style="width: 17rem; height: 21rem; overflow: hidden">   
@@ -102,7 +103,7 @@
                         </div>
                     </div>
                 @endforeach
-                @if(isset($response->links->next))
+                @if(isset($ukuran->links->next))
                     <div class="col-1">
                         <a href="{{ route('UkuranHalamanSelanjutnya') }}" class="link-primary" style="width:60px; height:60px; font-size:35px;"><i class="fa-solid fa-chevron-right"></i></a>
                     </div>

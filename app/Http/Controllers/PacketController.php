@@ -18,7 +18,7 @@ class PacketController extends Controller
     }
 
     function AgentPacketList() {
-        $packets = PacketData::simplePaginate(5);
+        $packets = PacketData::all();
         return response()->json(['data' => $packets]);
     }
 
@@ -100,13 +100,16 @@ class PacketController extends Controller
             $affected = PacketData::where('packet_id', $packet_id)
             ->update([
                 'nama_paket' => Str::random(30),
+                'format_warna' => 'bw',
+                'tinggi' => 0,
+                'kolom' => 0,
                 'hidden' => 'yes',
             ]);
             $affected = PacketData::where('packet_id', $packet_id)
             ->delete();
 
             return response()->json([
-                'message' => 'Packet has been succesfully deleted.',
+                'message' => 'Paket has been succesfully deleted.',
             ]);
         }
     }

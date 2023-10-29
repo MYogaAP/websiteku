@@ -47,7 +47,10 @@
                 'Authorization: Bearer '.Cookie::get('auth')
             ),
             ));
+            $user_data = curl_exec($curl);
+            $user_data = json_decode($user_data);
             $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            curl_close($curl);
             
             if($http_status == 401){
                 setcookie("auth", "", time() - 3600, "/");
@@ -55,7 +58,11 @@
                 exit();
             }
         @endphp
-        <script>window.location="{{route('landingPageLogin')}}";</script>
+        @if ($user_data->role == "costumer")
+            <script>window.location="{{route('landingPageLogin')}}";</script>
+        @else
+            <script>window.location="{{route('LihatPaket')}}";</script>
+        @endif
     @endif
 
     {{-- Content --}}

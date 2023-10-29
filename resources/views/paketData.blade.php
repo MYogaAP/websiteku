@@ -26,6 +26,17 @@
     <!-- Custom styles for this page -->
     <link href="{{ asset('adminStyle/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
+    <style>
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+
 </head>
 
 <body id="page-top">
@@ -64,33 +75,36 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th class="text-secondary">Id Paket</th>
-                                            <th class="text-secondary">Nama Paket</th>
-                                            <th class="text-secondary">Tinggi</th>
-                                            <th class="text-secondary">Kolom</th>
-                                            <th class="text-secondary">Format Warna</th>
-                                            <th class="text-secondary">Hidden Status</th>
-                                            <th class="text-secondary">Harga Paket</th>
+                                            <th class="text-secondary" colspan="2">Detail Paket</th>
                                             <th class="text-secondary">Contoh Foto</th>
-                                            <th class="text-secondary">Deleted</th>
-                                            <th class="text-secondary">Action</th>
+                                            <th class="text-secondary">Status Visibilitas</th>
+                                            <th class="text-secondary">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- @foreach ($packet->data as $list) --}}
-                                        {{-- @foreach ($data as $list) --}}
                                         @if(session('packet_data'))
-                                            @foreach (session('packet_data')->data as $list)
-                                                <tr>
-                                                    <th scope="row">{{$list->packet_id}}</th>
-                                                    <td>{{$list->nama_paket}}</td>
-                                                    <td>{{$list->tinggi}}</td>
-                                                    <td>{{$list->kolom}}</td>
-                                                    <td>{{$list->format_warna}}</td>
-                                                    <td>{{$list->hidden}}</td>
-                                                    <td>{{$list->harga_paket}}</td>
-                                                    <td>{{$list->contoh_foto}}</td>
-                                                    <td>{{$list->deleted_at}}</td>
+                                            @foreach (session('packet_data') as $list)
+                                                <tr class="text-center">
+                                                    <th scope="row" style="border-right-style: none;" class="text-start">
+                                                        Nama Paket<br>
+                                                        Ukuran Paket<br>
+                                                        Format Warna Paket<br>
+                                                        Harga Paket
+                                                    </th>
+                                                    <th style="border-left-style: none;" class="text-start">
+                                                        : {{$list->nama_paket}}<br>
+                                                        : {{$list->tinggi." x ".$list->kolom}} mmk<br>
+                                                        : {{$list->format_warna == "fc"? "Full Color" : "Black White"}}<br>
+                                                        : Rp. @money($list->harga_paket)
+                                                    </th>
+                                                    <td style="max-height: 21rem; width: 17rem; overflow: hidden">
+                                                        <a href="{{ asset('storage/image_example/'.$list->contoh_foto) }}" target="_blank">
+                                                        <img src="{{ asset('storage/image_example/'.$list->contoh_foto) }}" class="card-img-top" alt="" style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
+                                                        </a>
+                                                    </td>
+                                                    <td class="{{$list->hidden == 'yes' ? 'text-secondary h5' : 'text-primary h5'}}">
+                                                        {{$list->hidden == "yes" ? "HIDDEN" : "VISIBLE"}}
+                                                    </td>
                                                     <td>
                                                         <div class="dropdown mb-4">
                                                             <button class="btn btn-primary " type="button"
@@ -100,9 +114,20 @@
                                                             </button>
                                                             <div class="dropdown-menu animated--fade-in"
                                                                 aria-labelledby="dropdownMenuButton">
-                                                                <a class="dropdown-item" href="#">Hide</a>
-                                                                <a class="dropdown-item" href="#">Unhide</a>
-                                                                <a class="dropdown-item" href="#">Delete</a>
+                                                                <form action="#" method="post">
+                                                                    @method("PATCH")
+                                                                    @csrf
+                                                                    <button type="submit" class="dropdown-item" formaction="{{route('SembunyikanPaket', ['packet' => $list->packet_id])}}">
+                                                                        Hide Packet</button>
+                                                                    <button type="submit" class="dropdown-item" formaction="{{route('TampilkanPaket', ['packet' => $list->packet_id])}}">
+                                                                        Unhide Packet</button>
+                                                                </form>
+                                                                <form action="{{route('HapusPaket', ['packet' => $list->packet_id])}}" method="post">
+                                                                    @method("DELETE")
+                                                                    @csrf
+                                                                    <button type="submit" class="dropdown-item">
+                                                                        Delete Packet</button>
+                                                                </form>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -162,7 +187,7 @@
         </div>
     </div>
 
-    <!-- Delete Modal-->
+    <!-- Tambah Paket -->
     <div class="modal fade" id="TambahModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -174,41 +199,44 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="user">
+                    <form action="{{route('TambahPaket')}}" class="user" method="POST" autocomplete="off" enctype="multipart/form-data">
+                        @csrf
                         <div class="form-group">
                             <div class="mb-3">
-                                <label for="formFile" class="form-label">Default file input example</label>
-                                <input class="form-control" type="file" id="formFile">
+                                <label for="contoh_foto_paket" class="form-label">Pastikan data yang ditambahakan sesuai</label>
+                                <input class="form-control" type="file" id="contoh_foto_paket" name="contoh_foto_paket">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Nama Paket</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
+                                <label for="nama_paket" class="form-label">Nama Paket</label>
+                                <input type="text" class="form-control" id="nama_paket" name="nama_paket"
                                     placeholder="cth. Paket1">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Tinggi</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. 50">
+                                <label for="tinggi_paket" class="form-label">Tinggi</label>
+                                <input type="number" class="form-control" id="tinggi_paket" name="tinggi_paket"
+                                    placeholder="50" min="1" max="530">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Kolom</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. 40">
+                                <label for="kolom_paket" class="form-label">Kolom</label>
+                                <input type="number" class="form-control" id="kolom_paket" name="kolom_paket"
+                                    placeholder="1" min="1" max="6">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Format Warna</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. fc">
+                                <label for="format_warna_paket" class="form-label">Format Warna</label>
+                                <select class="form-control" id="format_warna_paket" name="format_warna_paket">
+                                    <option value="fc">Full Color</option>
+                                    <option value="bw">Black White</option>
+                                </select>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Harga Paket</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. 100000">
+                                <label for="harga_paket" class="form-label">Harga Paket</label>
+                                <input type="number" class="form-control" id="harga_paket" name="harga_paket"
+                                    placeholder="100000">
                             </div>
                         </div>
-                        <a href="login.html" class="btn btn-primary btn-user btn-block">
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
                             Tambah
-                        </a>
+                        </button>
                     </form>
                 </div>
                 {{-- <div class="modal-footer">

@@ -116,6 +116,7 @@
 
                                             if($http_status == 401){
                                                 setcookie("auth", "", time() - 3600, "/");
+                                                $request->session()->flush();
                                                 header("Location: " . route('loginPage'), true, 302);
                                                 exit();
                                             }
@@ -143,6 +144,7 @@
 
                                             if($http_status == 401){
                                                 setcookie("auth", "", time() - 3600, "/");
+                                                $request->session()->flush();
                                                 header("Location: " . route('loginPage'), true, 302);
                                                 exit();
                                             }
@@ -254,7 +256,7 @@
                             </li>
                         @endif
                     </ul>
-                    @endif
+                @endif
             </div>
         </div>
     </div>

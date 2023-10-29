@@ -93,4 +93,8 @@ Route::get('/OrderHalamanSebelumnya', [DataLinkerController::class, 'LoadPrevOrd
 Route::get('/OrderHalaman/{page}', [DataLinkerController::class, 'LoadNumberOrderData'])->name('UserOrderHalamanNomor');
 
 //dashboard
-Route::get('/LihatPaket', [DashboardController::class, 'LihatPaket'])->name('LihatPaket');
+Route::get('/LihatPaket', [DashboardController::class, 'ShowPacket'])->name('LihatPaket');
+Route::post('/TambahPaket', [DashboardController::class, 'AddNewPacket'])->name('TambahPaket');
+Route::patch('/SembunyikanPaket/{packet}', [DashboardController::class, 'HideThePacket'])->name('SembunyikanPaket');
+Route::patch('/TampilkanPaket/{packet}', [DashboardController::class, 'UnhideThePacket'])->name('TampilkanPaket');
+Route::delete('/HapusPaket/{packet}', [DashboardController::class, 'DeleteThePacket'])->name('HapusPaket');
