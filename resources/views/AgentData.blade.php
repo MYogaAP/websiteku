@@ -108,7 +108,7 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th class="text-secondary" colspan="2">Detail Anggota</th>
+                                            <th class="text-secondary">Detail Anggota</th>
                                             <th class="text-secondary">Email</th>
                                             <th class="text-secondary">Action</th>
                                         </tr>
@@ -116,17 +116,21 @@
                                     <tbody>
                                         @foreach ($response->data as $agent)
                                             <tr>
-                                                <td style="border-right-style: none;">
-                                                    Name <br>
-                                                    Username <br>
-                                                    No. HP <br>
-                                                    Pekerjaan 
-                                                </td>
-                                                <td style="border-left-style: none;">
-                                                    : {{ $agent->name }}<br>
-                                                    : {{ $agent->username }} <br>
-                                                    : {{ isset($agent->no_hp) ? $agent->ho_hp : "-" }} <br>
-                                                    : {{ isset($agent->pekerjaan) ? $agent->pekerjaan : "-" }}
+                                                <td>
+                                                    <div class="d-flex flex-row">
+                                                        <div class="p-2">
+                                                            <p>Name</p>
+                                                            <p>Username </p>
+                                                            <p>No. HP</p>
+                                                            <p>Pekerjaan</p> 
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p>: {{ $agent->name }}</p>
+                                                            <p>: {{ $agent->username }}</p>
+                                                            <p>: {{ isset($agent->no_hp) ? $agent->ho_hp : "-" }}</p>
+                                                            <p>: {{ isset($agent->pekerjaan) ? $agent->pekerjaan : "-" }}</p>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td>{{ $agent->email }}</td>
                                                 <td>
@@ -207,11 +211,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="user">
+                    <form class="user" autocomplete="off">
                         <div class="form-group">
                             <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="cth. Abdul Hafiz">
+                            </div>
+                            <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Username</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
+                                <input type="text" class="form-control" id="exampleFormControlInput1"
                                     placeholder="cth. user26">
                             </div>
                             <div class="mb-3">
@@ -221,8 +230,8 @@
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Password</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. User@radar21">
+                                <input type="password" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="RadarPaham_123Banua">
                             </div>
                         </div>
                         <a href="login.html" class="btn btn-primary btn-user btn-block">

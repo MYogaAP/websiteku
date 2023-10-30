@@ -87,7 +87,7 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th class="text-secondary" colspan="2">Detail Paket</th>
+                                            <th class="text-secondary">Detail Paket</th>
                                             <th class="text-secondary">Contoh Foto</th>
                                             <th class="text-secondary">Status Visibilitas</th>
                                             <th class="text-secondary">Aksi</th>
@@ -97,17 +97,21 @@
                                         @if(session('packet_data'))
                                             @foreach (session('packet_data') as $list)
                                                 <tr>
-                                                    <td style="border-right-style: none;" class="text-start">
-                                                        Nama Paket<br>
-                                                        Ukuran Paket<br>
-                                                        Format Warna Paket<br>
-                                                        Harga Paket
-                                                    </td>
-                                                    <td style="border-left-style: none;" class="text-start">
-                                                        : {{$list->nama_paket}}<br>
-                                                        : {{$list->tinggi." x ".$list->kolom}} mmk<br>
-                                                        : {{$list->format_warna == "fc"? "Full Color" : "Black White"}}<br>
-                                                        : Rp. @money($list->harga_paket)
+                                                    <td class="text-start">
+                                                        <div class="d-flex flex-row">
+                                                            <div class="p-2">
+                                                                <p>Nama Paket</p>
+                                                                <p>Ukuran Paket</p>
+                                                                <p>Format Warna Paket</p>
+                                                                <p>Harga Paket</p>
+                                                            </div>
+                                                            <div class="p-2">
+                                                                <p>: {{$list->nama_paket}}</p> 
+                                                                <p>: {{$list->tinggi." x ".$list->kolom}} mmk</p>
+                                                                <p>: {{$list->format_warna == "fc"? "Full Color" : "Black White"}}</p>
+                                                                <p>: Rp. @money($list->harga_paket)</p>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                     <td class="text-center" style="max-height: 21rem; width: 17rem; overflow: hidden">
                                                         <a href="{{ asset('storage/image_example/'.$list->contoh_foto) }}" target="_blank">
