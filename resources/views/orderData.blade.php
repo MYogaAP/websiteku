@@ -52,8 +52,6 @@
             $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             curl_close($curl);
 
-            dd($response);
-
             if ($http_status == 401) {
                 setcookie('auth', '', time() - 3600, '/');
                 header('Location: ' . URL::to('/login'), true, 302);
