@@ -28,43 +28,40 @@
 
 <body>
 
-    @if(Cookie::has('auth'))
+    @if (Cookie::has('auth'))
         @php
             $curl = curl_init();
-            curl_setopt_array($curl, array(
-            CURLOPT_URL => gethostname().'/websiteku/public/api/UserCheck',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPHEADER => array(
-                'Accept: application/json',
-                'Authorization: Bearer '.Cookie::get('auth')
-            ),
-            ));
+            curl_setopt_array($curl, [
+                CURLOPT_URL => gethostname() . '/websiteku/public/api/UserCheck',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => ['Accept: application/json', 'Authorization: Bearer ' . Cookie::get('auth')],
+            ]);
             $user_data = curl_exec($curl);
             $user_data = json_decode($user_data);
             $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             curl_close($curl);
-            
-            if($http_status == 401){
-                setcookie("auth", "", time() - 3600, "/");
-                header("Location: " . URL::to('/login'), true, 302);
+
+            if ($http_status == 401) {
+                setcookie('auth', '', time() - 3600, '/');
+                header('Location: ' . URL::to('/login'), true, 302);
                 exit();
             }
         @endphp
-        @if ($user_data->role == "admin" || $user_data->role == "agent" )
-            <script>window.location="{{route('LihatPaket')}}";</script>
+        @if ($user_data->role == 'admin' || $user_data->role == 'agent')
+            <script>
+                window.location = "{{ route('LihatPaket') }}";
+            </script>
         @else
-            <script>window.location="{{route('landingPageLogin')}}";</script>
+            <script>
+                window.location = "{{ route('landingPageLogin') }}";
+            </script>
         @endif
-    @else
-        <script>
-            window.location = "{{ route('loginPage') }}";
-        </script>
     @endif
 
     {{-- Navigation Bar --}}
