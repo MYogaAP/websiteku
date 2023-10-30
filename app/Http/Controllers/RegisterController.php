@@ -10,6 +10,10 @@ class RegisterController extends Controller
 {
     function RegisterCostumer(Request $request) {
         $request->validate([
+            'nama' => [
+                'required',
+                'max:255'
+            ],
             'username' => [
                 'required',
                 'unique:users,username',
@@ -44,6 +48,10 @@ class RegisterController extends Controller
 
     function RegisterAgent(Request $request) {
         $request->validate([
+            'nama' => [
+                'required',
+                'max:255'
+            ],
             'username' => [
                 'required',
                 'unique:users,username',

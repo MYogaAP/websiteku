@@ -100,7 +100,6 @@
                                                 <td>{{ $order->akhir_iklan }}</td>
                                                 <td>{{ $order->status_pembayaran }}</td>
                                                 <td>{{ $order->status_iklan }}</td>
-                                                <td>{{ $order->order_invoice }}</td>
                                                 <td>
                                                     <div class="dropdown mb-4">
                                                         <button class="btn btn-primary " type="button"

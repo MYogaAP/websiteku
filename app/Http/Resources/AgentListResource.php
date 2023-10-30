@@ -16,6 +16,7 @@ class AgentListResource extends JsonResource
     {
         return [
             'user_id' => $this->user_id,
+            'name' => $this->name,
             'username' => $this->username,
             'email' => $this->email,
             'role' => $this->role,

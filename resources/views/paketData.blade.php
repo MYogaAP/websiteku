@@ -39,14 +39,26 @@
 
 </head>
 
-<body id="page-top">
+<body id="page-top" class="content">
+    <script>
+        window.onload = function() {
+            var sidebar = $('.sidebar');
+            var content = $('.content');
+
+            if (content.height() > sidebar.height() )
+                sidebar.css('height', content.height());
+            else
+                sidebar.css('height', sidebar.height());
+        }
+    </script>
+    
     <!-- Page Wrapper -->
     <div id="wrapper">
         <x-admin.sidebar class="sidebar"/>
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <!-- Main Content -->
-            <div id="content" class="content">
+            <div id="content">
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid mt-4">
@@ -84,29 +96,29 @@
                                     <tbody>
                                         @if(session('packet_data'))
                                             @foreach (session('packet_data') as $list)
-                                                <tr class="text-center">
-                                                    <th scope="row" style="border-right-style: none;" class="text-start">
+                                                <tr>
+                                                    <td style="border-right-style: none;" class="text-start">
                                                         Nama Paket<br>
                                                         Ukuran Paket<br>
                                                         Format Warna Paket<br>
                                                         Harga Paket
-                                                    </th>
-                                                    <th style="border-left-style: none;" class="text-start">
+                                                    </td>
+                                                    <td style="border-left-style: none;" class="text-start">
                                                         : {{$list->nama_paket}}<br>
                                                         : {{$list->tinggi." x ".$list->kolom}} mmk<br>
                                                         : {{$list->format_warna == "fc"? "Full Color" : "Black White"}}<br>
                                                         : Rp. @money($list->harga_paket)
-                                                    </th>
-                                                    <td style="max-height: 21rem; width: 17rem; overflow: hidden">
+                                                    </td>
+                                                    <td class="text-center" style="max-height: 21rem; width: 17rem; overflow: hidden">
                                                         <a href="{{ asset('storage/image_example/'.$list->contoh_foto) }}" target="_blank">
                                                         <img src="{{ asset('storage/image_example/'.$list->contoh_foto) }}" class="card-img-top" alt="" style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
                                                         </a>
                                                     </td>
-                                                    <td class="{{$list->hidden == 'yes' ? 'text-secondary h5' : 'text-primary h5'}}">
+                                                    <td class="{{$list->hidden == 'yes' ? 'text-secondary h5 text-center' : 'text-primary h5 text-center'}}">
                                                         {{$list->hidden == "yes" ? "HIDDEN" : "VISIBLE"}}
                                                     </td>
                                                     <td>
-                                                        <div class="dropdown mb-4">
+                                                        <div class="dropdown mb-4 text-center">
                                                             <button class="btn btn-primary " type="button"
                                                                 id="dropdownMenuButton" data-toggle="dropdown"
                                                                 aria-haspopup="true" aria-expanded="false">
@@ -265,16 +277,6 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('adminStyle/js/demo/datatables-demo.js') }}"></script>
-    
-    <script>
-        var sidebar = $('.sidebar');
-        var content = $('.content');
-
-        if (content.height() > sidebar.height() )
-            sidebar.css('height', content.height());
-        else
-            sidebar.css('height', sidebar.height());
-    </script>
 </body>
 
 </html>
