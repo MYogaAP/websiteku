@@ -42,11 +42,11 @@
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <x-admin.sidebar />
+        <x-admin.sidebar class="sidebar"/>
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <!-- Main Content -->
-            <div id="content">
+            <div id="content" class="content">
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid mt-4">
@@ -265,6 +265,16 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('adminStyle/js/demo/datatables-demo.js') }}"></script>
+    
+    <script>
+        var sidebar = $('.sidebar');
+        var content = $('.content');
+
+        if (content.height() > sidebar.height() )
+            sidebar.css('height', content.height());
+        else
+            sidebar.css('height', sidebar.height());
+    </script>
 </body>
 
 </html>

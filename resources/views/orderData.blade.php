@@ -36,9 +36,8 @@
     @else
         @php
             $curl = curl_init();
-
             curl_setopt_array($curl, [
-                CURLOPT_URL => '127.0.0.1/websiteku/public/api/AgentAllOrders',
+                CURLOPT_URL => gethostname().'/websiteku/public/api/AgentAllOrders',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -48,9 +47,12 @@
                 CURLOPT_CUSTOMREQUEST => 'GET',
                 CURLOPT_HTTPHEADER => ['Accept: application/json', 'Authorization: Bearer ' . Cookie::get('auth')],
             ]);
-            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             $response = curl_exec($curl);
             $response = json_decode($response);
+            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            curl_close($curl);
+
+            dd($response);
 
             if ($http_status == 401) {
                 setcookie('auth', '', time() - 3600, '/');

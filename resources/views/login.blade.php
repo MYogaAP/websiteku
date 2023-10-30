@@ -58,10 +58,10 @@
                 exit();
             }
         @endphp
-        @if ($user_data->role == "costumer")
-            <script>window.location="{{route('landingPageLogin')}}";</script>
-        @else
+        @if ($user_data->role == "admin" || $user_data->role == "agent" )
             <script>window.location="{{route('LihatPaket')}}";</script>
+        @else
+            <script>window.location="{{route('landingPageLogin')}}";</script>
         @endif
     @endif
 

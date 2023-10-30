@@ -45,18 +45,26 @@
                 'Authorization: Bearer '.Cookie::get('auth')
             ),
             ));
-            $response = curl_exec($curl);
+            $user_data = curl_exec($curl);
+            $user_data = json_decode($user_data);
             $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             curl_close($curl);
-
+            
             if($http_status == 401){
                 setcookie("auth", "", time() - 3600, "/");
-                $request->session()->flush();
-                header("Location: " . route('loginPage'), true, 302);
+                header("Location: " . URL::to('/login'), true, 302);
                 exit();
             }
         @endphp
-        <script>window.location="{{route('landingPageLogin')}}";</script>
+        @if ($user_data->role == "admin" || $user_data->role == "agent" )
+            <script>window.location="{{route('LihatPaket')}}";</script>
+        @else
+            <script>window.location="{{route('landingPageLogin')}}";</script>
+        @endif
+    @else
+        <script>
+            window.location = "{{ route('loginPage') }}";
+        </script>
     @endif
 
     {{-- Navigation Bar --}}

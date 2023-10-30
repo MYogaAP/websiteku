@@ -34,7 +34,7 @@ class OrderController extends Controller
     }
 
     function AllOrders() {
-        $orders = OrderData::all();
+        $orders = OrderData::with('PacketData')->get();
         return OrdersListResource::collection($orders);
     }
 
