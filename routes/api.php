@@ -28,6 +28,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/UpdateUserPassword', [AgentUserController::class, "UpdatePassword"]);
     Route::patch('/UpdateUserProfile', [AgentUserController::class, "UpdateProfile"]);
     Route::get('/AgentList', [AgentUserController::class, "AgentList"])->middleware('an.admin');
+    Route::get('/AdminUpdateAgentProfile', [AgentUserController::class, "AdminUpdateAgentProfile"])->middleware('an.admin');
     Route::delete('/DeleteAgent/{user_id}', [AgentUserController::class, "DeleteAgent"])->middleware('an.admin');
 });
 
@@ -48,10 +49,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // Packet API
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/PacketList', [PacketController::class, 'GetPacketList']);
+    Route::get('/GetPacketColor/{packet_id}', [PacketController::class, 'GetPacketColor']);
+    Route::get('/GetPacket/{packet_id}', [PacketController::class, 'GetPacket']);
     Route::middleware(['an.agent'])->group(function () {
         Route::post('/AddPacket', [PacketController::class, 'AddPacket']);
-        Route::get('/GetPacket/{packet_id}', [PacketController::class, 'GetPacket']);
-        Route::get('/GetPacketColor/{packet_id}', [PacketController::class, 'GetPacketColor']);
         Route::get('/AgentPacketList', [PacketController::class, 'AgentPacketList']);
         Route::patch('/HidePacket/{packet_id}', [PacketController::class, 'HidePacket']);
         Route::patch('/UnHidePacket/{packet_id}', [PacketController::class, 'UnHidePacket']);
