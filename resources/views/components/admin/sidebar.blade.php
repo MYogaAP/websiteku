@@ -21,8 +21,15 @@
         <!-- Nav Item - Order Data -->
         <li class="nav-item">
             <a class="nav-link" href="{{ route('orderData') }}">
-                <i class="fas fa-fw fa-address-card"></i>
+                <i class="fas fa-fw fa-folder-open"></i>
                 <span>Order Data</span></a>
+        </li>
+
+        <!-- Nav Item - Pemesanan Iklan -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('pemesanan') }}">
+                <i class="fas fa-fw fa-pen-alt"></i>
+                <span>Pesan Iklan</span></a>
         </li>
 
         <!-- Nav Item - Tables -->
@@ -41,7 +48,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('agentData') }}">
                 <i class="fas fa-fw fa-user-lock"></i>
-                <span>Agent</span></a>
+                <span>Data Anggota Biro Iklan</span></a>
         </li>
 
         <!-- Nav Item - Pages Collapse Menu -->
@@ -54,6 +61,10 @@
             <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Options</h6>
+                    <a class="dropdown-item" href="{{route('profile')}}">
+                        <i class="fas fa-address-card fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Profile
+                    </a>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                         Logout

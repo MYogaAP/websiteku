@@ -61,10 +61,6 @@
         @else
             <script>window.location="{{route('landingPageLogin')}}";</script>
         @endif
-    @else
-        <script>
-            window.location = "{{ route('loginPage') }}";
-        </script>
     @endif
 
     {{-- Navigation Bar --}}
