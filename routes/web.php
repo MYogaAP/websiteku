@@ -71,6 +71,10 @@ Route::get('/riwayatDetail', function () {
     return view('riwayatDetail');
 })->name('riwayatDetail');
 
+Route::get('/landingPagePro', function () {
+    return view('landingPagePro');
+})->name('landingPagePro');
+
 // User Data
 Route::post('/LoginCall', [CallUserController::class, 'LoginCall'])->name('LoginCall');
 Route::post('/RegisterCall', [CallUserController::class, 'RegisterCall'])->name('RegisterCall');
