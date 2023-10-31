@@ -241,15 +241,6 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-<<<<<<< Updated upstream
-                <div class="modal-body">
-                    <form action="{{route('TambahPaket')}}" class="user" method="POST" autocomplete="off" enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-group">
-                            <div class="mb-3">
-                                <label for="contoh_foto_paket" class="form-label">Pastikan data yang ditambahkan sesuai</label>
-                                <input class="form-control" type="file" id="contoh_foto_paket" name="contoh_foto_paket">
-=======
                 <form action="{{route('TambahPaket')}}" class="user" method="POST" autocomplete="off" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
@@ -285,7 +276,6 @@
                                     <input type="number" class="form-control" id="harga_paket" name="harga_paket"
                                         placeholder="100000" required>
                                 </div>
->>>>>>> Stashed changes
                             </div>
                     </div>
                     <div class="modal-footer">

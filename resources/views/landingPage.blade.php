@@ -53,15 +53,8 @@
                 exit();
             }
         @endphp
-<<<<<<< Updated upstream
-        @if ($user_data->role == 'admin' || $user_data->role == 'agent')
-            <script>
-                window.location = "{{ route('LihatPaket') }}";
-            </script>
-=======
         @if ($user_data->role == "admin" || $user_data->role == "agent" )
             <script>window.location="{{route('orderData')}}";</script>
->>>>>>> Stashed changes
         @else
             <script>
                 window.location = "{{ route('landingPageLogin') }}";
