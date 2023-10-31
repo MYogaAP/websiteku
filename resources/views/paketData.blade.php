@@ -219,7 +219,7 @@
                         @csrf
                         <div class="form-group">
                             <div class="mb-3">
-                                <label for="contoh_foto_paket" class="form-label">Pastikan data yang ditambahakan sesuai</label>
+                                <label for="contoh_foto_paket" class="form-label">Pastikan data yang ditambahkan sesuai</label>
                                 <input class="form-control" type="file" id="contoh_foto_paket" name="contoh_foto_paket">
                             </div>
                             <div class="mb-3">
