@@ -59,7 +59,7 @@
             }
         @endphp
         @if ($user_data->role == "admin" || $user_data->role == "agent" )
-            <script>window.location="{{route('LihatPaket')}}";</script>
+            <script>window.location="{{route('orderData')}}";</script>
         @else
             <script>window.location="{{route('landingPageLogin')}}";</script>
         @endif

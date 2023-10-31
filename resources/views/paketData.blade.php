@@ -51,6 +51,35 @@
                 sidebar.css('height', sidebar.height());
         }
     </script>
+
+    @php
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => gethostname().'/websiteku/public/api/AgentPacketList',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'Accept: application/json',
+            'Authorization: Bearer ' .Cookie::get('auth'),
+        ),
+        ));
+        $packet_data = curl_exec($curl);
+        $packet_data = json_decode($packet_data);
+        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
+
+        if($http_status == 401){
+            setcookie("auth", "", time() - 3600, "/");
+            session()->flush();
+            header("Location: " . route('loginPage'), true, 302);
+            exit();
+        }
+    @endphp
     
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -92,8 +121,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if(session('packet_data'))
-                                            @foreach (session('packet_data') as $list)
+                                        @if(isset($packet_data))
+                                            @foreach ($packet_data->data as $list)
                                                 <tr>
                                                     <td class="text-start">
                                                         <div class="d-flex flex-row">
@@ -212,6 +241,7 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
+<<<<<<< Updated upstream
                 <div class="modal-body">
                     <form action="{{route('TambahPaket')}}" class="user" method="POST" autocomplete="off" enctype="multipart/form-data">
                         @csrf
@@ -219,46 +249,51 @@
                             <div class="mb-3">
                                 <label for="contoh_foto_paket" class="form-label">Pastikan data yang ditambahkan sesuai</label>
                                 <input class="form-control" type="file" id="contoh_foto_paket" name="contoh_foto_paket">
+=======
+                <form action="{{route('TambahPaket')}}" class="user" method="POST" autocomplete="off" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                            <div class="form-group">
+                                <div class="mb-3">
+                                    <label for="contoh_foto_paket" class="form-label">Pastikan photo yang ditambahakan sesuai</label>
+                                    <input class="form-control" type="file" id="contoh_foto_paket" name="contoh_foto_paket" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nama_paket" class="form-label">Nama Paket</label>
+                                    <input type="text" class="form-control" id="nama_paket" name="nama_paket"
+                                        placeholder="cth. Paket1" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="tinggi_paket" class="form-label">Tinggi</label>
+                                    <input type="number" class="form-control" id="tinggi_paket" name="tinggi_paket"
+                                        placeholder="50" min="1" max="530" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="kolom_paket" class="form-label">Kolom</label>
+                                    <input type="number" class="form-control" id="kolom_paket" name="kolom_paket"
+                                        placeholder="1" min="1" max="6" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="format_warna_paket" class="form-label">Format Warna</label>
+                                    <select class="form-control" id="format_warna_paket" name="format_warna_paket" required>
+                                        <option value="fc">Full Color</option>
+                                        <option value="bw">Black White</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="harga_paket" class="form-label">Harga Paket</label>
+                                    <input type="number" class="form-control" id="harga_paket" name="harga_paket"
+                                        placeholder="100000" required>
+                                </div>
+>>>>>>> Stashed changes
                             </div>
-                            <div class="mb-3">
-                                <label for="nama_paket" class="form-label">Nama Paket</label>
-                                <input type="text" class="form-control" id="nama_paket" name="nama_paket"
-                                    placeholder="cth. Paket1">
-                            </div>
-                            <div class="mb-3">
-                                <label for="tinggi_paket" class="form-label">Tinggi</label>
-                                <input type="number" class="form-control" id="tinggi_paket" name="tinggi_paket"
-                                    placeholder="50" min="1" max="530">
-                            </div>
-                            <div class="mb-3">
-                                <label for="kolom_paket" class="form-label">Kolom</label>
-                                <input type="number" class="form-control" id="kolom_paket" name="kolom_paket"
-                                    placeholder="1" min="1" max="6">
-                            </div>
-                            <div class="mb-3">
-                                <label for="format_warna_paket" class="form-label">Format Warna</label>
-                                <select class="form-control" id="format_warna_paket" name="format_warna_paket">
-                                    <option value="fc">Full Color</option>
-                                    <option value="bw">Black White</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="harga_paket" class="form-label">Harga Paket</label>
-                                <input type="number" class="form-control" id="harga_paket" name="harga_paket"
-                                    placeholder="100000">
-                            </div>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
                         <button type="submit" class="btn btn-primary btn-user btn-block">
-                            Tambah
+                            Tambah Paket
                         </button>
-                    </form>
-                </div>
-                {{-- <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
-                        Tidak
-                    </button>
-                    <a class="btn btn-primary" href="login.html">Ya</a>
-                </div> --}}
+                    </div>
+                </form>
             </div>
         </div>
     </div>

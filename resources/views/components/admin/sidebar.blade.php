@@ -27,7 +27,7 @@
 
         <!-- Nav Item - Tables -->
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('LihatPaket') }}">
+            <a class="nav-link" href="{{ route('paketData') }}">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Paket Data</span></a>
             </li>

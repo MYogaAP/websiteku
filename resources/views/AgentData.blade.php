@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -36,7 +35,6 @@
     @else
         @php
             $curl = curl_init();
-
             curl_setopt_array($curl, [
                 CURLOPT_URL => gethostname().'/websiteku/public/api/AgentList',
                 CURLOPT_RETURNTRANSFER => true,
@@ -87,6 +85,12 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
+<<<<<<< Updated upstream
+=======
+                            <h5 class="m-0 font-weight-bold text-primary mb-2">
+                                Data Anggota Biro Iklan
+                            </h5>
+>>>>>>> Stashed changes
                             <div class="row no-gutters align-items-center">
                                 <div class="col-10">
                                     <h4 class="m-0 font-weight-bold text-primary mb-2">Data Anggota Divisi Iklan</h4>
@@ -96,7 +100,12 @@
                                         <span class="icon text-white-50">
                                             <i class="fas fa-plus"></i>
                                         </span>
+<<<<<<< Updated upstream
                                         <span class="text" data-toggle="modal" data-target="#TambahModal">Tambah Agent</span>
+=======
+                                        <span class="text" data-toggle="modal" data-target="#TambahModal">Tambah
+                                            Anggota</span>
+>>>>>>> Stashed changes
                                     </a>
                                 </div>
                             </div>
@@ -108,7 +117,7 @@
                                         <tr>
                                             <th class="text-secondary">Detail Anggota</th>
                                             <th class="text-secondary">Email</th>
-                                            <th class="text-secondary">Action</th>
+                                            <th class="text-secondary">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -132,15 +141,27 @@
                                                 </td>
                                                 <td>{{ $agent->email }}</td>
                                                 <td>
-                                                    <form action="#" method="POST">
-                                                        @method("DELETE")
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-primary " type="button"
-                                                        id="dropdownMenuButton" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false">
-                                                            <i class="fas fa-minus"></i> Hapus
+                                                    <div class="dropdown mb-4 text-center">
+                                                        <button class="btn btn-primary " type="button"
+                                                            id="dropdownMenuButton" data-toggle="dropdown"
+                                                            aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fas fa-pen-nib"></i>
                                                         </button>
-                                                    </form>
+                                                        <div class="dropdown-menu animated--fade-in"
+                                                            aria-labelledby="dropdownMenuButton">
+                                                            <button id="EditAgentBtn" class="dropdown-item" data-toggle="modal" data-target="#EditAgent" 
+                                                                data-id="{{$agent->user_id}}" data-nama="{{ $agent->name }}" data-username="{{ $agent->username }}" 
+                                                                data-email="{{$agent->email}}" data-nohp="{{isset($agent->pekerjaan) ? $agent->pekerjaan : ""}}" 
+                                                                data-pekerjaan="{{ isset($agent->pekerjaan) ? $agent->pekerjaan : "" }}">
+                                                                Edit Data</button>
+                                                            <form action="{{route('HapusAgent', ['agent' => $agent->user_id])}}" method="post">
+                                                                @method("DELETE")
+                                                                @csrf
+                                                                <button type="submit" class="dropdown-item">
+                                                                    Delete Packet</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -197,52 +218,108 @@
         </div>
     </div>
 
-    <!-- Delete Modal-->
+    <!-- Tambah Anggota-->
     <div class="modal fade" id="TambahModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Anggota Divisi Iklan</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Anggota Biro Iklan</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form class="user" autocomplete="off">
-                        <div class="form-group">
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. Abdul Hafiz">
+                <form action="{{route('TambahAgent')}}" class="user" autocomplete="off" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                            <div class="form-group">
+                                <div class="mb-3">
+                                    <label for="nama_anggota" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="nama_anggota" name="nama_anggota"
+                                        placeholder="cth. Abdul Hafiz" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="username_anggota" class="form-label">Username</label>
+                                    <input type="text" class="form-control" id="username_anggota" name="username_anggota"
+                                        placeholder="cth. user26" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email_anggota" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email_anggota" name="email_anggota"
+                                        placeholder="cth. user@radar.com" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password_anggota" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password_anggota" name="password_anggota"
+                                        placeholder="RadarPaham_123Banua" required>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. user26">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. user@radar.com">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="RadarPaham_123Banua">
-                            </div>
-                        </div>
-                        <a href="login.html" class="btn btn-primary btn-user btn-block">
-                            Tambah
-                        </a>
-                    </form>
-                </div>
-                {{-- <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
-                        Tidak
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                            Tambah Anggota
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Anggota-->
+    <div class="modal fade" id="EditAgent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Anggota Biro Iklan</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
                     </button>
-                    <a class="btn btn-primary" href="login.html">Ya</a>
-                </div> --}}
+                </div>
+                <form action="#" class="user" autocomplete="off" method="POST">
+                    @method("PATCH")
+                    @csrf
+                    <div class="modal-body">
+                            <div class="form-group">
+                                <div class="mb-3">
+                                    <label for="Edit_Name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="Edit_Name"
+                                        placeholder="cth. Abdul Hafiz">
+                                </div>
+                                {{-- <div class="mb-3">
+                                    <label for="Edit_Username" class="form-label">Username</label>
+                                    <input type="text" class="form-control" id="Edit_Username"
+                                        placeholder="cth. user26">
+                                </div> --}}
+                                {{-- <div class="mb-3">
+                                    <label for="Edit_Email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="Edit_Email"
+                                        placeholder="cth. user@radar.com">
+                                </div> --}}
+                                {{-- <div class="mb-3">
+                                    <label for="Edit_Password" class="form-label">Password</label>
+                                    <input type="email" class="form-control" id="Edit_Password"
+                                        placeholder="cth. user@radar.com">
+                                </div> --}}
+                                <div class="mb-3">
+                                    <label for="Edit_NoHP" class="form-label">No. HP</label>
+                                    <input type="text" class="form-control" id="Edit_NoHP"
+                                        placeholder="cth. user26">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="Edit_Pekerjaan" class="form-label">Pekerjaan</label>
+                                    <input type="text" class="form-control" id="Edit_Pekerjaan"
+                                        placeholder="cth. user26" required>
+                                </div>
+                                <input type="hidden" id="Id_Edit" name="agent_id" value="">
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                            Update Data
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -263,6 +340,23 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('adminStyle/js/demo/datatables-demo.js') }}"></script>
+
+    <script>
+        $(document).on("click", "#EditAgentBtn", function () {
+            var AgentId = $(this).data('id');
+            var AgentName = $(this).data('nama');
+            // var AgentUsername = $(this).data('username');
+            // var AgentEmail = $(this).data('email');
+            var AgentNoHP = $(this).data('nohp');
+            var AgentPekerjaan = $(this).data('pekerjaan');
+            $(".modal-body #Edit_Name").val( AgentName );
+            // $(".modal-body #Edit_Username").val( AgentUsername );
+            // $(".modal-body #Edit_Email").val( AgentEmail );
+            $(".modal-body #Edit_NoHP").val( AgentNoHP );
+            $(".modal-body #Edit_Pekerjaan").val( AgentPekerjaan );
+            $(".modal-body #Id_Edit").val( AgentId );
+        });
+    </script>
 </body>
 
 </html>

@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\CallAgentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CallUserController;
 use App\Http\Controllers\CallOrderController;
 use App\Http\Controllers\DataLinkerController;
-use App\Http\Controllers\CallInvoiceController;
 use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
@@ -86,15 +86,20 @@ Route::get('/UkuranHalamanSebelumnya', [DataLinkerController::class, 'LoadPrevPa
 Route::post('/NewOrderCall', [CallOrderController::class, 'NewOrderAndInvoiceCall'])->name('NewOrderCall');
 Route::delete('/DeleteOrderCall/{order}', [CallOrderController::class, 'DeleteOrderCall'])->name('DeleteOrderCall');
 
-//Riwayat
+// Riwayat
 Route::get('/SendToRiwayat', [DataLinkerController::class, 'SendToRiwayat'])->name('SendToRiwayatUser');
 Route::get('/OrderHalamanSelanjutnya', [DataLinkerController::class, 'LoadNextOrderData'])->name('UserOrderHalamanSelanjutnya');
 Route::get('/OrderHalamanSebelumnya', [DataLinkerController::class, 'LoadPrevOrderData'])->name('UserOrderHalamanSebelumnya');
 Route::get('/OrderHalaman/{page}', [DataLinkerController::class, 'LoadNumberOrderData'])->name('UserOrderHalamanNomor');
 
-//dashboard
-Route::get('/LihatPaket', [DashboardController::class, 'ShowPacket'])->name('LihatPaket');
+// Dashboard Admin Packet
 Route::post('/TambahPaket', [DashboardController::class, 'AddNewPacket'])->name('TambahPaket');
 Route::patch('/SembunyikanPaket/{packet}', [DashboardController::class, 'HideThePacket'])->name('SembunyikanPaket');
 Route::patch('/TampilkanPaket/{packet}', [DashboardController::class, 'UnhideThePacket'])->name('TampilkanPaket');
 Route::delete('/HapusPaket/{packet}', [DashboardController::class, 'DeleteThePacket'])->name('HapusPaket');
+
+// Dashboard Admin Agent Data
+Route::post('/TambahAgent', [CallAgentController::class, 'AddTheAgent'])->name('TambahAgent');
+Route::patch('/UpdateAgent/{agent}', [CallAgentController::class, 'UpdateTheAgent'])->name('UpdateAgent');
+Route::delete('/HapusAgent/{agent}', [CallAgentController::class, 'DeleteTheAgent'])->name('HapusAgent');
+

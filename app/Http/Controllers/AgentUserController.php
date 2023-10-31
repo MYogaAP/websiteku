@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -84,6 +85,13 @@ class AgentUserController extends Controller
             ]);
         }
 
+        $deleteData->name = $deleteData->name.Str::random(30);
+        $deleteData->username = $deleteData->username.Str::random(30);
+        $deleteData->email = $deleteData->email.Str::random(30);
+        $deleteData->role = "costumer";
+        $deleteData->no_hp = "";
+        $deleteData->pekerjaan = "";
+        $deleteData->save();
         $deleteData->delete();
 
         return response()->json([
