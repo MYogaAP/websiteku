@@ -104,6 +104,6 @@ Route::delete('/HapusPaket/{packet}', [DashboardController::class, 'DeleteThePac
 
 // Dashboard Admin Agent Data
 Route::post('/TambahAgent', [CallAgentController::class, 'AddTheAgent'])->name('TambahAgent');
-Route::patch('/UpdateAgent/{agent}', [CallAgentController::class, 'UpdateTheAgent'])->name('UpdateAgent');
+Route::patch('/UpdateAgent', [CallAgentController::class, 'UpdateTheAgent'])->name('UpdateAgent');
 Route::delete('/HapusAgent/{agent}', [CallAgentController::class, 'DeleteTheAgent'])->name('HapusAgent');
 

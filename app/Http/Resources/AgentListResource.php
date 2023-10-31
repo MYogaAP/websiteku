@@ -19,7 +19,8 @@ class AgentListResource extends JsonResource
             'name' => $this->name,
             'username' => $this->username,
             'email' => $this->email,
-            'role' => $this->role,
+            'no_hp' => $this->no_hp,
+            'pekerjaan' => $this->pekerjaan,
         ];
     }
 }

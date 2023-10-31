@@ -93,6 +93,7 @@ class CallUserController extends Controller
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'PATCH',
         CURLOPT_POSTFIELDS =>'{
+            "name" : "'.$request->nama.'",
             "no_hp" : "'.$request->no_hp.'",
             "pekerjaan" : "'.$request->pekerjaan.'"
         }',

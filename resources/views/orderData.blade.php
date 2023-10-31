@@ -51,6 +51,7 @@
             $response = json_decode($response);
             $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             curl_close($curl);
+            $xendit_link = "https://checkout.xendit.co/v2/";
 
             if ($http_status == 401) {
                 setcookie('auth', '', time() - 3600, '/');
@@ -81,7 +82,7 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th class="text-secondary">Order Invoice</th>
+                                            <th class="text-secondary">Detail Nomor</th>
                                             <th class="text-secondary">Nama Instansi</th>
                                             <th class="text-secondary">Mulai Iklan</th>
                                             <th class="text-secondary">Akhir Iklan</th>
@@ -93,7 +94,20 @@
                                     <tbody>
                                         @foreach ($response->data as $order)
                                             <tr>
-                                                <td>1234567890</td>
+                                                <td>
+                                                    <div class="d-flex flex-row">
+                                                        <div class="p-2">
+                                                            <p>No. Order</p>
+                                                            <p>No. Invoice </p>
+                                                            <p>Invoice</p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p>: ---</p>
+                                                            <p>: ---</p>
+                                                            <p>: <a href="{{ $xendit_link.$order->invoice_id }}" target="_blank">{{ $order->invoice_id }}</a></p>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                                 <td>{{ $order->nama_instansi }}</td>
                                                 <td>{{ $order->mulai_iklan }}</td>
                                                 <td>{{ $order->akhir_iklan }}</td>
@@ -137,89 +151,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Select "Logout" below if you are ready to end your current session.
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
-                        Cancel
-                    </button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Modal-->
-    <div class="modal fade" id="TambahModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Paket</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form class="user">
-                        <div class="form-group">
-                            <div class="mb-3">
-                                <label for="formFile" class="form-label">Default file input example</label>
-                                <input class="form-control" type="file" id="formFile">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Nama Paket</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. Paket1">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Tinggi</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. 50">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Kolom</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. 40">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Format Warna</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. fc">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Harga Paket</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. 100000">
-                            </div>
-                        </div>
-                        <a href="login.html" class="btn btn-primary btn-user btn-block">
-                            Tambah
-                        </a>
-                    </form>
-                </div>
-                {{-- <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
-                        Tidak
-                    </button>
-                    <a class="btn btn-primary" href="login.html">Ya</a>
-                </div> --}}
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('adminStyle/vendor/jquery/jquery.min.js') }}"></script>

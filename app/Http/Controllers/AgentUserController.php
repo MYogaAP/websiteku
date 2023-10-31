@@ -80,7 +80,7 @@ class AgentUserController extends Controller
         ]);
     }
 
-    function AdminUpdateAgentProfile(Request $request) {
+    function AdminUpdateAgentProfile(Request $request, $user_id) {
         $newProfile = $request->validate([
             'name' => [
                 'max:255'
@@ -93,9 +93,14 @@ class AgentUserController extends Controller
             ]
         ]);
 
-        $currentAccount = Auth::user()->user_id;
+        $updateData = User::findOrFail($user_id);
 
-        $updateData = User::findOrFail($currentAccount);
+        if($updateData->role != 'agent'){
+            return response()->json([
+                'message' => 'Selected account is not an agent.',
+            ]);
+        }
+
         $updateData->name = $newProfile["name"];
         $updateData->no_hp = $newProfile["no_hp"];
         $updateData->pekerjaan = $newProfile["pekerjaan"];

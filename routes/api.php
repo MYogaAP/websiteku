@@ -7,7 +7,6 @@ use App\Http\Controllers\PacketController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AgentUserController;
 use App\Http\Controllers\AuthenticationController;
-use App\Http\Controllers\DashboardController;
 
 
 //Login API
@@ -28,7 +27,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/UpdateUserPassword', [AgentUserController::class, "UpdatePassword"]);
     Route::patch('/UpdateUserProfile', [AgentUserController::class, "UpdateProfile"]);
     Route::get('/AgentList', [AgentUserController::class, "AgentList"])->middleware('an.admin');
-    Route::get('/AdminUpdateAgentProfile', [AgentUserController::class, "AdminUpdateAgentProfile"])->middleware('an.admin');
+    Route::patch('/AdminUpdateAgentProfile/{user_id}', [AgentUserController::class, "AdminUpdateAgentProfile"])->middleware('an.admin');
     Route::delete('/DeleteAgent/{user_id}', [AgentUserController::class, "DeleteAgent"])->middleware('an.admin');
 });
 

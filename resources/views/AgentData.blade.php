@@ -124,7 +124,7 @@
                                                         <div class="p-2">
                                                             <p>: {{ $agent->name }}</p>
                                                             <p>: {{ $agent->username }}</p>
-                                                            <p>: {{ isset($agent->no_hp) ? $agent->ho_hp : "-" }}</p>
+                                                            <p>: {{ isset($agent->no_hp) ? $agent->no_hp : "-" }}</p>
                                                             <p>: {{ isset($agent->pekerjaan) ? $agent->pekerjaan : "-" }}</p>
                                                         </div>
                                                     </div>
@@ -141,7 +141,7 @@
                                                             aria-labelledby="dropdownMenuButton">
                                                             <button id="EditAgentBtn" class="dropdown-item" data-toggle="modal" data-target="#EditAgent" 
                                                                 data-id="{{$agent->user_id}}" data-nama="{{ $agent->name }}" data-username="{{ $agent->username }}" 
-                                                                data-email="{{$agent->email}}" data-nohp="{{isset($agent->pekerjaan) ? $agent->pekerjaan : ""}}" 
+                                                                data-email="{{$agent->email}}" data-nohp="{{isset($agent->no_hp) ? $agent->no_hp : ""}}" 
                                                                 data-pekerjaan="{{ isset($agent->pekerjaan) ? $agent->pekerjaan : "" }}">
                                                                 Edit Data</button>
                                                             <form action="{{route('HapusAgent', ['agent' => $agent->user_id])}}" method="post">
@@ -183,30 +183,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Select "Logout" below if you are ready to end your current session.
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
-                        Cancel
-                    </button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Tambah Anggota-->
     <div class="modal fade" id="TambahModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -266,42 +242,42 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form action="#" class="user" autocomplete="off" method="POST">
+                <form action="{{route('UpdateAgent')}}" class="user" autocomplete="off" method="POST">
                     @method("PATCH")
                     @csrf
                     <div class="modal-body">
                             <div class="form-group">
                                 <div class="mb-3">
                                     <label for="Edit_Name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="Edit_Name"
+                                    <input type="text" class="form-control" id="Edit_Name" name="nama_anggota"
                                         placeholder="cth. Abdul Hafiz">
                                 </div>
                                 {{-- <div class="mb-3">
                                     <label for="Edit_Username" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="Edit_Username"
+                                    <input type="text" class="form-control" id="Edit_Username" name="username_anggota"
                                         placeholder="cth. user26">
                                 </div> --}}
                                 {{-- <div class="mb-3">
                                     <label for="Edit_Email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="Edit_Email"
+                                    <input type="email" class="form-control" id="Edit_Email" name="email_anggota"
                                         placeholder="cth. user@radar.com">
                                 </div> --}}
                                 {{-- <div class="mb-3">
                                     <label for="Edit_Password" class="form-label">Password</label>
-                                    <input type="email" class="form-control" id="Edit_Password"
+                                    <input type="email" class="form-control" id="Edit_Password" name="password_anggota"
                                         placeholder="cth. user@radar.com">
                                 </div> --}}
                                 <div class="mb-3">
                                     <label for="Edit_NoHP" class="form-label">No. HP</label>
-                                    <input type="text" class="form-control" id="Edit_NoHP"
+                                    <input type="text" class="form-control" id="Edit_NoHP" name="nohp_anggota"
                                         placeholder="cth. user26">
                                 </div>
                                 <div class="mb-3">
                                     <label for="Edit_Pekerjaan" class="form-label">Pekerjaan</label>
-                                    <input type="text" class="form-control" id="Edit_Pekerjaan"
+                                    <input type="text" class="form-control" id="Edit_Pekerjaan" name="pekerjaan_anggota"
                                         placeholder="cth. user26" required>
                                 </div>
-                                <input type="hidden" id="Id_Edit" name="agent_id" value="">
+                                <input type="hidden" id="Id_Edit" name="no_anggota" value="">
                             </div>
                     </div>
                     <div class="modal-footer">

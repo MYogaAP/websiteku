@@ -47,20 +47,26 @@ class CallAgentController extends Controller
         return redirect()->route('agentData');
     }
     
-    function UpdateTheAgent(Request $request, $agent) {
+    function UpdateTheAgent(Request $request) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => gethostname() . '/websiteku/public/api/DeleteAgent/'. $agent,
+        CURLOPT_URL => gethostname() .'/websiteku/public/api/AdminUpdateAgentProfile/'. $request->no_anggota,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 0,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'DELETE',
+        CURLOPT_CUSTOMREQUEST => 'PATCH',
+        CURLOPT_POSTFIELDS =>'{
+            "name" : "'.$request->nama_anggota.'",
+            "no_hp" : "'.$request->nohp_anggota.'",
+            "pekerjaan" : "'.$request->pekerjaan_anggota.'"
+        }',
         CURLOPT_HTTPHEADER => array(
             'Accept: application/json',
-            'Authorization: Bearer '. Cookie::get('auth')
+            'Authorization: Bearer '. Cookie::get('auth'),
+            'Content-Type: application/json'
         ),
         ));
         $response = curl_exec($curl);

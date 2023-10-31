@@ -75,8 +75,12 @@
                             <input type="username" class="form-control rounded-pill" id="username" name='username'
                                 placeholder="username" value="{{$data->username}}" disabled>
                         </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control rounded-pill" id="email" name='email'
+                                placeholder="email" value="{{$data->email}}" disabled>
+                        </div>
 
-                        <form action="{{route('UpdatePasswordCall')}}" method="post" id="UpdatePassword">
+                        <form action="{{route('UpdatePasswordCall')}}" method="post" id="UpdatePassword" autocomplete="off">
                             @method('PATCH')
                             @csrf
                             <div class="mb-3">
@@ -88,23 +92,25 @@
                             </div>
                         </form>
 
-                        <form action="{{route('UpdateProfileCall')}}" method="POST">
-                        @method('PATCH')
-                        @csrf
-
-                        <div class="mb-3">
-                            <input type="text" class="form-control rounded-pill" id="no_hp" name="no_hp"
-                                placeholder="No HP" value="{{$data->no_hp}}">
-                        </div>
-                        <div class="mb-3">
-                            <input type="text" class="form-control rounded-pill" id="pekerjaan" name="pekerjaan"
-                                placeholder="Pekerjaan" value="{{$data->pekerjaan}}">
-                        </div>
+                        <form action="{{route('UpdateProfileCall')}}" method="POST" autocomplete="off">
+                            @method('PATCH')
+                            @csrf
+                            <div class="mb-3">
+                                <input type="text" class="form-control rounded-pill" id="nama" name="nama"
+                                    placeholder="Nama" value="{{$data->name}}">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control rounded-pill" id="no_hp" name="no_hp"
+                                    placeholder="No HP" value="{{$data->no_hp}}">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control rounded-pill" id="pekerjaan" name="pekerjaan"
+                                    placeholder="Pekerjaan" value="{{$data->pekerjaan}}">
+                            </div>
                         <div class="d-flex flex-row-reverse justify-content-between">
                             <div class="text-start m">
                                 <button type="submit" class="btn btn-primary rounded-pill px-5 mb-3">Simpan</button>
                             </div>
-                            
                         </form>
                             <div class="text-end">
                                 <form action="{{route('LogoutCall')}}" method='POST'>
@@ -116,14 +122,14 @@
                         </div>
 
                         @if(!empty($MessageSuccess))
-                            <div class="mb-3 alert alert-success">
+                            <div class="mb-3 alert alert-success fade">
                                 {{ $MessageSuccess }}
                             </div>
                         @endif
 
                         @if(!empty($MessageWarning))
                             @foreach ($MessageWarning as $message)
-                                <div class="mb-3 alert alert-danger">
+                                <div class="mb-3 alert alert-danger fade">
                                     {{$message}}
                                 </div>
                             @endforeach
