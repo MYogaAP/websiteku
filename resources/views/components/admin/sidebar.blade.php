@@ -25,22 +25,22 @@
                 <span>Order Data</span></a>
         </li>
 
-        <!-- Nav Item - Pemesanan Iklan -->
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('pemesanan') }}">
-                <i class="fas fa-fw fa-pen-alt"></i>
-                <span>Pesan Iklan</span></a>
-        </li>
-
         <!-- Nav Item - Tables -->
         <li class="nav-item">
             <a class="nav-link" href="{{ route('LihatPaket') }}">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Paket Data</span></a>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider" />
+            </li>
+            
+        <!-- Nav Item - Pemesanan Iklan -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('pemesanan') }}">
+                    <i class="fas fa-fw fa-pen-alt"></i>
+                    <span>Pesan Iklan</span></a>
+            </li>
+            
+            <!-- Divider -->
+            <hr class="sidebar-divider" />
 
         <!-- Heading -->
         <div class="sidebar-heading">Utility</div>

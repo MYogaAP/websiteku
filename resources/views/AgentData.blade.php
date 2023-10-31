@@ -87,20 +87,18 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h5 class="m-0 font-weight-bold text-primary mb-2">
-                                Data Anggota Divisi Iklan
-                            </h5>
                             <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
+                                <div class="col-10">
+                                    <h4 class="m-0 font-weight-bold text-primary mb-2">Data Anggota Divisi Iklan</h4>
+                                </div>
+                                <div class="col-2 text-right">
                                     <a href="#" class="btn btn-primary btn-icon-split">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-plus"></i>
                                         </span>
-                                        <span class="text" data-toggle="modal" data-target="#TambahModal">Tambah
-                                            Agent</span>
+                                        <span class="text" data-toggle="modal" data-target="#TambahModal">Tambah Agent</span>
                                     </a>
                                 </div>
-
                             </div>
                         </div>
                         <div class="card-body">
