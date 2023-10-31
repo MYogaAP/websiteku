@@ -58,7 +58,7 @@
                             <input type="password" id="password" name="password" class="form-control rounded-pill" aria-describedby="passwordHelpBlock" placeholder="Ketik password disini" required>
                         </div>
                         <div class="mb-3">
-                            <input type="password" id="confirm_password" name="confirm_password" class="form-control rounded-pill" aria-describedby="passwordHelpBlock" placeholder="Ketik password disini" required>
+                            <input type="password" id="confirm_password" name="confirm_password" class="form-control rounded-pill" aria-describedby="passwordHelpBlock" placeholder="Ketik ulang password disini" required>
                         </div>
                         <button type="submit" class="btn btn-primary rounded-pill px-5">Register</button>
                 </form>
