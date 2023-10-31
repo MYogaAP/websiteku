@@ -49,13 +49,16 @@
                 <form method="POST" action="{{ route('RegisterCall')}}">
                     @csrf
                         <div class="mb-3">
-                            <input type="email" name="email" class="form-control rounded-pill" id="email" placeholder="Ketik email disini">
+                            <input type="email" name="email" class="form-control rounded-pill" id="email" placeholder="Ketik email disini" required>
                         </div>
                         <div class="mb-3">
-                            <input type="username" name="username" class="form-control rounded-pill" id="username" placeholder="Ketik username disini">
+                            <input type="username" name="username" class="form-control rounded-pill" id="username" placeholder="Ketik username disini" required>
                         </div>
                         <div class="mb-3">
-                            <input type="password" id="password" name="password" class="form-control rounded-pill" aria-describedby="passwordHelpBlock" placeholder="Ketik password disini">
+                            <input type="password" id="password" name="password" class="form-control rounded-pill" aria-describedby="passwordHelpBlock" placeholder="Ketik password disini" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" id="confirm_password" name="confirm_password" class="form-control rounded-pill" aria-describedby="passwordHelpBlock" placeholder="Ketik password disini" required>
                         </div>
                         <button type="submit" class="btn btn-primary rounded-pill px-5">Register</button>
                 </form>
@@ -66,6 +69,21 @@
             </div>
         </div>
     </div>
+
+    <script>
+        var password = document.getElementById("password");
+        var confirm_password = document.getElementById("confirm_password");
+
+        function validatePassword(){
+            if(password.value != confirm_password.value) {
+                confirm_password.setCustomValidity("Passwords Don't Match");
+            } else {
+                confirm_password.setCustomValidity('');
+            }
+        }
+        password.onchange = validatePassword;
+        confirm_password.onkeyup = validatePassword;
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">

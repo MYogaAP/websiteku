@@ -80,10 +80,10 @@
 
                 <form method="POST" action="{{ route('LoginCall')}}">
                 @csrf
-                    <input type="username" name="username" class="form-control rounded-pill" id="exampleFormControlInput1" placeholder="username">
+                    <input type="username" name="username" class="form-control rounded-pill" id="exampleFormControlInput1" placeholder="username" required>
                 </div>
                 <div class="mb-3">
-                    <input type="password" name="password" id="inputPassword5" class="form-control rounded-pill" aria-describedby="passwordHelpBlock" placeholder="password">
+                    <input type="password" name="password" id="inputPassword5" class="form-control rounded-pill" aria-describedby="passwordHelpBlock" placeholder="password" required>
                 </div>
                     <button type="submit" class="btn btn-primary rounded-pill px-5">Login</button>
                 </form>
