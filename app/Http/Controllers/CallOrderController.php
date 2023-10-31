@@ -58,8 +58,6 @@ class CallOrderController extends Controller
 
     $request->session()->put('cancel', $cancel);
 
-    dd($request->session()->get('order_page', 'default'));
-
     return redirect()->route('UserOrderHalamanNomor', ['page' => $request->session()->get('order_page', 'default')]); 
   }
 

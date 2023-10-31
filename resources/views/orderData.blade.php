@@ -81,26 +81,24 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th class="text-secondary">Id Order</th>
+                                            <th class="text-secondary">Order Invoice</th>
                                             <th class="text-secondary">Nama Instansi</th>
                                             <th class="text-secondary">Mulai Iklan</th>
                                             <th class="text-secondary">Akhir Iklan</th>
                                             <th class="text-secondary">Status Pembayaran</th>
                                             <th class="text-secondary">Status Iklan</th>
-                                            <th class="text-secondary">Order Invoice</th>
                                             <th class="text-secondary">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($response->data as $order)
                                             <tr>
-                                                <td>{{ $order->order_id }}</td>
+                                                <td>1234567890</td>
                                                 <td>{{ $order->nama_instansi }}</td>
                                                 <td>{{ $order->mulai_iklan }}</td>
                                                 <td>{{ $order->akhir_iklan }}</td>
                                                 <td>{{ $order->status_pembayaran }}</td>
                                                 <td>{{ $order->status_iklan }}</td>
-                                                <td>{{ $order->order_invoice }}</td>
                                                 <td>
                                                     <div class="dropdown mb-4">
                                                         <button class="btn btn-primary " type="button"
@@ -110,8 +108,11 @@
                                                         </button>
                                                         <div class="dropdown-menu animated--fade-in"
                                                             aria-labelledby="dropdownMenuButton">
-                                                            <a class="dropdown-item" href="#">Konfirmasi
-                                                                Pembayaran</a>
+                                                            <a class="dropdown-item" href="#">Menunggu Konfirmasi</a>
+                                                            <a class="dropdown-item" href="#">Dalam Antrian</a>
+                                                            <a class="dropdown-item" href="#">Sedang Diproses</a>
+                                                            <a class="dropdown-item" href="#">Telah Diupload</a>
+                                                            <a class="dropdown-item" href="#">Dibatalkan</a>
                                                         </div>
                                                     </div>
                                                 </td>

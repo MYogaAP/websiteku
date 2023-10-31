@@ -38,7 +38,7 @@
             $curl = curl_init();
 
             curl_setopt_array($curl, [
-                CURLOPT_URL => '127.0.0.1/websiteku/public/api/AgentList',
+                CURLOPT_URL => gethostname().'/websiteku/public/api/AgentList',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -55,14 +55,27 @@
 
             if ($http_status == 401) {
                 setcookie('auth', '', time() - 3600, '/');
-                header('Location: ' . URL::to('/login'), true, 302);
+                header('Location: ' . route('loginPage'), true, 302);
                 exit();
             }
         @endphp
     @endif
+
+    <script>
+        window.onload = function() {
+            var sidebar = $('.sidebar');
+            var content = $('.content');
+
+            if (content.height() > sidebar.height() )
+                sidebar.css('height', content.height());
+            else
+                sidebar.css('height', sidebar.height());
+        }
+    </script>
+
     <!-- Page Wrapper -->
-    <div id="wrapper">
-        <x-admin.sidebar />
+    <div id="wrapper" class="content">
+        <x-admin.sidebar class="sidebar"/>
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <!-- Main Content -->
@@ -75,7 +88,7 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h5 class="m-0 font-weight-bold text-primary mb-2">
-                                Agent Data
+                                Data Anggota Divisi Iklan
                             </h5>
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
@@ -95,26 +108,41 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th class="text-secondary">Id User</th>
-                                            <th class="text-secondary">Username</th>
+                                            <th class="text-secondary">Detail Anggota</th>
                                             <th class="text-secondary">Email</th>
-                                            <th class="text-secondary">role</th>
                                             <th class="text-secondary">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($response->data as $agent)
                                             <tr>
-                                                <td>{{ $agent->user_id }}</td>
-                                                <td>{{ $agent->username }}</td>
-                                                <td>{{ $agent->email }}</td>
-                                                <td>{{ $agent->role }}</td>
                                                 <td>
-                                                    <button class="btn btn-primary " type="button"
+                                                    <div class="d-flex flex-row">
+                                                        <div class="p-2">
+                                                            <p>Name</p>
+                                                            <p>Username </p>
+                                                            <p>No. HP</p>
+                                                            <p>Pekerjaan</p> 
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p>: {{ $agent->name }}</p>
+                                                            <p>: {{ $agent->username }}</p>
+                                                            <p>: {{ isset($agent->no_hp) ? $agent->ho_hp : "-" }}</p>
+                                                            <p>: {{ isset($agent->pekerjaan) ? $agent->pekerjaan : "-" }}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>{{ $agent->email }}</td>
+                                                <td>
+                                                    <form action="#" method="POST">
+                                                        @method("DELETE")
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-primary " type="button"
                                                         id="dropdownMenuButton" data-toggle="dropdown"
                                                         aria-haspopup="true" aria-expanded="false">
-                                                        <i class="fas fa-minus"></i> Hapus
-                                                    </button>
+                                                            <i class="fas fa-minus"></i> Hapus
+                                                        </button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -177,17 +205,22 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Paket</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Anggota Divisi Iklan</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="user">
+                    <form class="user" autocomplete="off">
                         <div class="form-group">
                             <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="cth. Abdul Hafiz">
+                            </div>
+                            <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Username</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
+                                <input type="text" class="form-control" id="exampleFormControlInput1"
                                     placeholder="cth. user26">
                             </div>
                             <div class="mb-3">
@@ -197,8 +230,8 @@
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Password</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="cth. User@radar21">
+                                <input type="password" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="RadarPaham_123Banua">
                             </div>
                         </div>
                         <a href="login.html" class="btn btn-primary btn-user btn-block">
