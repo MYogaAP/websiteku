@@ -65,6 +65,10 @@
                         <i class="fas fa-address-card fa-sm fa-fw mr-2 text-gray-400"></i>
                         Profile
                     </a>
+                    <a class="dropdown-item" href="{{ route('SendToRiwayatUser') }}">
+                        <i class="fas fa-address-book fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Riwayat
+                    </a>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                         Logout

@@ -34,13 +34,22 @@ class OrderController extends Controller
     }
 
     function AllOrders() {
-        $orders = OrderData::with('PacketData')->get();
-        return OrdersListResource::collection($orders);
+        $orders = OrderData::with('PacketData')
+        ->orderBy("status_pembayaran", "asc")
+        ->orderBy("created_at", "desc")
+        ->orderBy("mulai_iklan", "desc")
+        ->orderBy("status_iklan", "desc")
+        ->get();
+        return OrderDetailResource::collection($orders);
     }
 
     function NeedConfirmation() {
-        $orders = OrderData::where('status_pembayaran', 'Berhasil')->simplePaginate(5);
-        return OrdersListResource::collection($orders);
+        $orders = OrderData::where('status_pembayaran', 'Berhasil')
+        ->orderBy("created_at", "desc")
+        ->orderBy("mulai_iklan", "desc")
+        ->orderBy("status_iklan", "desc")
+        ->get();
+        return OrderDetailResource::collection($orders);
     }
 
     function UpdateOrder($order_id, $update_type, $status) {

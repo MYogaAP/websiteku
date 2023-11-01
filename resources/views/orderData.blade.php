@@ -83,11 +83,8 @@
                                     <thead>
                                         <tr>
                                             <th class="text-secondary">Detail Nomor</th>
-                                            <th class="text-secondary">Nama Instansi</th>
-                                            <th class="text-secondary">Mulai Iklan</th>
-                                            <th class="text-secondary">Akhir Iklan</th>
-                                            <th class="text-secondary">Status Pembayaran</th>
-                                            <th class="text-secondary">Status Iklan</th>
+                                            <th class="text-secondary">Detail Iklan</th>
+                                            <th class="text-secondary">Foto Iklan</th>
                                             <th class="text-secondary">Action</th>
                                         </tr>
                                     </thead>
@@ -108,13 +105,47 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>{{ $order->nama_instansi }}</td>
-                                                <td>{{ $order->mulai_iklan }}</td>
-                                                <td>{{ $order->akhir_iklan }}</td>
-                                                <td>{{ $order->status_pembayaran }}</td>
-                                                <td>{{ $order->status_iklan }}</td>
                                                 <td>
-                                                    <div class="dropdown mb-4">
+                                                    <div class="d-flex flex-row">
+                                                        <div class="p-2">
+                                                            <p>Nama Instansi</p>
+                                                            <p>Ukuran Iklan</p>
+                                                            <p>Tanggal Penerbitan</p>
+                                                            <p>Lama Terbit</p>
+                                                            <p>Status Pembayaran</p>
+                                                            <p>Status Iklan</p>
+                                                            <p>Harga Paket</p>
+                                                            <p>Harga Total</p>
+                                                            <p>Deskripsi Iklan</p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p>: {{$order->nama_instansi}}</p>
+                                                            <p>: {{$order->tinggi}} x {{$order->kolom}} mmk</p>
+                                                            <p>: {{$order->mulai_iklan}} hingga {{$order->akhir_iklan}}</p>
+                                                            <p>: {{$order->lama_hari}} Hari</p>
+                                                            <p>: {{$order->status_pembayaran}}</p>
+                                                            <p>: {{$order->status_iklan}}</p>
+                                                            <p>: Rp. @money($order->harga_paket) / Hari</p>
+                                                            <p>: Rp. @money($order->harga_paket * $order->lama_hari)</p>
+                                                            <p>: {{$order->deskripsi_iklan}}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="container" style="max-height: 18.5rem; width: 15rem; overflow: hidden"> 
+                                                        @if($order->foto_iklan == "none")
+                                                            <a href="{{ asset('images/logo.jpeg') }}" target="_blank">
+                                                                <img src="{{ asset('images/logo.jpeg') }}" class="card-img-top" alt="" style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
+                                                            </a>
+                                                        @else
+                                                            <a href="{{ asset('storage/image/'.$order->foto_iklan) }}" target="_blank">
+                                                                <img src="{{ asset('storage/image/'.$order->foto_iklan) }}" class="card-img-top" alt="" style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
+                                                            </a>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="dropdown mb-4 text-center">
                                                         <button class="btn btn-primary " type="button"
                                                             id="dropdownMenuButton" data-toggle="dropdown"
                                                             aria-haspopup="true" aria-expanded="false">
@@ -122,11 +153,20 @@
                                                         </button>
                                                         <div class="dropdown-menu animated--fade-in"
                                                             aria-labelledby="dropdownMenuButton">
-                                                            <a class="dropdown-item" href="#">Menunggu Konfirmasi</a>
-                                                            <a class="dropdown-item" href="#">Dalam Antrian</a>
-                                                            <a class="dropdown-item" href="#">Sedang Diproses</a>
-                                                            <a class="dropdown-item" href="#">Telah Diupload</a>
-                                                            <a class="dropdown-item" href="#">Dibatalkan</a>
+                                                            <form action="#" method="POST">
+                                                                @method("PATCH")
+                                                                @csrf
+                                                                <button type="submit" class="dropdown-item" formaction="">
+                                                                    Menunggu Konfirmasi</button>
+                                                                <button type="submit" class="dropdown-item" formaction="">
+                                                                    Dalam Antrian</button>
+                                                                <button type="submit" class="dropdown-item" formaction="">
+                                                                    Sedang Diproses</button>
+                                                                <button type="submit" class="dropdown-item" formaction="">
+                                                                    Telah Diupload</button>
+                                                                <button type="submit" class="dropdown-item" formaction="">
+                                                                    Dibatalkan</button>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </td>

@@ -96,6 +96,8 @@ Route::get('/OrderHalamanSelanjutnya', [DataLinkerController::class, 'LoadNextOr
 Route::get('/OrderHalamanSebelumnya', [DataLinkerController::class, 'LoadPrevOrderData'])->name('UserOrderHalamanSebelumnya');
 Route::get('/OrderHalaman/{page}', [DataLinkerController::class, 'LoadNumberOrderData'])->name('UserOrderHalamanNomor');
 
+// Dashboard Admin Order
+
 // Dashboard Admin Packet
 Route::post('/TambahPaket', [DashboardController::class, 'AddNewPacket'])->name('TambahPaket');
 Route::patch('/SembunyikanPaket/{packet}', [DashboardController::class, 'HideThePacket'])->name('SembunyikanPaket');

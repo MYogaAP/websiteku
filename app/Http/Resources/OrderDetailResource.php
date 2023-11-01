@@ -30,6 +30,7 @@ class OrderDetailResource extends JsonResource
             'invoice_id' => $this->invoice_id,
             'status_pembayaran' => $this->status_pembayaran,
             'nama_paket' => $packetData->nama_paket,
+            'format_warna' => $packetData->format_warna,
             'tinggi' => $packetData->tinggi,
             'kolom' => $packetData->kolom,
             'harga_paket' => $packetData->harga_paket,
