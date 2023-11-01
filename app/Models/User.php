@@ -4,14 +4,13 @@ namespace App\Models;
 
 use App\Models\OrderData;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User extends Authenticatable
 {
     use HasFactory, HasApiTokens, Notifiable, SoftDeletes;
 
@@ -50,6 +49,7 @@ class User extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
 

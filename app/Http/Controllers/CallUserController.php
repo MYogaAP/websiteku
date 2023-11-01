@@ -32,10 +32,12 @@ class CallUserController extends Controller
         ));
 
         $response = curl_exec($curl);
-        curl_close($curl);
         $response = json_decode($response);
+        curl_close($curl);
 
-        if(!empty($response->message)) {
+        if(isset($response->errors)) {
+            return view('login', ['errors_msg' => $response->errors]);
+        } elseif (isset($response->message)){
             return view('login', ['message' => $response->message]);
         }
 
@@ -69,11 +71,13 @@ class CallUserController extends Controller
         ));
 
         $response = curl_exec($curl);
-        curl_close($curl);
         $response = json_decode($response);
+        curl_close($curl);
         
-        if(!empty($response->message)) {
-            return view('register', ['message' => $response->message]);
+        if(isset($response->errors)) {
+            return view('login', ['errors_msg' => $response->errors]);
+        } elseif (isset($response->message)){
+            return view('login', ['message' => $response->message]);
         }
 
         return view('login');

@@ -2,8 +2,8 @@
   
 namespace App\Http\Controllers;
   
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\UserData;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -24,7 +24,7 @@ class AuthController extends Controller
             'password' => 'required|confirmed'
         ])->validate();
   
-        UserData::create([
+        User::create([
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password)

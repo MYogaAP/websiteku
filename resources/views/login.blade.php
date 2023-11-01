@@ -54,7 +54,8 @@
             
             if($http_status == 401){
                 setcookie("auth", "", time() - 3600, "/");
-                header("Location: " . URL::to('/login'), true, 302);
+                session()->flush();
+                header("Location: " . route('loginPage'), true, 302);
                 exit();
             }
         @endphp
@@ -68,16 +69,9 @@
     {{-- Content --}}
     <div class="container text-center">
         <div class="row align-items-center justify-content-center" style="height: 80vh">
-            <div class="col-4 shadow p-5">
+            <div class="col-4 shadow p-5 mt-5">
                 <h1 class="mb-5">Masuk</h1>
                 <div class="mb-3">
-
-                @if(isset($message))
-                    <p>{{ $message }}</p>
-                @else
-                    <p></p>
-                @endif
-
                 <form method="POST" action="{{ route('LoginCall')}}">
                 @csrf
                     <input type="username" name="username" class="form-control rounded-pill" id="exampleFormControlInput1" placeholder="username" required>
@@ -93,6 +87,26 @@
                 </div>
             </div>
         </div>
+        @if(isset($errors_msg))
+            <div class="row align-items-center justify-content-center" style="margin: -2rem">
+                @foreach ($errors_msg as $error)
+                <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
+                    @foreach ($error as $msg)
+                        {{$msg}} <br>
+                    @endforeach
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endforeach
+            </div> 
+        @endif
+        @if(isset($message))
+            <div class="row align-items-center justify-content-center" style="margin: -2rem">
+                <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
+                    {{$message}} 
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div> 
+        @endif
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
