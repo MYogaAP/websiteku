@@ -61,6 +61,23 @@
                 </form>
             </div>
         </div>
+        @if ($errors->any())
+            <div class="row align-items-center justify-content-center" style="margin: -2rem">
+                <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
+                    @foreach ($errors->all() as $data)
+                        {{$data}} <br>
+                    @endforeach
+                </div>
+            </div>                    
+        @endif
+        @if (session()->has('status'))
+            <div class="row align-items-center justify-content-center" style="margin: -2rem">
+                <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
+                    {{session()->get('status')}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div> 
+        @endif
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

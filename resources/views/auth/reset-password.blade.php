@@ -33,22 +33,6 @@
         <div class="row align-items-center justify-content-center" style="height: 80vh">
             <div class="col-4 shadow p-5 mt-5">
                 <h1 class="mb-5">Lupa Password</h1>
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $data)
-                                <li>
-                                    {{$data}}
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>                    
-                @endif
-                @if (session()->has('status'))
-                    <div class="alert alert-success">
-                        {{session()->get('status')}}
-                    </div>
-                @endif
                 <form method="POST" action="{{route('password.update')}}">
                     @csrf
                         <input type="hidden" name="token" value="{{request()->token}}">
@@ -63,6 +47,23 @@
                 </form>
             </div>
         </div>
+        @if ($errors->any())
+            <div class="row align-items-center justify-content-center" style="margin: -2rem">
+                <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
+                    @foreach ($errors->all() as $data)
+                        {{$data}} <br>
+                    @endforeach
+                </div>
+            </div>                    
+        @endif
+        @if (session()->has('status'))
+            <div class="row align-items-center justify-content-center" style="margin: -2rem">
+                <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
+                    {{session()->get('status')}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div> 
+        @endif
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
