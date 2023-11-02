@@ -99,8 +99,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', '2011016210001@mhs.ulm.ac.id'),
+        'name' => env('MAIL_FROM_NAME', 'Radar Iklan Account Recovery'),
     ],
 
     /*

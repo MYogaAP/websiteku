@@ -84,6 +84,7 @@
 
                 <div class="mt-5">
                     <span>Belum memiliki akun? <a href="{{ route('registerPage') }}" class="fw-bold">Daftar Sekarang</a></span>
+                    <span><a href="{{ route('password.request') }}" class="fw-bold" target="_blank">Lupa Password?</a></span>
                 </div>
             </div>
         </div>
@@ -101,8 +102,16 @@
         @endif
         @if(isset($message))
             <div class="row align-items-center justify-content-center" style="margin: -2rem">
-                <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
+                <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
                     {{$message}} 
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div> 
+        @endif
+        @if (session()->has('status'))
+            <div class="row align-items-center justify-content-center" style="margin: -2rem">
+                <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
+                    {{session()->get('status')}}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div> 
