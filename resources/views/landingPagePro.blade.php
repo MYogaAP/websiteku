@@ -16,7 +16,7 @@
 
     <style>
         header {
-            background-image: url({{ asset('customerStyle/background-home.jpg') }});
+            background-image: url({{ asset('customerStyle/background-home.png') }});
         }
     </style>
 </head>
