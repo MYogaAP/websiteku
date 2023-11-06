@@ -36,9 +36,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/UserOrdersList', [OrderController::class, 'GetUserOrdersList']);
     Route::post('/CheckImage', [OrderController::class, 'CheckImage']);
     Route::middleware(['an.agent'])->group(function () {
-        Route::get('/AgentAllOrders', [OrderController::class, 'AllOrders']);
+        Route::get('/AgentAllDetailedOrders', [OrderController::class, 'AllDetailedOrders']);
+        Route::get('/AgentResponsibility', [OrderController::class, 'AgentResponsibilityOrders']);
         Route::get('/NeedConfirmation', [OrderController::class, 'NeedConfirmation']);
         Route::patch('/UpdateOrder/{order_id}/{update_type}/{status}', [OrderController::class, 'UpdateOrder']);
+        Route::patch('/ConfirmOrder/{order_id}/{update_type}', [OrderController::class, 'ConfirmOrder']);
     });
     Route::get('/OrderDetail/{order_id}', [OrderController::class, 'GetOrderDetail']);
     Route::post('/StoreOrder', [OrderController::class, 'StoreOrder']);

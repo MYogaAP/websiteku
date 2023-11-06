@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_data', function (Blueprint $table) {
-            $table->id('order_id');
-            $table->string('nomor_order', 255)->nullable();
+        Schema::create('order_details', function (Blueprint $table) {
+            $table->id('order_detail_id');
             $table->string('nama_instansi');
             $table->string('email_instansi');
             $table->string('nomor_instansi');
@@ -22,15 +21,13 @@ return new class extends Migration
             $table->date('akhir_iklan');
             $table->integer('lama_hari');
             $table->string('foto_iklan');
-            $table->enum('status_iklan', ['Menunggu Konfirmasi', 'Dalam Antrian', 'Sedang Diproses', 'Telah Diupload', 'Dibatalkan'])->default('Menunggu Konfirmasi');
-            $table->enum('status_pembayaran', ['Belum Lunas', 'Lunas', 'Dibatalkan'])->default('Belum Lunas');
-            $table->string('nomor_invoice', 255)->nullable();
+            $table->enum('status_iklan', [1, 2, 3, 4, 5])->default(1);
+            $table->enum('status_pembayaran', [1, 2, 3, 4])->default(1);
             $table->string('invoice_id', 255)->nullable();
-            
-            $table->unsignedBigInteger('user_id');
+            $table->string('detail_kemajuan', 255)->nullable();
+
             $table->unsignedBigInteger('packet_id');
             $table->foreign('packet_id')->references('packet_id')->on('packet_data');
-            $table->foreign('user_id')->references('user_id')->on('users');
             $table->timestamps();
         });
     }
@@ -40,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_data');
+        Schema::dropIfExists('order_details');
     }
 };

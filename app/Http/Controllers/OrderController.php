@@ -4,66 +4,192 @@ namespace App\Http\Controllers;
 
 use App\Models\OrderData;
 use App\Models\PacketData;
+use App\Models\OrderDetail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\OrdersListResource;
-use App\Http\Resources\OrderDetailResource;
-use Illuminate\Validation\Rules\Dimensions;
+use App\Http\Resources\OrderDetailedResource;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class OrderController extends Controller
 {
     function GetUserOrdersList() {
-        $orders = OrderData::with('PacketData')
-        ->where("user_id", Auth::user()->user_id)
-        ->orderBy("status_pembayaran", "asc")
-        ->orderBy("created_at", "desc")
-        ->orderBy("mulai_iklan", "desc")
-        ->orderBy("status_iklan", "desc")
+        $orders = OrderData::where("user_id", Auth::user()->user_id)
+        ->with(['OrderDetail', 'OrderDetail.PacketData'])
+        ->orderBy(OrderDetail::select('status_pembayaran')
+            ->whereColumn('order_detail_id', 'order_data.order_detail_id')
+            ->latest()
+        )
+        ->orderBy(OrderDetail::select('status_iklan')
+            ->whereColumn('order_detail_id', 'order_data.order_detail_id')
+            ->latest()
+        )
+        ->orderBy(OrderDetail::select('mulai_iklan')
+            ->whereColumn('order_detail_id', 'order_data.order_detail_id')
+            ->latest()
+        )
+        ->orderBy(OrderDetail::select('created_at')
+            ->whereColumn('order_detail_id', 'order_data.order_detail_id')
+            ->latest()
+        )
         ->simplePaginate(5);
         return OrdersListResource::collection($orders);
     }
 
     function GetOrderDetail($order_id) {
-        $order = OrderData::with('PacketData')
+        $order = OrderData::with(['OrderDetail', 'OrderDetail.PacketData'])
         ->where("order_id", $order_id)
         ->get();
-        return OrderDetailResource::collection($order);
+        return OrderDetailedResource::collection($order);
     }
 
-    function AllOrders() {
-        $orders = OrderData::with('PacketData')
-        ->orderBy("status_pembayaran", "asc")
-        ->orderBy("created_at", "desc")
-        ->orderBy("mulai_iklan", "desc")
-        ->orderBy("status_iklan", "desc")
+    function AllDetailedOrders() {
+        $orders = OrderData::with(['OrderDetail', 'OrderDetail.PacketData'])
+        ->orderBy(OrderDetail::select('status_pembayaran')
+            ->whereColumn('order_detail_id', 'order_data.order_detail_id')
+            ->latest()
+        )
+        ->orderBy(OrderDetail::select('status_iklan')
+            ->whereColumn('order_detail_id', 'order_data.order_detail_id')
+            ->latest()
+        )
+        ->orderBy(OrderDetail::select('mulai_iklan')
+            ->whereColumn('order_detail_id', 'order_data.order_detail_id')
+            ->latest()
+        )
+        ->orderBy(OrderDetail::select('created_at')
+            ->whereColumn('order_detail_id', 'order_data.order_detail_id')
+            ->latest()
+        )
         ->get();
-        return OrderDetailResource::collection($orders);
+        return OrderDetailedResource::collection($orders);
+    }
+
+    function AgentResponsibilityOrders() {
+        $orders = OrderData::with(['OrderDetail', 'OrderDetail.PacketData'])
+        ->where('agent_id', Auth::user()->user_id)
+        ->orderBy(OrderDetail::select('status_pembayaran')
+            ->whereColumn('order_detail_id', 'order_data.order_detail_id')
+            ->latest()
+        )
+        ->orderBy(OrderDetail::select('status_iklan')
+            ->whereColumn('order_detail_id', 'order_data.order_detail_id')
+            ->latest()
+        )
+        ->orderBy(OrderDetail::select('mulai_iklan')
+            ->whereColumn('order_detail_id', 'order_data.order_detail_id')
+            ->latest()
+        )
+        ->orderBy(OrderDetail::select('created_at')
+            ->whereColumn('order_detail_id', 'order_data.order_detail_id')
+            ->latest()
+        )
+        ->get();
+        return OrderDetailedResource::collection($orders);
     }
 
     function NeedConfirmation() {
-        $orders = OrderData::where('status_pembayaran', 'Berhasil')
-        ->orderBy("created_at", "desc")
-        ->orderBy("mulai_iklan", "desc")
-        ->orderBy("status_iklan", "desc")
+        $orders = OrderData::with(['OrderDetail', 'OrderDetail.PacketData'])
+        ->whereHas('OrderDetail', function ($query) {
+            $query->where('status_pembayaran', 'Menunggu Konfirmasi');
+        })
+        ->orderByDesc(OrderDetail::select('status_pembayaran')
+            ->whereColumn('order_detail_id', 'order_data.order_detail_id')
+            ->latest()
+        )
+        ->orderByDesc(OrderDetail::select('status_iklan')
+            ->whereColumn('order_detail_id', 'order_data.order_detail_id')
+            ->latest()
+        )
+        ->orderBy(OrderDetail::select('mulai_iklan')
+            ->whereColumn('order_detail_id', 'order_data.order_detail_id')
+            ->latest()
+        )
+        ->orderBy(OrderDetail::select('created_at')
+            ->whereColumn('order_detail_id', 'order_data.order_detail_id')
+            ->latest()
+        )
         ->get();
-        return OrderDetailResource::collection($orders);
+        return OrderDetailedResource::collection($orders);
     }
 
     function UpdateOrder($order_id, $update_type, $status) {
-        $confirmOrder = OrderData::findOrFail($order_id);
+        try {
+            $editOrder = OrderData::with("OrderDetail")->findOrFail($order_id);
+        } catch (\Throwable $th) {
+            $errorMessage = "Order yang anda cari tidak ditemukan.";
+            throw new ModelNotFoundException($errorMessage);
+        }
 
         if($update_type == 1){
-            $confirmOrder->status_iklan = $status;
+            $editOrder->OrderDetail->status_iklan = $editOrder->OrderDetail->getStatusIklanValue($status);
         } elseif ($update_type == 2){
-            $confirmOrder->status_pembayaran = $status;
-        }
-        $confirmOrder->save();
+            $editOrder->OrderDetail->status_pembayaran = $editOrder->OrderDetail->getStatusPembayaranValue($status);
+        } 
+        $editOrder->save();
         
         return response()->json([
-            'message' => 'Order has been succesfully updated.',
+            'message' => 'Order berhasil diperbaharui.',
         ]);
+    }
+
+    function ConfirmOrder(Request $request, $order_id, $update_type) {
+        try {
+            $confirmOrder = OrderData::with("OrderDetail")->findOrFail($order_id);
+        } catch (\Throwable $th) {
+            $errorMessage = "Order yang anda cari tidak ditemukan.";
+            throw new ModelNotFoundException($errorMessage);
+        }
+        $filePath = $confirmOrder->OrderDetail->foto_iklan;
+        $msgTolak = "Telah dibatalkan oleh anggota tim Biro Iklan Radar Banjarmasin";
+        $msgTerima = "Telah diterima oleh anggota tim Biro Iklan Radar Banjarmasin";
+        $validate = $request ->validate([
+            'invoice_id' => 'max:255',
+            'nomor_order' => 'max:255',
+            'nomor_invoice' => 'max:255',
+            'nomor_seri' => 'max:255',
+            'detail_kemajuan' => 'max:255'
+        ]);
+
+        if($update_type == 1) {
+            if (Storage::exists('\image\\'.$filePath)){
+                $confirmOrder->OrderDetail->status_iklan = $confirmOrder->OrderDetail->getStatusIklanValue("Menunggu Pembayaran");
+                $confirmOrder->OrderDetail->status_pembayaran = $confirmOrder->OrderDetail->getStatusPembayaranValue("Belum Lunas");
+                $confirmOrder->OrderDetail->invoice_id = $validate["invoice_id"];
+                $confirmOrder->OrderDetail->detail_kemajuan = isset($validate["detail_kemajuan"]) ? $validate["detail_kemajuan"] : $msgTerima;
+                $confirmOrder->OrderDetail->save();
+                $confirmOrder->agent_id = Auth::user()->user_id;
+                $confirmOrder->nomor_order = $validate["nomor_order"];
+                $confirmOrder->nomor_invoice = $validate["nomor_invoice"];
+                $confirmOrder->nomor_seri = $validate["nomor_seri"];
+                $confirmOrder->save();
+
+                return response()->json([
+                    'message' => 'Order berhasil diperbaharui.',
+                ]);
+            }
+        } elseif ($update_type == 2) {            
+            if (Storage::exists('\image\\'.$filePath)){                
+                $confirmOrder->OrderDetail->detail_kemajuan = isset($validate["detail_kemajuan"]) ? $validate["detail_kemajuan"] : $msgTolak;
+                $confirmOrder->OrderDetail->status_iklan = $confirmOrder->OrderDetail->getStatusIklanValue('Dibatalkan');
+                $confirmOrder->OrderDetail->status_pembayaran =  $confirmOrder->OrderDetail->getStatusPembayaranValue('Dibatalkan');
+                $confirmOrder->OrderDetail->foto_iklan = 'none';
+                $confirmOrder->agent_id = null;
+                $confirmOrder->save();
+                $confirmOrder->OrderDetail->save();
+                Storage::delete('\image\\'.$filePath);
+
+                return response()->json([
+                    'message' => 'Order telah berhasil dibatalkan.',
+                ]);
+            }
+        }
+        
+        return response()->json([
+            'message' => 'Order gagal diedit.'
+        ], 404);
     }
 
     function CheckImage(Request $request) {
@@ -93,7 +219,6 @@ class OrderController extends Controller
 
     function StoreOrder(Request $request) {
         $validate = $request ->validate([
-            // 'nomor_order'=>'required',
             'nama_instansi' => 'required|max:255',
             'email_instansi' => 'required|email',
             'nomor_instansi' => 'required|numeric',
@@ -103,8 +228,6 @@ class OrderController extends Controller
             "lama_hari" => 'required',
             'image'=>'required|image',
             'packet_id'=>'required',
-            // 'nomor_invoice'=>'required',
-            'invoice_id'=>'required',
         ]);
 
         $fileName = '';
@@ -119,35 +242,44 @@ class OrderController extends Controller
         }
 
         $request['foto_iklan'] = $fullName;
-        $request['user_id'] = Auth::user()->user_id;
         $request['nomor_instansi'] = $request->nomor_instansi;
-        $order_data = OrderData::create($request->all());
+        $order_detail = OrderDetail::create($request->all());
+
+        OrderData::create([
+            "user_id" => Auth::user()->user_id,
+            "order_detail_id" => $order_detail->order_detail_id,
+        ]);
 
         return response()->json([
-            'message' => 'Order has been succesfully made.',
+            'message' => 'Order telah berhasil kirimkan.',
         ]);
     }
 
     function CancelOrder($order_id) {
-        $cancelOrder = OrderData::findOrFail($order_id);
+        try {
+            $cancelOrder = OrderData::with("OrderDetail")->findOrFail($order_id);
+        } catch (\Throwable $th) {
+            $errorMessage = "Order yang anda cari tidak ditemukan.";
+            throw new ModelNotFoundException($errorMessage);
+        }
+        $filePath = $cancelOrder->OrderDetail->foto_iklan;
 
-        $filePath = $cancelOrder->foto_iklan;
-        if (Storage::exists('\image\\'.$filePath)){
-            
-            Storage::delete('\image\\'.$filePath);
-            
-            $cancelOrder->status_iklan = 'Dibatalkan';
-            $cancelOrder->status_pembayaran =  'Dibatalkan';
-            $cancelOrder->foto_iklan = 'none';
+        if (Storage::exists('\image\\'.$filePath)){            
+            $cancelOrder->OrderDetail->status_iklan = $cancelOrder->OrderDetail->getStatusIklanValue('Dibatalkan');
+            $cancelOrder->OrderDetail->status_pembayaran =  $cancelOrder->OrderDetail->getStatusPembayaranValue('Dibatalkan');
+            $cancelOrder->OrderDetail->foto_iklan = 'none';
+            $cancelOrder->agent_id = null;
             $cancelOrder->save();
+            $cancelOrder->OrderDetail->save();
+            Storage::delete('\image\\'.$filePath);
 
             return response()->json([
-                'message' => 'Order has been succesfully canceled.',
+                'message' => 'Order telah berhasil dibatalkan.',
             ]);
         }
 
         return response()->json([
-            'message' => 'Canceling order failed.',
+            'message' => 'Order gagal dibatalkan.',
         ], 404);
     }
 }

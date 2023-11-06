@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\PacketData;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -14,25 +15,15 @@ class OrderData extends Model
     
     protected $fillable = [
         'nomor_order',
-        'nama_instansi',
-        'email_instansi',
-        'deskripsi_iklan',
-        'nomor_instansi',
-        'mulai_iklan',
-        'akhir_iklan',
-        'lama_hari',
-        'foto_iklan',
-        'status_iklan',
         'nomor_invoice',
-        'status_iklan',
-        'status_pembayaran',
-        'invoice_id',
+        'nomor_seri',
         'user_id',
-        'packet_id',
+        'agent_id',
+        'order_detail_id'
     ];
 
     protected $hidden = [
-        'user_id', 'packet_id'
+        'user_id', 'agent_id', 'order_detail_id'
     ];
 
     protected $primaryKey = 'order_id';
@@ -42,8 +33,13 @@ class OrderData extends Model
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
-    public function PacketData(): BelongsTo
+    public function Agent(): BelongsTo
     {
-        return $this->belongsTo(PacketData::class, 'packet_id', 'packet_id');
+        return $this->belongsTo(User::class, 'agent_id', 'user_id');
+    }
+
+    public function OrderDetail(): HasOne
+    {
+        return $this->hasOne(OrderDetail::class, 'order_detail_id', 'order_detail_id');
     }
 }
