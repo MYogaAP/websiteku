@@ -125,18 +125,38 @@
                                             @foreach ($packet_data->data as $list)
                                                 <tr>
                                                     <td class="text-start">
-                                                        <div class="d-flex flex-row">
-                                                            <div class="p-2">
-                                                                <p>Nama Paket</p>
-                                                                <p>Ukuran Paket</p>
-                                                                <p>Format Warna Paket</p>
-                                                                <p>Harga Paket</p>
+                                                        <div class="container p-2">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Nama Paket</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>: {{$list->nama_paket}}</p>
+                                                                </div>
                                                             </div>
-                                                            <div class="p-2">
-                                                                <p>: {{$list->nama_paket}}</p> 
-                                                                <p>: {{$list->tinggi." x ".$list->kolom}} mmk</p>
-                                                                <p>: {{$list->format_warna == "fc"? "Full Color" : "Black White"}}</p>
-                                                                <p>: Rp. @money($list->harga_paket)</p>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Ukuran Paket</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>: {{$list->tinggi." x ".$list->kolom}} mmk</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Format Warna Paket</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>: {{$list->format_warna == "fc"? "Full Color" : "Black White"}}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Harga Paket</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>: Rp. @money($list->harga_paket)</p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </td>

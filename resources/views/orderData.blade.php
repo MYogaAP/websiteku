@@ -37,7 +37,7 @@
         @php
             $curl = curl_init();
             curl_setopt_array($curl, [
-                CURLOPT_URL => gethostname().'/websiteku/public/api/AgentAllOrders',
+                CURLOPT_URL => gethostname().'/websiteku/public/api/AgentAllDetailedOrders',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -92,42 +92,130 @@
                                         @foreach ($response->data as $order)
                                             <tr>
                                                 <td>
-                                                    <div class="d-flex flex-row">
-                                                        <div class="p-2">
-                                                            <p>No. Order</p>
-                                                            <p>No. Invoice </p>
-                                                            <p>Invoice</p>
+                                                    <div class="container p-2">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>No. Order</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <p>: ---</p>
+                                                            </div>
                                                         </div>
-                                                        <div class="p-2">
-                                                            <p>: ---</p>
-                                                            <p>: ---</p>
-                                                            <p>: <a href="{{ $xendit_link.$order->invoice_id }}" target="_blank">{{ $order->invoice_id }}</a></p>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>No. Invoice</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <p>: ---</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>Invoice</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <p>: <a href="{{ $xendit_link.$order->invoice_id }}" target="_blank">{{ $order->invoice_id }}</a></p>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="d-flex flex-row">
-                                                        <div class="p-2">
-                                                            <p>Nama Instansi</p>
-                                                            <p>Ukuran Iklan</p>
-                                                            <p>Tanggal Penerbitan</p>
-                                                            <p>Lama Terbit</p>
-                                                            <p>Status Pembayaran</p>
-                                                            <p>Status Iklan</p>
-                                                            <p>Harga Paket</p>
-                                                            <p>Harga Total</p>
-                                                            <p>Deskripsi Iklan</p>
+                                                    <div class="container p-2">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>Nama Instansi</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <p>: {{$order->nama_instansi}}</p>
+                                                            </div>
                                                         </div>
-                                                        <div class="p-2">
-                                                            <p>: {{$order->nama_instansi}}</p>
-                                                            <p>: {{$order->tinggi}} x {{$order->kolom}} mmk</p>
-                                                            <p>: {{$order->mulai_iklan}} hingga {{$order->akhir_iklan}}</p>
-                                                            <p>: {{$order->lama_hari}} Hari</p>
-                                                            <p>: {{$order->status_pembayaran}}</p>
-                                                            <p>: {{$order->status_iklan}}</p>
-                                                            <p>: Rp. @money($order->harga_paket) / Hari</p>
-                                                            <p>: Rp. @money($order->harga_paket * $order->lama_hari)</p>
-                                                            <p>: {{$order->deskripsi_iklan}}</p>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>Ukuran Iklan</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <p>: {{$order->tinggi}} x {{$order->kolom}} mmk</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>Tanggal Penerbitan</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <p>: {{$order->mulai_iklan}} hingga {{$order->akhir_iklan}}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>Lama Terbit</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <p>: {{$order->lama_hari}} Hari</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>Status Pembayaran</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <p>: {{$order->status_pembayaran}}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>Status Iklan</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <p>: {{$order->status_iklan}}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>Harga Paket</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <p>: Rp. @money($order->harga_paket) / Hari</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>Harga Total</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <p>: Rp. @money($order->harga_paket * $order->lama_hari)</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>Deskripsi Iklan</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <p>: {{$order->deskripsi_iklan}}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>Status Iklan</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <p>: {{$order->deskripsi_iklan}}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>Deskripsi Iklan</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <p>: {{$order->deskripsi_iklan}}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>Deskripsi Iklan</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <p>: {{$order->deskripsi_iklan}}</p>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </td>
