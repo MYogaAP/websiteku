@@ -47,9 +47,23 @@
         </script>
     @else
         @php
+            $filter = request('filter');
+            if(isset($filter)){
+                if ($filter == "Perlu Konfirmasi") {
+                    $GetData = "NeedConfirmation";
+                } elseif ($filter == "Sudah Konfirmasi") {
+                    $GetData = "AgentResponsibility";
+                } else {
+                    $GetData = "AgentAllDetailedOrders"; 
+                }
+            } else {
+                $GetData = "AgentAllDetailedOrders";
+                $filter = "Semua Pesanan";
+            }
+
             $curl = curl_init();
             curl_setopt_array($curl, [
-                CURLOPT_URL => gethostname().'/websiteku/public/api/AgentAllDetailedOrders',
+                CURLOPT_URL => gethostname().'/websiteku/public/api/'.$GetData,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -86,9 +100,31 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h4 class="m-0 font-weight-bold text-primary mb-2">
-                                Order Data
-                            </h4>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-10">
+                                    <h4 class="m-0 font-weight-bold text-primary mb-2">Order Data</h4>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <div class="mb-1">Data Yang Ditampilkan:</div>
+                                    <div class="dropdown mb-4">
+                                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            @if (isset($filter))
+                                                {{$filter}}
+                                            @else
+                                                {{'Perlu Konfirmasi'}}
+                                            @endif
+                                        </button>
+                                        <div class="dropdown-menu animated--fade-in"
+                                            aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="{{route('orderDataFilter', ['filter' => 'Perlu Konfirmasi'])}}">Perlu Konfirmasi</a>
+                                            <a class="dropdown-item" href="{{route('orderDataFilter', ['filter' => 'Sudah Konfirmasi'])}}">Sudah Konfirmasi</a>
+                                            <a class="dropdown-item" href="{{route('orderDataFilter', ['filter' => 'Semua Pesanan'])}}">Semua Pesanan</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -111,7 +147,13 @@
                                                                 <p>No. Order</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p>: ---</p>
+                                                                <p>: 
+                                                                    @if (isset($order->nomor_order))
+                                                                        {{$order->nomor_order}}
+                                                                    @else
+                                                                        {{'--------------------'}}
+                                                                    @endif    
+                                                                </p>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -119,7 +161,13 @@
                                                                 <p>No. Invoice</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p>: ---</p>
+                                                                <p>: 
+                                                                    @if (isset($order->nomor_invoice))
+                                                                        {{$order->nomor_invoice}}
+                                                                    @else
+                                                                        {{'--------------------'}}
+                                                                    @endif    
+                                                                </p>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -127,7 +175,13 @@
                                                                 <p>Invoice</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p>: <a href="{{ $xendit_link.$order->invoice_id }}" target="_blank">{{ $order->invoice_id }}</a></p>
+                                                                <p>: 
+                                                                    @if (isset($order->invoice))
+                                                                        <a href="{{ $xendit_link.$order->invoice_id }}" target="_blank">{{ $order->invoice_id }}</a>
+                                                                    @else
+                                                                        {{'--------------------'}}
+                                                                    @endif    
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -93,7 +93,7 @@ class OrderController extends Controller
     function NeedConfirmation() {
         $orders = OrderData::with(['OrderDetail', 'OrderDetail.PacketData'])
         ->whereHas('OrderDetail', function ($query) {
-            $query->where('status_pembayaran', 'Menunggu Konfirmasi');
+            $query->where('status_iklan', 1);
         })
         ->orderByDesc(OrderDetail::select('status_pembayaran')
             ->whereColumn('order_detail_id', 'order_data.order_detail_id')
@@ -128,6 +128,23 @@ class OrderController extends Controller
         } elseif ($update_type == 2){
             $editOrder->OrderDetail->status_pembayaran = $editOrder->OrderDetail->getStatusPembayaranValue($status);
         } 
+        $editOrder->save();
+        
+        return response()->json([
+            'message' => 'Order berhasil diperbaharui.',
+        ]);
+    }
+
+    function OrderPayed($order_id) {
+        try {
+            $editOrder = OrderData::with("OrderDetail")->findOrFail($order_id);
+        } catch (\Throwable $th) {
+            $errorMessage = "Order yang anda cari tidak ditemukan.";
+            throw new ModelNotFoundException($errorMessage);
+        }
+
+        $editOrder->OrderDetail->status_iklan = $editOrder->OrderDetail->getStatusIklanValue("Sedang Diproses");
+        $editOrder->OrderDetail->status_pembayaran = $editOrder->OrderDetail->getStatusPembayaranValue("Lunas");
         $editOrder->save();
         
         return response()->json([
@@ -222,6 +239,7 @@ class OrderController extends Controller
             'nama_instansi' => 'required|max:255',
             'email_instansi' => 'required|email',
             'nomor_instansi' => 'required|numeric',
+            'alamat_instansi' => 'required',
             'deskripsi_iklan' => 'required',
             'mulai_iklan' => 'required|date',
             'akhir_iklan' => 'required|date',

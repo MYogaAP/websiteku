@@ -60,7 +60,7 @@
                     <thead>
                         <tr>
                             <th scope="col">No Order</th>
-                            <th scope="col" colspan="2">Detail Iklan</th>
+                            <th scope="col">Detail Iklan</th>
                             <th scope="col">Status Iklan</th>
                             <th scope="col">Foto Iklan</th>
                             <th scope="col">Invoice</th>
@@ -97,7 +97,7 @@
                                         if($invoice_data->status == "PAID" || $invoice_data->status == "SETTLED"){
                                             $curl = curl_init();
                                             curl_setopt_array($curl, array(
-                                            CURLOPT_URL => gethostname().'/websiteku/public/api/UpdateOrder/'.$order->order_id.'/2/Lunas',
+                                            CURLOPT_URL => gethostname().'/websiteku/public/api/UpdatePayedOrder/'.$order->order_id,
                                             CURLOPT_RETURNTRANSFER => true,
                                             CURLOPT_ENCODING => '',
                                             CURLOPT_MAXREDIRS => 10,
@@ -121,6 +121,7 @@
                                                 exit();
                                             }
                                             $order->status_pembayaran = "Lunas";
+                                            $order->status_iklan = "Sedang Diproses";
                                         } elseif($invoice_data->status == "EXPIRED"){
                                             $curl = curl_init();
                                             curl_setopt_array($curl, array(
@@ -156,32 +157,69 @@
                                 @endphp
                             @endif
                             <tr>
-                                <th scope="row">0</th>
+                                <th scope="row">
+                                    <p>
+                                        @if (isset($order->nomor_order))
+                                            {{$order->nomor_order}}
+                                        @else
+                                            {{'--------------------'}}
+                                        @endif    
+                                    </p>
+                                </th>
                                 <td class="text-start">
-                                    Nama Instansi<br>
-                                    Ukuran Iklan<br>
-                                    Tanggal Penerbitan<br>
-                                    Deskripsi Iklan<br>
-                                    <a href="#" class="text-decoration-none">Detail Lebih Lanjut</a>
-                                </td>
-                                <td class="text-start">
-                                    : {{$order->nama_instansi}}<br>
-                                    : {{$order->tinggi}} x {{$order->kolom}} mmk<br>
-                                    : {{$order->mulai_iklan}} hingga {{$order->akhir_iklan}}<br>
-                                    : {{$order->deskripsi_iklan}}<br>
+                                    <div class="container p-2">
+                                        <div class="row">
+                                            <div class="col">
+                                                <p>Nama Instansi</p>
+                                            </div>
+                                            <div class="col-8">
+                                                <p>: {{$order->nama_instansi}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <p>Ukuran Iklan</p>
+                                            </div>
+                                            <div class="col-8">
+                                                <p>: {{$order->tinggi}} x {{$order->kolom}} mmk</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <p>Tanggal Penerbitan</p>
+                                            </div>
+                                            <div class="col-8">
+                                                <p>: {{$order->mulai_iklan}} hingga {{$order->akhir_iklan}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <p>Deskripsi Iklan</p>
+                                            </div>
+                                            <div class="col-8">
+                                                <p>: {{$order->deskripsi_iklan}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <p><a href="#" class="text-decoration-none">Detail Lebih Lanjut</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td>
-                                    @if($order->status_iklan == "Telah Diupload")
-                                        <p class="text-success">{{$order->status_iklan}}</p>
-                                    @elseif($order->status_iklan == "Sedang Diproses")
-                                        <p class="text-primary">{{$order->status_iklan}}</p>
-                                    @elseif($order->status_iklan == "Dalam Antrian")
-                                        <p class="text-primary">{{$order->status_iklan}}</p>
-                                    @elseif($order->status_iklan == "Dibatalkan")
-                                        <p class="text-danger">{{$order->status_iklan}}</p>
-                                    @else
-                                        <p class="text-secondary">{{$order->status_iklan}}</p>
-                                    @endif
+                                    <p class="
+                                        @if($order->status_iklan == "Telah Diupload")
+                                            {{'text-success'}}
+                                        @elseif($order->status_iklan == "Menunggu Konfirmasi")
+                                            {{'text-secondary'}}
+                                        @elseif($order->status_iklan == "Dibatalkan")
+                                            {{'text-danger'}}
+                                        @else
+                                            {{'text-danger'}}
+                                        @endif
+                                    ">
+                                        {{$order->status_iklan}}</p>
                                 </td>
                                 <td class="align-middle">
                                     <div class="container" style="max-height: 21rem; width: 17rem; overflow: hidden"> 

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama_instansi');
             $table->string('email_instansi');
             $table->string('nomor_instansi');
+            $table->text('alamat_instansi');
             $table->text('deskripsi_iklan');
             $table->date('mulai_iklan');
             $table->date('akhir_iklan');

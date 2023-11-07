@@ -69,6 +69,10 @@ Route::get('/orderData', function () {
     return view('orderData');
 })->name('orderData');
 
+Route::get('/orderData/{filter}', function () {
+    return view('orderData');
+})->name('orderDataFilter');
+
 Route::get('/agentData', function () {
     return view('agentData');
 })->name('agentData');

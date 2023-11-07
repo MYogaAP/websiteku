@@ -26,6 +26,7 @@ class OrderDetail extends Model
         'packet_id',
         'invoice_id',
         'detail_penolakan',
+        'alamat_instansi'
     ];
 
     protected $enum = [
