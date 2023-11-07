@@ -28,7 +28,19 @@
 
 </head>
 
-<body id="page-top">
+<body id="page-top" class="content">
+    <script>
+        window.onload = function() {
+            var sidebar = $('.sidebar');
+            var content = $('.content');
+
+            if (content.height() > sidebar.height() )
+                sidebar.css('height', content.height());
+            else
+                sidebar.css('height', sidebar.height());
+        }
+    </script>
+    
     @if (!Cookie::has('auth'))
         <script>
             window.location = "{{ route('loginPage') }}";
@@ -60,9 +72,10 @@
             }
         @endphp
     @endif
+
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <x-admin.sidebar />
+        <x-admin.sidebar class="sidebar"/>
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <!-- Main Content -->
@@ -187,26 +200,38 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col">
-                                                                <p>Deskripsi Iklan</p>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <p>: {{$order->deskripsi_iklan}}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col">
                                                                 <p>Status Iklan</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p>: {{$order->deskripsi_iklan}}</p>
+                                                                <p class="@if ($order->status_iklan == 'Dibatalkan')
+                                                                    {{'text-danger'}}
+                                                                @elseif($order->status_iklan == 'Lunas')
+                                                                    {{'text-success'}}
+                                                                @elseif ($order->status_iklan == 'Belum Lunas')
+                                                                    {{'text-secondary'}}
+                                                                @else
+                                                                    {{'text-primary'}}
+                                                                @endif">
+                                                                    : {{$order->status_iklan}}
+                                                                </p>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col">
-                                                                <p>Deskripsi Iklan</p>
+                                                                <p>Status Pembayaran</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p>: {{$order->deskripsi_iklan}}</p>
+                                                                <p class="@if ($order->status_pembayaran == 'Dibatalkan')
+                                                                    {{'text-danger'}}
+                                                                @elseif($order->status_pembayaran == 'Telah Diupload')
+                                                                    {{'text-success'}}
+                                                                @elseif ($order->status_pembayaran == 'Menunggu Pembayaran')
+                                                                    {{'text-secondary'}}
+                                                                @else
+                                                                    {{'text-primary'}}
+                                                                @endif">
+                                                                    : {{$order->status_pembayaran}}
+                                                                </p>
                                                             </div>
                                                         </div>
                                                         <div class="row">
