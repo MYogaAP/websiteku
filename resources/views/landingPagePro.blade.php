@@ -25,23 +25,64 @@
         header {
             background-image: url({{ asset('customerStyle/background-home.png') }});
         }
+
         body {
             font-family: 'Montserrat', sans-serif;
         }
+
         .judul {
             font-family: 'Bodoni MT', serif;
             color: #1450A3;
             transition: color 0.3s;
         }
+
         .judul:hover {
             color: #1450A3;
         }
-
     </style>
 </head>
 
 <body class="d-flex flex-column h-100">
     <main class="flex-shrink-0">
+        @if (!Cookie::has('auth'))
+            <x-nav-bar />
+            <script>
+                window.location = "{{ route('loginPage') }}";
+            </script>
+        @else
+            <x-nav-bar-login />
+            @php
+                $curl = curl_init();
+                curl_setopt_array($curl, [
+                    CURLOPT_URL => gethostname() . '/websiteku/public/api/UserCheck',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'GET',
+                    CURLOPT_HTTPHEADER => ['Accept: application/json', 'Authorization: Bearer ' . Cookie::get('auth')],
+                ]);
+                $user_data = curl_exec($curl);
+                $user_data = json_decode($user_data);
+                $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                curl_close($curl);
+
+                if ($http_status == 401) {
+                    setcookie('auth', '', time() - 3600, '/');
+                    session()->flush();
+                    header('Location: ' . route('loginPage'), true, 302);
+                    exit();
+                }
+                session()->flush();
+            @endphp
+            @if ($user_data->role == 'admin' || $user_data->role == 'agent')
+                <script>
+                    window.location = "{{ route('orderData') }}";
+                </script>
+            @endif
+        @endif
         <!-- Navigation-->
         {{-- <nav class="navbar navbar-expand-lg navbar-white bg-white">
             <div class="container px-5">
@@ -77,8 +118,8 @@
                 </div>
             </div>
         </nav> --}}
-        <x-nav-bar />
-        
+
+
         <!-- Header-->
         <header class="py-5">
             <div class="container px-5">
@@ -87,7 +128,8 @@
                         <div class="my-5 text-center text-xl-start">
                             <h1 class="display-5 fw-bolder text-white mb-2">Jasa Iklan</h1>
                             <h1 class="display-5 fw-bolder text-white mb-2">Radar Banjarmasin</h1>
-                            <p style="color: white; font-size: 16px; text-align:justify;">Radar Banjarmasin menawarkan platform iklan
+                            <p style="color: white; font-size: 16px; text-align:justify;">Radar Banjarmasin menawarkan
+                                platform iklan
                                 terpercaya untuk mempromosikan bisnis Anda di Kalimantan Selatan. Dengan jangkauan luas
                                 dan target audiens lokal, layanan ini memaksimalkan visibilitas usaha Anda secara
                                 efektif.</p>
@@ -150,15 +192,13 @@
                 <div class="row gx-5 justify-content-center">
                     <div class="col-lg-10 col-xl-7">
                         <div class="text-center">
-                            <div class="fs-4 mb-4 fst-italic">" Working with Start Bootstrap templates has saved me
-                                tons of development time when building new projects! Starting with a Bootstrap template
-                                just makes things
-                                easier!"</div>
+                            <div class="fs-4 mb-4 fst-italic">"Ciptakan jejak sukses bisnismu melalui iklan koran yang
+                                tepat sasaran."</div>
                             <div class="d-flex align-items-center justify-content-center">
                                 <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d"
                                     alt="..." />
                                 <div class="fw-bold">
-                                    Tom Ato
+                                    Radar Banjarmasin
                                     <span class="fw-bold text-primary mx-1">/</span>
                                     CEO, Pomodoro
                                 </div>
@@ -266,7 +306,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Call to action-->
+                {{-- <!-- Call to action-->
                 <aside class="bg-primary bg-gradient rounded-3 p-4 p-sm-5 mt-5">
                     <div
                         class="d-flex align-items-center justify-content-between flex-column flex-xl-row text-center text-xl-start">
@@ -285,12 +325,12 @@
                             </div>
                         </div>
                     </div>
-                </aside>
+                </aside> --}}
             </div>
         </section>
     </main>
     <!-- Footer-->
-    <footer class="bg-dark py-4 mt-auto">
+    {{-- <footer class="bg-dark py-4 mt-auto">
         <div class="container px-5">
             <div class="row align-items-center justify-content-between flex-column flex-sm-row">
                 <div class="col-auto">
@@ -305,7 +345,7 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer> --}}
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
