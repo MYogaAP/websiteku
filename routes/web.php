@@ -85,6 +85,10 @@ Route::get('/landingPagePro', function () {
     return view('landingPagePro');
 })->name('landingPagePro');
 
+Route::get('/profilePro', function () {
+    return view('profilePro');
+})->name('profilePro');
+
 // User Data
 Route::post('/LoginCall', [CallUserController::class, 'LoginCall'])->name('LoginCall');
 Route::post('/RegisterCall', [CallUserController::class, 'RegisterCall'])->name('RegisterCall');
