@@ -59,7 +59,8 @@
             
             if($http_status == 401){
                 setcookie("auth", "", time() - 3600, "/");
-                header("Location: " . URL::to('/login'), true, 302);
+                session()->flush();
+                header("Location: " . route('loginPage'), true, 302);
                 exit();
             }
         @endphp
@@ -121,17 +122,23 @@
                             </div>
                         </div>
 
-                        @if(!empty($MessageSuccess))
-                            <div class="mb-3 alert alert-success fade">
-                                {{ $MessageSuccess }}
-                            </div>
+                        @if(isset($MessageSuccess))
+                            <div class="row align-items-center justify-content-center">
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ $MessageSuccess }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </div> 
                         @endif
 
-                        @if(!empty($MessageWarning))
+                        @if(isset($MessageWarning))
                             @foreach ($MessageWarning as $message)
-                                <div class="mb-3 alert alert-danger fade">
-                                    {{$message}}
-                                </div>
+                                <div class="row align-items-center justify-content-center">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        {{$message}}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                </div> 
                             @endforeach
                         @endif
                     </div>

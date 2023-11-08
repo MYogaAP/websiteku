@@ -61,7 +61,7 @@ class CallOrderController extends Controller
     return redirect()->route('UserOrderHalamanNomor', ['page' => $request->session()->get('order_page', 'default')]); 
   }
 
-  function NewOrderAndInvoiceCall(Request $request) {
+  function NewOrderCall(Request $request) {
     $form_data = $request->session()->get('form_data', 'default');
     $packet_data = $request->session()->get('packet_data', 'default');
     $nama = $form_data['nama_instansi'];

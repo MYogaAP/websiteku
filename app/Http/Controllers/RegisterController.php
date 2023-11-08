@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -38,10 +41,27 @@ class RegisterController extends Controller
         $request->merge(['role' => 'costumer']); // Making the user as costumer
 
         $newData = User::create($request->all());
+        event(new Registered($newData));
 
         return response()->json([
-            'message' => 'Account has been succesfully made.',
+            'message' => 'Account has been succesfully made.'
         ]);
+    }
+
+    function VerifEmailUser(EmailVerificationRequest $request) {
+        $request->fulfill();
+
+        return response()->json([
+            'message' => 'Email akun berhasil diverifikasi'
+        ], 200);
+    }
+
+    function SendAnVerifEmail(Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+
+        return response()->json([
+            'message' => 'Email verifikasi telah dikirimkan ulang!'
+        ], 200);
     }
 
     function RegisterAgent(Request $request) {

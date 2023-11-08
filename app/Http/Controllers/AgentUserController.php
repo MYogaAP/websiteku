@@ -13,7 +13,12 @@ use Illuminate\Validation\Rules\Password;
 class AgentUserController extends Controller
 {
     function CheckCurrent() {
-        return response()->json(Auth::user());
+        if(Auth::user()->hasVerifiedEmail()){
+            return response()->json(Auth::user(), 200);
+        }
+        $data = Auth::user();
+        $data->message = "Tolong verifikasi email anda!";
+        return response()->json($data, 403);
     }
 
     function AgentList() {

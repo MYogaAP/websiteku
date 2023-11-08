@@ -59,6 +59,10 @@
                 header("Location: " . route('loginPage'), true, 302);
                 exit();
             }
+            if($http_status == 403){
+                header("Location: " . route('verification.notice'), true, 302);
+                exit();
+            }
             session()->flush();
         @endphp
         @if ($user_data->role == "admin" || $user_data->role == "agent" )

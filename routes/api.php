@@ -7,6 +7,7 @@ use App\Http\Controllers\PacketController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AgentUserController;
 use App\Http\Controllers\AuthenticationController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
 //Login API
@@ -62,3 +63,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 });
 
+// Email Verif
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/VerifEmailUserAPI/{id}/{hash}', [RegisterController::class, 'VerifEmailUser']);
+    Route::get('/SendVerifEmail', [RegisterController::class, 'SendAnVerifEmail']);
+});

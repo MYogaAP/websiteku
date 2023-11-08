@@ -1,17 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Controllers\CallUserController;
 use App\Http\Controllers\CallAgentController;
 use App\Http\Controllers\CallOrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataLinkerController;
-use App\Models\User;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', function () {
     return view('landingPage');
@@ -101,7 +103,7 @@ Route::post('/SimpanPesanan', [DataLinkerController::class, 'SendToDetailUkuran'
 Route::post('/SimpanUkuran', [DataLinkerController::class, 'SendToUploadAndView'])->name('SimpanUkuran');
 Route::get('/UkuranHalamanSelanjutnya', [DataLinkerController::class, 'LoadNextPacketData'])->name('UkuranHalamanSelanjutnya');
 Route::get('/UkuranHalamanSebelumnya', [DataLinkerController::class, 'LoadPrevPacketData'])->name('UkuranHalamanSebelumnya');
-Route::post('/NewOrderCall', [CallOrderController::class, 'NewOrderAndInvoiceCall'])->name('NewOrderCall');
+Route::post('/NewOrderCall', [CallOrderController::class, 'NewOrderCall'])->name('NewOrderCall');
 Route::delete('/DeleteOrderCall/{order}', [CallOrderController::class, 'DeleteOrderCall'])->name('DeleteOrderCall');
 
 // Riwayat
@@ -171,3 +173,67 @@ Route::post('/reset-password', function (Request $request) {
                 : back()->withErrors(['email' => [__($status)]]);
 })->middleware('guest')->name('password.update');
 
+// Email Verif
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function ($id, $hash) {
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => gethostname().'/websiteku/public/api/VerifEmailUserAPI/'.$id.'/'.$hash,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Authorization: Bearer '.Cookie::get('auth')
+    ),
+    ));
+    $verif = curl_exec($curl);
+    $verif = json_decode($verif);
+    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+
+    if($http_status == 401){
+        setcookie("auth", "", time() - 3600, "/");
+        session()->flush();
+        header("Location: " . route('loginPage'), true, 302);
+        exit();
+    }
+    return redirect()->route('verification.notice', ['status' => $verif->message]);
+})->name('verification.verify');
+
+Route::post('/email/verification-notification', function () {
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => gethostname().'/websiteku/public/api/SendVerifEmail',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Authorization: Bearer '.Cookie::get('auth')
+    ),
+    ));
+    $verif = curl_exec($curl);
+    $verif = json_decode($verif);
+    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+
+    if($http_status == 401){
+        setcookie("auth", "", time() - 3600, "/");
+        session()->flush();
+        header("Location: " . route('loginPage'), true, 302);
+        exit();
+    }
+    return redirect()->route('verification.notice', ['status' => $verif->message]);
+})->name('verification.send');
