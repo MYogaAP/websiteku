@@ -76,20 +76,16 @@
                                 </div>
                                 <!-- Password input-->
                                 <div class="form-floating mb-3">
-                                    <div class="">
-                                        <div>
-                                            <input class="form-control" id="password" type="password" placeholder=""
-                                                data-sb-validations="required" />
-                                            <label for="password">Password</label>
-                                        </div>
-                                        <div>
-                                            <div class=""><button class="btn btn-primary btn-lg disabled"
-                                                    id="submitButton" type="submit">Submit</button></div>
-                                        </div>
-                                    </div>
+                                    <input class="form-control" id="password" type="password" placeholder=""
+                                        data-sb-validations="required" />
+                                    <label for="password">Password</label>
                                     <div class="invalid-feedback" data-sb-feedback="password:required">password
                                         dibutuhkan.
                                     </div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <div class="d-grid"><button class="btn btn-primary btn" id="submitButton"
+                                            type="submit">Ganti Password</button></div>
                                 </div>
                                 <!-- Username input-->
                                 <div class="form-floating mb-3">
@@ -108,10 +104,8 @@
                                 <!-- Phone number input-->
                                 <div class="form-floating mb-3">
                                     <input class="form-control" id="phone" type="tel"
-                                        placeholder="(123) 456-7890" data-sb-validations="required" />
+                                        placeholder="(123) 456-7890" />
                                     <label for="phone">Pekerjaan</label>
-                                    <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is
-                                        required.</div>
                                 </div>
                                 <div class="d-none" id="submitSuccessMessage">
                                     <div class="text-center mb-3">
@@ -126,8 +120,14 @@
                                     <div class="text-center text-danger mb-3">Error sending message!</div>
                                 </div>
                                 <!-- Submit Button-->
-                                <div class="d-grid"><button class="btn btn-primary btn-lg disabled" id="submitButton"
-                                        type="submit">Submit</button></div>
+                                <div class="form-floating mb-3">
+                                    <div class="d-grid"><button class="btn btn-primary btn " id="submitButton"
+                                            type="submit">Submit</button></div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <div class="d-grid"><button class="btn btn-danger btn" id="submitButton"
+                                            type="submit">Logout</button></div>
+                                </div>
                             </form>
                         </div>
                     </div>
