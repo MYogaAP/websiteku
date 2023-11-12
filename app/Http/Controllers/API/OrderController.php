@@ -8,6 +8,7 @@ use App\Models\OrderDetail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\OrderAllDetailResourse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\OrdersListResource;
@@ -48,6 +49,16 @@ class OrderController extends Controller
         ->where("order_id", $order_id)
         ->get();
         return OrderDetailedResource::collection($order);
+    }
+
+    function GetOrderDetailWithUser($order_id) {
+        $order = OrderData::with(['OrderDetail', 'User', 'OrderDetail.PacketData' => function ($query) {
+            $query->withTrashed();
+        }])
+        ->where("order_id", $order_id)
+        ->get();
+        return $order;
+        // return OrderAllDetailResourse::collection($order);
     }
 
     function AllDetailedOrders() {
@@ -173,25 +184,18 @@ class OrderController extends Controller
         $filePath = $confirmOrder->OrderDetail->foto_iklan;
         $msgTolak = "Telah dibatalkan oleh anggota tim Biro Iklan Radar Banjarmasin";
         $msgTerima = "Telah diterima oleh anggota tim Biro Iklan Radar Banjarmasin";
-        $validate = $request ->validate([
-            'invoice_id' => 'max:255',
-            'nomor_order' => 'max:255',
-            'nomor_invoice' => 'max:255',
-            'nomor_seri' => 'max:255',
-            'detail_kemajuan' => 'max:255'
-        ]);
 
         if($update_type == 1) {
             if (Storage::exists('\image\\'.$filePath)){
                 $confirmOrder->OrderDetail->status_iklan = $confirmOrder->OrderDetail->getStatusIklanValue("Menunggu Pembayaran");
                 $confirmOrder->OrderDetail->status_pembayaran = $confirmOrder->OrderDetail->getStatusPembayaranValue("Belum Lunas");
-                $confirmOrder->OrderDetail->invoice_id = $validate["invoice_id"];
-                $confirmOrder->OrderDetail->detail_kemajuan = isset($validate["detail_kemajuan"]) ? $validate["detail_kemajuan"] : $msgTerima;
-                $confirmOrder->OrderDetail->save();
+                $confirmOrder->OrderDetail->invoice_id = $request->invoice_id;
+                $confirmOrder->OrderDetail->detail_kemajuan = isset($request->detail_kemajuan) ? $request->detail_kemajuan : $msgTerima;
                 $confirmOrder->agent_id = Auth::user()->user_id;
-                $confirmOrder->nomor_order = $validate["nomor_order"];
-                $confirmOrder->nomor_invoice = $validate["nomor_invoice"];
-                $confirmOrder->nomor_seri = $validate["nomor_seri"];
+                $confirmOrder->nomor_order = $request->nomor_order;
+                $confirmOrder->nomor_invoice = $request->nomor_invoice;
+                $confirmOrder->nomor_seri = $request->nomor_seri;
+                $confirmOrder->OrderDetail->save();
                 $confirmOrder->save();
 
                 return response()->json([
@@ -200,7 +204,7 @@ class OrderController extends Controller
             }
         } elseif ($update_type == 2) {            
             if (Storage::exists('\image\\'.$filePath)){                
-                $confirmOrder->OrderDetail->detail_kemajuan = isset($validate["detail_kemajuan"]) ? $validate["detail_kemajuan"] : $msgTolak;
+                $confirmOrder->OrderDetail->detail_kemajuan = isset($request->detail_kemajuan) ? $request->detail_kemajuan : $msgTolak;
                 $confirmOrder->OrderDetail->status_iklan = $confirmOrder->OrderDetail->getStatusIklanValue('Dibatalkan');
                 $confirmOrder->OrderDetail->status_pembayaran =  $confirmOrder->OrderDetail->getStatusPembayaranValue('Dibatalkan');
                 $confirmOrder->OrderDetail->foto_iklan = 'none';

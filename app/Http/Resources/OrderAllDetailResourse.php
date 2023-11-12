@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class OrderDetailedResource extends JsonResource
+class OrderAllDetailResourse extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,6 +18,7 @@ class OrderDetailedResource extends JsonResource
     {
         $data = json_decode(json_encode(parent::toArray($request)));
         $PacketData = $data->order_detail->packet_data;
+        $UserData = $data->user;
         try {
             $OrderDetail = OrderDetail::findOrFail($this->order_detail_id);
         } catch (\Throwable $th) {
@@ -31,7 +32,6 @@ class OrderDetailedResource extends JsonResource
             'nomor_seri' => $this->nomor_seri,
             'nama_instansi' => $OrderDetail->nama_instansi,
             'email_instansi' => $OrderDetail->email_instansi,
-            'nomor_instansi' => $OrderDetail->nomor_instansi,
             'deskripsi_iklan' => $OrderDetail->deskripsi_iklan,
             'mulai_iklan' => $OrderDetail->mulai_iklan,
             'akhir_iklan'=> $OrderDetail->akhir_iklan,
@@ -40,12 +40,14 @@ class OrderDetailedResource extends JsonResource
             'invoice_id' => $OrderDetail->invoice_id,
             'status_pembayaran' => $OrderDetail->getStatusPembayaranDisplay(),
             'status_iklan' => $OrderDetail->getStatusIklanDisplay(),
-            'detail_kemajuan' => $OrderDetail->detail_kemajuan,
             'nama_paket' => $PacketData->nama_paket,
             'format_warna' => $PacketData->format_warna,
             'tinggi' => $PacketData->tinggi,
             'kolom' => $PacketData->kolom,
             'harga_paket' => $PacketData->harga_paket,
+            // 'harga_paket' => $PacketData->harga_paket,
+            // 'harga_paket' => $PacketData->harga_paket,
+            // 'harga_paket' => $PacketData->harga_paket,
         ];
     }
 }

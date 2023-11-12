@@ -122,27 +122,158 @@ class CallOrderController extends Controller
   }
 
   function AcceptUserOrder(Request $request) {
-    
-  }
+    $request->validate([
+      'nomor_invoice' => 'required',
+      'nomor_order' => 'required',
+      'nomor_seri' => 'required',
+    ]);
+    $desk_up = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "";
 
-  function DeclineUserOrder(Request $request) {
+    // Order Data
     $curl = curl_init();
     curl_setopt_array($curl, array(
-      CURLOPT_URL => gethostname().'/websiteku/public/api/ConfirmOrder/'.$request->order_id.'/2',
+      CURLOPT_URL => gethostname().'/websiteku/public/api/OrderDetail/'.$request->order_id,
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => '',
       CURLOPT_MAXREDIRS => 10,
       CURLOPT_TIMEOUT => 0,
       CURLOPT_FOLLOWLOCATION => true,
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      CURLOPT_CUSTOMREQUEST => 'PATCH',
-      CURLOPT_POSTFIELDS =>'{
-        "detail_kemajuan": '.$request->detail_kemajuan.'
-      }',
+      CURLOPT_CUSTOMREQUEST => 'GET',
       CURLOPT_HTTPHEADER => array(
         'Accept: application/json',
         'Authorization: Bearer '.Cookie::get('auth'),
       ),
+    ));
+    $data_order = curl_exec($curl);
+    $data_order = json_decode($data_order);
+    $data_order = $data_order->data[0];
+    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+
+    if($http_status == 401){
+      setcookie("auth", "", time() - 3600, "/");
+      header("Location: " . route('loginPage'), true, 302);
+      exit();
+    }
+
+    // Make Invoice Xendit
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'https://api.xendit.co/v2/invoices',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS => json_encode(array(
+      "external_id" => $request->nomor_invoice,
+      "amount" => $data_order->lama_hari*$data_order->harga_paket,
+      "description" => "Pemesanan pemasangan iklan pada koran Radar Banjarmasin",
+      "invoice_duration" => 1209600,
+      "customer" => [
+          "given_names" => $data_order->nama_instansi,
+          "email" => $data_order->email_instansi,
+          "mobile_number" => $data_order->nomor_instansi,
+      ],
+      'customer_notification_preference' => [
+        'invoice_created' => [
+            'whatsapp',
+            'email'
+        ],
+        'invoice_reminder' => [
+            'whatsapp',
+            'email'
+        ],
+        'invoice_paid' => [
+            'whatsapp',
+            'email'
+        ],
+        'invoice_expired' => [
+            'whatsapp',
+            'email'
+        ]
+      ],
+      "failure_redirect_url" => route("riwayat"),
+      "currency" => "IDR",
+      "locale" => "id",
+      "items" => [
+          [
+              "name" => "Iklan Paket ".$data_order->nama_paket,
+              "quantity" => $data_order->lama_hari,
+              "price" => $data_order->harga_paket,
+              "category" => "Promotion",
+          ]
+      ]
+    )),
+    CURLOPT_HTTPHEADER => array(
+      'Content-Type: application/json',
+      'Authorization: Basic '.config('xendit.key')
+    )));
+    $createInvoice = curl_exec($curl);
+    $createInvoice = json_decode($createInvoice);
+    curl_close($curl);
+
+    // Update Database
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => gethostname().'/websiteku/public/api/ConfirmOrder/'.$request->order_id.'/1',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_POSTFIELDS =>'{
+        "invoice_id": "'.$createInvoice->id.'",
+        "nomor_order": "'.$request->nomor_order.'",
+        "nomor_invoice": "'.$request->nomor_invoice.'",
+        "nomor_seri": "'.$request->nomor_seri.'",
+        "detail_kemajuan": "'.$desk_up.'"
+    }',
+      CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer '.Cookie::get('auth'),
+      ),
+    ));
+    $accept = curl_exec($curl);
+    $accept = json_decode($accept);
+    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+
+    if($http_status == 401){
+      setcookie("auth", "", time() - 3600, "/");
+      header("Location: " . route('loginPage'), true, 302);
+      exit();
+    }
+    $request->session()->put('accept', $accept);
+    return redirect()->route('orderData'); 
+  }
+
+  function DeclineUserOrder(Request $request) {
+    $desk_up = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "";
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => gethostname().'/websiteku/public/api/ConfirmOrder/'.$request->order_id.'/2',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS => '{
+      "detail_kemajuan": "'.$desk_up.'"
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer '.Cookie::get('auth'),
+    ),
     ));
     $declined = curl_exec($curl);
     $declined = json_decode($declined);
@@ -159,45 +290,3 @@ class CallOrderController extends Controller
     return redirect()->route('orderData'); 
   }
 }
-
-// Make Invoice Xendit
-// $curl = curl_init();
-// curl_setopt_array($curl, array(
-// CURLOPT_URL => 'https://api.xendit.co/v2/invoices',
-// CURLOPT_RETURNTRANSFER => true,
-// CURLOPT_ENCODING => '',
-// CURLOPT_MAXREDIRS => 10,
-// CURLOPT_TIMEOUT => 0,
-// CURLOPT_FOLLOWLOCATION => true,
-// CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-// CURLOPT_CUSTOMREQUEST => 'POST',
-// CURLOPT_POSTFIELDS => json_encode(array(
-//   "external_id" => $data_user->username."-".$data_user->role."-".$data_user->email,
-//   "amount" => $days*$data_packet->harga_paket,
-//   "description" => "Pemesanan pemasangan iklan pada koran Radar Banjarmasin",
-//   "invoice_duration" => 86400,
-//   "customer" => [
-//       "given_names" => $nama,
-//       "email" => $email,
-//       "mobile_number" => $telp,
-//   ],
-//   "failure_redirect_url" => route("riwayat"),
-//   "currency" => "IDR",
-//   "locale" => "id",
-//   "items" => [
-//       [
-//           "name" => "Iklan Paket ".$data_packet->nama_paket,
-//           "quantity" => $days,
-//           "price" => $data_packet->harga_paket,
-//           "category" => "Promotion",
-//       ]
-//   ]
-// )),
-// CURLOPT_HTTPHEADER => array(
-//   'Content-Type: application/json',
-//   'Authorization: Basic '.config('xendit.key')
-// ),
-// ));
-// $createInvoice = curl_exec($curl);
-// $createInvoice = json_decode($createInvoice);
-// curl_close($curl);

@@ -49,16 +49,16 @@
         @php
             $filter = request('filter');
             if(isset($filter)){
-                if ($filter == "Perlu Konfirmasi") {
-                    $GetData = "NeedConfirmation";
+                if ($filter == "Semua Pesanan") {
+                    $GetData = "AgentAllDetailedOrders";
                 } elseif ($filter == "Sudah Konfirmasi") {
                     $GetData = "AgentResponsibility";
                 } else {
-                    $GetData = "AgentAllDetailedOrders"; 
+                    $GetData = "NeedConfirmation"; 
                 }
             } else {
-                $GetData = "AgentAllDetailedOrders";
-                $filter = "Semua Pesanan";
+                $GetData = "NeedConfirmation";
+                $filter = "Perlu Konfirmasi";
             }
 
             $curl = curl_init();
@@ -101,10 +101,24 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <div class="row no-gutters align-items-center">
-                                <div class="col-10">
+                                <div class="col-3">
                                     <h4 class="m-0 font-weight-bold text-primary mb-2">Order Data</h4>
                                 </div>
-                                <div class="col-2 text-right">
+                                <div class="col-6 text-center">
+                                    @if (session()->has('accept'))
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            {{session()->get('accept')}}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    @endif
+                                    @if (session()->has('decline'))
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            {{session()->get('decline')}}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="col-3 text-right">
                                     <div class="mb-1">Data Yang Ditampilkan:</div>
                                     <div class="dropdown mb-4">
                                         <button class="btn btn-primary dropdown-toggle" type="button"
@@ -190,7 +204,7 @@
                                                             </div>
                                                             <div class="col-8">
                                                                 <p>: 
-                                                                    @if (isset($order->invoice))
+                                                                    @if (isset($order->invoice_id))
                                                                         <a href="{{ $xendit_link.$order->invoice_id }}" target="_blank">{{ $order->invoice_id }}</a>
                                                                     @else
                                                                         {{'--------------------'}}
@@ -375,6 +389,7 @@
                 </div>
                 <form action="{{route('TerimaOrderPengguna')}}" class="user" method="POST" autocomplete="off">
                     @csrf
+                    @method('PATCH')
                     <div class="modal-body">
                         <div class="form-group">
                             <input type="hidden" name="order_id" id="order_id" value="">
@@ -402,7 +417,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary btn-user btn-block">
-                            Tolak Order
+                            Terima Order
                         </button>
                     </div>
                 </form>
@@ -422,6 +437,7 @@
                     </button>
                 </div>
                 <form action="{{route('TolakOrderPengguna')}}" class="user" method="POST" autocomplete="off">
+                    @method('PATCH')
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -447,6 +463,11 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+
+    @php
+        session()->forget('accept');
+        session()->forget('decline');
+    @endphp
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('adminStyle/vendor/jquery/jquery.min.js') }}"></script>
