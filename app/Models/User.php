@@ -27,7 +27,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'role',
         'no_hp',
-        'pekerjaan'
+        'pekerjaan',
+        'email_verified_at'
     ];
 
     protected $dates = ['deleted_at'];

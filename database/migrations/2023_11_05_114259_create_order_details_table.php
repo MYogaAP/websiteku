@@ -25,7 +25,7 @@ return new class extends Migration
             $table->enum('status_iklan', [1, 2, 3, 4, 5])->default(1);
             $table->enum('status_pembayaran', [1, 2, 3, 4])->default(1);
             $table->string('invoice_id', 255)->nullable();
-            $table->string('detail_kemajuan', 255)->nullable();
+            $table->text('detail_kemajuan')->nullable();
 
             $table->unsignedBigInteger('packet_id');
             $table->foreign('packet_id')->references('packet_id')->on('packet_data');

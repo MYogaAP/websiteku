@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Models\OrderData;
 use App\Models\PacketData;
 use App\Models\OrderDetail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\OrdersListResource;
@@ -17,7 +18,9 @@ class OrderController extends Controller
 {
     function GetUserOrdersList() {
         $orders = OrderData::where("user_id", Auth::user()->user_id)
-        ->with(['OrderDetail', 'OrderDetail.PacketData'])
+        ->with(['OrderDetail', 'OrderDetail.PacketData' => function ($query) {
+            $query->withTrashed();
+        }])
         ->orderBy(OrderDetail::select('status_pembayaran')
             ->whereColumn('order_detail_id', 'order_data.order_detail_id')
             ->latest()
@@ -39,14 +42,18 @@ class OrderController extends Controller
     }
 
     function GetOrderDetail($order_id) {
-        $order = OrderData::with(['OrderDetail', 'OrderDetail.PacketData'])
+        $order = OrderData::with(['OrderDetail', 'OrderDetail.PacketData' => function ($query) {
+            $query->withTrashed();
+        }])
         ->where("order_id", $order_id)
         ->get();
         return OrderDetailedResource::collection($order);
     }
 
     function AllDetailedOrders() {
-        $orders = OrderData::with(['OrderDetail', 'OrderDetail.PacketData'])
+        $orders = OrderData::with(['OrderDetail', 'OrderDetail.PacketData' => function ($query) {
+            $query->withTrashed();
+        }])
         ->orderBy(OrderDetail::select('status_pembayaran')
             ->whereColumn('order_detail_id', 'order_data.order_detail_id')
             ->latest()
@@ -68,7 +75,9 @@ class OrderController extends Controller
     }
 
     function AgentResponsibilityOrders() {
-        $orders = OrderData::with(['OrderDetail', 'OrderDetail.PacketData'])
+        $orders = OrderData::with(['OrderDetail', 'OrderDetail.PacketData' => function ($query) {
+            $query->withTrashed();
+        }])
         ->where('agent_id', Auth::user()->user_id)
         ->orderBy(OrderDetail::select('status_pembayaran')
             ->whereColumn('order_detail_id', 'order_data.order_detail_id')
@@ -91,7 +100,9 @@ class OrderController extends Controller
     }
 
     function NeedConfirmation() {
-        $orders = OrderData::with(['OrderDetail', 'OrderDetail.PacketData'])
+        $orders = OrderData::with(['OrderDetail', 'OrderDetail.PacketData' => function ($query) {
+            $query->withTrashed();
+        }])
         ->whereHas('OrderDetail', function ($query) {
             $query->where('status_iklan', 1);
         })

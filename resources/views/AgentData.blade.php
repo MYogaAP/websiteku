@@ -200,22 +200,22 @@
                     <div class="modal-body">
                             <div class="form-group">
                                 <div class="mb-3">
-                                    <label for="nama_anggota" class="form-label">Name</label>
+                                    <label for="nama_anggota" class="form-label">Name<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="nama_anggota" name="nama_anggota"
                                         placeholder="cth. Abdul Hafiz" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="username_anggota" class="form-label">Username</label>
+                                    <label for="username_anggota" class="form-label">Username<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="username_anggota" name="username_anggota"
                                         placeholder="cth. user26" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="email_anggota" class="form-label">Email</label>
+                                    <label for="email_anggota" class="form-label">Email<span class="text-danger">*</span></label>
                                     <input type="email" class="form-control" id="email_anggota" name="email_anggota"
                                         placeholder="cth. user@radar.com" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="password_anggota" class="form-label">Password</label>
+                                    <label for="password_anggota" class="form-label">Password<span class="text-danger">*</span></label>
                                     <input type="password" class="form-control" id="password_anggota" name="password_anggota"
                                         placeholder="RadarPaham_123Banua" required>
                                 </div>

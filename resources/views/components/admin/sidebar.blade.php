@@ -1,4 +1,38 @@
 <div>
+    @if (!Cookie::has('auth'))
+        <script>
+            window.location = "{{ route('loginPage') }}";
+        </script>
+    @else
+        @php
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => gethostname().'/websiteku/public/api/UserCheck',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Authorization: Bearer '.Cookie::get('auth')
+            ),
+            ));
+            $user_data = curl_exec($curl);
+            $user_data = json_decode($user_data);
+            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            curl_close($curl);
+            
+            if($http_status == 401){
+                setcookie("auth", "", time() - 3600, "/");
+                session()->flush();
+                header("Location: " . route('loginPage'), true, 302);
+                exit();
+            }
+        @endphp
+    @endif
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <!-- Sidebar - Brand -->
@@ -45,11 +79,13 @@
         <!-- Heading -->
         <div class="sidebar-heading">Utility</div>
 
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('agentData') }}">
-                <i class="fas fa-fw fa-user-lock"></i>
-                <span>Data Anggota Biro Iklan</span></a>
-        </li>
+        @if ($user_data->role == "admin")
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('agentData') }}">
+                    <i class="fas fa-fw fa-user-lock"></i>
+                    <span>Data Anggota Biro Iklan</span></a>
+            </li>
+        @endif
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">

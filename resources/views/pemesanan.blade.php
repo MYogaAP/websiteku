@@ -93,6 +93,7 @@
             $desk = $form_data['deskripsi_iklan'];
             $email = $form_data['email_instansi'];
             $telp = $form_data['telpon_instansi'];
+            $almt = $form_data['alamat_instansi'];
         @endphp
     @endif
 
@@ -109,7 +110,7 @@
             <div class="row justify-content-center mt-5">
                 <div class="col-6">
                     <div class="mb-3">
-                        <input type="text" id="nama_instansi" name="nama_instansi" class="form-control rounded-pill" placeholder="Nama Instansi" 
+                        <input type="text" id="nama_instansi" name="nama_instansi" class="form-control" placeholder="Nama Instansi" 
                         value=@if(isset($nama))
                             {{ $nama }}
                         @endif>
@@ -131,13 +132,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <input type="text" id="deskripsi_iklan" name="deskripsi_iklan" class="form-control rounded-pill" placeholder="Deskripsi Keperluan Iklan (jika perlu)"
-                        value=@if(isset($desk))
-                        {{ $desk }}
-                        @endif>
-                    </div>
-                    <div class="mb-3">
-                        <input type="email" id="email_instansi" name="email_instansi" class="form-control rounded-pill" placeholder="Email Yang Dapat Dihubungi" required
+                        <input type="email" id="email_instansi" name="email_instansi" class="form-control" placeholder="Email Yang Dapat Dihubungi" required
                         value=@if(isset($email))
                         {{ $email }}
                         @elseif (isset($data_user->email))
@@ -145,12 +140,24 @@
                         @endif>
                     </div>
                     <div class="mb-3">
-                        <input type="tel" id="telpon_instansi" name="telpon_instansi" class="form-control rounded-pill" placeholder="Nomor Telpon Yang Dapat Dihubungi" required
+                        <input type="tel" id="telpon_instansi" name="telpon_instansi" class="form-control" placeholder="Nomor Telpon Yang Dapat Dihubungi" required
                         value=@if(isset($telp))
                         {{ $telp }}
                         @elseif (isset($data_user->no_hp))
                         {{ $data_user->no_hp }}
                         @endif>
+                    </div>
+                    <div class="mb-3">
+                        <textarea type="text" id="alamat_instansi" name="alamat_instansi" class="form-control" placeholder="Alamat Instansi" required
+                        value=@if(isset($almt))
+                        {{ $almt }}
+                        @endif></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <textarea id="deskripsi_iklan" name="deskripsi_iklan" class="form-control" placeholder="Deskripsi Keperluan Iklan (jika perlu)"
+                        value=@if(isset($desk))
+                        {{ $desk }}
+                        @endif></textarea>
                     </div>
                     <div>
                         <div class="text-end">

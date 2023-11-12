@@ -113,6 +113,8 @@ Route::get('/OrderHalamanSebelumnya', [DataLinkerController::class, 'LoadPrevOrd
 Route::get('/OrderHalaman/{page}', [DataLinkerController::class, 'LoadNumberOrderData'])->name('UserOrderHalamanNomor');
 
 // Dashboard Admin Order
+Route::post('/TerimaOrderPengguna', [CallOrderController::class, 'AcceptUserOrder'])->name('TerimaOrderPengguna');
+Route::post('/TolakOrderPengguna', [CallOrderController::class, 'DeclineUserOrder'])->name('TolakOrderPengguna');
 
 // Dashboard Admin Packet
 Route::post('/TambahPaket', [DashboardController::class, 'AddNewPacket'])->name('TambahPaket');
@@ -205,7 +207,13 @@ Route::get('/email/verify/{id}/{hash}', function ($id, $hash) {
         header("Location: " . route('loginPage'), true, 302);
         exit();
     }
-    return redirect()->route('verification.notice', ['status' => $verif->message]);
+
+    if(isset($verif)){
+        session()->put('status', $verif->message);
+    } else {
+        session()->put('error', 'Terjadi sebuah kesalahan!');
+    }
+    return redirect()->route('verification.notice');
 })->name('verification.verify');
 
 Route::post('/email/verification-notification', function () {
@@ -235,5 +243,11 @@ Route::post('/email/verification-notification', function () {
         header("Location: " . route('loginPage'), true, 302);
         exit();
     }
-    return redirect()->route('verification.notice', ['status' => $verif->message]);
+
+    if(isset($verif)){
+        session()->put('status', $verif->message);
+    } else {
+        session()->put('error', 'Terjadi sebuah kesalahan!');
+    }
+    return redirect()->route('verification.notice');
 })->name('verification.send');

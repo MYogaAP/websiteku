@@ -242,33 +242,33 @@
                     <div class="modal-body">
                             <div class="form-group">
                                 <div class="mb-3">
-                                    <label for="contoh_foto_paket" class="form-label">Pastikan photo yang ditambahakan sesuai</label>
+                                    <label for="contoh_foto_paket" class="form-label">Pastikan photo yang ditambahakan sesuai<span class="text-danger">*</span></label>
                                     <input class="form-control" type="file" id="contoh_foto_paket" name="contoh_foto_paket" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="nama_paket" class="form-label">Nama Paket</label>
+                                    <label for="nama_paket" class="form-label">Nama Paket<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="nama_paket" name="nama_paket"
                                         placeholder="cth. Paket1" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="tinggi_paket" class="form-label">Tinggi</label>
+                                    <label for="tinggi_paket" class="form-label">Tinggi<span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="tinggi_paket" name="tinggi_paket"
                                         placeholder="50" min="1" max="530" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="kolom_paket" class="form-label">Kolom</label>
+                                    <label for="kolom_paket" class="form-label">Kolom<span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="kolom_paket" name="kolom_paket"
                                         placeholder="1" min="1" max="6" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="format_warna_paket" class="form-label">Format Warna</label>
+                                    <label for="format_warna_paket" class="form-label">Format Warna<span class="text-danger">*</span></label>
                                     <select class="form-control" id="format_warna_paket" name="format_warna_paket" required>
                                         <option value="fc">Full Color</option>
                                         <option value="bw">Black White</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="harga_paket" class="form-label">Harga Paket</label>
+                                    <label for="harga_paket" class="form-label">Harga Paket<span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="harga_paket" name="harga_paket"
                                         placeholder="100000" required>
                                 </div>

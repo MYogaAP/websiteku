@@ -2,13 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\PacketController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\AgentUserController;
-use App\Http\Controllers\AuthenticationController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-
+use App\Http\Controllers\API\OrderController;
+use App\Http\Controllers\API\PacketController;
+use App\Http\Controllers\API\RegisterController;
+use App\Http\Controllers\API\AgentUserController;
+use App\Http\Controllers\API\AuthenticationController;
 
 //Login API
 Route::post('/UserLogin', [AuthenticationController::class, 'Login']);

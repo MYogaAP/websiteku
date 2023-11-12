@@ -158,6 +158,20 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col">
+                                                                <p>No. Seri</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <p>: 
+                                                                    @if (isset($order->nomor_seri))
+                                                                        {{$order->nomor_seri}}
+                                                                    @else
+                                                                        {{'--------------------'}}
+                                                                    @endif    
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
                                                                 <p>No. Invoice</p>
                                                             </div>
                                                             <div class="col-8">
@@ -320,20 +334,14 @@
                                                         </button>
                                                         <div class="dropdown-menu animated--fade-in"
                                                             aria-labelledby="dropdownMenuButton">
-                                                            <form action="#" method="POST">
-                                                                @method("PATCH")
-                                                                @csrf
-                                                                <button type="submit" class="dropdown-item" formaction="">
-                                                                    Menunggu Konfirmasi</button>
-                                                                <button type="submit" class="dropdown-item" formaction="">
-                                                                    Dalam Antrian</button>
-                                                                <button type="submit" class="dropdown-item" formaction="">
-                                                                    Sedang Diproses</button>
-                                                                <button type="submit" class="dropdown-item" formaction="">
-                                                                    Telah Diupload</button>
-                                                                <button type="submit" class="dropdown-item" formaction="">
-                                                                    Dibatalkan</button>
-                                                            </form>
+                                                            @if ($filter == "Perlu Konfirmasi")
+                                                                <button id="TerimaOrderBtn" class="dropdown-item text-primary" data-toggle="modal" data-target="#TerimaOrder"
+                                                                data-id="{{$order->order_id}}">
+                                                                    Terima Order</button>
+                                                                <button id="TolakOrderBtn" class="dropdown-item text-danger" data-toggle="modal" data-target="#TolakOrder"
+                                                                data-id="{{$order->order_id}}">
+                                                                    Tolak Order</button>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </td>
@@ -353,6 +361,87 @@
         <!-- End of Content Wrapper -->
     </div>
     <!-- End of Page Wrapper -->
+    
+    <!-- Terima Order -->
+    <div class="modal fade" id="TerimaOrder" tabindex="-1" role="dialog" aria-labelledby="TerimaOrder"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Terima Order</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="{{route('TerimaOrderPengguna')}}" class="user" method="POST" autocomplete="off">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="hidden" name="order_id" id="order_id" value="">
+                            <div class="mb-3">
+                                <label for="nomor_order" class="form-label">Nomor Order<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="nomor_order" name="nomor_order"
+                                    placeholder="cth. BJM230000452" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nomor_seri" class="form-label">Nomor Seri<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="nomor_seri" name="nomor_seri"
+                                    placeholder="cth. 9107743232723925" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nomor_invoice" class="form-label">Nomor Invoice<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="nomor_invoice" name="nomor_invoice"
+                                    placeholder="cth. 2300051YA-BJM" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="detail_kemajuan" class="form-label">Detail Penerimaan Iklan</label>
+                                <textarea class="form-control" rows="3" id="detail_kemajuan" name="detail_kemajuan" 
+                                    placeholder="cth. pesanan kami terima ...."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                            Tolak Order
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tolak Order -->
+    <div class="modal fade" id="TolakOrder" tabindex="-1" role="dialog" aria-labelledby="TolakOrder"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tolak Order</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="{{route('TolakOrderPengguna')}}" class="user" method="POST" autocomplete="off">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="hidden" name="order_id" id="order_id" value="">
+                            <div class="mb-3">
+                                <label for="detail_kemajuan" class="form-label">Detail Penolakan Iklan<span class="text-danger">*</span></label>
+                                <textarea class="form-control" rows="3" id="detail_kemajuan" name="detail_kemajuan" 
+                                    placeholder="cth. pesanan kami tolak karena ...." required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                            Tolak Order
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -375,6 +464,17 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('adminStyle/js/demo/datatables-demo.js') }}"></script>
+
+    <script>
+        $(document).on("click", "#TerimaOrderBtn", function () {
+            var OrderId = $(this).data('id');
+            $(".modal-body #order_id").val( OrderId );
+        });
+        $(document).on("click", "#TolakOrderBtn", function () {
+            var OrderId = $(this).data('id');
+            $(".modal-body #order_id").val( OrderId );
+        });
+    </script>
 </body>
 
 </html>

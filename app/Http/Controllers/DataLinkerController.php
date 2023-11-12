@@ -38,6 +38,7 @@ class DataLinkerController extends Controller
             "deskripsi_iklan" => $desc,
             "email_instansi" => $request->email_instansi,
             "telpon_instansi" => $request->telpon_instansi,
+            "alamat_instansi" => $request->alamat_instansi,
         ];
 
         $request->session()->put('form_data', $data);

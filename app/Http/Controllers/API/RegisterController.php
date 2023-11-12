@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Models\User;
 use Illuminate\Support\Str;
@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class RegisterController extends Controller
 {
@@ -93,6 +94,7 @@ class RegisterController extends Controller
         ]);
 
         $request->merge(['role' => 'agent']); // Making the user as agent
+        $request->merge(['email_verified_at' => now()]); // Making the agent email verified
 
         $newData = User::create($request->all());
 

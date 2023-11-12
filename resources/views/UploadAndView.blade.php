@@ -125,7 +125,7 @@
                             <a href="{{ route('detailukuran') }}" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white">Sebelumnya</a>
                         </div>
                         <div class="text-start">
-                            <input type="submit" id="submit-btn" value="Buat Invoice" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white" disabled>
+                            <input type="submit" id="submit-btn" value="Kirim Pesanan" class="btn btn-primary rounded px-5 mb-3" style="background-color: #0094E7; color:white" disabled>
                         </div>
                     </div>
                 </div>

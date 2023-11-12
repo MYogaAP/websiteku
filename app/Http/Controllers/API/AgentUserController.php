@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Models\User;
 use Illuminate\Support\Str;
@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\AgentListResource;
 use Illuminate\Validation\Rules\Password;
+use App\Http\Controllers\Controller;
 
 class AgentUserController extends Controller
 {
     function CheckCurrent() {
-        if(Auth::user()->hasVerifiedEmail()){
+        $user = Auth::user();
+        if($user->hasVerifiedEmail()){
             return response()->json(Auth::user(), 200);
         }
         $data = Auth::user();

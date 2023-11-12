@@ -33,22 +33,6 @@
         <div class="row align-items-center justify-content-center" style="height: 80vh">
             <div class="col-4 shadow p-5 mt-5">
                 <h1 class="mb-5">Lupa Password</h1>
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $data)
-                                <li>
-                                    {{$data}}
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>                    
-                @endif
-                @if (session()->has('status'))
-                    <div class="alert alert-success">
-                        {{session()->get('status')}}
-                    </div>
-                @endif
                 <form method="POST" action="{{route('password.email')}}">
                     @csrf
                         <div class="mb-3">

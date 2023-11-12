@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Carbon\Carbon;
 use App\Models\PacketData;
@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\UserPacketResource;
+use App\Http\Controllers\Controller;
 
 class PacketController extends Controller
 {
@@ -99,10 +100,7 @@ class PacketController extends Controller
             Storage::delete('\image_example\\'.$filePath);
             $affected = PacketData::where('packet_id', $packet_id)
             ->update([
-                'nama_paket' => Str::random(30),
-                'format_warna' => 'bw',
-                'tinggi' => 0,
-                'kolom' => 0,
+                'nama_paket' => $data->nama_paket."_unavailable_".Str::random(15),
                 'hidden' => 'yes',
             ]);
             $affected = PacketData::where('packet_id', $packet_id)
