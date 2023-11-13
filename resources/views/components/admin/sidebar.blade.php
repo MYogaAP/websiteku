@@ -97,7 +97,7 @@
             <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Options</h6>
-                    <a class="dropdown-item" href="{{route('profile')}}">
+                    <a class="dropdown-item" href="{{route('profilePro')}}">
                         <i class="fas fa-address-card fa-sm fa-fw mr-2 text-gray-400"></i>
                         Profile
                     </a>

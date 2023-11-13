@@ -67,7 +67,7 @@
 
         <div>
             <div class="container">
-                <div class="mt-5 ">
+                <div class="mt-5">
                     <h3 class="text-center fw-bold">Identitas Profil Akun</h3>
                 </div>
                 <div class="mt-5 d-flex justify-content-center">

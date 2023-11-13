@@ -246,39 +246,39 @@
                     @method("PATCH")
                     @csrf
                     <div class="modal-body">
-                            <div class="form-group">
-                                <div class="mb-3">
-                                    <label for="Edit_Name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="Edit_Name" name="nama_anggota"
-                                        placeholder="cth. Abdul Hafiz">
-                                </div>
-                                {{-- <div class="mb-3">
-                                    <label for="Edit_Username" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="Edit_Username" name="username_anggota"
-                                        placeholder="cth. user26">
-                                </div> --}}
-                                {{-- <div class="mb-3">
-                                    <label for="Edit_Email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="Edit_Email" name="email_anggota"
-                                        placeholder="cth. user@radar.com">
-                                </div> --}}
-                                {{-- <div class="mb-3">
-                                    <label for="Edit_Password" class="form-label">Password</label>
-                                    <input type="email" class="form-control" id="Edit_Password" name="password_anggota"
-                                        placeholder="cth. user@radar.com">
-                                </div> --}}
-                                <div class="mb-3">
-                                    <label for="Edit_NoHP" class="form-label">No. HP</label>
-                                    <input type="text" class="form-control" id="Edit_NoHP" name="nohp_anggota"
-                                        placeholder="cth. user26">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="Edit_Pekerjaan" class="form-label">Pekerjaan</label>
-                                    <input type="text" class="form-control" id="Edit_Pekerjaan" name="pekerjaan_anggota"
-                                        placeholder="cth. user26" required>
-                                </div>
-                                <input type="hidden" id="Id_Edit" name="no_anggota" value="">
+                        <div class="form-group">
+                            <div class="mb-3">
+                                <label for="Edit_Name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="Edit_Name" name="nama_anggota"
+                                    placeholder="cth. Abdul Hafiz">
                             </div>
+                            {{-- <div class="mb-3">
+                                <label for="Edit_Username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="Edit_Username" name="username_anggota"
+                                    placeholder="cth. user26">
+                            </div> --}}
+                            {{-- <div class="mb-3">
+                                <label for="Edit_Email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="Edit_Email" name="email_anggota"
+                                    placeholder="cth. user@radar.com">
+                            </div> --}}
+                            {{-- <div class="mb-3">
+                                <label for="Edit_Password" class="form-label">Password</label>
+                                <input type="email" class="form-control" id="Edit_Password" name="password_anggota"
+                                    placeholder="cth. user@radar.com">
+                            </div> --}}
+                            <div class="mb-3">
+                                <label for="Edit_NoHP" class="form-label">No. HP</label>
+                                <input type="text" class="form-control" id="Edit_NoHP" name="nohp_anggota"
+                                    placeholder="cth. user26">
+                            </div>
+                            <div class="mb-3">
+                                <label for="Edit_Pekerjaan" class="form-label">Pekerjaan</label>
+                                <input type="text" class="form-control" id="Edit_Pekerjaan" name="pekerjaan_anggota"
+                                    placeholder="cth. user26" required>
+                            </div>
+                            <input type="hidden" id="Id_Edit" name="no_anggota" value="">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary btn-user btn-block">

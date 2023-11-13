@@ -137,15 +137,15 @@ class CallUserController extends Controller
         ));
 
         $response = curl_exec($curl);
-        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $response = json_decode($response);
+        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
         if($http_status == 401){
-            return View('profile');
+            return View('profilePro');
         }
 
-        return View('profile')->with(['MessageSuccess' => $response->message]);
+        return View('profilePro')->with(['MessageSuccess' => $response->message]);
     }
 
     function UpdatePasswordCall(Request $request) {
@@ -175,23 +175,23 @@ class CallUserController extends Controller
         $response = json_decode($response);
 
         if($http_status == 401){
-            return View('profile');
+            return View('profilePro');
         }
 
         if($http_status == 404){
-            return View('profile')->with([
+            return View('profilePro')->with([
                 "MessageWarning" => [$response->message]
             ]);
         }
         
         if($http_status == 422){
-            return View('profile')->with([
+            return View('profilePro')->with([
                 "MessageWarning" => $response->errors->password
             ]);
         }
 
         if($http_status == 200){
-            return View('profile')->with([
+            return View('profilePro')->with([
                 "MessageSuccess" => $response->message
             ]);
         }
@@ -215,12 +215,16 @@ class CallUserController extends Controller
             'Authorization: Bearer '.Cookie::get('auth')
         ),
         ));
-
         $response = curl_exec($curl);
+        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
         setcookie("auth", "", time() - 3600, "/");
 
-        return View('profile');
+        if($http_status == 200){
+            return View('login')->with([
+                "message" => "Berhasil keluar dari akun."
+            ]);
+        }
     }
 }

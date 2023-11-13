@@ -54,7 +54,6 @@
             
             if($http_status == 401){
                 setcookie("auth", "", time() - 3600, "/");
-                session()->flush();
                 header("Location: " . route('loginPage'), true, 302);
                 exit();
             }
