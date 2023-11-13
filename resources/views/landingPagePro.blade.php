@@ -28,6 +28,7 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
+            padding-top: 70px;
         }
 
         .judul {
@@ -83,42 +84,6 @@
                 </script>
             @endif
         @endif
-        <!-- Navigation-->
-        {{-- <nav class="navbar navbar-expand-lg navbar-white bg-white">
-            <div class="container px-5">
-                <a class="navbar-brand" href="index.html">RADAR BANJARMASIN</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation"><span
-                class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
-                        <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">Blog</a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                                <li><a class="dropdown-item" href="blog-home.html">Blog Home</a></li>
-                                <li><a class="dropdown-item" href="blog-post.html">Blog Post</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#"
-                            role="button" data-bs-toggle="dropdown" aria-expanded="false">Portfolio</a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
-                                <li><a class="dropdown-item" href="portfolio-overview.html">Portfolio Overview</a></li>
-                                <li><a class="dropdown-item" href="portfolio-item.html">Portfolio Item</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav> --}}
-
 
         <!-- Header-->
         <header class="py-5">
@@ -134,8 +99,8 @@
                                 dan target audiens lokal, layanan ini memaksimalkan visibilitas usaha Anda secara
                                 efektif.</p>
                             <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
-                                <a class="btn btn-primary btn-lg px-4 me-sm-3" href="#features">Pesan Jasa</a>
-                                <a class="btn btn-outline-light btn-lg px-4" href="#!">Panduan</a>
+                                <a class="btn btn-primary btn-lg px-4 me-sm-3" href="{{ route('loginPage') }}">Pesan Jasa</a>
+                                <a class="btn btn-outline-light btn-lg px-4" href="{{ route('loginPage') }}">Panduan</a>
                             </div>
                         </div>
                     </div>
@@ -148,8 +113,8 @@
         <section class="py-5" id="features">
             <div class="container px-5 my-5">
                 <div class="row gx-5">
-                    <div class="col-lg-4 mb-5 mb-lg-0">
-                        <h2 class="fw-bolder mb-0">A better way to start building.</h2>
+                    <div class="col-lg-4 mb-5 mb-lg-0 d-flex align-items-center justify-content-center">
+                        <h2 class="fw-bolder mb-5">Kini lebih mudah untuk memesan jasa iklan koran</h2>
                     </div>
                     <div class="col-lg-8">
                         <div class="row gx-5 row-cols-1 row-cols-md-2">
