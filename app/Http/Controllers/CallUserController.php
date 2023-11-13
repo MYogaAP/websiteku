@@ -46,7 +46,7 @@ class CallUserController extends Controller
 
         Cookie::queue('auth', $response->auth, 720, null, null, false, true);
 
-        return view('landingPageLogin');
+        return view('landingPagePro');
     }
 
     function RegisterCall(Request $request) {

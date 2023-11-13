@@ -167,12 +167,12 @@
                                 efektif.</p>
                             <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
                                 <a class="btn btn-primary btn-lg px-4 me-sm-3" href="{{ route('pemesanan') }}">Pesan Jasa</a>
-                                <a class="btn btn-outline-light btn-lg px-4" href="{{ route('panduan') }}">Panduan</a>
+                                <a class="btn btn-outline-light btn-lg px-4" href="{{ route('panduanPro') }}">Panduan</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5"
-                            src="{{ asset('images/koran.png') }}" alt="..." /></div>
+                            src="{{ asset('images/koran-1.png') }}" alt="..." /></div>
                 </div>
             </div>
             <div class="scroll-down-indicator">

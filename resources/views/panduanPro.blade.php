@@ -41,7 +41,7 @@
 
 <body class="d-flex flex-column">
     <main class="flex-shrink-0">
-        <x-nav-bar-login />
+        <x-nav-bar-back />
         <!-- Header-->
         <header class="py-5">
             <div class="container px-5">
@@ -50,10 +50,10 @@
                         <div class="text-center my-5">
                             <h1 class="fw-bolder mb-3">Panduan Pemesanan Iklan
                             </h1>
-                            <p class="lead fw-normal text-muted mb-4">Nikmati proses pemesanan yang simpel di Radar
-                                Banjarmasin dengan hanya empat langkah mudah. Memesan jasa belum pernah
-                                semudah ini!</p>
-                            <a class="btn btn-primary btn-lg" href="#scroll-target">Pelajari Sekarang!</a>
+                            <p class="lead fw-normal text-muted mb-4">Nikmati kenyamanan 
+                                dalam proses pemesanan di Radar Banjarmasin yang disederhanakan 
+                                melalui empat langkah mudah. Kami berkomitmen untuk memberikan layanan 
+                                terbaik bagi Anda!</p>
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                             src="https://dummyimage.com/600x400/343a40/6c757d" alt="..." /></div>
                     <div class="col-lg-6">
                         <h2 class="fw-bolder">1. Membuat Akun</h2>
-                        <p class="lead fw-normal text-muted mb-0">Buatlah akun pribadi dengan mudah di platform kami.
+                        <p class="lead fw-normal text-muted mb-0">Buatlah akun pribadi terlebih dahulu di platform kami.
                             Dengan langkah-langkah sederhana, dapatkan akses penuh ke layanan kami dan mulailah
                             mendefinisikan keberadaan online Anda.</p>
                     </div>
@@ -83,8 +83,7 @@
                     <div class="col-lg-6">
                         <h2 class="fw-bolder">2. Pesan Jasa</h2>
                         <p class="lead fw-normal text-muted mb-0">Pesan jasa iklan sekarang. Isi formulir dengan
-                            detail keperluan iklan anda, dan biarkan kami membantu mewujudkan visi pemasaranmu. Setiap
-                            langkah membawa kita lebih dekat pada kesuksesan.</p>
+                            detail keperluan iklan anda, dan biarkan kami membantu mewujudkan visi pemasaranmu.</p>
                     </div>
                 </div>
             </div>
@@ -99,8 +98,7 @@
                         <h2 class="fw-bolder">3. Pilih Paket</h2>
                         <p class="lead fw-normal text-muted mb-0">Pilihlah paket iklan yang cocok dengan kebutuhan
                             spesifik iklan Anda. Dengan berbagai opsi paket yang tersedia, kami memastikan Anda
-                            mendapatkan solusi yang sesuai untuk menyampaikan pesan Anda secara optimal kepada audiens
-                            target.</p>
+                            mendapatkan solusi yang sesuai untuk menyampaikan iklan Anda secara optimal.</p>
                     </div>
                 </div>
             </div>
@@ -114,9 +112,8 @@
                     <div class="col-lg-6">
                         <h2 class="fw-bolder">4. Bayar Pesanan</h2>
                         <p class="lead fw-normal text-muted mb-0">Lakukan pembayaran untuk pesanan Anda dengan mudah dan
-                            aman. Pilih metode pembayaran yang nyaman bagi Anda, sehingga Anda dapat dengan cepat dan
-                            lancar melanjutkan proses, memastikan iklan Anda segera tampil dan mencapai audiens yang
-                            diinginkan.</p>
+                            aman. Pilih metode pembayaran yang nyaman bagi Anda, sehingga dapat diproses dan
+                            iklan Anda bisa segera tampil di koran Radar Banjarmasin</p>
                     </div>
                 </div>
             </div>
@@ -126,17 +123,16 @@
             <div class="container px-5 my-5">
                 <div class="text-center">
                     <h2 class="fw-bolder">Customer Service</h2>
-                    <p class="lead fw-normal text-muted mb-5">Tidak menemukan paket yang sesuai? kontak customer service
-                        kami!</p>
+                    <p class="lead fw-normal text-muted mb-5">Tidak menemukan paket yang sesuai? kontak customer service kami!</p>
                 </div>
                 <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
                     <div class="col mb-5 mb-5 mb-xl-0">
                         <div class="text-center">
                             <a href="">
                                 <img class="img-fluid rounded-circle mb-4 px-4"
-                                    src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
+                                    src="{{ asset('images/cs.png') }}" alt="..." />
                             </a>
-                            <h5 class="fw-bolder">Yoga Agoy</h5>
+                            <h5 class="fw-bolder">Layanan 24 Jam</h5>
                             <div class="fst-italic text-muted">Frontliner Radar</div>
                         </div>
                     </div>
