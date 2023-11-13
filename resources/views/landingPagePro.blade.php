@@ -158,7 +158,7 @@
                 <div class="row gx-5 align-items-center justify-content-center">
                     <div class="col-lg-8 col-xl-7 col-xxl-6">
                         <div class="my-5 text-center text-xl-start">
-                            <h1 class="display-5 fw-bolder text-white mb-2">Jasa Iklan</h1>
+                            <h2 class="display-5 fw-bolder text-white mb-2">Jasa Iklan</h2>
                             <h1 class="display-5 fw-bolder text-white mb-2">Radar Banjarmasin</h1>
                             <p style="color: white; font-size: 16px; text-align:justify;">Radar Banjarmasin menawarkan
                                 platform iklan
@@ -166,8 +166,8 @@
                                 dan target audiens lokal, layanan ini memaksimalkan visibilitas usaha Anda secara
                                 efektif.</p>
                             <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
-                                <a class="btn btn-primary btn-lg px-4 me-sm-3" href="{{ route('loginPage') }}">Pesan Jasa</a>
-                                <a class="btn btn-outline-light btn-lg px-4" href="{{ route('loginPage') }}">Panduan</a>
+                                <a class="btn btn-primary btn-lg px-4 me-sm-3" href="{{ route('pemesanan') }}">Pesan Jasa</a>
+                                <a class="btn btn-outline-light btn-lg px-4" href="{{ route('panduan') }}">Panduan</a>
                             </div>
                         </div>
                     </div>

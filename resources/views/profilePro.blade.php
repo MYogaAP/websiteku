@@ -44,7 +44,7 @@
 
 <body class="d-flex flex-column">
     <main class="flex-shrink-0">
-        <x-nav-bar-login />
+        <x-nav-bar-back />
 
         @if(!Cookie::has('auth'))
             <script>window.location="{{route('loginPage')}}";</script>
@@ -82,9 +82,7 @@
             <section class="py-5 mt-5">
                 <div class="container px-5">
                     <!-- Contact form-->
-                    <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
                         <div class="text-center mb-5 mt-5">
-                            <h1 class="fw-bolder">Profil Akun</h1>
                         </div>
 
                         <div class="row gx-5 justify-content-center">

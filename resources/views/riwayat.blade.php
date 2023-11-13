@@ -17,6 +17,7 @@
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
+            padding-top: 60px;
         }
 
         .judul {
@@ -56,7 +57,7 @@
         @endif
         <div class="row align-items-start">
             <div class="col">
-                <table class="table table-striped">
+                <table class="table table-striped mt-4">
                     <thead>
                         <tr>
                             <th scope="col">No Order</th>
