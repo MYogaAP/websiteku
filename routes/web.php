@@ -91,6 +91,10 @@ Route::get('/profilePro', function () {
     return view('profilePro');
 })->name('profilePro');
 
+Route::get('/panduanPro', function () {
+    return view('panduanPro');
+})->name('panduanPro');
+
 // User Data
 Route::post('/LoginCall', [CallUserController::class, 'LoginCall'])->name('LoginCall');
 Route::post('/RegisterCall', [CallUserController::class, 'RegisterCall'])->name('RegisterCall');
