@@ -45,7 +45,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
     Route::get('/OrderDetail/{order_id}', [OrderController::class, 'GetOrderDetail']);
     Route::post('/StoreOrder', [OrderController::class, 'StoreOrder']);
-    Route::delete('/CancelOrder/{order_id}', [OrderController::class, 'CancelOrder']);
+    Route::post('/CancelOrder/{order_id}', [OrderController::class, 'CancelOrder']);
 });
 
 // Packet API

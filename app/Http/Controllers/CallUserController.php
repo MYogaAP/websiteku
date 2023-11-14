@@ -98,6 +98,7 @@ class CallUserController extends Controller
 
         $response = curl_exec($curl);
         $response = json_decode($response);
+        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
         if(isset($response->errors)) {
@@ -106,9 +107,14 @@ class CallUserController extends Controller
             return view('login', ['message' => $response->message]);
         }
 
-        Cookie::queue('auth', $response->auth, 720, null, null, false, true);
-
-        return view('login');
+        if($http_status == 200){
+            Cookie::queue('auth', $response->auth, 720, null, null, false, true);
+            return view('landingPageLogin');
+        } else {
+            return view('login')->with([
+                'error_msg' => "Terjadi suatu kesalahan!",
+            ]);
+        }
     }
 
     function UpdateProfileCall(Request $request) {
@@ -224,6 +230,10 @@ class CallUserController extends Controller
         if($http_status == 200){
             return View('login')->with([
                 "message" => "Berhasil keluar dari akun."
+            ]);
+        } else {
+            return View('login')->with([
+                "error_msg" => "Terjadi suatu kesalahan."
             ]);
         }
     }

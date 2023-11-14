@@ -123,6 +123,7 @@
                                             $order->status_pembayaran = "Lunas";
                                             $order->status_iklan = "Sedang Diproses";
                                         } elseif($invoice_data->status == "EXPIRED"){
+                                            $desk_up = "Waktu pembayaran habis.";
                                             $curl = curl_init();
                                             curl_setopt_array($curl, array(
                                             CURLOPT_URL => gethostname().'/websiteku/public/api/CancelOrder/'.$order->order_id,
@@ -132,7 +133,10 @@
                                             CURLOPT_TIMEOUT => 0,
                                             CURLOPT_FOLLOWLOCATION => true,
                                             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                            CURLOPT_CUSTOMREQUEST => 'DELETE',
+                                            CURLOPT_CUSTOMREQUEST => 'POST',
+                                            CURLOPT_POSTFIELDS => '{
+                                                "detail_kemajuan": "'.$desk_up.'"
+                                            }',
                                             CURLOPT_HTTPHEADER => array(
                                                 'Accept: application/json',
                                                 'Authorization: Bearer '.Cookie::get('auth')

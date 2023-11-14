@@ -157,6 +157,93 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($response->data as $order)
+                                        @if($order->status_pembayaran == "Belum Lunas")
+                                            @php
+                                                $curl = curl_init();
+                                                curl_setopt_array($curl, array(
+                                                CURLOPT_URL => 'https://api.xendit.co/v2/invoices/'.$order->invoice_id,
+                                                CURLOPT_RETURNTRANSFER => true,
+                                                CURLOPT_ENCODING => '',
+                                                CURLOPT_MAXREDIRS => 10,
+                                                CURLOPT_TIMEOUT => 0,
+                                                CURLOPT_FOLLOWLOCATION => true,
+                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                                CURLOPT_CUSTOMREQUEST => 'GET',
+                                                CURLOPT_HTTPHEADER => array(
+                                                    'Authorization: Basic '.config('xendit.key')
+                                                ),
+                                                ));
+                                                $invoice_data = curl_exec($curl);
+                                                $invoice_data = json_decode($invoice_data);
+                                                curl_close($curl);
+                                                
+                                                if(isset($invoice_data->status)){
+                                                    if($invoice_data->status == "PAID" || $invoice_data->status == "SETTLED"){
+                                                        $curl = curl_init();
+                                                        curl_setopt_array($curl, array(
+                                                        CURLOPT_URL => gethostname().'/websiteku/public/api/UpdatePayedOrder/'.$order->order_id,
+                                                        CURLOPT_RETURNTRANSFER => true,
+                                                        CURLOPT_ENCODING => '',
+                                                        CURLOPT_MAXREDIRS => 10,
+                                                        CURLOPT_TIMEOUT => 0,
+                                                        CURLOPT_FOLLOWLOCATION => true,
+                                                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                                        CURLOPT_CUSTOMREQUEST => 'PATCH',
+                                                        CURLOPT_HTTPHEADER => array(
+                                                            'Accept: application/json',
+                                                            'Authorization: Bearer '.Cookie::get('auth')
+                                                        ),
+                                                        ));
+                                                        $update = curl_exec($curl);
+                                                        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                                        curl_close($curl);
+
+                                                        if($http_status == 401){
+                                                            setcookie("auth", "", time() - 3600, "/");
+                                                            $request->session()->flush();
+                                                            header("Location: " . route('loginPage'), true, 302);
+                                                            exit();
+                                                        }
+                                                        $order->status_pembayaran = "Lunas";
+                                                        $order->status_iklan = "Sedang Diproses";
+                                                    } elseif($invoice_data->status == "EXPIRED"){
+                                                        $desk_up = "Waktu pembayaran habis.";
+                                                        $curl = curl_init();
+                                                        curl_setopt_array($curl, array(
+                                                        CURLOPT_URL => gethostname().'/websiteku/public/api/CancelOrder/'.$order->order_id,
+                                                        CURLOPT_RETURNTRANSFER => true,
+                                                        CURLOPT_ENCODING => '',
+                                                        CURLOPT_MAXREDIRS => 10,
+                                                        CURLOPT_TIMEOUT => 0,
+                                                        CURLOPT_FOLLOWLOCATION => true,
+                                                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                                        CURLOPT_CUSTOMREQUEST => 'POST',
+                                                        CURLOPT_POSTFIELDS => '{
+                                                            "detail_kemajuan": "'.$desk_up.'"
+                                                        }',
+                                                        CURLOPT_HTTPHEADER => array(
+                                                            'Accept: application/json',
+                                                            'Authorization: Bearer '.Cookie::get('auth')
+                                                        ),
+                                                        ));
+                                                        $cancel = curl_exec($curl);
+                                                        $cancel = json_decode($cancel);
+                                                        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                                        curl_close($curl);
+
+                                                        if($http_status == 401){
+                                                            setcookie("auth", "", time() - 3600, "/");
+                                                            $request->session()->flush();
+                                                            header("Location: " . route('loginPage'), true, 302);
+                                                            exit();
+                                                        }
+                                                        $order->status_pembayaran = "Dibatalkan";
+                                                        $order->status_iklan = "Dibatalkan";
+                                                        $order->foto_iklan = "none";
+                                                    }
+                                                }
+                                            @endphp
+                                        @endif
                                             <tr>
                                                 <td>
                                                     <div class="container p-2">
@@ -291,9 +378,9 @@
                                                             <div class="col-8">
                                                                 <p class="@if ($order->status_iklan == 'Dibatalkan')
                                                                     {{'text-danger'}}
-                                                                @elseif($order->status_iklan == 'Lunas')
+                                                                @elseif($order->status_iklan == 'Telah Tayang')
                                                                     {{'text-success'}}
-                                                                @elseif ($order->status_iklan == 'Belum Lunas')
+                                                                @elseif ($order->status_iklan == 'Menunggu Pembayaran')
                                                                     {{'text-secondary'}}
                                                                 @else
                                                                     {{'text-primary'}}
@@ -309,9 +396,9 @@
                                                             <div class="col-8">
                                                                 <p class="@if ($order->status_pembayaran == 'Dibatalkan')
                                                                     {{'text-danger'}}
-                                                                @elseif($order->status_pembayaran == 'Telah Diupload')
+                                                                @elseif($order->status_pembayaran == 'Telah Tayang')
                                                                     {{'text-success'}}
-                                                                @elseif ($order->status_pembayaran == 'Menunggu Pembayaran')
+                                                                @elseif ($order->status_pembayaran == 'Belum Lunas')
                                                                     {{'text-secondary'}}
                                                                 @else
                                                                     {{'text-primary'}}
@@ -352,13 +439,21 @@
                                                         </button>
                                                         <div class="dropdown-menu animated--fade-in"
                                                             aria-labelledby="dropdownMenuButton">
-                                                            @if ($filter == "Perlu Konfirmasi")
+                                                            @if ($order->status_pembayaran == 'Menunggu Konfirmasi')
                                                                 <button id="TerimaOrderBtn" class="dropdown-item text-primary" data-toggle="modal" data-target="#TerimaOrder"
                                                                 data-id="{{$order->order_id}}">
                                                                     Terima Order</button>
                                                                 <button id="TolakOrderBtn" class="dropdown-item text-danger" data-toggle="modal" data-target="#TolakOrder"
                                                                 data-id="{{$order->order_id}}">
                                                                     Tolak Order</button>
+                                                            @elseif ($order->status_pembayaran == 'Belum Lunas')
+                                                                <button id="BatalkanOrderBtn" class="dropdown-item text-danger" data-toggle="modal" data-target="#BatalkanOrder"
+                                                                data-id="{{$order->order_id}}" data-xenid="{{$order->invoice_id}}">
+                                                                    Batalkan Order</button>
+                                                            @elseif ($order->status_pembayaran != 'Dibatalkan')
+                                                                <button id="PublishedOrderBtn" class="dropdown-item text-primary" data-toggle="modal" data-target="#PublishedOrder"
+                                                                data-id="{{$order->order_id}}">
+                                                                    Telah Tayang</button>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -463,6 +558,75 @@
         </div>
     </div>
 
+    <!-- Published Order -->
+    <div class="modal fade" id="PublishedOrder" tabindex="-1" role="dialog" aria-labelledby="PublishedOrder"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Tayang Order</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="{{route('OrderTelahTayang')}}" class="user" method="POST" autocomplete="off">
+                    @method('PATCH')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="hidden" name="order_id" id="order_id" value="">
+                            <div class="mb-3">
+                                <label for="detail_kemajuan" class="form-label">Detail Progress Iklan</label>
+                                <textarea class="form-control" rows="3" id="detail_kemajuan" name="detail_kemajuan" 
+                                    placeholder="cth. pesanan telah kami tayangkan ...."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                            Konfirmasi Tayang Order
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Batalkan Order -->
+    <div class="modal fade" id="BatalkanOrder" tabindex="-1" role="dialog" aria-labelledby="BatalkanOrder"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Batal Order</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="{{route('BatalkanOrderPengguna')}}" class="user" method="POST" autocomplete="off">
+                    @method('PATCH')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="hidden" name="order_id" id="order_id" value="">
+                            <input type="hidden" name="xendit_id" id="xendit_id" value="">
+                            <div class="mb-3">
+                                <label for="detail_kemajuan" class="form-label">Detail Pembatalan Iklan</label>
+                                <textarea class="form-control" rows="3" id="detail_kemajuan" name="detail_kemajuan" 
+                                    placeholder="cth. pesanan telah kami batalkan karena ...."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                            Konfirmasi Batal Order
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -498,6 +662,16 @@
         $(document).on("click", "#TolakOrderBtn", function () {
             var OrderId = $(this).data('id');
             $(".modal-body #order_id").val( OrderId );
+        });
+        $(document).on("click", "#PublishedOrderBtn", function () {
+            var OrderId = $(this).data('id');
+            $(".modal-body #order_id").val( OrderId );
+        });
+        $(document).on("click", "#BatalkanOrderBtn", function () {
+            var OrderId = $(this).data('id');
+            var XenditId = $(this).data('xenid');
+            $(".modal-body #order_id").val( OrderId );
+            $(".modal-body #xendit_id").val( XenditId );
         });
     </script>
 </body>

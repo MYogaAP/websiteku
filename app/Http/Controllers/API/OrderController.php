@@ -65,6 +65,9 @@ class OrderController extends Controller
         $orders = OrderData::with(['OrderDetail', 'OrderDetail.PacketData' => function ($query) {
             $query->withTrashed();
         }])
+        ->whereHas('OrderDetail', function ($query) {
+            $query->whereNot('status_iklan', 5);
+        })
         ->orderBy(OrderDetail::select('status_pembayaran')
             ->whereColumn('order_detail_id', 'order_data.order_detail_id')
             ->latest()
@@ -137,7 +140,7 @@ class OrderController extends Controller
         return OrderDetailedResource::collection($orders);
     }
 
-    function UpdateOrder($order_id, $update_type, $status) {
+    function UpdateOrder($order_id, $update_type, $status, Request $request) {
         try {
             $editOrder = OrderData::with("OrderDetail")->findOrFail($order_id);
         } catch (\Throwable $th) {
@@ -150,6 +153,8 @@ class OrderController extends Controller
         } elseif ($update_type == 2){
             $editOrder->OrderDetail->status_pembayaran = $editOrder->OrderDetail->getStatusPembayaranValue($status);
         } 
+        $editOrder->OrderDetail->detail_kemajuan = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "";
+        $editOrder->OrderDetail->save();
         $editOrder->save();
         
         return response()->json([
@@ -208,9 +213,8 @@ class OrderController extends Controller
                 $confirmOrder->OrderDetail->status_iklan = $confirmOrder->OrderDetail->getStatusIklanValue('Dibatalkan');
                 $confirmOrder->OrderDetail->status_pembayaran =  $confirmOrder->OrderDetail->getStatusPembayaranValue('Dibatalkan');
                 $confirmOrder->OrderDetail->foto_iklan = 'none';
-                $confirmOrder->agent_id = null;
-                $confirmOrder->save();
                 $confirmOrder->OrderDetail->save();
+                $confirmOrder->save();
                 Storage::delete('\image\\'.$filePath);
 
                 return response()->json([
@@ -276,6 +280,7 @@ class OrderController extends Controller
 
         $request['foto_iklan'] = $fullName;
         $request['nomor_instansi'] = $request->nomor_instansi;
+        $request['detail_kemajuan'] = "Telah dikirimkan ke tim biro iklan.";
         $order_detail = OrderDetail::create($request->all());
 
         OrderData::create([
@@ -288,7 +293,7 @@ class OrderController extends Controller
         ]);
     }
 
-    function CancelOrder($order_id) {
+    function CancelOrder($order_id, Request $request) {
         try {
             $cancelOrder = OrderData::with("OrderDetail")->findOrFail($order_id);
         } catch (\Throwable $th) {
@@ -301,9 +306,9 @@ class OrderController extends Controller
             $cancelOrder->OrderDetail->status_iklan = $cancelOrder->OrderDetail->getStatusIklanValue('Dibatalkan');
             $cancelOrder->OrderDetail->status_pembayaran =  $cancelOrder->OrderDetail->getStatusPembayaranValue('Dibatalkan');
             $cancelOrder->OrderDetail->foto_iklan = 'none';
-            $cancelOrder->agent_id = null;
-            $cancelOrder->save();
+            $cancelOrder->OrderDetail->detail_kemajuan = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "";
             $cancelOrder->OrderDetail->save();
+            $cancelOrder->save();
             Storage::delete('\image\\'.$filePath);
 
             return response()->json([

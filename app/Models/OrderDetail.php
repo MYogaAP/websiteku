@@ -34,7 +34,7 @@ class OrderDetail extends Model
             1 => 'Menunggu Konfirmasi', 
             2 => 'Menunggu Pembayaran', 
             3 => 'Sedang Diproses', 
-            4 => 'Telah Diupload', 
+            4 => 'Telah Tayang', 
             5 => 'Dibatalkan'
         ],
         'status_pembayaran' => [

@@ -103,6 +103,14 @@
                 @endforeach
             </div> 
         @endif
+        @if(isset($error_msg))
+            <div class="row align-items-center justify-content-center" style="margin: -2rem">
+                <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
+                    {{$error_msg}} 
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div> 
+        @endif
         @if(isset($message))
             <div class="row align-items-center justify-content-center" style="margin: -2rem">
                 <div class="alert alert-success alert-dismissible fade show w-50" role="alert">

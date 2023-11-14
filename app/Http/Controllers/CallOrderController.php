@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cookie;
 class CallOrderController extends Controller
 {
   function DeleteOrderCall(Request $request, $order) {
+    $desk_up = "Dibatalkan oleh Pengguna.";
     // Xendit
     $curl = curl_init();
     curl_setopt_array($curl, array(
@@ -38,7 +39,10 @@ class CallOrderController extends Controller
       CURLOPT_TIMEOUT => 0,
       CURLOPT_FOLLOWLOCATION => true,
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      CURLOPT_CUSTOMREQUEST => 'DELETE',
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_POSTFIELDS => '{
+        "detail_kemajuan": "'.$desk_up.'"
+      }',
       CURLOPT_HTTPHEADER => array(
         'Accept: application/json',
         'Authorization: Bearer '.Cookie::get('auth')
@@ -287,6 +291,97 @@ class CallOrderController extends Controller
     }
 
     $request->session()->put('declined', $declined);
+    return redirect()->route('orderData'); 
+  }
+
+  function PublishedUserOrder(Request $request) {
+    $desk_up = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "";
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => gethostname().'/websiteku/public/api/UpdateOrder/3/1/Telah Tayang',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'PATCH',
+    CURLOPT_POSTFIELDS => '{
+      "detail_kemajuan": "'.$desk_up.'"
+    }',
+    CURLOPT_HTTPHEADER => array(
+      'Accept: application/json',
+      'Authorization: Bearer '.Cookie::get('auth'),
+    ),
+    ));
+    $accept = curl_exec($curl);
+    $accept = json_decode($accept);
+    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+
+    if($http_status == 401){
+      setcookie("auth", "", time() - 3600, "/");
+      header("Location: " . route('loginPage'), true, 302);
+      exit();
+    }
+
+    $request->session()->put('accept', $accept);
+    return redirect()->route('orderData'); 
+  }
+
+  function CancelUserOrder(Request $request) {
+    $desk_up = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "Dibatalkan oleh tim biro iklan.";
+    // Xendit
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://api.xendit.co/invoices/'.$request->xendit_id.'/expire!',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_HTTPHEADER => array(
+        'Authorization: Basic '.config('xendit.key')
+      ),
+    ));
+    $response = curl_exec($curl);
+    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE); 
+    curl_close($curl);
+
+    // DB
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => gethostname().'/websiteku/public/api/CancelOrder/'.$request->order_id,
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_POSTFIELDS => '{
+        "detail_kemajuan": "'.$desk_up.'"
+      }',
+      CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Authorization: Bearer '.Cookie::get('auth')
+      ),
+    ));
+    $cancel = curl_exec($curl);
+    $cancel = json_decode($cancel);
+    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+
+    if($http_status == 401){
+      setcookie("auth", "", time() - 3600, "/");
+      header("Location: " . route('loginPage'), true, 302);
+      exit();
+    }
+
+    $request->session()->put('accept', $cancel);
+
     return redirect()->route('orderData'); 
   }
 }

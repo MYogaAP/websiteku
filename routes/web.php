@@ -115,6 +115,8 @@ Route::get('/OrderHalaman/{page}', [DataLinkerController::class, 'LoadNumberOrde
 // Dashboard Admin Order
 Route::patch('/TerimaOrderPengguna', [CallOrderController::class, 'AcceptUserOrder'])->name('TerimaOrderPengguna');
 Route::patch('/TolakOrderPengguna', [CallOrderController::class, 'DeclineUserOrder'])->name('TolakOrderPengguna');
+Route::patch('/OrderTelahTayang', [CallOrderController::class, 'PublishedUserOrder'])->name('OrderTelahTayang');
+Route::patch('/BatalkanOrderPengguna', [CallOrderController::class, 'CancelUserOrder'])->name('BatalkanOrderPengguna');
 
 // Dashboard Admin Packet
 Route::post('/TambahPaket', [DashboardController::class, 'AddNewPacket'])->name('TambahPaket');
