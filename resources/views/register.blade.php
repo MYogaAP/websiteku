@@ -23,20 +23,18 @@
             font-family: 'Bodoni MT', serif;
             color: #1450A3;
         }
+
     </style>
 </head>
 
 <body>
-    {{-- Navigation Bar --}}
-    <x-nav-bar />
 
     @if(Cookie::has('auth'))
         <script>window.location="{{route('landingPageLogin')}}";</script>
     @endif
 
     {{-- Content --}}
-    <div class="container text-center">
-        <div class="row align-items-center justify-content-center" style="height: 80vh">
+        {{-- <div class="row align-items-center justify-content-center" style="height: 80vh">
             <div class="col-4 shadow p-5 mt-5">
                 <h1 class="mb-5">Daftar</h1>
                 <form method="POST" action="{{ route('RegisterCall')}}">
@@ -55,12 +53,54 @@
                         </div>
                         <button type="submit" class="btn btn-primary rounded-pill px-5">Register</button>
                 </form>
-
                 <div class="mt-5">
                     <span>Sudah memiliki akun? <a href="{{ route('loginPage') }}" class="fw-bold">Masuk Sekarang!</a></span>
                 </div>
             </div>
-        </div>
+        </div> --}}
+        
+        <section style="background-color: #1450A3;">
+            <div class="container py-4">
+                <div class="row d-flex justify-content-center align-items-center vh-100">
+                    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                            <div class="card-body p-5">
+                                <div class="d-flex align-items-center justify-content-center mb-3 pb-1">
+                                    <span class="h3 fw-bold mb-0">Daftar Akun</span>
+                                </div>
+                                <form method="POST" action="{{ route('RegisterCall')}}">
+                                @csrf
+                                    <div class="form-outline mb-2">
+                                        Email
+                                        <input type="email" name="email" class="form-control form-control-lg" id="email" required>
+                                    </div>
+                                    <div class="form-outline mb-2">
+                                        Username
+                                        <input type="username" name="username" class="form-control form-control-lg" id="username" required>
+                                    </div>
+                                    <div class="form-outline mb-2">
+                                        Password
+                                        <input type="password" id="password" name="password" class="form-control form-control-lg" aria-describedby="passwordHelpBlock" required>
+                                    </div>  
+                                    <div class="form-outline mb-2">
+                                        Konfirmasi Password
+                                        <input type="password" id="confirm_password" name="confirm_password" class="form-control form-control-lg" aria-describedby="passwordHelpBlock" required>
+                                    </div>
+                                    <div class="pt-1 mb-4">  
+                                        <button class="btn btn-dark btn-lg btn-block w-100" style="background-color: #1450A3" type="submit">Daftar</button>
+                                    </div>
+                                </form>
+                                    <hr class="my-4">
+                                    <div class="text-center mb-4">
+                                        <span style="color: #393f81;"> Sudah memiliki akun? <a href="{{ route('loginPage') }}" class="fw-bold" style="color: #393f81; text-decoration: none;">Masuk Sekarang</a></span>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         @if(isset($errors_msg))
             <div class="row align-items-center justify-content-center" style="margin: -3.5rem">
                 @foreach ($errors_msg as $error)
@@ -81,7 +121,6 @@
                 </div>
             </div> 
         @endif
-    </div>
 
     <script>
         var password = document.getElementById("password");

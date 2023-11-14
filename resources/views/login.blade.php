@@ -130,7 +130,7 @@
                                                 <div class="text-center mb-4">
                                                     <a class="small text-muted d-block mb-2" href="{{ route('password.request') }}">Lupa password?</a>
                                                     <p class="mb-0" style="color: #393f81; ">Belum memiliki akun?
-                                                        <a href="{{ route('registerPage') }}" style="color: #393f81; ">Daftar sekarang</a>
+                                                        <a href="{{ route('registerPage') }}" class="fw-bold" style="color: #393f81; text-decoration: none;">Daftar sekarang</a>
                                                     </p>
                                                 </div>
                                 </div>
