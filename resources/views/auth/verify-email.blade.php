@@ -69,7 +69,7 @@
             <div class="col-4 shadow p-5 mt-5">
                 <h1 class="mb-5">Verifikasi Email Anda</h1>
                 @if ($http_status == 200)
-                    <a href="{{route('landingPageLogin')}}" class="btn btn-primary rounded-pill px-5">
+                    <a href="{{route('landingPagePro')}}" class="btn btn-primary rounded-pill px-5">
                         Lanjutkan</a>
                 @else
                     <form method="POST" action="{{route('verification.send')}}">

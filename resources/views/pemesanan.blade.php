@@ -100,7 +100,7 @@
     {{-- Content --}}
     <div class="container text-center mt-5">
         <div class="row fw-bold">
-            <div class="col">
+            <div class="col mt-5">
                 <h3 class="fw-bold">Pemesanan Iklan</h3> 
             </div>
         </div>

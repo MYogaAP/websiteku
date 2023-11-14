@@ -16,8 +16,8 @@ use App\Http\Controllers\DataLinkerController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', function () {
-    return view('landingPage');
-})->name('landingPage');
+    return view('landingPagePro');
+})->name('landingPagePro');
 
 Route::get('/home', function () {
     return view('home');
@@ -90,6 +90,10 @@ Route::get('/landingPagePro', function () {
 Route::get('/profilePro', function () {
     return view('profilePro');
 })->name('profilePro');
+
+Route::get('/panduanPro', function () {
+    return view('panduanPro');
+})->name('panduanPro');
 
 // User Data
 Route::post('/LoginCall', [CallUserController::class, 'LoginCall'])->name('LoginCall');
