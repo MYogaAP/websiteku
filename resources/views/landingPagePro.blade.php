@@ -228,8 +228,7 @@
                         <div class="text-center">
                             <div class="fs-4 mb-5 fst-italic">"Ciptakan jejak sukses bisnismu melalui iklan koran yang tepat sasaran."</div>
                             <div class="d-flex align-items-center justify-content-center">
-                                <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d"
-                                    alt="..." />
+                                <img class="rounded-circle me-3" src="{{ asset('images/40.png') }}" alt="..." />
                                 <div class="fw-bold">
                                     Radar Banjarmasin
                                     <span class="fw-bold text-primary mx-1">-</span>

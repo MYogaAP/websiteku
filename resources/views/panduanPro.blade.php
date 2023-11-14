@@ -122,7 +122,7 @@
         <section class="py-5 bg-light">
             <div class="container px-5 my-5">
                 <div class="text-center">
-                    <h2 class="fw-bolder">Customer Service</h2>
+                    <h3 class="fw-bolder">Customer Service</h3>
                     <p class="lead fw-normal text-muted mb-5">Tidak menemukan paket yang sesuai? kontak customer service kami!</p>
                 </div>
                 <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
@@ -130,10 +130,10 @@
                         <div class="text-center">
                             <a href="">
                                 <img class="img-fluid rounded-circle mb-4 px-4"
-                                    src="{{ asset('images/cs.png') }}" alt="..." />
+                                    src="" alt="..." />
                             </a>
-                            <h5 class="fw-bolder">Layanan 24 Jam</h5>
-                            <div class="fst-italic text-muted">Frontliner Radar</div>
+                            <br>
+                            <a class="btn btn-lg px-1" style="font-size: 15px; background-color:limegreen; color:white" href="">Hubungi Via Whatsapp</a>
                         </div>
                     </div>
                 </div>
