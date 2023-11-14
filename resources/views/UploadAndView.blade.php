@@ -72,7 +72,7 @@
     @endif
 
     {{-- Content --}}
-    <div class="container text-center">
+    <div class="container text-center" style="margin-top: 100px;">
         <form action="{{route('NewOrderCall')}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row  mt-5">
