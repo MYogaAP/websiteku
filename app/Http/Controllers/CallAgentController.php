@@ -42,7 +42,13 @@ class CallAgentController extends Controller
             exit();
         }
 
-        $request->session()->put('add_agent', $response->message);
+        if($http_status == 200){
+            $request->session()->put('success', $response->message);
+        } elseif ($http_status == 422) {
+            $request->session()->put('dangers', $response->errors);
+        } else {
+            $request->session()->put('danger', "Sebuah kesalahan terjadi.");
+        }
 
         return redirect()->route('agentData');
     }
@@ -81,7 +87,13 @@ class CallAgentController extends Controller
             exit();
         }
 
-        $request->session()->put('update_data', $response->message);
+        if($http_status == 200){
+            $request->session()->put('success', $response->message);
+        } elseif ($http_status == 422) {
+            $request->session()->put('dangers', $response->errors);
+        } else {
+            $request->session()->put('danger', "Sebuah kesalahan terjadi.");
+        }
 
         return redirect()->route('agentData');
     }
@@ -114,7 +126,13 @@ class CallAgentController extends Controller
             exit();
         }
 
-        $request->session()->put('delete_agent', $response->message);
+        if($http_status == 200){
+            $request->session()->put('success', $response->message);
+        } elseif ($http_status == 422) {
+            $request->session()->put('dangers', $response->errors);
+        } else {
+            $request->session()->put('danger', "Sebuah kesalahan terjadi.");
+        }
 
         return redirect()->route('agentData');
     }

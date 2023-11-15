@@ -37,6 +37,7 @@ class OrdersListResource extends JsonResource
             'foto_iklan' => $OrderDetail->foto_iklan,
             'status_pembayaran' => $OrderDetail->getStatusPembayaranDisplay(),
             'status_iklan' => $OrderDetail->getStatusIklanDisplay(),
+            'detail_kemajuan' => $OrderDetail->detail_kemajuan,
             'invoice_id' => $OrderDetail->invoice_id,
             'tinggi' => $PacketData->tinggi,
             'kolom' => $PacketData->kolom,

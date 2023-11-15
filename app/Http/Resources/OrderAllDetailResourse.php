@@ -40,6 +40,7 @@ class OrderAllDetailResourse extends JsonResource
             'invoice_id' => $OrderDetail->invoice_id,
             'status_pembayaran' => $OrderDetail->getStatusPembayaranDisplay(),
             'status_iklan' => $OrderDetail->getStatusIklanDisplay(),
+            'detail_kemajuan' => $OrderDetail->detail_kemajuan,
             'nama_paket' => $PacketData->nama_paket,
             'format_warna' => $PacketData->format_warna,
             'tinggi' => $PacketData->tinggi,

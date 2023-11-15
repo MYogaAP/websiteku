@@ -113,7 +113,6 @@
 <body class="d-flex flex-column h-100">
     <main class="flex-shrink-0">
         @if (!Cookie::has('auth'))
-            <x-nav-bar />
             <script>
                 window.location = "{{ route('loginPage') }}";
             </script>

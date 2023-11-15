@@ -44,11 +44,11 @@ class DashboardController extends Controller
             exit();
         }
 
-        $request->session()->forget('update_add');
-        $request->session()->forget('update_delete');
-        $request->session()->forget('update_unhide');
-        $request->session()->forget('update_hide');
-        $request->session()->put('update_add', $response->message);
+        if($http_status == 200){
+            $request->session()->put('success', $response->message);
+        } else {
+            $request->session()->put('danger', "Sebuah kesalahan terjadi.");
+        }
 
         return redirect()->route('paketData');
     }
@@ -81,11 +81,11 @@ class DashboardController extends Controller
             exit();
         }
         
-        $request->session()->forget('update_add');
-        $request->session()->forget('update_delete');
-        $request->session()->forget('update_unhide');
-        $request->session()->forget('update_hide');
-        $request->session()->put('update_hide', $response == 1);
+        if($http_status == 200){
+            $request->session()->put('success', "Paket telah disembunyikan.");
+        } else {
+            $request->session()->put('danger', "Sebuah kesalahan terjadi.");
+        }
 
         return redirect()->route('paketData');
     }
@@ -118,12 +118,11 @@ class DashboardController extends Controller
             exit();
         }
         
-        $request->session()->forget('update_add');
-        $request->session()->forget('update_delete');
-        $request->session()->forget('update_unhide');
-        $request->session()->forget('update_hide');
-        $request->session()->put('update_unhide', $response == 1);
-
+        if($http_status == 200){
+            $request->session()->put('success', "Paket sekarang dapat dilihat.");
+        } else {
+            $request->session()->put('danger', "Sebuah kesalahan terjadi.");
+        }
         return redirect()->route('paketData');
     }
 
@@ -154,13 +153,12 @@ class DashboardController extends Controller
             header("Location: " . route('loginPage'), true, 302);
             exit();
         }
-        
-        $request->session()->forget('update_add');
-        $request->session()->forget('update_delete');
-        $request->session()->forget('update_unhide');
-        $request->session()->forget('update_hide');
-        $request->session()->put('update_delete', $response->message);
 
+        if($http_status == 200){
+            $request->session()->put('success', $response->message);
+        } elseif ($http_status == 404) {
+            $request->session()->put('danger', $response->message);
+        }
         return redirect()->route('paketData');
     }
 }

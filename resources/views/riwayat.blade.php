@@ -140,6 +140,7 @@
                                             }',
                                             CURLOPT_HTTPHEADER => array(
                                                 'Accept: application/json',
+                                                'Content-Type: application/json',
                                                 'Authorization: Bearer '.Cookie::get('auth')
                                             ),
                                             ));
@@ -207,6 +208,14 @@
                                         </div>
                                         <div class="row">
                                             <div class="col">
+                                                <p>Progress Iklan</p>
+                                            </div>
+                                            <div class="col-8">
+                                                <p>: {{isset($order->detail_kemajuan)? $order->detail_kemajuan:"-" }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
                                                 <p><a href="#" class="text-decoration-none">Detail Lebih Lanjut</a></p>
                                             </div>
                                         </div>
@@ -214,14 +223,14 @@
                                 </td>
                                 <td>
                                     <p class="
-                                        @if($order->status_iklan == "Telah Diupload")
+                                        @if($order->status_iklan == "Telah Tayang")
                                             {{'text-success'}}
                                         @elseif($order->status_iklan == "Menunggu Konfirmasi")
                                             {{'text-secondary'}}
                                         @elseif($order->status_iklan == "Dibatalkan")
                                             {{'text-danger'}}
                                         @else
-                                            {{'text-danger'}}
+                                            {{'text-secondary'}}
                                         @endif
                                     ">
                                         {{$order->status_iklan}}</p>
@@ -256,6 +265,8 @@
                                         <a href="{{isset($order->invoice_id)? $xendit_link.$order->invoice_id : "#"}}" class="text-decoration-none" target="_blank">Invoice Disini</a>
                                     @elseif($order->status_pembayaran == "Dibatalkan")
                                         <p class="text-danger">{{$order->status_pembayaran}}</p>
+                                    @elseif($order->status_pembayaran == "Menunggu Konfirmasi")
+                                        <p class="text-secondary">{{$order->status_pembayaran}}</p>
                                     @endif
                                 </td>
                             </tr>

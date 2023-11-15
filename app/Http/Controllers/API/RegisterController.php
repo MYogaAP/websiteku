@@ -45,7 +45,7 @@ class RegisterController extends Controller
         event(new Registered($newData));
 
         return response()->json([
-            'message' => 'Account has been succesfully made.'
+            'message' => 'Akun berhasil dibuat.'
         ]);
     }
 
@@ -99,7 +99,7 @@ class RegisterController extends Controller
         $newData = User::create($request->all());
 
         return response()->json([
-            'message' => 'Agent has been succesfully made.',
+            'message' => 'Akun berhasil dibuat.',
         ]);
     }
 

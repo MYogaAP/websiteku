@@ -65,8 +65,8 @@ class OrderController extends Controller
         $orders = OrderData::with(['OrderDetail', 'OrderDetail.PacketData' => function ($query) {
             $query->withTrashed();
         }])
-        ->whereHas('OrderDetail', function ($query) {
-            $query->whereNot('status_iklan', 5);
+        ->whereDoesntHave('OrderDetail', function ($query) {
+            $query->where('status_iklan', 5);
         })
         ->orderBy(OrderDetail::select('status_pembayaran')
             ->whereColumn('order_detail_id', 'order_data.order_detail_id')
@@ -93,6 +93,9 @@ class OrderController extends Controller
             $query->withTrashed();
         }])
         ->where('agent_id', Auth::user()->user_id)
+        ->whereDoesntHave('OrderDetail', function ($query) {
+            $query->where('status_iklan', 5);
+        })
         ->orderBy(OrderDetail::select('status_pembayaran')
             ->whereColumn('order_detail_id', 'order_data.order_detail_id')
             ->latest()
@@ -140,7 +143,7 @@ class OrderController extends Controller
         return OrderDetailedResource::collection($orders);
     }
 
-    function UpdateOrder($order_id, $update_type, $status, Request $request) {
+    function UpdateOrder(Request $request, $order_id, $update_type) {
         try {
             $editOrder = OrderData::with("OrderDetail")->findOrFail($order_id);
         } catch (\Throwable $th) {
@@ -148,10 +151,14 @@ class OrderController extends Controller
             throw new ModelNotFoundException($errorMessage);
         }
 
+        $request->validate([
+            'status' => 'required',
+        ]);
+
         if($update_type == 1){
-            $editOrder->OrderDetail->status_iklan = $editOrder->OrderDetail->getStatusIklanValue($status);
+            $editOrder->OrderDetail->status_iklan = $editOrder->OrderDetail->getStatusIklanValue($request->status);
         } elseif ($update_type == 2){
-            $editOrder->OrderDetail->status_pembayaran = $editOrder->OrderDetail->getStatusPembayaranValue($status);
+            $editOrder->OrderDetail->status_pembayaran = $editOrder->OrderDetail->getStatusPembayaranValue($request->status);
         } 
         $editOrder->OrderDetail->detail_kemajuan = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "";
         $editOrder->OrderDetail->save();
@@ -230,14 +237,22 @@ class OrderController extends Controller
 
     function CheckImage(Request $request) {
         $packet = PacketData::where("packet_id", $request->packet_id)->get();
-        $width = floor($packet[0]->kolom * 500);
-        $height = floor(($packet[0]->tinggi/50) * 500);
+        $height = floor($packet[0]->tinggi/50 * 500);
+        $width_data = [
+            1 => 470,
+            2 => 975,
+            3 => 1480,
+            4 => 1985,
+            5 => 2495,
+            6 => 3000
+        ];
+        $width = $width_data[$packet[0]->kolom];
 
         $rules = [
             'image'=>[
                 'required',
                 'image',
-                'dimensions:width='.$width.',height='.$height,
+            'dimensions:width='.$width.',height='.$height,
             ],
         ];
 
@@ -293,7 +308,7 @@ class OrderController extends Controller
         ]);
     }
 
-    function CancelOrder($order_id, Request $request) {
+    function CancelOrder(Request $request, $order_id) {
         try {
             $cancelOrder = OrderData::with("OrderDetail")->findOrFail($order_id);
         } catch (\Throwable $th) {
@@ -306,7 +321,7 @@ class OrderController extends Controller
             $cancelOrder->OrderDetail->status_iklan = $cancelOrder->OrderDetail->getStatusIklanValue('Dibatalkan');
             $cancelOrder->OrderDetail->status_pembayaran =  $cancelOrder->OrderDetail->getStatusPembayaranValue('Dibatalkan');
             $cancelOrder->OrderDetail->foto_iklan = 'none';
-            $cancelOrder->OrderDetail->detail_kemajuan = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "";
+            $cancelOrder->OrderDetail->detail_kemajuan = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "Dibatalkan oleh sistem.";
             $cancelOrder->OrderDetail->save();
             $cancelOrder->save();
             Storage::delete('\image\\'.$filePath);

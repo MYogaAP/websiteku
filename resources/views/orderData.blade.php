@@ -105,20 +105,16 @@
                                     <h4 class="m-0 font-weight-bold text-primary mb-2">Order Data</h4>
                                 </div>
                                 <div class="col-6 text-center">
-                                    @if (session()->has('accept'))
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                            @foreach (session()->get('accept') as $msg)
-                                                {{$msg}}
-                                            @endforeach
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    @if (session()->has('success'))
+                                        <div class="alert alert-success alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            {{session()->get('success')}}
                                         </div>
                                     @endif
-                                    @if (session()->has('decline'))
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                            @foreach (session()->get('msg') as $msg)
-                                                {{$msg}}
-                                            @endforeach
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    @if (session()->has('danger'))
+                                        <div class="alert alert-danger alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            {{session()->get('danger')}}
                                         </div>
                                     @endif
                                 </div>
@@ -223,6 +219,7 @@
                                                         }',
                                                         CURLOPT_HTTPHEADER => array(
                                                             'Accept: application/json',
+                                                            'Content-Type: application/json',
                                                             'Authorization: Bearer '.Cookie::get('auth')
                                                         ),
                                                         ));
@@ -431,6 +428,8 @@
                                                     </div>
                                                 </td>
                                                 <td>
+                                                    @if ($order->status_pembayaran != 'Dibatalkan')
+                                                    @if ($order->status_iklan != 'Telah Tayang')
                                                     <div class="dropdown mb-4 text-center">
                                                         <button class="btn btn-primary " type="button"
                                                             id="dropdownMenuButton" data-toggle="dropdown"
@@ -457,6 +456,8 @@
                                                             @endif
                                                         </div>
                                                     </div>
+                                                    @endif
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -576,9 +577,9 @@
                         <div class="form-group">
                             <input type="hidden" name="order_id" id="order_id" value="">
                             <div class="mb-3">
-                                <label for="detail_kemajuan" class="form-label">Detail Progress Iklan</label>
+                                <label for="detail_kemajuan" class="form-label">Detail Progress Iklan<span class="text-danger">*</span></label>
                                 <textarea class="form-control" rows="3" id="detail_kemajuan" name="detail_kemajuan" 
-                                    placeholder="cth. pesanan telah kami tayangkan ...."></textarea>
+                                    placeholder="cth. pesanan telah kami tayangkan ...." required></textarea>
                             </div>
                         </div>
                     </div>
@@ -611,9 +612,9 @@
                             <input type="hidden" name="order_id" id="order_id" value="">
                             <input type="hidden" name="xendit_id" id="xendit_id" value="">
                             <div class="mb-3">
-                                <label for="detail_kemajuan" class="form-label">Detail Pembatalan Iklan</label>
+                                <label for="detail_kemajuan" class="form-label">Detail Pembatalan Iklan<span class="text-danger">*</span></label>
                                 <textarea class="form-control" rows="3" id="detail_kemajuan" name="detail_kemajuan" 
-                                    placeholder="cth. pesanan telah kami batalkan karena ...."></textarea>
+                                    placeholder="cth. pesanan telah kami batalkan karena ...." required></textarea>
                             </div>
                         </div>
                     </div>
@@ -633,8 +634,8 @@
     </a>
 
     @php
-        session()->forget('accept');
-        session()->forget('decline');
+        session()->forget('success');
+        session()->forget('danger');
     @endphp
 
     <!-- Bootstrap core JavaScript-->

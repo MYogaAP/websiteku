@@ -96,10 +96,24 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <div class="row no-gutters align-items-center">
-                                <div class="col-10">
+                                <div class="col-3">
                                     <h4 class="m-0 font-weight-bold text-primary mb-2">Paket Data</h4>
                                 </div>
-                                <div class="col-2 text-right">
+                                <div class="col-6 text-center">
+                                    @if (session()->has('success'))
+                                        <div class="alert alert-success alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            {{session()->get('success')}}
+                                        </div>
+                                    @endif
+                                    @if (session()->has('danger'))
+                                        <div class="alert alert-danger alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            {{session()->get('danger')}}
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="col-3 text-right">
                                     <a href="#" class="btn btn-primary btn-icon-split">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-plus"></i>
@@ -180,10 +194,13 @@
                                                                 <form action="#" method="post">
                                                                     @method("PATCH")
                                                                     @csrf
-                                                                    <button type="submit" class="dropdown-item" formaction="{{route('SembunyikanPaket', ['packet' => $list->packet_id])}}">
-                                                                        Hide Packet</button>
-                                                                    <button type="submit" class="dropdown-item" formaction="{{route('TampilkanPaket', ['packet' => $list->packet_id])}}">
-                                                                        Unhide Packet</button>
+                                                                    @if ($list->hidden == "yes")
+                                                                        <button type="submit" class="dropdown-item" formaction="{{route('TampilkanPaket', ['packet' => $list->packet_id])}}">
+                                                                            Unhide Packet</button>
+                                                                    @else
+                                                                        <button type="submit" class="dropdown-item" formaction="{{route('SembunyikanPaket', ['packet' => $list->packet_id])}}">
+                                                                            Hide Packet</button>
+                                                                    @endif
                                                                 </form>
                                                                 <form action="{{route('HapusPaket', ['packet' => $list->packet_id])}}" method="post">
                                                                     @method("DELETE")
@@ -283,6 +300,11 @@
             </div>
         </div>
     </div>
+
+    @php
+        session()->forget('success');
+        session()->forget('danger');
+    @endphp
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('adminStyle/vendor/jquery/jquery.min.js') }}"></script>

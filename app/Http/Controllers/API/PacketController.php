@@ -87,7 +87,7 @@ class PacketController extends Controller
         $packet_data = PacketData::create($request->all());
 
         return response()->json([
-            'message' => 'Packet has been succesfully made.',
+            'message' => 'Packet telah berhasil ditambahkan.',
         ]);
     }
 
@@ -96,18 +96,23 @@ class PacketController extends Controller
 
         $filePath = $data[0]->contoh_foto;
         if (Storage::exists('\image_example\\'.$filePath)){
-            
-            Storage::delete('\image_example\\'.$filePath);
             $affected = PacketData::where('packet_id', $packet_id)
             ->update([
-                'nama_paket' => $data->nama_paket."_unavailable_".Str::random(15),
+                'nama_paket' => $data[0]->nama_paket."_unavailable_".Str::random(15),
+                'contoh_foto' => 'none',
                 'hidden' => 'yes',
             ]);
             $affected = PacketData::where('packet_id', $packet_id)
             ->delete();
+            Storage::delete('\image_example\\'.$filePath);
 
             return response()->json([
-                'message' => 'Paket has been succesfully deleted.',
+                'message' => 'Paket telah berhasil dihapus.',
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Sebuah kesalahan telah terjadi.',
+                404
             ]);
         }
     }

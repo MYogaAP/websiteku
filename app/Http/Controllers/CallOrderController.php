@@ -131,9 +131,9 @@ class CallOrderController extends Controller
       'nomor_order' => 'required',
       'nomor_seri' => 'required',
     ]);
-    $desk_up = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "";
+    $desk_up = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "Telah diterima oleh anggota tim Biro Iklan Radar Banjarmasin";
 
-    // Order Data
+    // Get Order Data
     $curl = curl_init();
     curl_setopt_array($curl, array(
       CURLOPT_URL => gethostname().'/websiteku/public/api/OrderDetail/'.$request->order_id,
@@ -254,12 +254,19 @@ class CallOrderController extends Controller
       header("Location: " . route('loginPage'), true, 302);
       exit();
     }
-    $request->session()->put('accept', $accept);
+    
+    if($http_status == 200){
+      $request->session()->put('success', $accept->message);
+    } elseif ($http_status == 404) {
+      $request->session()->put('danger', $accept->message);
+    } else {
+      $request->session()->put('danger', "Sebuah kesalahan terjadi.");
+    }
     return redirect()->route('orderData'); 
   }
 
   function DeclineUserOrder(Request $request) {
-    $desk_up = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "";
+    $desk_up = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "Dibatalkan oleh agent.";
     $curl = curl_init();
     curl_setopt_array($curl, array(
     CURLOPT_URL => gethostname().'/websiteku/public/api/ConfirmOrder/'.$request->order_id.'/2',
@@ -290,29 +297,37 @@ class CallOrderController extends Controller
       exit();
     }
 
-    $request->session()->put('declined', $declined);
+    if($http_status == 200){
+      $request->session()->put('success', $declined->message);
+    } elseif ($http_status == 404) {
+      $request->session()->put('danger', $declined->message);
+    } else {
+      $request->session()->put('danger', "Sebuah kesalahan terjadi.");
+    }
     return redirect()->route('orderData'); 
   }
 
   function PublishedUserOrder(Request $request) {
-    $desk_up = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "";
+    $desk_up = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "Iklan telah ditayangkan pada koran.";
     $curl = curl_init();
     curl_setopt_array($curl, array(
-    CURLOPT_URL => gethostname().'/websiteku/public/api/UpdateOrder/3/1/Telah Tayang',
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 0,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'PATCH',
-    CURLOPT_POSTFIELDS => '{
-      "detail_kemajuan": "'.$desk_up.'"
-    }',
-    CURLOPT_HTTPHEADER => array(
-      'Accept: application/json',
-      'Authorization: Bearer '.Cookie::get('auth'),
-    ),
+      CURLOPT_URL => gethostname().'/websiteku/public/api/UpdateOrder/'.$request->order_id.'/1',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_POSTFIELDS =>'{
+        "detail_kemajuan": "'.$desk_up.'",
+        "status": "Telah Tayang"
+      }',
+      CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Authorization: Bearer '.Cookie::get('auth'),
+        'Content-Type: application/json'
+      ),
     ));
     $accept = curl_exec($curl);
     $accept = json_decode($accept);
@@ -325,7 +340,11 @@ class CallOrderController extends Controller
       exit();
     }
 
-    $request->session()->put('accept', $accept);
+    if($http_status == 200){
+      $request->session()->put('success', $accept->message);
+    } else {
+      $request->session()->put('danger', "Sebuah kesalahan terjadi.");
+    }
     return redirect()->route('orderData'); 
   }
 
@@ -380,7 +399,13 @@ class CallOrderController extends Controller
       exit();
     }
 
-    $request->session()->put('accept', $cancel);
+    if($http_status == 200){
+      $request->session()->put('success', $cancel->message);
+    } elseif ($http_status == 404) {
+      $request->session()->put('danger', $cancel->message);
+    } else {
+      $request->session()->put('danger', "Sebuah kesalahan terjadi.");
+    }
 
     return redirect()->route('orderData'); 
   }
