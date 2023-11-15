@@ -17,7 +17,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', function () {
     return view('login');
-})->name('loginPage');
+})->name('hero');
 
 Route::get('landingPagePro', function () {
     return view('landingPagePro');

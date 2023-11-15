@@ -25,11 +25,9 @@
     </style>
   </head>
   <body>
-    {{-- Navigation Bar --}}
-    <x-nav-bar />
 
     {{-- Content --}}
-    <div class="container text-center">
+    {{-- <div class="container text-center">
         <div class="row align-items-center justify-content-center" style="height: 80vh">
             <div class="col-4 shadow p-5 mt-5">
                 <h1 class="mb-5">Lupa Password</h1>
@@ -45,6 +43,40 @@
                 </form>
             </div>
         </div>
+    </div> --}}
+
+    <section style="background-color: #1450A3;">
+        <div class="container py-5 vh-100">
+            <div class="row d-flex justify-content-center align-items-center mt-5">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5">
+                            <div class="d-flex align-items-center justify-content-center mb-3 pb-1">
+                                <span class="h3 fw-bold mb-0">Lupa Password</span>
+                            </div>
+                            <form method="POST" action="{{route('password.email')}}">
+                                @csrf
+                                <div class="form-outline mb-2">
+                                    Email
+                                    <input type="email" name="email" class="form-control form-control-lg" id="email" required>
+                                </div>
+                                <div class="pt-1 mb-4">
+                                    <button type="submit" class="btn btn-dark btn-lg btn-block w-100" style="background-color: #1450A3">Kirim</button>
+                                </div>
+                            </form>
+                            <hr class="my-4">
+                            <div class="text-center mb-4">
+                                <span style="color: #393f81;"> Sudah memiliki akun? <a href="{{ route('loginPage') }}"
+                                        class="fw-bold" style="color: #393f81; text-decoration: none;">Masuk Sekarang</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
         @if ($errors->any())
             <div class="row align-items-center justify-content-center" style="margin: -2rem">
                 <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
@@ -62,7 +94,6 @@
                 </div>
             </div> 
         @endif
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">

@@ -80,6 +80,9 @@
                 
             </div>
         </div>
+    </div>
+
+    
         @if (session()->has('error'))
             <div class="row align-items-center justify-content-center" style="margin: -2rem">
                 <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
@@ -96,7 +99,6 @@
                 </div>
             </div> 
         @endif
-    </div>
 
     @php
         session()->forget('status');
