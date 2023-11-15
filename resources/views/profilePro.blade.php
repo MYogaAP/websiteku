@@ -152,7 +152,7 @@
                                         <input class="form-control" id="nama" type="text" name="nama"
                                             placeholder="cth. Abdul Hafiz" data-sb-validations="required" 
                                             value="{{$data->name}}"/>
-                                        <label for="nama">Full Name</label>
+                                        <label for="nama">Nama Lengkap</label>
                                         <div class="invalid-feedback" data-sb-feedback="phone:required">Nama anda dibutuhkan.
                                         </div>
                                     </div>

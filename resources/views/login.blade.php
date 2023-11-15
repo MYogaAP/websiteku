@@ -127,6 +127,7 @@
                                                         <button class="btn btn-dark btn-lg btn-block w-100" type="submit" style="background-color: #1450A3">Masuk</button>
                                                     </div>
                                                 </form>
+                                                <hr class="my-4">
                                                 <div class="text-center mb-4">
                                                     <a class="small text-muted d-block mb-2" href="{{ route('password.request') }}" style="text-decoration: none; font-size: 18px">Lupa password?</a>
                                                     <p class="mb-0" style="color: #393f81; ">Belum memiliki akun?
