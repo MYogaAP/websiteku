@@ -79,14 +79,14 @@
         </div>
     </div> --}}
     
-    <section style="background-color: #1450A3;">
+    <section class="vh-100" style="background-color: #1450A3;">
         <div class="container py-5 vh-100">
             <div class="row d-flex justify-content-center align-items-center mt-5">
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                     <div class="card shadow-2-strong" style="border-radius: 1rem;">
                         <div class="card-body p-5">
                             <div class="d-flex align-items-center justify-content-center mb-3 pb-1">
-                                <span class="h3 fw-bold mb-0">Mohon Verifikasi Email Anda Terlebih Dahulu</span>
+                                <span class="h3 fw-bold mb-0 text-center">Mohon Verifikasi Email Anda Terlebih Dahulu</span>
                             </div>
                             @if ($http_status == 200)
                                 <a href="{{route('landingPagePro')}}" class="btn btn-primary rounded-pill px-5">Masuk Beranda</a>

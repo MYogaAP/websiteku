@@ -107,8 +107,8 @@
                             <div class="col-md-6 col-lg-5 d-none d-md-block">
                                 <img src="{{ asset('images/loginPage.png') }}" alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;"/>
                             </div>
-                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                            <div class="card-body p-4 p-lg-5 text-black">
+                            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                                <div class="card-body p-4 p-lg-5 text-black">
                                         <div class="d-flex align-items-center mb-3 pb-1">
                                             <span class="h1 fw-bold mb-0">Selamat Datang!</span>
                                         </div>
@@ -179,7 +179,6 @@
                 </div>
             </div> 
         @endif
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">

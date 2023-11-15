@@ -45,7 +45,7 @@
         </div>
     </div> --}}
 
-    <section style="background-color: #1450A3;">
+    <section class="vh-100" style="background-color: #1450A3;">
         <div class="container py-5 vh-100">
             <div class="row d-flex justify-content-center align-items-center mt-5">
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
