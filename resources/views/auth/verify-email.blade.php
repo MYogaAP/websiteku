@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Jasa Iklan Radar Banjarmasin</title>
@@ -23,8 +24,9 @@
             color: #1450A3;
         }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     @if (!Cookie::has('auth'))
         <script>
             window.location = "{{ route('loginPage') }}";
@@ -32,29 +34,26 @@
     @else
         @php
             $curl = curl_init();
-            curl_setopt_array($curl, array(
-            CURLOPT_URL => gethostname().'/websiteku/public/api/UserCheck',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPHEADER => array(
-                'Accept: application/json',
-                'Authorization: Bearer '.Cookie::get('auth')
-            ),
-            ));
+            curl_setopt_array($curl, [
+                CURLOPT_URL => gethostname() . '/websiteku/public/api/UserCheck',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => ['Accept: application/json', 'Authorization: Bearer ' . Cookie::get('auth')],
+            ]);
             $user_data = curl_exec($curl);
             $user_data = json_decode($user_data);
             $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             curl_close($curl);
-            
-            if($http_status == 401){
-                setcookie("auth", "", time() - 3600, "/");
+
+            if ($http_status == 401) {
+                setcookie('auth', '', time() - 3600, '/');
                 session()->flush();
-                header("Location: " . route('loginPage'), true, 302);
+                header('Location: ' . route('loginPage'), true, 302);
                 exit();
             }
         @endphp
@@ -78,7 +77,7 @@
             </div>
         </div>
     </div> --}}
-    
+
     <section class="vh-100" style="background-color: #1450A3;">
         <div class="container py-5 vh-100">
             <div class="row d-flex justify-content-center align-items-center mt-5">
@@ -86,15 +85,18 @@
                     <div class="card shadow-2-strong" style="border-radius: 1rem;">
                         <div class="card-body p-5">
                             <div class="d-flex align-items-center justify-content-center mb-3 pb-1">
-                                <span class="h3 fw-bold mb-0 text-center">Mohon Verifikasi Email Anda Terlebih Dahulu</span>
+                                <span class="h3 fw-bold mb-0 text-center">Mohon Verifikasi Email Anda Terlebih
+                                    Dahulu</span>
                             </div>
                             @if ($http_status == 200)
-                                <a href="{{route('landingPagePro')}}" class="btn btn-primary rounded-pill px-5">Masuk Beranda</a>
+                                <a href="{{ route('landingPagePro') }}" class="btn btn-primary rounded-pill px-5">Masuk
+                                    Beranda</a>
                             @else
-                                <form method="POST" action="{{route('verification.send')}}">
-                                @csrf
+                                <form method="POST" action="{{ route('verification.send') }}">
+                                    @csrf
                                     <div class="pt-1 mb-4">
-                                        <button type="submit" class="btn btn-dark btn-lg btn-block w-100" style="background-color: #1450A3">Kirim Verifikasi</button>
+                                        <button type="submit" class="btn btn-dark btn-lg btn-block w-100"
+                                            style="background-color: #1450A3">Kirim Verifikasi</button>
                                     </div>
                                 </form>
                             @endif
@@ -102,26 +104,36 @@
                     </div>
                 </div>
             </div>
+            <div class="row d-flex justify-content-center align-items-center mt-5">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="p-0">
+                            @if (session()->has('error'))
+                                <div class="row align-items-center justify-content-center" style="margin: -2rem">
+                                    <div class="alert alert-danger alert-dismissible fade show text-center"
+                                        role="alert">
+                                        {{ session()->get('error') }} <br>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                </div>
+                            @endif
+                            @if (session()->has('status'))
+                                <div class="row align-items-center justify-content-center" style="margin: -2rem">
+                                    <div class="alert alert-success alert-dismissible fade show text-center"
+                                        role="alert">
+                                        {{ session()->get('status') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
-
-    
-        @if (session()->has('error'))
-            <div class="row align-items-center justify-content-center" style="margin: -2rem">
-                <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
-                    {{session()->get('error')}} <br>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            </div>                    
-        @endif
-        @if (session()->has('status'))
-            <div class="row align-items-center justify-content-center" style="margin: -2rem">
-                <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
-                    {{session()->get('status')}}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            </div> 
-        @endif
 
     @php
         session()->forget('status');
@@ -131,5 +143,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
-  </body>
+</body>
+
 </html>

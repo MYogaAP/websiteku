@@ -36,42 +36,43 @@
 
 <body>
 
-    @if(Cookie::has('auth'))
+    @if (Cookie::has('auth'))
         @php
             $curl = curl_init();
-            curl_setopt_array($curl, array(
-            CURLOPT_URL => gethostname().'/websiteku/public/api/UserCheck',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPHEADER => array(
-                'Accept: application/json',
-                'Authorization: Bearer '.Cookie::get('auth')
-            ),
-            ));
+            curl_setopt_array($curl, [
+                CURLOPT_URL => gethostname() . '/websiteku/public/api/UserCheck',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => ['Accept: application/json', 'Authorization: Bearer ' . Cookie::get('auth')],
+            ]);
             $user_data = curl_exec($curl);
             $user_data = json_decode($user_data);
             $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             curl_close($curl);
-            
-            if($http_status == 401){
-                setcookie("auth", "", time() - 3600, "/");
-                header("Location: " . route('loginPage'), true, 302);
+
+            if ($http_status == 401) {
+                setcookie('auth', '', time() - 3600, '/');
+                header('Location: ' . route('loginPage'), true, 302);
                 exit();
             }
-            if($http_status == 403){
-                header("Location: " . route('verification.notice'), true, 302);
+            if ($http_status == 403) {
+                header('Location: ' . route('verification.notice'), true, 302);
                 exit();
             }
         @endphp
-        @if ($user_data->role == "admin" || $user_data->role == "agent" )
-            <script>window.location="{{route('orderData')}}";</script>
+        @if ($user_data->role == 'admin' || $user_data->role == 'agent')
+            <script>
+                window.location = "{{ route('orderData') }}";
+            </script>
         @else
-            <script>window.location="{{route('landingPagePro')}}";</script>
+            <script>
+                window.location = "{{ route('landingPagePro') }}";
+            </script>
         @endif
     @endif
 
@@ -97,7 +98,7 @@
                 </div>
             </div>
         </div> --}}
-            
+
     <section class="vh-100" style="background-color: #1450A3;">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -105,35 +106,42 @@
                     <div class="card" style="border-radius: 1rem;">
                         <div class="row g-0">
                             <div class="col-md-6 col-lg-5 d-none d-md-block">
-                                <img src="{{ asset('images/loginPage.png') }}" alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;"/>
+                                <img src="{{ asset('images/loginPage.png') }}" alt="login form" class="img-fluid"
+                                    style="border-radius: 1rem 0 0 1rem;" />
                             </div>
                             <div class="col-md-6 col-lg-7 d-flex align-items-center">
                                 <div class="card-body p-4 p-lg-5 text-black">
-                                        <div class="d-flex align-items-center mb-3 pb-1">
-                                            <span class="h1 fw-bold mb-0">Selamat Datang!</span>
-                                        </div>
-                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Jasa Iklan Radar Banjarmasin</h5>
-                                            <div class="form-outline mb-4">
-                                                <form method="POST" action="{{ route('LoginCall')}}">
-                                                    @csrf
-                                                    Username
-                                                    <input type="username" name="username" class="form-control form-control-lg" id="exampleFormControlInput1" required>
-                                                    </div>
-                                                    <div class="form-outline mb-4">
-                                                        Password
-                                                        <input type="password" name="password" id="inputPassword5" class="form-control form-control-lg" required>
-                                                    </div>
-                                                    <div class="pt-1 mb-4">
-                                                        <button class="btn btn-dark btn-lg btn-block w-100" type="submit" style="background-color: #1450A3">Masuk</button>
-                                                    </div>
-                                                </form>
-                                                <hr class="my-4">
-                                                <div class="text-center mb-4">
-                                                    <a class="small text-muted d-block mb-2" href="{{ route('password.request') }}" style="text-decoration: none; font-size: 18px">Lupa password?</a>
-                                                    <p class="mb-0" style="color: #393f81; ">Belum memiliki akun?
-                                                        <a href="{{ route('registerPage') }}" class="fw-bold" style="color: #393f81; text-decoration: none;">Daftar sekarang</a>
-                                                    </p>
-                                                </div>
+                                    <div class="d-flex align-items-center mb-3 pb-1">
+                                        <span class="h1 fw-bold mb-0">Selamat Datang!</span>
+                                    </div>
+                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Jasa Iklan Radar
+                                        Banjarmasin</h5>
+                                    <div class="form-outline mb-4">
+                                        <form method="POST" action="{{ route('LoginCall') }}">
+                                            @csrf
+                                            Username
+                                            <input type="username" name="username" class="form-control form-control-lg"
+                                                id="exampleFormControlInput1" required>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        Password
+                                        <input type="password" name="password" id="inputPassword5"
+                                            class="form-control form-control-lg" required>
+                                    </div>
+                                    <div class="pt-1 mb-4">
+                                        <button class="btn btn-dark btn-lg btn-block w-100" type="submit"
+                                            style="background-color: #1450A3">Masuk</button>
+                                    </div>
+                                    </form>
+                                    <hr class="my-4">
+                                    <div class="text-center mb-4">
+                                        <a class="small text-muted d-block mb-2" href="{{ route('password.request') }}"
+                                            style="text-decoration: none; font-size: 18px">Lupa password?</a>
+                                        <p class="mb-0" style="color: #393f81; ">Belum memiliki akun?
+                                            <a href="{{ route('registerPage') }}" class="fw-bold"
+                                                style="color: #393f81; text-decoration: none;">Daftar sekarang</a>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -143,42 +151,42 @@
         </div>
     </section>
 
-        @if(isset($errors_msg))
-            <div class="row align-items-center justify-content-center" style="margin: -2rem">
-                @foreach ($errors_msg as $error)
+    @if (isset($errors_msg))
+        <div class="row align-items-center justify-content-center" style="margin: -2rem">
+            @foreach ($errors_msg as $error)
                 <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
                     @foreach ($error as $msg)
-                        {{$msg}} <br>
+                        {{ $msg }} <br>
                     @endforeach
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endforeach
+        </div>
+    @endif
+    @if (isset($error_msg))
+        <div class="row align-items-center justify-content-center" style="margin: -2rem">
+            <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
+                {{ $error_msg }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                @endforeach
-            </div> 
-        @endif
-        @if(isset($error_msg))
-            <div class="row align-items-center justify-content-center" style="margin: -2rem">
-                <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
-                    {{$error_msg}} 
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            </div> 
-        @endif
-        @if(isset($message))
-            <div class="row align-items-center justify-content-center" style="margin: -2rem">
-                <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
-                    {{$message}} 
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            </div> 
-        @endif
-        @if (session()->has('status'))
-            <div class="row align-items-center justify-content-center" style="margin: -2rem">
-                <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
-                    {{session()->get('status')}}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            </div> 
-        @endif
+            </div>
+        </div>
+    @endif
+    @if (isset($message))
+        <div class="row align-items-center justify-content-center" style="margin: -2rem">
+            <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
+                {{ $message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
+    @if (session()->has('status'))
+        <div class="row align-items-center justify-content-center" style="margin: -2rem">
+            <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
+                {{ session()->get('status') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Jasa Iklan Radar Banjarmasin</title>
@@ -23,8 +24,9 @@
             color: #1450A3;
         }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
 
     {{-- Content --}}
     {{-- <div class="container text-center">
@@ -54,22 +56,53 @@
                             <div class="d-flex align-items-center justify-content-center mb-3 pb-1">
                                 <span class="h3 fw-bold mb-0">Lupa Password</span>
                             </div>
-                            <form method="POST" action="{{route('password.email')}}">
+                            <form method="POST" action="{{ route('password.email') }}">
                                 @csrf
                                 <div class="form-outline mb-2">
                                     Email
-                                    <input type="email" name="email" class="form-control form-control-lg" id="email" required>
+                                    <input type="email" name="email" class="form-control form-control-lg"
+                                        id="email" required>
                                 </div>
                                 <div class="pt-1 mb-4">
-                                    <button type="submit" class="btn btn-dark btn-lg btn-block w-100" style="background-color: #1450A3">Kirim</button>
+                                    <button type="submit" class="btn btn-dark btn-lg btn-block w-100"
+                                        style="background-color: #1450A3">Kirim</button>
                                 </div>
                             </form>
                             <hr class="my-4">
                             <div class="text-center mb-4">
                                 <span style="color: #393f81;"> Sudah memiliki akun? <a href="{{ route('loginPage') }}"
-                                        class="fw-bold" style="color: #393f81; text-decoration: none;">Masuk Sekarang</a>
+                                        class="fw-bold" style="color: #393f81; text-decoration: none;">Masuk
+                                        Sekarang</a>
                                 </span>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center align-items-center mt-5">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="">
+                        <div class="card-body p-4" style="background-color: #1450A3;">
+                            @if ($errors->any())
+                                <div class="row align-items-center justify-content-center" style="margin: -2rem">
+                                    <div class="alert alert-success alert-dismissible fade show text-center"
+                                        role="alert">
+                                        @foreach ($errors->all() as $data)
+                                            {{ $data }} <br>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                            @if (session()->has('status'))
+                                <div class="row align-items-center justify-content-center" style="margin: -2rem">
+                                    <div class="alert alert-success alert-dismissible fade show text-center"
+                                        role="alert">
+                                        {{ session()->get('status') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -77,26 +110,9 @@
         </div>
     </section>
 
-        @if ($errors->any())
-            <div class="row align-items-center justify-content-center" style="margin: -2rem">
-                <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
-                    @foreach ($errors->all() as $data)
-                        {{$data}} <br>
-                    @endforeach
-                </div>
-            </div>                    
-        @endif
-        @if (session()->has('status'))
-            <div class="row align-items-center justify-content-center" style="margin: -2rem">
-                <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
-                    {{session()->get('status')}}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            </div> 
-        @endif
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
-  </body>
+</body>
+
 </html>

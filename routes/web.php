@@ -159,6 +159,10 @@ Route::get('/reset-password/{token}', function (string $token) {
     return view('auth.reset-password', ['token' => $token]);
 })->middleware('guest')->name('password.reset');
 
+Route::get('/reset-pass',function(){
+    return view('auth.reset-password');
+});
+
 Route::post('/reset-password', function (Request $request) {
     $request->validate([
         'token' => 'required',

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Jasa Iklan Radar Banjarmasin</title>
@@ -23,8 +24,9 @@
             color: #1450A3;
         }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
 
     {{-- Content --}}
     {{-- <div class="container text-center">
@@ -47,56 +49,68 @@
         </div>
     </div> --}}
 
-        <section class="vh-100" style="background-color: #1450A3;">
-            <div class="container py-5 vh-100">
-                <div class="row d-flex justify-content-center align-items-center mt-5">
-                    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                        <div class="card shadow-2-strong" style="border-radius: 1rem;">
-                            <div class="card-body p-5">
-                                <div class="d-flex align-items-center justify-content-center mb-3 pb-1">
-                                    <span class="h3 fw-bold mb-0">Lupa Password</span>
-                                </div>
-                                <form method="POST" action="{{route('password.update')}}">
-                                @csrf
-                                <input type="hidden" name="token" value="{{request()->token}}">
-                                <input type="hidden" name="email" value="{{request()->email}}">
+    <section class="vh-100" style="background-color: #1450A3;">
+        <div class="container py-5 vh-100">
+            <div class="row d-flex justify-content-center align-items-center mt-5">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5">
+                            <div class="d-flex align-items-center justify-content-center mb-3 pb-1">
+                                <span class="h3 fw-bold mb-0">Lupa Password</span>
+                            </div>
+                            <div>
+                                <form method="POST" action="{{ route('password.update') }}">
+                                    @csrf
+                                    <input type="hidden" name="token" value="{{ request()->token }}">
+                                    <input type="hidden" name="email" value="{{ request()->email }}">
                                     <div class="form-outline mb-2">
                                         Password
-                                        <input type="password" name="password" class="form-control form-control-lg" id="password" required>
+                                        <input type="password" name="password" class="form-control form-control-lg"
+                                            id="password" required>
                                         Konfirmasi Password
-                                        <input type="password" name="password_confirmation" class="form-control form-control-lg" id="password_confirmation" required>
+                                        <input type="password" name="password_confirmation"
+                                            class="form-control form-control-lg" id="password_confirmation" required>
                                     </div>
                                     <div class="pt-1 mb-4">
-                                        <button type="submit" class="btn btn-dark btn-lg btn-block w-100" style="background-color: #1450A3">Kirim</button>
+                                        <button type="submit" class="btn btn-dark btn-lg btn-block w-100"
+                                            style="background-color: #1450A3">Kirim</button>
                                     </div>
                                 </form>
+                            </div>
+                            <div>
+                                @if ($errors->any())
+                                    <div class="row align-items-center justify-content-center p-4"
+                                        style="margin: -2rem">
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            @foreach ($errors->all() as $data)
+                                                {{ $data }} <br>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
+                                @if (session()->has('status'))
+                                    <div class="row align-items-center justify-content-center p-4"
+                                        style="margin: -2rem">
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            {{ session()->get('status') }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        
-        @if ($errors->any())
-        <div class="row align-items-center justify-content-center" style="margin: -2rem">
-            <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
-                @foreach ($errors->all() as $data)
-                {{$data}} <br>
-                @endforeach
-            </div>
-        </div>                    
-        @endif
-        @if (session()->has('status'))
-        <div class="row align-items-center justify-content-center" style="margin: -2rem">
-            <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
-                {{session()->get('status')}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        </div> 
-        @endif
-        
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        </div>
+    </section>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
-  </body>
+</body>
+
 </html>
