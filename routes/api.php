@@ -51,6 +51,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // Packet API
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/PacketList', [PacketController::class, 'GetPacketList']);
+    Route::get('/AllPacketList', [PacketController::class, 'GetAllPacketList']);
     Route::get('/GetPacketColor/{packet_id}', [PacketController::class, 'GetPacketColor']);
     Route::get('/GetPacket/{packet_id}', [PacketController::class, 'GetPacket']);
     Route::middleware(['an.agent'])->group(function () {

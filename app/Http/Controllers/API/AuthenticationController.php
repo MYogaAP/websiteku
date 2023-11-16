@@ -4,9 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
-use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 
 class AuthenticationController extends Controller

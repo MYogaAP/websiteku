@@ -18,6 +18,11 @@ class PacketController extends Controller
         return UserPacketResource::collection($packets);
     }
 
+    function GetAllPacketList() {
+        $packets = PacketData::where("hidden", 'no')->get();
+        return UserPacketResource::collection($packets);
+    }
+
     function AgentPacketList() {
         $packets = PacketData::all();
         return response()->json(['data' => $packets]);
