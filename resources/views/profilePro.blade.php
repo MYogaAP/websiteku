@@ -130,12 +130,21 @@
                                 <form action="{{route('UpdatePasswordCall')}}" method="post" id="UpdatePassword" autocomplete="off">
                                     @method('PATCH')
                                     @csrf
+                                    <!-- Old Password input-->
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" id="old_password" name="old_password" type="password" placeholder=""
+                                            data-sb-validations="required" />
+                                        <label for="old_password">Password Lama</label>
+                                        <div class="invalid-feedback" data-sb-feedback="old_password:required">password lama
+                                            dibutuhkan.
+                                        </div>
+                                    </div>
                                     <!-- Password input-->
                                     <div class="form-floating mb-3">
                                         <input class="form-control" id="password" name="password" type="password" placeholder=""
                                             data-sb-validations="required" />
-                                        <label for="password">Password</label>
-                                        <div class="invalid-feedback" data-sb-feedback="password:required">password
+                                        <label for="password">Password Baru</label>
+                                        <div class="invalid-feedback" data-sb-feedback="password:required">password baru
                                             dibutuhkan.
                                         </div>
                                     </div>
@@ -159,7 +168,7 @@
                                     <!-- Phone number input-->
                                     <div class="form-floating mb-3">
                                         <input class="form-control" id="no_hp" type="tel" name="no_hp"
-                                            placeholder="cth. 081515759080" value="{{$data->no_hp}}" />
+                                            placeholder="cth. 081515759080" value="{{$data->no_hp}}" onkeypress='validate(event)'/>
                                         <label for="no_hp">Nomor Handphone</label>
                                     </div>
                                     <!-- Phone number input-->
@@ -205,6 +214,26 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="js/scripts.js"></script>
+
+    <script>
+        function validate(evt) {
+            var theEvent = evt || window.event;
+
+            // Handle paste
+            if (theEvent.type === 'paste') {
+                key = event.clipboardData.getData('text/plain');
+            } else {
+            // Handle key press
+                var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode(key);
+            }
+            var regex = /[0-9]/;
+            if( !regex.test(key) ) {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
+    </script>
 
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>

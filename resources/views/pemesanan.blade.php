@@ -190,21 +190,21 @@
                                 <div class="form-floating mb-3">
                                     <input class="form-control" id="nama_instansi" name="nama_instansi" type="text"
                                         placeholder="Nama Instansi"
-                                        value=@if (isset($nama)) {{ $nama }} @endif>
-                                    <label for="name">Nama Instansi</label>
-
+                                        value="@if(isset($nama)){{$nama}}@endif">
+                                    <label for="nama_instansi"><span class="text-danger inline">*</span>Nama Instansi</label>
                                 </div>
                                 {{-- Date --}}
                                 <div class="form-floating mb-3 d-flex">
                                     <input type="date" class="form-control" id="mulai_iklan" name="mulai_iklan"
                                         required value=@if (isset($mulai)) {{ $mulai }} @endif>
-                                    <label for="name"><span class="text-danger inline">*</span>Tanggal Mulai</label>
+                                    <label for="mulai_iklan"><span class="text-danger inline">*</span>Tanggal 
+                                        Mulai Tayang</label>
                                 </div>
                                 <div class="form-floating mb-3 d-flex">
                                     <input type="date" class="form-control" id="akhir_iklan" name="akhir_iklan"
                                         required value=@if (isset($akhir)) {{ $akhir }} @endif>
-                                    <label for="name"><span class="text-danger inline">*</span>Tanggal
-                                        Berakhir</label>
+                                    <label for="akhir_iklan"><span class="text-danger inline">*</span>Tanggal
+                                        Berakhir Tayang</label>
                                 </div>
                                 <!-- Email address input-->
                                 <div class="form-floating mb-3">
@@ -213,30 +213,29 @@
                                         value=@if (isset($email)) {{ $email }}
                                     @elseif (isset($data_user->email))
                                     {{ $data_user->email }} @endif>
-                                    <label for="email"><span class="text-danger inline">*</span>Email address</label>
+                                    <label for="email_instansi"><span class="text-danger inline">*</span>Email address</label>
                                 </div>
                                 <!-- Phone number input-->
                                 <div class="form-floating mb-3">
                                     <input class="form-control" id="telpon_instansi" name="telpon_instansi"
                                         type="tel" placeholder="Nomor Telpon Yang Dapat Dihubungi"
-                                        data-sb-validations="required" required
-                                        value=@if (isset($telp)) {{ $telp }}
-                                    @elseif (isset($data_user->no_hp))
-                                    {{ $data_user->no_hp }} @endif>
-                                    <label for="phone"><span class="text-danger inline">*</span>Phone number</label>
+                                        data-sb-validations="required" required onkeypress='validate(event)' 
+                                        value=@if(isset($telp)){{$telp}}
+                                    @elseif(isset($data_user->no_hp))
+                                    {{$data_user->no_hp}} @endif>
+                                    <label for="telpon_instansi"><span class="text-danger inline">*</span>Phone number</label>
                                 </div>
                                 <!-- Alamat input-->
                                 <div class="form-floating mb-3">
                                     <textarea class="form-control" name="alamat_instansi" id="alamat_instansi" type="text" placeholder="Alamat Instansi"
-                                        style="height: 10rem" required value=@if (isset($almt)) {{ $almt }} @endif></textarea>
+                                        style="height: 10rem" required>@if (isset($almt)) {{$almt}} @endif</textarea>
                                     <label for="alamat_instansi"><span class="text-danger inline">*</span>Alamat
                                         Instansi</label>
                                 </div>
                                 <!-- Deskripsi input-->
                                 <div class="form-floating mb-3">
                                     <textarea class="form-control" name="deskripsi_iklan" id="deskripsi_iklan" type="text"
-                                        placeholder="Deskripsi Keperluan Iklan (jika perlu)" style="height: 10rem" data-sb-validations="required"
-                                        value=@if (isset($desk)) {{ $desk }} @endif></textarea>
+                                        placeholder="Deskripsi Keperluan Iklan (jika perlu)" style="height: 10rem" data-sb-validations="required">@if (isset($desk)) {{$desk}} @endif</textarea>
                                     <label for="deskripsi_iklan">
                                         Deskripsi Keperluan Iklan
                                     </label>
@@ -267,50 +266,29 @@
                         </div>
                     </div>
                 </div>
-                <!-- Contact cards-->
-                <div class="row gx-5 row-cols-2 row-cols-lg-4 py-5">
-                    <div class="col">
-                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
-                            <i class="bi bi-chat-dots"></i>
-                        </div>
-                        <div class="h5 mb-2">Chat with us</div>
-                        <p class="text-muted mb-0">
-                            Chat live with one of our support specialists.
-                        </p>
-                    </div>
-                    <div class="col">
-                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
-                            <i class="bi bi-people"></i>
-                        </div>
-                        <div class="h5">Ask the community</div>
-                        <p class="text-muted mb-0">
-                            Explore our community forums and communicate with other users.
-                        </p>
-                    </div>
-                    <div class="col">
-                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
-                            <i class="bi bi-question-circle"></i>
-                        </div>
-                        <div class="h5">Support center</div>
-                        <p class="text-muted mb-0">
-                            Browse FAQ's and support articles to find solutions.
-                        </p>
-                    </div>
-                    <div class="col">
-                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
-                            <i class="bi bi-telephone"></i>
-                        </div>
-                        <div class="h5">Call us</div>
-                        <p class="text-muted mb-0">
-                            Call us during normal business hours at (555) 892-9403.
-                        </p>
-                    </div>
-                </div>
             </div>
         </section>
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
+            function validate(evt) {
+                var theEvent = evt || window.event;
+
+                // Handle paste
+                if (theEvent.type === 'paste') {
+                    key = event.clipboardData.getData('text/plain');
+                } else {
+                // Handle key press
+                    var key = theEvent.keyCode || theEvent.which;
+                    key = String.fromCharCode(key);
+                }
+                var regex = /[0-9]/;
+                if( !regex.test(key) ) {
+                    theEvent.returnValue = false;
+                    if(theEvent.preventDefault) theEvent.preventDefault();
+                }
+            }
+
             document.addEventListener("DOMContentLoaded", function() {
                 // No Sunday
                 const mulai = document.getElementById('mulai_iklan');

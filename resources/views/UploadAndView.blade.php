@@ -82,9 +82,14 @@
             </div>
             <div class="row mt-5">
                 <div class="col">
-                    <div class="container" style="width: 17rem; height: 21rem; overflow: hidden"> 
-                        <img src="{{ asset('storage/image_example/'.$packet["contoh_foto"]) }}" class="card-img-top" alt="..." style="border: 1px solid black; object-fit: cover; width: 100%; height: 100%">
-                    </div>
+                    <a href="{{ asset('storage/image_example/' . $packet["contoh_foto"]) }}" target="_blank" 
+                        style="width: 100%; height: 100%;">
+                        <div class="container" style="width: 17rem; height: 21rem; overflow: hidden"> 
+                            <img src="{{ asset('storage/image_example/'.$packet["contoh_foto"]) }}" class="card-img-top" alt="..." 
+                            style="border: 1px solid black; object-fit: contain; width: 100%; height: 100%">
+                        </div>
+                    </a>
+                    
                     <p>Catatan : <br>Ukuran gambar iklan harus sesuai!</p>
                 </div>
                 <div class="col text-start">

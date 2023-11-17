@@ -167,6 +167,7 @@ class CallUserController extends Controller
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'PATCH',
         CURLOPT_POSTFIELDS =>'{
+            "old_password" : "'.$request->old_password.'",
             "password" : "'.$request->password.'"
         }',
         CURLOPT_HTTPHEADER => array(

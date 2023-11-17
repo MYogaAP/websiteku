@@ -30,6 +30,9 @@ class AgentUserController extends Controller
     
     function UpdatePassword(Request $request) {
         $newPassword = $request->validate([
+            'old_password' => [
+                'required'
+            ],
             'password' => [
                 'required',
                 Password::min(8)
@@ -43,21 +46,31 @@ class AgentUserController extends Controller
 
         $currentAccount = Auth::user()->user_id;
         $currentPassword = Auth::user()->password;
+        $oldPassword = $newPassword['old_password'];
         $newPassword = $newPassword['password'];
 
-        if (Hash::check($newPassword, $currentPassword)){
+        if (!Hash::check($oldPassword, $currentPassword)) { 
             return response()->json([
-                'message' => 'The password inputed is the same as the current password.',
+                'message' => 'Pasword lama yang anda masukkan salah.',
             ], 404);
+        } elseif (Hash::check($newPassword, $currentPassword)){
+            return response()->json([
+                'message' => 'The password baru yang anda masukkan sama dengan password lama anda.',
+            ], 404);
+        } else {
+            $updateData = User::findOrFail($currentAccount);
+            $updateData->password = $newPassword;
+            $updateData->save();
+            $request->user()->currentAccessToken()->delete();
+
+            return response()->json([
+                'message' => 'Password has been updated.',
+            ]);
         }
 
-        $updateData = User::findOrFail($currentAccount);
-        $updateData->password = $newPassword;
-        $updateData->save();
-        $request->user()->currentAccessToken()->delete();
-
         return response()->json([
-            'message' => 'Password has been updated.',
+            'message' => 'Sebuah kesalahan terjadi.',
+            404
         ]);
     }
 

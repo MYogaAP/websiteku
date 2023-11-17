@@ -12,7 +12,7 @@ class DataLinkerController extends Controller
     function SendToDetailUkuran(Request $request) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => gethostname().'/websiteku/public/api/PacketList',
+        CURLOPT_URL => gethostname().'/websiteku/public/api/AllPacketList',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -43,7 +43,7 @@ class DataLinkerController extends Controller
 
         $request->session()->put('form_data', $data);
         $request->session()->put('ukuran_data', $response);
-        $request->session()->put('ukuran_page', 1);
+        // $request->session()->put('ukuran_page', 1);
 
         return redirect()->route('detailukuran');
     }
