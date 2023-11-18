@@ -38,7 +38,7 @@ class OrderController extends Controller
             ->whereColumn('order_detail_id', 'order_data.order_detail_id')
             ->latest()
         )
-        ->simplePaginate(5);
+        ->paginate(5);
         return OrdersListResource::collection($orders);
     }
 
@@ -316,12 +316,13 @@ class OrderController extends Controller
             throw new ModelNotFoundException($errorMessage);
         }
         $filePath = $cancelOrder->OrderDetail->foto_iklan;
+        $msg = "Dibatalkan oleh sistem.";
 
         if (Storage::exists('\image\\'.$filePath)){            
+            $cancelOrder->OrderDetail->detail_kemajuan = isset($request->detail_kemajuan) ? $request->detail_kemajuan : $msg;
             $cancelOrder->OrderDetail->status_iklan = $cancelOrder->OrderDetail->getStatusIklanValue('Dibatalkan');
             $cancelOrder->OrderDetail->status_pembayaran =  $cancelOrder->OrderDetail->getStatusPembayaranValue('Dibatalkan');
             $cancelOrder->OrderDetail->foto_iklan = 'none';
-            $cancelOrder->OrderDetail->detail_kemajuan = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "Dibatalkan oleh sistem.";
             $cancelOrder->OrderDetail->save();
             $cancelOrder->save();
             Storage::delete('\image\\'.$filePath);

@@ -25,7 +25,6 @@
 
     <!-- Custom styles for this page -->
     <link href="{{ asset('adminStyle/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-
 </head>
 
 <body id="page-top" class="content">
@@ -79,9 +78,10 @@
             curl_close($curl);
             $xendit_link = "https://checkout.xendit.co/v2/";
 
-            if ($http_status == 401) {
+            if ($http_status == 401 || $http_status == 500 || $http_status == 404) {
                 setcookie('auth', '', time() - 3600, '/');
-                header('Location: ' . URL::to('/login'), true, 302);
+                session()->flush();
+                header('Location: ' . route('loginPage'), true, 302);
                 exit();
             }
         @endphp
@@ -338,22 +338,6 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col">
-                                                                <p>Status Pembayaran</p>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <p>: {{$order->status_pembayaran}}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p>Status Iklan</p>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <p>: {{$order->status_iklan}}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col">
                                                                 <p>Harga Paket</p>
                                                             </div>
                                                             <div class="col-8">
@@ -487,7 +471,7 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form action="{{route('TerimaOrderPengguna')}}" class="user" method="POST" autocomplete="off">
+                <form action="{{route('TerimaOrderPengguna')}}" class="user" method="POST" autocomplete="off" id="FormTerima">
                     @csrf
                     @method('PATCH')
                     <div class="modal-body">
@@ -516,7 +500,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                        <button class="btn btn-primary btn-user btn-block">
                             Terima Order
                         </button>
                     </div>
@@ -545,7 +529,7 @@
                             <div class="mb-3">
                                 <label for="detail_kemajuan" class="form-label">Detail Penolakan Iklan<span class="text-danger">*</span></label>
                                 <textarea class="form-control" rows="3" id="detail_kemajuan" name="detail_kemajuan" 
-                                    placeholder="cth. pesanan kami tolak karena ...." required></textarea>
+                                    placeholder="cth. pesanan kami tolak karena ...."></textarea>
                             </div>
                         </div>
                     </div>
@@ -654,6 +638,51 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('adminStyle/js/demo/datatables-demo.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById("FormTerima").addEventListener("submit", function (event){
+            event.preventDefault();
+            const swal = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-outline-success",
+                    cancelButton: "btn btn-outline-danger",
+                    actions: "d-flex justify-content-center gap-3",
+                    container: "pe-4"
+                },
+                buttonsStyling: false
+            });
+
+            // Ambil data
+            var no_order = "Nomor Order: " + document.querySelector('input[name="nomor_order"]').value + "<br>";
+            var no_seri = "Nomor Seri: " + document.querySelector('input[name="nomor_seri"]').value + "<br>";
+            var no_inv = "Nomor Invoice: " + document.querySelector('input[name="nomor_invoice"]').value +"<br>";
+
+            // Membuat Model
+            swal.fire({
+            title: "Apakah anda yakin?",
+            html: "Pastikan semua data yang dimasukkan benar!<br>"+no_order+no_seri+no_inv,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Teruskan!",
+            cancelButtonText: "Batalkan!",
+            reverseButtons: true
+            }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('FormTerima').submit();
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swal.fire({
+                title: "Aksi telah dibatalkan!",
+                text: "Data order tidak berubah",
+                icon: "error"
+                });
+            }
+            });
+        });
+    </script>
 
     <script>
         $(document).on("click", "#TerimaOrderBtn", function () {

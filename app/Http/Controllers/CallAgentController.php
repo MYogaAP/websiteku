@@ -42,7 +42,7 @@ class CallAgentController extends Controller
             exit();
         }
 
-        if($http_status == 200){
+        if($http_status >= 200){
             $request->session()->put('success', $response->message);
         } elseif ($http_status == 422) {
             $request->session()->put('dangers', $response->errors);

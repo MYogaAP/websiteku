@@ -25,7 +25,7 @@ class OrderDetail extends Model
         'status_pembayaran',
         'packet_id',
         'invoice_id',
-        'detail_penolakan',
+        'detail_kemajuan',
         'alamat_instansi'
     ];
 

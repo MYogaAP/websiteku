@@ -41,7 +41,7 @@ class CallOrderController extends Controller
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => 'POST',
       CURLOPT_POSTFIELDS => '{
-        "detail_kemajuan": "'.$desk_up.'"
+        "detail_kemajuan": '.$desk_up.'
       }',
       CURLOPT_HTTPHEADER => array(
         'Accept: application/json',
@@ -53,9 +53,10 @@ class CallOrderController extends Controller
     $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     curl_close($curl);
 
-    if($http_status == 401){
-      setcookie("auth", "", time() - 3600, "/");
-      header("Location: " . route('loginPage'), true, 302);
+    if ($http_status == 401 || $http_status == 500 || $http_status == 404) {
+      setcookie('auth', '', time() - 3600, '/');
+      session()->flush();
+      header('Location: ' . route('loginPage'), true, 302);
       exit();
     }
 
@@ -116,9 +117,10 @@ class CallOrderController extends Controller
     $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     curl_close($curl);
 
-    if($http_status == 401){
-      setcookie("auth", "", time() - 3600, "/");
-      header("Location: " . route('loginPage'), true, 302);
+    if ($http_status == 401 || $http_status == 500 || $http_status == 404) {
+      setcookie('auth', '', time() - 3600, '/');
+      session()->flush();
+      header('Location: ' . route('loginPage'), true, 302);
       exit();
     }
 
@@ -155,9 +157,10 @@ class CallOrderController extends Controller
     $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     curl_close($curl);
 
-    if($http_status == 401){
-      setcookie("auth", "", time() - 3600, "/");
-      header("Location: " . route('loginPage'), true, 302);
+    if ($http_status == 401 || $http_status == 500) {
+      setcookie('auth', '', time() - 3600, '/');
+      session()->flush();
+      header('Location: ' . route('loginPage'), true, 302);
       exit();
     }
 
@@ -249,9 +252,10 @@ class CallOrderController extends Controller
     $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     curl_close($curl);
 
-    if($http_status == 401){
-      setcookie("auth", "", time() - 3600, "/");
-      header("Location: " . route('loginPage'), true, 302);
+    if ($http_status == 401 || $http_status == 500) {
+      setcookie('auth', '', time() - 3600, '/');
+      session()->flush();
+      header('Location: ' . route('loginPage'), true, 302);
       exit();
     }
     
@@ -291,9 +295,10 @@ class CallOrderController extends Controller
     $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     curl_close($curl);
 
-    if($http_status == 401){
-      setcookie("auth", "", time() - 3600, "/");
-      header("Location: " . route('loginPage'), true, 302);
+    if ($http_status == 401 || $http_status == 500 ) {
+      setcookie('auth', '', time() - 3600, '/');
+      session()->flush();
+      header('Location: ' . route('loginPage'), true, 302);
       exit();
     }
 
@@ -334,9 +339,10 @@ class CallOrderController extends Controller
     $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     curl_close($curl);
 
-    if($http_status == 401){
-      setcookie("auth", "", time() - 3600, "/");
-      header("Location: " . route('loginPage'), true, 302);
+    if ($http_status == 401 || $http_status == 500 || $http_status == 404) {
+      setcookie('auth', '', time() - 3600, '/');
+      session()->flush();
+      header('Location: ' . route('loginPage'), true, 302);
       exit();
     }
 
@@ -385,7 +391,8 @@ class CallOrderController extends Controller
       }',
       CURLOPT_HTTPHEADER => array(
         'Accept: application/json',
-        'Authorization: Bearer '.Cookie::get('auth')
+        'Authorization: Bearer '.Cookie::get('auth'),
+        'Content-Type: application/json'
       ),
     ));
     $cancel = curl_exec($curl);
@@ -393,9 +400,10 @@ class CallOrderController extends Controller
     $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     curl_close($curl);
 
-    if($http_status == 401){
-      setcookie("auth", "", time() - 3600, "/");
-      header("Location: " . route('loginPage'), true, 302);
+    if ($http_status == 401 || $http_status == 500) {
+      setcookie('auth', '', time() - 3600, '/');
+      session()->flush();
+      header('Location: ' . route('loginPage'), true, 302);
       exit();
     }
 

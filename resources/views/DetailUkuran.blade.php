@@ -53,9 +53,10 @@
             $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             curl_close($curl);
 
-            if ($http_status == 401) {
+            if ($http_status == 401 || $http_status == 500 || $http_status == 404) {
                 setcookie('auth', '', time() - 3600, '/');
-                header('Location: ' . URL::to('/login'), true, 302);
+                session()->flush();
+                header('Location: ' . route('loginPage'), true, 302);
                 exit();
             }
 
@@ -197,14 +198,14 @@
                         <div class="form-floating mb-3">
                             <div class="d-grid">
                                 <a href="{{ route('pemesanan') }}" class="btn btn-primary btn">
-                                    Kembali ke form sebelumnya</a>
+                                    Kembali</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-8 col-xl-6">
                         <div class="form-floating mb-3">
                             <div class="d-grid">
-                                <input type="submit" class="btn btn-primary btn " value="Selanjutnya">
+                                <input type="submit" class="btn btn-primary btn" value="Selanjutnya">
                             </div>
                         </div>
                     </div>

@@ -275,45 +275,37 @@
                 </table>
 
                 {{-- PAGINATION --}}
-                @if(isset($order_list->links->next, $order_list->links->prev))
+                @if(isset($order_list->links->next) || isset($order_list->links->prev))
                     <ul class="pagination justify-content-end">
-                        @if (isset($order_list->links->next))
-                            <li class="page-item">
-                                <a class="page-link" href="{{ route('UserOrderHalamanSebelumnya')}}">Previous</a>
-                            </li>
-                        @else
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#">Previous</a>
-                            </li>
-                        @endif
-                        {{-- Numbers --}}
-                        @for ($i = $order_list->meta->current_page - 1; $i >= $order_list->meta->current_page - 2 && $i >= $order_list->meta->from; $i--)
-                            <li class="page-item">
-                                <a class="page-link" href="{{route('UserOrderHalamanNomor', ['page' => $i])}}">{{$i}}</a>
-                            </li>
-                        @endfor
-                        <li class="page-item active" aria-current="page">
-                            <span class="page-link">{{$order_list->meta->current_page}}</span>
+                        {{-- Previous Page --}}
+                        <li class="page-item {{ isset($order_list->links->prev) ? '' : 'disabled' }}">
+                            <a class="page-link" href="{{ isset($order_list->links->prev) ? route('UserOrderHalamanSebelumnya') : '#' }}">Previous</a>
                         </li>
-                        @for ($i = $order_list->meta->current_page + 1; $i <= $order_list->meta->current_page + 2 && $i <= $order_list->meta->from; $i++)
-                            <li class="page-item">
-                                <a class="page-link" href="{{route('UserOrderHalamanNomor', ['page' => $i])}}">{{$i}}</a>
-                            </li>
+
+                        {{-- Page Numbers --}}
+                        @for ($i = max(1, $order_list->meta->current_page - 3); $i <= min($order_list->meta->last_page, $order_list->meta->current_page + 3); $i++)
+                            @if ($i != $order_list->meta->current_page)
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ route('UserOrderHalamanNomor', ['page' => $i]) }}">{{ $i }}</a>
+                                </li>
+                            @else
+                                <li class="page-item active" aria-current="page">
+                                    <span class="page-link">{{ $i }}</span>
+                                </li>
+                            @endif
                         @endfor
-                        @if (isset($order_list->links->next))
-                            <li class="page-item">
-                                <a class="page-link" title="" href="{{ route('UserOrderHalamanSelanjutnya')}}">Next</a>
-                            </li>
-                        @else
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        @endif
+
+                        {{-- Next Page --}}
+                        <li class="page-item {{ isset($order_list->links->next) ? '' : 'disabled' }}">
+                            <a class="page-link" href="{{ isset($order_list->links->next) ? route('UserOrderHalamanSelanjutnya') : '#' }}" title="Next">Next</a>
+                        </li>
                     </ul>
                 @endif
             </div>
         </div>
     </div>
+
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">

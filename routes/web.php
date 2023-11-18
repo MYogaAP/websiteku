@@ -115,8 +115,8 @@ Route::delete('/DeleteOrderCall/{order}', [CallOrderController::class, 'DeleteOr
 
 // Riwayat
 Route::get('/SendToRiwayat', [DataLinkerController::class, 'SendToRiwayat'])->name('SendToRiwayatUser');
-Route::get('/OrderHalamanSelanjutnya', [DataLinkerController::class, 'LoadNextOrderData'])->name('UserOrderHalamanSelanjutnya');
-Route::get('/OrderHalamanSebelumnya', [DataLinkerController::class, 'LoadPrevOrderData'])->name('UserOrderHalamanSebelumnya');
+Route::get('/OrderHalamanSelanjutnya', [DataLinkerController::class, 'LoadNextUserOrderData'])->name('UserOrderHalamanSelanjutnya');
+Route::get('/OrderHalamanSebelumnya', [DataLinkerController::class, 'LoadPrevUserOrderData'])->name('UserOrderHalamanSebelumnya');
 Route::get('/OrderHalaman/{page}', [DataLinkerController::class, 'LoadNumberOrderData'])->name('UserOrderHalamanNomor');
 
 // Dashboard Admin Order

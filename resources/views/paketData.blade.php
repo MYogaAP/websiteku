@@ -73,10 +73,10 @@
         $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        if($http_status == 401){
-            setcookie("auth", "", time() - 3600, "/");
+        if ($http_status == 401 || $http_status == 500 || $http_status == 404) {
+            setcookie('auth', '', time() - 3600, '/');
             session()->flush();
-            header("Location: " . route('loginPage'), true, 302);
+            header('Location: ' . route('loginPage'), true, 302);
             exit();
         }
     @endphp
@@ -270,12 +270,12 @@
                                 <div class="mb-3">
                                     <label for="tinggi_paket" class="form-label">Tinggi<span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="tinggi_paket" name="tinggi_paket"
-                                        placeholder="50" min="1" max="530" required>
+                                        placeholder="50" min="1" max="530" required onkeypress='validate(event)'>
                                 </div>
                                 <div class="mb-3">
                                     <label for="kolom_paket" class="form-label">Kolom<span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="kolom_paket" name="kolom_paket"
-                                        placeholder="1" min="1" max="6" required>
+                                        placeholder="1" min="1" max="6" required onkeypress='validate(event)'>
                                 </div>
                                 <div class="mb-3">
                                     <label for="format_warna_paket" class="form-label">Format Warna<span class="text-danger">*</span></label>
@@ -287,7 +287,7 @@
                                 <div class="mb-3">
                                     <label for="harga_paket" class="form-label">Harga Paket<span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="harga_paket" name="harga_paket"
-                                        placeholder="100000" required>
+                                        placeholder="100000" required onkeypress='validate(event)'>
                                 </div>
                             </div>
                     </div>
@@ -305,6 +305,26 @@
         session()->forget('success');
         session()->forget('danger');
     @endphp
+
+    <script>
+        function validate(evt) {
+            var theEvent = evt || window.event;
+
+            // Handle paste
+            if (theEvent.type === 'paste') {
+                key = event.clipboardData.getData('text/plain');
+            } else {
+            // Handle key press
+                var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode(key);
+            }
+            var regex = /[0-9]/;
+            if( !regex.test(key) ) {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('adminStyle/vendor/jquery/jquery.min.js') }}"></script>

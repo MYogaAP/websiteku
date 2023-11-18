@@ -83,8 +83,9 @@
             $data_user = curl_exec($curl);
             $data_user = json_decode($data_user);
 
-            if ($http_status == 401) {
+            if ($http_status == 401 || $http_status == 500 || $http_status == 404) {
                 setcookie('auth', '', time() - 3600, '/');
+                session()->flush();
                 header('Location: ' . route('loginPage'), true, 302);
                 exit();
             }

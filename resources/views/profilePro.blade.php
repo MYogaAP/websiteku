@@ -70,10 +70,10 @@
                 $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
                 curl_close($curl);
                 
-                if($http_status == 401){
-                    setcookie("auth", "", time() - 3600, "/");
+                if ($http_status == 401 || $http_status == 500 || $http_status == 404) {
+                    setcookie('auth', '', time() - 3600, '/');
                     session()->flush();
-                    header("Location: " . route('loginPage'), true, 302);
+                    header('Location: ' . route('loginPage'), true, 302);
                     exit();
                 }
             @endphp
