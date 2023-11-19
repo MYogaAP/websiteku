@@ -85,12 +85,10 @@
                     <div class="card shadow-2-strong" style="border-radius: 1rem;">
                         <div class="card-body p-5">
                             <div class="d-flex align-items-center justify-content-center mb-3 pb-1">
-                                <span class="h3 fw-bold mb-0 text-center">Mohon Verifikasi Email Anda Terlebih
-                                    Dahulu</span>
+                                <span class="h3 fw-bold mb-0 text-center">Email Anda Telah Terverifikasi</span>
                             </div>
                             @if ($http_status == 200)
-                                <a href="{{ route('landingPagePro') }}" class="btn btn-primary rounded-pill px-5">Masuk
-                                    Beranda</a>
+                                <a href="{{ route('landingPagePro') }}" class="btn btn-primary rounded-pill px-5">Masuk Beranda</a>
                             @else
                                 <form method="POST" action="{{ route('verification.send') }}">
                                     @csrf
