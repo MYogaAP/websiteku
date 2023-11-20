@@ -30,30 +30,30 @@
 <body>
     {{-- Navigation Bar --}}
     <x-nav-bar-riwayat />
-
     {{-- Content --}}
-    <div class="container text-center mt-5 border rounded-4">
-        <div class="row mt-4 justify-content-md-start text-start">
+    <br><br>
+    <div class="container text-center mt-5">
+        <div class="row mt-4 justify-content-md-start text-start" style="font-size: 15px">
             <p class="fw-bold col-sm-7"></p>
             <p class="fw-bold col-sm-2">No. Order</p>
             <p class="fw-bold col-sm-auto">: </p>
         </div>
-        <div class="row justify-content-md-start text-start">
+        <div class="row justify-content-md-start text-start" style="font-size: 15px">
             <p class="fw-bold col-sm-7"></p>
             <p class="fw-bold col-sm-2">No. Seri</p>
             <p class="fw-bold col-sm-auto">: </p>
         </div>
-        <div class="row justify-content-md-start text-start">
+        <div class="row justify-content-md-start text-start" style="font-size: 15px">
             <p class="fw-bold col-sm-7"></p>
             <p class="fw-bold col-sm-2">No. Invoice</p>
             <p class="fw-bold col-sm-auto">: </p>
         </div>
-        <div class="row justify-content-md-start text-start">
+        <div class="row justify-content-md-start text-start" style="font-size: 15px">
             <p class="fw-bold col-sm-7"></p>
             <p class="fw-bold col-sm-2">NAMA</p>
             <p class="fw-bold col-sm-auto">: </p>
         </div>
-        <div class="row justify-content-md-start text-start">
+        <div class="row justify-content-md-start text-start" style="font-size: 15px">
             <p class="fw-bold col-sm-7"></p>
             <p class="fw-bold col-sm-2">ALAMAT</p>
             <p class="fw-bold col-sm-auto">: </p>
@@ -66,7 +66,7 @@
         <br>
         <br>
         <div class="text-start">
-            <p class="fw-bold">Nama Pemasang <span style="padding-left: 73px;">=</span></p>
+            <p class="fw-bold" >Nama Pemasang <span style="padding-left: 73px;">=</span></p>
             <p class="fw-bold">Ukuran Iklan <span style="padding-left: 111px;">=</span></p>
             <p class="fw-bold">Tanggal Penerbitan <span style="padding-left: 55px;">=</span></p>
             <p class="fw-bold">Nilai Iklan <span style="padding-left: 135px;">=</span></p>
@@ -76,9 +76,55 @@
             <p class="fw-bold">Keterangan <span style="padding-left: 121px;">=</span></p>
         </div>
     </div>
+    <div class="container mt-5">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-center">JUDUL IKLAN</th>
+                    <th scope="col" class="text-center">UKURAN</th>
+                    <th scope="col" class="text-center">HARGA</th>
+                    <th scope="col" class="text-center">JUMLAH</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center">Data 1</td>
+                    <td class="text-center">Data 2</td>
+                    <td class="text-center">Data 3</td>
+                    <td class="text-center">Data 4</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container text-center mt-3">
+        <div class="row mt-4 justify-content-md-start text-start" style="font-size: 15px">
+            <p class="fw-bold col-sm-7"></p>
+            <p class="fw-bold col-sm-2">Bruto</p>
+            <p class="fw-bold col-sm-auto">: </p>
+        </div>
+        <div class="row mt-1 justify-content-md-start text-start" style="font-size: 15px">
+            <p class="fw-bold col-sm-7"></p>
+            <p class="fw-bold col-sm-2">Netto</p>
+            <p class="fw-bold col-sm-auto">: </p>
+        </div>
+        <div class="row mt-1 justify-content-md-start text-start" style="font-size: 15px">
+            <p class="fw-bold col-sm-7"></p>
+            <p class="fw-bold col-sm-2">PPN 11%</p>
+            <p class="fw-bold col-sm-auto">: </p>
+        </div>
+        <div class="row mt-1 justify-content-md-start text-start" style="font-size: 15px">
+            <p class="fw-bold col-sm-7"></p>
+            <p class="fw-bold col-sm-2">TOTAL</p>
+            <p class="fw-bold col-sm-auto">: </p>
+        </div>
+        <div class="row mt-1 justify-content-md-start text-start" style="font-size: 15px">
+            <p class="fw-bold col-sm-7"></p>
+            <p class="fw-bold col-sm-2">JATUH TEMPO</p>
+            <p class="fw-bold col-sm-auto">: </p>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
 </body>
-
 </html>
