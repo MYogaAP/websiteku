@@ -30,7 +30,7 @@
 
     @if (Cookie::has('auth'))
         <script>
-            window.location = "{{ route('landingPageLogin') }}";
+            window.location = "{{ route('landingPagePro') }}";
         </script>
     @endif
 

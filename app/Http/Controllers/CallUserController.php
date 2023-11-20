@@ -73,7 +73,18 @@ class CallUserController extends Controller
         ));
         $response = curl_exec($curl);
         $response = json_decode($response);
+        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
+
+        if($http_status == 422){
+            return view('register')->with([
+                'errors_msg' => $response->errors,
+            ]);
+        } else if($http_status != 200){
+            return view('register')->with([
+                'message' => "Terjadi suatu kesalahan!",
+            ]);
+        }
 
         // Login After Registering
         $curl = curl_init();
