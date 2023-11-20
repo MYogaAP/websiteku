@@ -216,7 +216,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col">
-                                                <p><a href="#" class="text-decoration-none">Detail Lebih Lanjut</a></p>
+                                                <p><a href="{{ route('riwayatDetail') }}" class="text-decoration-none">Detail Lebih Lanjut</a></p>
                                             </div>
                                         </div>
                                     </div>

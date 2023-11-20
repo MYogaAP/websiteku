@@ -43,10 +43,6 @@ Route::get('/profile', function () {
     return view('profile');
 })->name('profile');
 
-Route::get('/detailStruk', function () {
-    return view('detailStruk');
-})->name('detailStruk');
-
 Route::get('/riwayat', function () {
     return view('riwayat');
 })->name('riwayat');
