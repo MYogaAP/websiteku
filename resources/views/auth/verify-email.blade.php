@@ -32,6 +32,7 @@
             window.location = "{{ route('loginPage') }}";
         </script>
     @else
+        <x-nav-bar-login />
         @php
             $curl = curl_init();
             curl_setopt_array($curl, [
