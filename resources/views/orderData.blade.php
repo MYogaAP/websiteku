@@ -33,13 +33,15 @@
             var sidebar = $('.sidebar');
             var content = $('.content');
 
-            if (content.height() > sidebar.height() )
+            if (content.height() > sidebar.height())
                 sidebar.css('height', content.height());
             else
                 sidebar.css('height', sidebar.height());
         }
     </script>
-    
+
+
+
     @if (!Cookie::has('auth'))
         <script>
             window.location = "{{ route('loginPage') }}";
@@ -47,22 +49,22 @@
     @else
         @php
             $filter = request('filter');
-            if(isset($filter)){
-                if ($filter == "Semua Pesanan") {
-                    $GetData = "AgentAllDetailedOrders";
-                } elseif ($filter == "Sudah Konfirmasi") {
-                    $GetData = "AgentResponsibility";
+            if (isset($filter)) {
+                if ($filter == 'Semua Pesanan') {
+                    $GetData = 'AgentAllDetailedOrders';
+                } elseif ($filter == 'Sudah Konfirmasi') {
+                    $GetData = 'AgentResponsibility';
                 } else {
-                    $GetData = "NeedConfirmation"; 
+                    $GetData = 'NeedConfirmation';
                 }
             } else {
-                $GetData = "NeedConfirmation";
-                $filter = "Perlu Konfirmasi";
+                $GetData = 'NeedConfirmation';
+                $filter = 'Perlu Konfirmasi';
             }
 
             $curl = curl_init();
             curl_setopt_array($curl, [
-                CURLOPT_URL => gethostname().'/websiteku/public/api/'.$GetData,
+                CURLOPT_URL => gethostname() . '/websiteku/public/api/' . $GetData,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -76,7 +78,7 @@
             $response = json_decode($response);
             $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             curl_close($curl);
-            $xendit_link = "https://checkout.xendit.co/v2/";
+            $xendit_link = 'https://checkout.xendit.co/v2/';
 
             if ($http_status == 401 || $http_status == 500 || $http_status == 404) {
                 setcookie('auth', '', time() - 3600, '/');
@@ -89,7 +91,7 @@
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <x-admin.sidebar class="sidebar"/>
+        <x-admin.sidebar class="sidebar" />
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <!-- Main Content -->
@@ -104,37 +106,57 @@
                                 <div class="col-3">
                                     <h4 class="m-0 font-weight-bold text-primary mb-2">Order Data</h4>
                                 </div>
-                                <div class="col-6 text-center">
+                                <div class="col-5 text-center">
                                     @if (session()->has('success'))
                                         <div class="alert alert-success alert-dismissable">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                            {{session()->get('success')}}
+                                            <button type="button" class="close" data-dismiss="alert"
+                                                aria-hidden="true">×</button>
+                                            {{ session()->get('success') }}
                                         </div>
                                     @endif
                                     @if (session()->has('danger'))
                                         <div class="alert alert-danger alert-dismissable">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                            {{session()->get('danger')}}
+                                            <button type="button" class="close" data-dismiss="alert"
+                                                aria-hidden="true">×</button>
+                                            {{ session()->get('danger') }}
                                         </div>
                                     @endif
                                 </div>
-                                <div class="col-3 text-right">
+                                <div class="col-2 text-right">
+                                    <div class="mb-1">Download Excel</div>
+                                    <div class="dropdown mb-4">
+                                        <a href="#" class="btn btn-primary btn-icon-split">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-download"></i>
+                                            </span>
+                                            <span class="text" data-toggle="modal"
+                                                data-target="#DownloadExcel">Unduh</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-2 text-right">
                                     <div class="mb-1">Data Yang Ditampilkan:</div>
                                     <div class="dropdown mb-4">
                                         <button class="btn btn-primary dropdown-toggle" type="button"
                                             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                             aria-expanded="false">
                                             @if (isset($filter))
-                                                {{$filter}}
+                                                {{ $filter }}
                                             @else
-                                                {{'Perlu Konfirmasi'}}
+                                                {{ 'Perlu Konfirmasi' }}
                                             @endif
                                         </button>
                                         <div class="dropdown-menu animated--fade-in"
                                             aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="{{route('orderDataFilter', ['filter' => 'Perlu Konfirmasi'])}}">Perlu Konfirmasi</a>
-                                            <a class="dropdown-item" href="{{route('orderDataFilter', ['filter' => 'Sudah Konfirmasi'])}}">Sudah Konfirmasi</a>
-                                            <a class="dropdown-item" href="{{route('orderDataFilter', ['filter' => 'Semua Pesanan'])}}">Semua Pesanan</a>
+                                            <a class="dropdown-item"
+                                                href="{{ route('orderDataFilter', ['filter' => 'Perlu Konfirmasi']) }}">Perlu
+                                                Konfirmasi</a>
+                                            <a class="dropdown-item"
+                                                href="{{ route('orderDataFilter', ['filter' => 'Sudah Konfirmasi']) }}">Sudah
+                                                Konfirmasi</a>
+                                            <a class="dropdown-item"
+                                                href="{{ route('orderDataFilter', ['filter' => 'Semua Pesanan']) }}">Semua
+                                                Pesanan</a>
                                         </div>
                                     </div>
                                 </div>
@@ -153,94 +175,88 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($response->data as $order)
-                                        @if($order->status_pembayaran == "Belum Lunas")
-                                            @php
-                                                $curl = curl_init();
-                                                curl_setopt_array($curl, array(
-                                                CURLOPT_URL => 'https://api.xendit.co/v2/invoices/'.$order->invoice_id,
-                                                CURLOPT_RETURNTRANSFER => true,
-                                                CURLOPT_ENCODING => '',
-                                                CURLOPT_MAXREDIRS => 10,
-                                                CURLOPT_TIMEOUT => 0,
-                                                CURLOPT_FOLLOWLOCATION => true,
-                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                                CURLOPT_CUSTOMREQUEST => 'GET',
-                                                CURLOPT_HTTPHEADER => array(
-                                                    'Authorization: Basic '.config('xendit.key')
-                                                ),
-                                                ));
-                                                $invoice_data = curl_exec($curl);
-                                                $invoice_data = json_decode($invoice_data);
-                                                curl_close($curl);
-                                                
-                                                if(isset($invoice_data->status)){
-                                                    if($invoice_data->status == "PAID" || $invoice_data->status == "SETTLED"){
-                                                        $curl = curl_init();
-                                                        curl_setopt_array($curl, array(
-                                                        CURLOPT_URL => gethostname().'/websiteku/public/api/UpdatePayedOrder/'.$order->order_id,
+                                            @if ($order->status_pembayaran == 'Belum Lunas')
+                                                @php
+                                                    $curl = curl_init();
+                                                    curl_setopt_array($curl, [
+                                                        CURLOPT_URL => 'https://api.xendit.co/v2/invoices/' . $order->invoice_id,
                                                         CURLOPT_RETURNTRANSFER => true,
                                                         CURLOPT_ENCODING => '',
                                                         CURLOPT_MAXREDIRS => 10,
                                                         CURLOPT_TIMEOUT => 0,
                                                         CURLOPT_FOLLOWLOCATION => true,
                                                         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                                        CURLOPT_CUSTOMREQUEST => 'PATCH',
-                                                        CURLOPT_HTTPHEADER => array(
-                                                            'Accept: application/json',
-                                                            'Authorization: Bearer '.Cookie::get('auth')
-                                                        ),
-                                                        ));
-                                                        $update = curl_exec($curl);
-                                                        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                                                        curl_close($curl);
+                                                        CURLOPT_CUSTOMREQUEST => 'GET',
+                                                        CURLOPT_HTTPHEADER => ['Authorization: Basic ' . config('xendit.key')],
+                                                    ]);
+                                                    $invoice_data = curl_exec($curl);
+                                                    $invoice_data = json_decode($invoice_data);
+                                                    curl_close($curl);
 
-                                                        if($http_status == 401){
-                                                            setcookie("auth", "", time() - 3600, "/");
-                                                            $request->session()->flush();
-                                                            header("Location: " . route('loginPage'), true, 302);
-                                                            exit();
-                                                        }
-                                                        $order->status_pembayaran = "Lunas";
-                                                        $order->status_iklan = "Sedang Diproses";
-                                                    } elseif($invoice_data->status == "EXPIRED"){
-                                                        $desk_up = "Waktu pembayaran habis.";
-                                                        $curl = curl_init();
-                                                        curl_setopt_array($curl, array(
-                                                        CURLOPT_URL => gethostname().'/websiteku/public/api/CancelOrder/'.$order->order_id,
-                                                        CURLOPT_RETURNTRANSFER => true,
-                                                        CURLOPT_ENCODING => '',
-                                                        CURLOPT_MAXREDIRS => 10,
-                                                        CURLOPT_TIMEOUT => 0,
-                                                        CURLOPT_FOLLOWLOCATION => true,
-                                                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                                        CURLOPT_CUSTOMREQUEST => 'POST',
-                                                        CURLOPT_POSTFIELDS => '{
-                                                            "detail_kemajuan": "'.$desk_up.'"
+                                                    if (isset($invoice_data->status)) {
+                                                        if ($invoice_data->status == 'PAID' || $invoice_data->status == 'SETTLED') {
+                                                            $curl = curl_init();
+                                                            curl_setopt_array($curl, [
+                                                                CURLOPT_URL => gethostname() . '/websiteku/public/api/UpdatePayedOrder/' . $order->order_id,
+                                                                CURLOPT_RETURNTRANSFER => true,
+                                                                CURLOPT_ENCODING => '',
+                                                                CURLOPT_MAXREDIRS => 10,
+                                                                CURLOPT_TIMEOUT => 0,
+                                                                CURLOPT_FOLLOWLOCATION => true,
+                                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                                                CURLOPT_CUSTOMREQUEST => 'PATCH',
+                                                                CURLOPT_HTTPHEADER => ['Accept: application/json', 'Authorization: Bearer ' . Cookie::get('auth')],
+                                                            ]);
+                                                            $update = curl_exec($curl);
+                                                            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                                            curl_close($curl);
+
+                                                            if ($http_status == 401) {
+                                                                setcookie('auth', '', time() - 3600, '/');
+                                                                $request->session()->flush();
+                                                                header('Location: ' . route('loginPage'), true, 302);
+                                                                exit();
+                                                            }
+                                                            $order->status_pembayaran = 'Lunas';
+                                                            $order->status_iklan = 'Sedang Diproses';
+                                                        } elseif ($invoice_data->status == 'EXPIRED') {
+                                                            $desk_up = 'Waktu pembayaran habis.';
+                                                            $curl = curl_init();
+                                                            curl_setopt_array($curl, [
+                                                                CURLOPT_URL => gethostname() . '/websiteku/public/api/CancelOrder/' . $order->order_id,
+                                                                CURLOPT_RETURNTRANSFER => true,
+                                                                CURLOPT_ENCODING => '',
+                                                                CURLOPT_MAXREDIRS => 10,
+                                                                CURLOPT_TIMEOUT => 0,
+                                                                CURLOPT_FOLLOWLOCATION => true,
+                                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                                                CURLOPT_CUSTOMREQUEST => 'POST',
+                                                                CURLOPT_POSTFIELDS =>
+                                                                    '{
+                                                            "detail_kemajuan": "' .
+                                                                    $desk_up .
+                                                                    '"
                                                         }',
-                                                        CURLOPT_HTTPHEADER => array(
-                                                            'Accept: application/json',
-                                                            'Content-Type: application/json',
-                                                            'Authorization: Bearer '.Cookie::get('auth')
-                                                        ),
-                                                        ));
-                                                        $cancel = curl_exec($curl);
-                                                        $cancel = json_decode($cancel);
-                                                        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                                                        curl_close($curl);
+                                                                CURLOPT_HTTPHEADER => ['Accept: application/json', 'Content-Type: application/json', 'Authorization: Bearer ' . Cookie::get('auth')],
+                                                            ]);
+                                                            $cancel = curl_exec($curl);
+                                                            $cancel = json_decode($cancel);
+                                                            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                                            curl_close($curl);
 
-                                                        if($http_status == 401){
-                                                            setcookie("auth", "", time() - 3600, "/");
-                                                            $request->session()->flush();
-                                                            header("Location: " . route('loginPage'), true, 302);
-                                                            exit();
+                                                            if ($http_status == 401) {
+                                                                setcookie('auth', '', time() - 3600, '/');
+                                                                $request->session()->flush();
+                                                                header('Location: ' . route('loginPage'), true, 302);
+                                                                exit();
+                                                            }
+                                                            $order->status_pembayaran = 'Dibatalkan';
+                                                            $order->status_iklan = 'Dibatalkan';
+                                                            $order->foto_iklan = 'none';
                                                         }
-                                                        $order->status_pembayaran = "Dibatalkan";
-                                                        $order->status_iklan = "Dibatalkan";
-                                                        $order->foto_iklan = "none";
                                                     }
-                                                }
-                                            @endphp
-                                        @endif
+                                                @endphp
+                                            @endif
                                             <tr>
                                                 <td>
                                                     <div class="container p-2">
@@ -249,12 +265,12 @@
                                                                 <p>No. Order</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p>: 
+                                                                <p>:
                                                                     @if (isset($order->nomor_order))
-                                                                        {{$order->nomor_order}}
+                                                                        {{ $order->nomor_order }}
                                                                     @else
-                                                                        {{'--------------------'}}
-                                                                    @endif    
+                                                                        {{ '--------------------' }}
+                                                                    @endif
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -263,12 +279,12 @@
                                                                 <p>No. Seri</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p>: 
+                                                                <p>:
                                                                     @if (isset($order->nomor_seri))
-                                                                        {{$order->nomor_seri}}
+                                                                        {{ $order->nomor_seri }}
                                                                     @else
-                                                                        {{'--------------------'}}
-                                                                    @endif    
+                                                                        {{ '--------------------' }}
+                                                                    @endif
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -277,12 +293,12 @@
                                                                 <p>No. Invoice</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p>: 
+                                                                <p>:
                                                                     @if (isset($order->nomor_invoice))
-                                                                        {{$order->nomor_invoice}}
+                                                                        {{ $order->nomor_invoice }}
                                                                     @else
-                                                                        {{'--------------------'}}
-                                                                    @endif    
+                                                                        {{ '--------------------' }}
+                                                                    @endif
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -291,12 +307,13 @@
                                                                 <p>Invoice</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p>: 
+                                                                <p>:
                                                                     @if (isset($order->invoice_id))
-                                                                        <a href="{{ $xendit_link.$order->invoice_id }}" target="_blank">{{ $order->invoice_id }}</a>
+                                                                        <a href="{{ $xendit_link . $order->invoice_id }}"
+                                                                            target="_blank">{{ $order->invoice_id }}</a>
                                                                     @else
-                                                                        {{'--------------------'}}
-                                                                    @endif    
+                                                                        {{ '--------------------' }}
+                                                                    @endif
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -309,7 +326,7 @@
                                                                 <p>Nama Instansi</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p>: {{$order->nama_instansi}}</p>
+                                                                <p>: {{ $order->nama_instansi }}</p>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -317,7 +334,8 @@
                                                                 <p>Ukuran Iklan</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p>: {{$order->tinggi}} x {{$order->kolom}} mmk</p>
+                                                                <p>: {{ $order->tinggi }} x {{ $order->kolom }} mmk
+                                                                </p>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -325,7 +343,8 @@
                                                                 <p>Tanggal Penerbitan</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p>: {{$order->mulai_iklan}} hingga {{$order->akhir_iklan}}</p>
+                                                                <p>: {{ $order->mulai_iklan }} hingga
+                                                                    {{ $order->akhir_iklan }}</p>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -333,7 +352,7 @@
                                                                 <p>Lama Terbit</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p>: {{$order->lama_hari}} Hari</p>
+                                                                <p>: {{ $order->lama_hari }} Hari</p>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -357,16 +376,15 @@
                                                                 <p>Status Iklan</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p class="@if ($order->status_iklan == 'Dibatalkan')
-                                                                    {{'text-danger'}}
+                                                                <p
+                                                                    class="@if ($order->status_iklan == 'Dibatalkan') {{ 'text-danger' }}
                                                                 @elseif($order->status_iklan == 'Telah Tayang')
-                                                                    {{'text-success'}}
+                                                                    {{ 'text-success' }}
                                                                 @elseif ($order->status_iklan == 'Menunggu Pembayaran')
-                                                                    {{'text-secondary'}}
+                                                                    {{ 'text-secondary' }}
                                                                 @else
-                                                                    {{'text-primary'}}
-                                                                @endif">
-                                                                    : {{$order->status_iklan}}
+                                                                    {{ 'text-primary' }} @endif">
+                                                                    : {{ $order->status_iklan }}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -375,16 +393,15 @@
                                                                 <p>Status Pembayaran</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p class="@if ($order->status_pembayaran == 'Dibatalkan')
-                                                                    {{'text-danger'}}
+                                                                <p
+                                                                    class="@if ($order->status_pembayaran == 'Dibatalkan') {{ 'text-danger' }}
                                                                 @elseif($order->status_pembayaran == 'Telah Tayang')
-                                                                    {{'text-success'}}
+                                                                    {{ 'text-success' }}
                                                                 @elseif ($order->status_pembayaran == 'Belum Lunas')
-                                                                    {{'text-secondary'}}
+                                                                    {{ 'text-secondary' }}
                                                                 @else
-                                                                    {{'text-primary'}}
-                                                                @endif">
-                                                                    : {{$order->status_pembayaran}}
+                                                                    {{ 'text-primary' }} @endif">
+                                                                    : {{ $order->status_pembayaran }}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -393,54 +410,74 @@
                                                                 <p>Deskripsi Iklan</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p>: {{$order->deskripsi_iklan}}</p>
+                                                                <p>: {{ $order->deskripsi_iklan }}</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td class="text-center">
-                                                    <div class="container" style="max-height: 18.5rem; width: 15rem; overflow: hidden"> 
-                                                        @if($order->foto_iklan == "none")
-                                                            <a href="{{ asset('images/logo.jpeg') }}" target="_blank">
-                                                                <img src="{{ asset('images/logo.jpeg') }}" class="card-img-top" alt="" style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
+                                                    <div class="container"
+                                                        style="max-height: 18.5rem; width: 15rem; overflow: hidden">
+                                                        @if ($order->foto_iklan == 'none')
+                                                            <a href="{{ asset('images/logo.jpeg') }}"
+                                                                target="_blank">
+                                                                <img src="{{ asset('images/logo.jpeg') }}"
+                                                                    class="card-img-top" alt=""
+                                                                    style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
                                                             </a>
                                                         @else
-                                                            <a href="{{ asset('storage/image/'.$order->foto_iklan) }}" target="_blank">
-                                                                <img src="{{ asset('storage/image/'.$order->foto_iklan) }}" class="card-img-top" alt="" style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
+                                                            <a href="{{ asset('storage/image/' . $order->foto_iklan) }}"
+                                                                target="_blank">
+                                                                <img src="{{ asset('storage/image/' . $order->foto_iklan) }}"
+                                                                    class="card-img-top" alt=""
+                                                                    style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
                                                             </a>
                                                         @endif
                                                     </div>
                                                 </td>
                                                 <td>
                                                     @if ($order->status_pembayaran != 'Dibatalkan')
-                                                    @if ($order->status_iklan != 'Telah Tayang')
-                                                    <div class="dropdown mb-4 text-center">
-                                                        <button class="btn btn-primary " type="button"
-                                                            id="dropdownMenuButton" data-toggle="dropdown"
-                                                            aria-haspopup="true" aria-expanded="false">
-                                                            <i class="fas fa-pen-nib"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu animated--fade-in"
-                                                            aria-labelledby="dropdownMenuButton">
-                                                            @if ($order->status_pembayaran == 'Menunggu Konfirmasi')
-                                                                <button id="TerimaOrderBtn" class="dropdown-item text-primary" data-toggle="modal" data-target="#TerimaOrder"
-                                                                data-id="{{$order->order_id}}">
-                                                                    Terima Order</button>
-                                                                <button id="TolakOrderBtn" class="dropdown-item text-danger" data-toggle="modal" data-target="#TolakOrder"
-                                                                data-id="{{$order->order_id}}">
-                                                                    Tolak Order</button>
-                                                            @elseif ($order->status_pembayaran == 'Belum Lunas')
-                                                                <button id="BatalkanOrderBtn" class="dropdown-item text-danger" data-toggle="modal" data-target="#BatalkanOrder"
-                                                                data-id="{{$order->order_id}}" data-xenid="{{$order->invoice_id}}">
-                                                                    Batalkan Order</button>
-                                                            @elseif ($order->status_pembayaran != 'Dibatalkan')
-                                                                <button id="PublishedOrderBtn" class="dropdown-item text-primary" data-toggle="modal" data-target="#PublishedOrder"
-                                                                data-id="{{$order->order_id}}">
-                                                                    Telah Tayang</button>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                    @endif
+                                                        @if ($order->status_iklan != 'Telah Tayang')
+                                                            <div class="dropdown mb-4 text-center">
+                                                                <button class="btn btn-primary " type="button"
+                                                                    id="dropdownMenuButton" data-toggle="dropdown"
+                                                                    aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="fas fa-pen-nib"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu animated--fade-in"
+                                                                    aria-labelledby="dropdownMenuButton">
+                                                                    @if ($order->status_pembayaran == 'Menunggu Konfirmasi')
+                                                                        <button id="TerimaOrderBtn"
+                                                                            class="dropdown-item text-primary"
+                                                                            data-toggle="modal"
+                                                                            data-target="#TerimaOrder"
+                                                                            data-id="{{ $order->order_id }}">
+                                                                            Terima Order</button>
+                                                                        <button id="TolakOrderBtn"
+                                                                            class="dropdown-item text-danger"
+                                                                            data-toggle="modal"
+                                                                            data-target="#TolakOrder"
+                                                                            data-id="{{ $order->order_id }}">
+                                                                            Tolak Order</button>
+                                                                    @elseif ($order->status_pembayaran == 'Belum Lunas')
+                                                                        <button id="BatalkanOrderBtn"
+                                                                            class="dropdown-item text-danger"
+                                                                            data-toggle="modal"
+                                                                            data-target="#BatalkanOrder"
+                                                                            data-id="{{ $order->order_id }}"
+                                                                            data-xenid="{{ $order->invoice_id }}">
+                                                                            Batalkan Order</button>
+                                                                    @elseif ($order->status_pembayaran != 'Dibatalkan')
+                                                                        <button id="PublishedOrderBtn"
+                                                                            class="dropdown-item text-primary"
+                                                                            data-toggle="modal"
+                                                                            data-target="#PublishedOrder"
+                                                                            data-id="{{ $order->order_id }}">
+                                                                            Telah Tayang</button>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     @endif
                                                 </td>
                                             </tr>
@@ -459,7 +496,71 @@
         <!-- End of Content Wrapper -->
     </div>
     <!-- End of Page Wrapper -->
-    
+
+    <!-- Download Excel -->
+    <div class="modal fade" id="DownloadExcel" tabindex="-1" role="dialog" aria-labelledby="DownloadExcel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Unduh Rekap Data Excel</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="{{ route('TambahPaket') }}" class="user" method="POST" autocomplete="off"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="mb-3">
+                                <div class="container mt-4">
+                                    <h5 class="fallbackLabel">Pilih rekap tanggal berapa yang ingin diunduh</h5>
+                                    <div class="fallbackDatePicker">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="month">Bulan:</label>
+                                                    <select class="form-control" id="month" name="month">
+                                                        <option value="1" selected>Januari</option>
+                                                        <option value="2">Februari</option>
+                                                        <option value="3">Maret</option>
+                                                        <option value="4">April</option>
+                                                        <option value="5">Mei</option>
+                                                        <option value="6">Juni</option>
+                                                        <option value="7">Juli</option>
+                                                        <option value="8">Agustus</option>
+                                                        <option value="9">September</option>
+                                                        <option value="10">Oktober</option>
+                                                        <option value="11">November</option>
+                                                        <option value="12">Desember</option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="year">Tahun:</label>
+                                                    <select class="form-control" id="year"
+                                                        name="year"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                            Unduh Rekap
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Terima Order -->
     <div class="modal fade" id="TerimaOrder" tabindex="-1" role="dialog" aria-labelledby="TerimaOrder"
         aria-hidden="true">
@@ -471,30 +572,34 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form action="{{route('TerimaOrderPengguna')}}" class="user" method="POST" autocomplete="off" id="FormTerima">
+                <form action="{{ route('TerimaOrderPengguna') }}" class="user" method="POST" autocomplete="off"
+                    id="FormTerima">
                     @csrf
                     @method('PATCH')
                     <div class="modal-body">
                         <div class="form-group">
                             <input type="hidden" name="order_id" id="order_id" value="">
                             <div class="mb-3">
-                                <label for="nomor_order" class="form-label">Nomor Order<span class="text-danger">*</span></label>
+                                <label for="nomor_order" class="form-label">Nomor Order<span
+                                        class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="nomor_order" name="nomor_order"
                                     placeholder="cth. BJM230000452" required>
                             </div>
                             <div class="mb-3">
-                                <label for="nomor_seri" class="form-label">Nomor Seri<span class="text-danger">*</span></label>
+                                <label for="nomor_seri" class="form-label">Nomor Seri<span
+                                        class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="nomor_seri" name="nomor_seri"
                                     placeholder="cth. 9107743232723925" required>
                             </div>
                             <div class="mb-3">
-                                <label for="nomor_invoice" class="form-label">Nomor Invoice<span class="text-danger">*</span></label>
+                                <label for="nomor_invoice" class="form-label">Nomor Invoice<span
+                                        class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="nomor_invoice" name="nomor_invoice"
                                     placeholder="cth. 2300051YA-BJM" required>
                             </div>
                             <div class="mb-3">
                                 <label for="detail_kemajuan" class="form-label">Detail Penerimaan Iklan</label>
-                                <textarea class="form-control" rows="3" id="detail_kemajuan" name="detail_kemajuan" 
+                                <textarea class="form-control" rows="3" id="detail_kemajuan" name="detail_kemajuan"
                                     placeholder="cth. pesanan kami terima ...."></textarea>
                             </div>
                         </div>
@@ -520,15 +625,16 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form action="{{route('TolakOrderPengguna')}}" class="user" method="POST" autocomplete="off">
+                <form action="{{ route('TolakOrderPengguna') }}" class="user" method="POST" autocomplete="off">
                     @method('PATCH')
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
                             <input type="hidden" name="order_id" id="order_id" value="">
                             <div class="mb-3">
-                                <label for="detail_kemajuan" class="form-label">Detail Penolakan Iklan<span class="text-danger">*</span></label>
-                                <textarea class="form-control" rows="3" id="detail_kemajuan" name="detail_kemajuan" 
+                                <label for="detail_kemajuan" class="form-label">Detail Penolakan Iklan<span
+                                        class="text-danger">*</span></label>
+                                <textarea class="form-control" rows="3" id="detail_kemajuan" name="detail_kemajuan"
                                     placeholder="cth. pesanan kami tolak karena ...."></textarea>
                             </div>
                         </div>
@@ -554,15 +660,16 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form action="{{route('OrderTelahTayang')}}" class="user" method="POST" autocomplete="off">
+                <form action="{{ route('OrderTelahTayang') }}" class="user" method="POST" autocomplete="off">
                     @method('PATCH')
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
                             <input type="hidden" name="order_id" id="order_id" value="">
                             <div class="mb-3">
-                                <label for="detail_kemajuan" class="form-label">Detail Progress Iklan<span class="text-danger">*</span></label>
-                                <textarea class="form-control" rows="3" id="detail_kemajuan" name="detail_kemajuan" 
+                                <label for="detail_kemajuan" class="form-label">Detail Progress Iklan<span
+                                        class="text-danger">*</span></label>
+                                <textarea class="form-control" rows="3" id="detail_kemajuan" name="detail_kemajuan"
                                     placeholder="cth. pesanan telah kami tayangkan ...." required></textarea>
                             </div>
                         </div>
@@ -588,7 +695,8 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form action="{{route('BatalkanOrderPengguna')}}" class="user" method="POST" autocomplete="off">
+                <form action="{{ route('BatalkanOrderPengguna') }}" class="user" method="POST"
+                    autocomplete="off">
                     @method('PATCH')
                     @csrf
                     <div class="modal-body">
@@ -596,8 +704,9 @@
                             <input type="hidden" name="order_id" id="order_id" value="">
                             <input type="hidden" name="xendit_id" id="xendit_id" value="">
                             <div class="mb-3">
-                                <label for="detail_kemajuan" class="form-label">Detail Pembatalan Iklan<span class="text-danger">*</span></label>
-                                <textarea class="form-control" rows="3" id="detail_kemajuan" name="detail_kemajuan" 
+                                <label for="detail_kemajuan" class="form-label">Detail Pembatalan Iklan<span
+                                        class="text-danger">*</span></label>
+                                <textarea class="form-control" rows="3" id="detail_kemajuan" name="detail_kemajuan"
                                     placeholder="cth. pesanan telah kami batalkan karena ...." required></textarea>
                             </div>
                         </div>
@@ -640,8 +749,25 @@
     <script src="{{ asset('adminStyle/js/demo/datatables-demo.js') }}"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- Download Excel Kalender --}}
     <script>
-        document.getElementById("FormTerima").addEventListener("submit", function (event){
+        var yearDropdown = document.getElementById('year');
+
+        var currentYear = new Date().getFullYear();
+        var startYear = currentYear - 1;
+        var endYear = currentYear - 10;
+
+        for (var year = startYear; year >= endYear; year--) {
+            var option = document.createElement('option');
+            option.value = year;
+            option.text = year;
+            yearDropdown.add(option);
+        }
+    </script>
+
+    <script>
+        document.getElementById("FormTerima").addEventListener("submit", function(event) {
             event.preventDefault();
             const swal = Swal.mixin({
                 customClass: {
@@ -656,52 +782,54 @@
             // Ambil data
             var no_order = "Nomor Order: " + document.querySelector('input[name="nomor_order"]').value + "<br>";
             var no_seri = "Nomor Seri: " + document.querySelector('input[name="nomor_seri"]').value + "<br>";
-            var no_inv = "Nomor Invoice: " + document.querySelector('input[name="nomor_invoice"]').value +"<br>";
+            var no_inv = "Nomor Invoice: " + document.querySelector('input[name="nomor_invoice"]').value + "<br>";
 
             // Membuat Model
             swal.fire({
-            title: "Apakah anda yakin?",
-            html: "Pastikan semua data yang dimasukkan benar!<br>"+no_order+no_seri+no_inv,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Teruskan",
-            cancelButtonText: "Batalkan",
-            reverseButtons: true
+                title: "Apakah anda yakin?",
+                html: "Pastikan semua data yang dimasukkan benar!<br>" + no_order + no_seri + no_inv,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Teruskan",
+                cancelButtonText: "Batalkan",
+                reverseButtons: true
             }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('FormTerima').submit();
-            } else if (
-                /* Read more about handling dismissals below */
-                result.dismiss === Swal.DismissReason.cancel
-            ) {
-                swal.fire({
-                title: "Aksi telah dibatalkan!",
-                text: "Data order tidak berubah",
-                icon: "error"
-                });
-            }
+                if (result.isConfirmed) {
+                    document.getElementById('FormTerima').submit();
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swal.fire({
+                        title: "Aksi telah dibatalkan!",
+                        text: "Data order tidak berubah",
+                        icon: "error"
+                    });
+                }
             });
         });
     </script>
 
+
+
     <script>
-        $(document).on("click", "#TerimaOrderBtn", function () {
+        $(document).on("click", "#TerimaOrderBtn", function() {
             var OrderId = $(this).data('id');
-            $(".modal-body #order_id").val( OrderId );
+            $(".modal-body #order_id").val(OrderId);
         });
-        $(document).on("click", "#TolakOrderBtn", function () {
+        $(document).on("click", "#TolakOrderBtn", function() {
             var OrderId = $(this).data('id');
-            $(".modal-body #order_id").val( OrderId );
+            $(".modal-body #order_id").val(OrderId);
         });
-        $(document).on("click", "#PublishedOrderBtn", function () {
+        $(document).on("click", "#PublishedOrderBtn", function() {
             var OrderId = $(this).data('id');
-            $(".modal-body #order_id").val( OrderId );
+            $(".modal-body #order_id").val(OrderId);
         });
-        $(document).on("click", "#BatalkanOrderBtn", function () {
+        $(document).on("click", "#BatalkanOrderBtn", function() {
             var OrderId = $(this).data('id');
             var XenditId = $(this).data('xenid');
-            $(".modal-body #order_id").val( OrderId );
-            $(".modal-body #xendit_id").val( XenditId );
+            $(".modal-body #order_id").val(OrderId);
+            $(".modal-body #xendit_id").val(XenditId);
         });
     </script>
 </body>

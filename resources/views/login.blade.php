@@ -128,6 +128,41 @@
                                         <input type="password" name="password" id="inputPassword5"
                                             class="form-control form-control-lg" required>
                                     </div>
+                                    <div>
+                                        @if (isset($errors_msg))
+                                            @foreach ($errors_msg as $error)
+                                                <div class="alert alert-danger alert-dismissible fade show"
+                                                    role="alert">
+                                                    @foreach ($error as $msg)
+                                                        {{ $msg }} <br>
+                                                    @endforeach
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                        @if (isset($error_msg))
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                {{ $error_msg }}
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                        @endif
+                                        @if (isset($message))
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                {{ $message }}
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                        @endif
+                                        @if (session()->has('status'))
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                {{ session()->get('status') }}
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                        @endif
+                                    </div>
                                     <div class="pt-1 mb-4">
                                         <button class="btn btn-dark btn-lg btn-block w-100" type="submit"
                                             style="background-color: #1450A3">Masuk</button>
@@ -151,42 +186,7 @@
         </div>
     </section>
 
-    @if (isset($errors_msg))
-        <div class="row align-items-center justify-content-center" style="margin: -2rem">
-            @foreach ($errors_msg as $error)
-                <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
-                    @foreach ($error as $msg)
-                        {{ $msg }} <br>
-                    @endforeach
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endforeach
-        </div>
-    @endif
-    @if (isset($error_msg))
-        <div class="row align-items-center justify-content-center" style="margin: -2rem">
-            <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
-                {{ $error_msg }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        </div>
-    @endif
-    @if (isset($message))
-        <div class="row align-items-center justify-content-center" style="margin: -2rem">
-            <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
-                {{ $message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        </div>
-    @endif
-    @if (session()->has('status'))
-        <div class="row align-items-center justify-content-center" style="margin: -2rem">
-            <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
-                {{ session()->get('status') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        </div>
-    @endif
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
