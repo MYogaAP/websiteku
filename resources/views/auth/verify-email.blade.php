@@ -88,7 +88,7 @@
                                 <span class="h3 fw-bold mb-0 text-center">Email Anda Telah Terverifikasi</span>
                             </div>
                             @if ($http_status == 200)
-                                <a href="{{ route('landingPagePro') }}" class="btn btn-primary rounded-pill px-5">Masuk Beranda</a>
+                                <a href="{{ route('landingPagePro') }}" class="d-flex btn btn-primary rounded-pill px-5 justify-content-center align-items-center">Masuk Beranda</a>
                             @else
                                 <form method="POST" action="{{ route('verification.send') }}">
                                     @csrf
