@@ -29,7 +29,7 @@
 
 <body>
     {{-- Navigation Bar --}}
-    <x-nav-bar-back />
+    <x-nav-bar-riwayat />
 
     {{-- Content --}}
     <div class="container text-center mt-5 border rounded-4">
@@ -46,6 +46,16 @@
         <div class="row justify-content-md-start text-start">
             <p class="fw-bold col-sm-7"></p>
             <p class="fw-bold col-sm-2">No. Invoice</p>
+            <p class="fw-bold col-sm-auto">: </p>
+        </div>
+        <div class="row justify-content-md-start text-start">
+            <p class="fw-bold col-sm-7"></p>
+            <p class="fw-bold col-sm-2">NAMA</p>
+            <p class="fw-bold col-sm-auto">: </p>
+        </div>
+        <div class="row justify-content-md-start text-start">
+            <p class="fw-bold col-sm-7"></p>
+            <p class="fw-bold col-sm-2">ALAMAT</p>
             <p class="fw-bold col-sm-auto">: </p>
         </div>
         <div class="row mt-2">
