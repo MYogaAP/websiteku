@@ -664,8 +664,8 @@
             html: "Pastikan semua data yang dimasukkan benar!<br>"+no_order+no_seri+no_inv,
             icon: "warning",
             showCancelButton: true,
-            confirmButtonText: "Teruskan!",
-            cancelButtonText: "Batalkan!",
+            confirmButtonText: "Teruskan",
+            cancelButtonText: "Batalkan",
             reverseButtons: true
             }).then((result) => {
             if (result.isConfirmed) {

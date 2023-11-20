@@ -14,20 +14,26 @@ class AuthenticationController extends Controller
     function Login(Request $request) {
         $request->validate([
             'username' => 'required',
+        ]);
+
+        $login = $request->username;
+        $user = User::where('email', $login)->orWhere('username', $login)->first();
+
+        if (!$user) {
+            throw ValidationException::withMessages([
+                'user' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+
+        $request->validate([
             'password' => [
                 'required',
-                Password::min(8)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols()
-                    ->uncompromised(3),
+                'min:8'
             ]
         ]);
         
-        $user = User::where('username', $request->username)->first();
  
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (!Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'user' => ['The provided credentials are incorrect.'],
             ]);

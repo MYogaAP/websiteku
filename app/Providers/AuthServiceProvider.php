@@ -35,5 +35,19 @@ class AuthServiceProvider extends ServiceProvider
                 ->line('Dengan Hormat,')
                 ->salutation('Radar Banjarmasin');
         });
+
+        ResetPassword::toMailUsing(function (object $notifiable, string $url) {
+            $expiration = config('auth.passwords.' . config('auth.defaults.passwords') . '.expire');
+
+            return (new MailMessage)
+                ->subject('Reset Password Radar Banjarmasin Iklan')
+                ->greeting('Terimakasih telah mengkonfirmasi!')
+                ->line('Anda menerima email ini karena kami menerima permintaan reset password dari akun anda.')
+                ->action('Reset Password', $url)
+                ->line('Jika Anda tidak meminta reset password, harap ABAIKAN pesan ini.')
+                ->line('Tautan reset password akan kadaluwarsa dalam ' . $expiration . ' menit.')
+                ->line('Dengan Hormat,')
+                ->salutation('Radar Banjarmasin');
+        });
     }
 }

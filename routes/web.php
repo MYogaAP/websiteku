@@ -13,6 +13,7 @@ use App\Http\Controllers\CallAgentController;
 use App\Http\Controllers\CallOrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataLinkerController;
+use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
     return view('login');
