@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\OrderData;
+use App\Models\OrderDetail;
+use Illuminate\Http\Request;
+use App\Exports\DataTableExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Cookie;
 
 class CallOrderController extends Controller
@@ -416,5 +420,11 @@ class CallOrderController extends Controller
     }
 
     return redirect()->route('orderData'); 
+  }
+
+  function ExportOrderData(Request $request){
+    $fileName = 'OrderData_' . $request->year . '_' . $request->month . '.xlsx';
+    
+    return Excel::download(new DataTableExport($request->year, $request->month), $fileName);
   }
 }

@@ -508,8 +508,8 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form action="{{ route('TambahPaket') }}" class="user" method="POST" autocomplete="off"
-                    enctype="multipart/form-data">
+                <form action="{{ route('DownloadExportOrderData') }}" class="user" method="POST" autocomplete="off">
+                    @method('POST')
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -534,7 +534,6 @@
                                                         <option value="10">Oktober</option>
                                                         <option value="11">November</option>
                                                         <option value="12">Desember</option>
-
                                                     </select>
                                                 </div>
                                             </div>
@@ -755,7 +754,7 @@
         var yearDropdown = document.getElementById('year');
 
         var currentYear = new Date().getFullYear();
-        var startYear = currentYear - 1;
+        var startYear = currentYear;
         var endYear = currentYear - 10;
 
         for (var year = startYear; year >= endYear; year--) {

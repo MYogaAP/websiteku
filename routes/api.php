@@ -43,7 +43,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/ConfirmOrder/{order_id}/{update_type}', [OrderController::class, 'ConfirmOrder']);
         Route::get('/AgentOrderDetail/{order_id}', [OrderController::class, 'GetOrderDetailWithUser']);
     });
-    Route::get('/OrderDetail/{order_id}', [OrderController::class, 'GetOrderDetail']);
+    Route::get('/OrderDetail/{order_id}', [OrderController::class, 'GetOrderDetail'])->name('getorderdetail');
     Route::post('/StoreOrder', [OrderController::class, 'StoreOrder']);
     Route::post('/CancelOrder/{order_id}', [OrderController::class, 'CancelOrder']);
 });

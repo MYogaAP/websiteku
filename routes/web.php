@@ -83,8 +83,8 @@ Route::get('/agentData', function () {
     return view('agentData');
 })->name('agentData');
 
-Route::get('/riwayatDetail', function () {
-    return view('riwayatDetail');
+Route::get('/riwayatDetail/{order_id}', function ($order_id) {
+    return view('riwayatDetail', ['order_id' => $order_id]);
 })->name('riwayatDetail');
 
 Route::get('/landingPagePro', function () {
@@ -112,6 +112,7 @@ Route::post('/SimpanUkuran', [DataLinkerController::class, 'SendToUploadAndView'
 Route::get('/UkuranHalamanSelanjutnya', [DataLinkerController::class, 'LoadNextPacketData'])->name('UkuranHalamanSelanjutnya');
 Route::get('/UkuranHalamanSebelumnya', [DataLinkerController::class, 'LoadPrevPacketData'])->name('UkuranHalamanSebelumnya');
 Route::post('/NewOrderCall', [CallOrderController::class, 'NewOrderCall'])->name('NewOrderCall');
+Route::post('/DownloadExportOrderData', [CallOrderController::class, 'ExportOrderData'])->name('DownloadExportOrderData');
 Route::delete('/DeleteOrderCall/{order}', [CallOrderController::class, 'DeleteOrderCall'])->name('DeleteOrderCall');
 
 // Riwayat

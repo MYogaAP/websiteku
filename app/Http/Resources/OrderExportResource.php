@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class OrderDetailedResource extends JsonResource
+class OrderExportResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,6 +16,7 @@ class OrderDetailedResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // Order Data
         $data = json_decode(json_encode(parent::toArray($request)));
         $PacketData = $data->order_detail->packet_data;
         try {
@@ -24,8 +25,29 @@ class OrderDetailedResource extends JsonResource
             $errorMessage = "Order yang anda cari tidak ditemukan.";
             throw new ModelNotFoundException($errorMessage);
         }
+
+        // Xendit Data
+        if(isset($OrderDetail->invoice_id)){
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.xendit.co/v2/invoices/'.$OrderDetail->invoice_id,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Basic '.config('xendit.key')
+            ),
+            ));
+            $invoice_data = curl_exec($curl);
+            $invoice_data = json_decode($invoice_data);
+            curl_close($curl);
+        }
+
         return [
-            'order_id' => $this->order_id,
             'nomor_invoice' => $this->nomor_invoice,
             'nomor_order' => $this->nomor_order,
             'nomor_seri' => $this->nomor_seri,
@@ -47,6 +69,9 @@ class OrderDetailedResource extends JsonResource
             'tinggi' => $PacketData->tinggi,
             'kolom' => $PacketData->kolom,
             'harga_paket' => $PacketData->harga_paket,
+            'total_harga' => $PacketData->harga_paket * $OrderDetail->lama_hari,
+            'tanggal_pembayaran' => isset($invoice_data->paid_at)? $invoice_data->paid_at : "-",
+            'total_terbayar' => isset($invoice_data->amount)? $invoice_data->amount : "-",
         ];
     }
 }
