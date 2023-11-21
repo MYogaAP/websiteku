@@ -64,7 +64,7 @@ class AgentUserController extends Controller
             $request->user()->currentAccessToken()->delete();
 
             return response()->json([
-                'message' => 'Password has been updated.',
+                'message' => 'Password telah diperbaharui.',
             ]);
         }
 
@@ -150,7 +150,7 @@ class AgentUserController extends Controller
         $deleteData->delete();
 
         return response()->json([
-            'message' => 'Agent has been deleted.',
+            'message' => 'Anggota biro telah dihapus.',
         ]);
     }
 }

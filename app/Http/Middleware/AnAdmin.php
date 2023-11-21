@@ -20,7 +20,7 @@ class AnAdmin
 
         if ($currentUser->role != 'admin') {
             return response()->json([
-                'message' => 'You are not an admin.',
+                'message' => 'Anda bukan seorang admin.',
             ], 401);
         }
 

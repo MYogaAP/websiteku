@@ -21,7 +21,7 @@ class AuthenticationController extends Controller
 
         if (!$user) {
             throw ValidationException::withMessages([
-                'user' => ['The provided credentials are incorrect.'],
+                'user' => ['Email atau username yang anda masukkan salah.'],
             ]);
         }
 
@@ -35,7 +35,7 @@ class AuthenticationController extends Controller
  
         if (!Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'user' => ['The provided credentials are incorrect.'],
+                'user' => ['Data akun yang anda masukkan salah.'],
             ]);
         }
         

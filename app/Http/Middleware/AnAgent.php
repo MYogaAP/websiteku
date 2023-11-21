@@ -20,7 +20,7 @@ class AnAgent
 
         if ($currentUser->role == 'costumer') {
             return response()->json([
-                'message' => 'You are not an agent.',
+                'message' => 'Anda bukan seorang anggota biro iklan.',
             ], 401);
         }
 
