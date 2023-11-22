@@ -298,6 +298,23 @@ class OrderController extends Controller
             "lama_hari" => 'required',
             'image'=>'required|image',
             'packet_id'=>'required',
+        ], [
+            'nama_instansi.required' => 'Kolom nama instansi wajib diisi.',
+            'nama_instansi.max' => 'Kolom nama instansi tidak boleh lebih dari :max karakter.',
+            'email_instansi.required' => 'Kolom email instansi wajib diisi.',
+            'email_instansi.email' => 'Format email instansi tidak valid.',
+            'nomor_instansi.required' => 'Kolom nomor instansi wajib diisi.',
+            'nomor_instansi.numeric' => 'Kolom nomor instansi harus berupa angka.',
+            'alamat_instansi.required' => 'Kolom alamat instansi wajib diisi.',
+            'deskripsi_iklan.required' => 'Kolom deskripsi iklan wajib diisi.',
+            'mulai_iklan.required' => 'Kolom mulai iklan wajib diisi.',
+            'mulai_iklan.date' => 'Format tanggal mulai iklan tidak valid.',
+            'akhir_iklan.required' => 'Kolom akhir iklan wajib diisi.',
+            'akhir_iklan.date' => 'Format tanggal akhir iklan tidak valid.',
+            'lama_hari.required' => 'Kolom lama hari wajib diisi.',
+            'image.required' => 'Kolom gambar wajib diisi.',
+            'image.image' => 'File yang diupload harus berupa gambar.',
+            'packet_id.required' => 'Kolom packet ID wajib diisi.',
         ]);
 
         $fileName = '';

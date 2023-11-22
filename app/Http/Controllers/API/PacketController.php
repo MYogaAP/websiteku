@@ -59,6 +59,20 @@ class PacketController extends Controller
             'hidden' => 'in:yes,no',
             'harga_paket'  => 'numeric',
             'image'=>'required|image',
+        ], [
+            'nama_paket.required' => 'Kolom nama paket wajib diisi.',
+            'nama_paket.max' => 'Kolom nama paket tidak boleh lebih dari :max karakter.',
+            'nama_paket.unique' => 'Nama paket sudah digunakan, harap pilih nama paket lain.',
+            'tinggi.required' => 'Kolom tinggi wajib diisi.',
+            'tinggi.numeric' => 'Kolom tinggi harus berupa angka.',
+            'kolom.required' => 'Kolom kolom wajib diisi.',
+            'kolom.numeric' => 'Kolom kolom harus berupa angka.',
+            'format_warna.required' => 'Kolom format warna wajib diisi.',
+            'format_warna.in' => 'Format warna harus dipilih dari daftar yang tersedia.',
+            'hidden.in' => 'Kolom hidden harus dipilih dari daftar yang tersedia.',
+            'harga_paket.numeric' => 'Kolom harga paket harus berupa angka.',
+            'image.required' => 'Kolom gambar wajib diisi.',
+            'image.image' => 'File yang diupload harus berupa gambar.',
         ]);
 
         $fileName = '';

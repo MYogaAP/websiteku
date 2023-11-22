@@ -35,13 +35,23 @@ class AgentUserController extends Controller
             ],
             'password' => [
                 'required',
-                Password::min(8)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols()
-                    ->uncompromised(3),
-            ]
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+            ],
+        ], [
+            'username.required' => 'Kolom username wajib diisi.',
+            'username.unique' => 'Username sudah digunakan.',
+            'username.max' => 'Username tidak boleh lebih dari :max karakter.',
+            'username.min' => 'Username harus minimal :min karakter.',
+            'username.alpha_dash' => 'Username hanya boleh berisi huruf, angka, dan garis bawah.',
+        
+            'email.required' => 'Kolom email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah digunakan.',
+        
+            'password.required' => 'Kolom password wajib diisi.',
+            'password.min' => 'Password harus minimal :min karakter.',
+            'password.regex' => 'Password harus mengandung huruf kapital, huruf kecil, satu angka dan satu simbol.',
         ]);
 
         $currentAccount = Auth::user()->user_id;
@@ -85,6 +95,10 @@ class AgentUserController extends Controller
             'pekerjaan' => [
                 'max:255'
             ]
+        ], [
+            'name.max' => 'Nama tidak boleh lebih dari :max karakter.',
+            'no_hp.numeric' => 'Nomor HP harus berupa angka.',
+            'pekerjaan.max' => 'Pekerjaan tidak boleh lebih dari :max karakter.',
         ]);
 
         $currentAccount = Auth::user()->user_id;
@@ -96,7 +110,7 @@ class AgentUserController extends Controller
         $updateData->save();
 
         return response()->json([
-            'message' => 'Profile has been updated.',
+            'message' => 'Profile telah diperbaharui.',
         ]);
     }
 
@@ -111,13 +125,17 @@ class AgentUserController extends Controller
             'pekerjaan' => [
                 'max:255'
             ]
+        ], [
+            'name.max' => 'Nama tidak boleh lebih dari :max karakter.',
+            'no_hp.numeric' => 'Nomor HP harus berupa angka.',
+            'pekerjaan.max' => 'Pekerjaan tidak boleh lebih dari :max karakter.',
         ]);
 
         $updateData = User::findOrFail($user_id);
 
         if($updateData->role != 'agent'){
             return response()->json([
-                'message' => 'Selected account is not an agent.',
+                'message' => 'Akun yang dipilih bukan seorang anggota biro iklan.',
             ]);
         }
 
@@ -127,7 +145,7 @@ class AgentUserController extends Controller
         $updateData->save();
 
         return response()->json([
-            'message' => 'Profile has been updated.',
+            'message' => 'Profile telah diperbaharui.',
         ]);
     }
 
@@ -136,7 +154,7 @@ class AgentUserController extends Controller
 
         if($deleteData->role != 'agent'){
             return response()->json([
-                'message' => 'Selected account is not an agent.',
+                'message' => 'Akun yang dipilih bukan seorang anggota biro iklan.',
             ]);
         }
 

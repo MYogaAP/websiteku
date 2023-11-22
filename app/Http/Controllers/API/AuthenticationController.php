@@ -30,6 +30,9 @@ class AuthenticationController extends Controller
                 'required',
                 'min:8'
             ]
+        ], [
+            'password.required' => 'Kolom password wajib diisi.',
+            'password.min' => 'Password harus minimal :min karakter.'
         ]);
         
  

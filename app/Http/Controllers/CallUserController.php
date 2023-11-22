@@ -76,6 +76,8 @@ class CallUserController extends Controller
         $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
+        dd($http_status, $response);
+
         if($http_status == 422){
             return view('register')->with([
                 'errors_msg' => $response->errors,

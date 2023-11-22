@@ -28,13 +28,23 @@ class RegisterController extends Controller
             ],
             'password' => [
                 'required',
-                Password::min(8)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols()
-                    ->uncompromised(3),
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
             ],
+        ], [
+            'username.required' => 'Kolom username wajib diisi.',
+            'username.unique' => 'Username sudah digunakan.',
+            'username.max' => 'Username tidak boleh lebih dari :max karakter.',
+            'username.min' => 'Username harus minimal :min karakter.',
+            'username.alpha_dash' => 'Username hanya boleh berisi huruf, angka, dan garis bawah.',
+        
+            'email.required' => 'Kolom email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah digunakan.',
+        
+            'password.required' => 'Kolom password wajib diisi.',
+            'password.min' => 'Password harus minimal :min karakter.',
+            'password.regex' => 'Password harus mengandung huruf kapital, huruf kecil, satu angka dan satu simbol.',
         ]);
 
         $request->merge(['name' => 'user_'.Str::random(10)."_".$request->username]);
@@ -84,12 +94,23 @@ class RegisterController extends Controller
             ],
             'password' => [
                 'required',
-                Password::min(8)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols(),
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
             ],
+        ], [
+            'username.required' => 'Kolom username wajib diisi.',
+            'username.unique' => 'Username sudah digunakan.',
+            'username.max' => 'Username tidak boleh lebih dari :max karakter.',
+            'username.min' => 'Username harus minimal :min karakter.',
+            'username.alpha_dash' => 'Username hanya boleh berisi huruf, angka, dan garis bawah.',
+        
+            'email.required' => 'Kolom email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah digunakan.',
+        
+            'password.required' => 'Kolom password wajib diisi.',
+            'password.min' => 'Password harus minimal :min karakter.',
+            'password.regex' => 'Password harus mengandung huruf kapital, huruf kecil, satu angka dan satu simbol.',
         ]);
 
         $request->merge(['role' => 'agent']); // Making the user as agent
@@ -124,7 +145,13 @@ class RegisterController extends Controller
                 'max:255',
                 'min:5',
                 'alpha_dash',
-            ],
+            ],[
+                'username.required' => 'Kolom username wajib diisi.',
+                'username.unique' => 'Username sudah digunakan.',
+                'username.max' => 'Username tidak boleh lebih dari :max karakter.',
+                'username.min' => 'Username harus minimal :min karakter.',
+                'username.alpha_dash' => 'Username hanya boleh berisi huruf, angka, dan garis bawah.',
+            ]
         ]);
 
         return response()->json([
