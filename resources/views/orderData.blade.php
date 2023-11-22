@@ -174,6 +174,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @isset($response)
                                         @foreach ($response->data as $order)
                                             @if ($order->status_pembayaran == 'Belum Lunas')
                                                 @php
@@ -482,6 +483,7 @@
                                                 </td>
                                             </tr>
                                         @endforeach
+                                        @endisset
                                     </tbody>
                                 </table>
                             </div>
@@ -753,9 +755,8 @@
     <script>
         var yearDropdown = document.getElementById('year');
 
-        var currentYear = new Date().getFullYear();
-        var startYear = currentYear;
-        var endYear = currentYear - 10;
+        var startYear = new Date().getFullYear();
+        var endYear = startYear - 10;
 
         for (var year = startYear; year >= endYear; year--) {
             var option = document.createElement('option');

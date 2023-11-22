@@ -26,7 +26,8 @@ class OrderDetail extends Model
         'packet_id',
         'invoice_id',
         'detail_kemajuan',
-        'alamat_instansi'
+        'alamat_instansi',
+        'tanggal_pembayaran'
     ];
 
     protected $enum = [
@@ -41,7 +42,8 @@ class OrderDetail extends Model
             1 => 'Menunggu Konfirmasi', 
             2 => 'Belum Lunas', 
             3 => 'Lunas',
-            4 => 'Dibatalkan'
+            4 => 'Dibatalkan',
+            5 => 'Pembayaran Kedaluwarsa'
         ],
     ];
 

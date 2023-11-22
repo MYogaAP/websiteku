@@ -26,27 +26,6 @@ class OrderExportResource extends JsonResource
             throw new ModelNotFoundException($errorMessage);
         }
 
-        // Xendit Data
-        if(isset($OrderDetail->invoice_id)){
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.xendit.co/v2/invoices/'.$OrderDetail->invoice_id,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPHEADER => array(
-                'Authorization: Basic '.config('xendit.key')
-            ),
-            ));
-            $invoice_data = curl_exec($curl);
-            $invoice_data = json_decode($invoice_data);
-            curl_close($curl);
-        }
-
         return [
             'nomor_invoice' => $this->nomor_invoice,
             'nomor_order' => $this->nomor_order,
@@ -70,8 +49,7 @@ class OrderExportResource extends JsonResource
             'kolom' => $PacketData->kolom,
             'harga_paket' => $PacketData->harga_paket,
             'total_harga' => $PacketData->harga_paket * $OrderDetail->lama_hari,
-            'tanggal_pembayaran' => isset($invoice_data->paid_at)? $invoice_data->paid_at : "-",
-            'total_terbayar' => isset($invoice_data->amount)? $invoice_data->amount : "-",
+            'tanggal_pembayaran' => isset($OrderDetail->tanggal_pembayaran)? $OrderDetail->tanggal_pembayaran : "-"
         ];
     }
 }

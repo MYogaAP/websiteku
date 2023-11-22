@@ -134,6 +134,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @isset($response)
                                         @foreach ($response->data as $agent)
                                             <tr>
                                                 <td>
@@ -178,6 +179,7 @@
                                                 </td>
                                             </tr>
                                         @endforeach
+                                        @endisset
                                     </tbody>
                                 </table>
                             </div>

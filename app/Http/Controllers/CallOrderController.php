@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\OrderData;
-use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use App\Exports\DataTableExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -138,6 +136,7 @@ class CallOrderController extends Controller
       'nomor_seri' => 'required',
     ]);
     $desk_up = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "Telah diterima oleh anggota tim Biro Iklan Radar Banjarmasin";
+    $expire_time = 1209600; //2 Weeks in minutes
 
     // Get Order Data
     $curl = curl_init();
@@ -183,7 +182,7 @@ class CallOrderController extends Controller
       "external_id" => $request->nomor_invoice,
       "amount" => $data_order->lama_hari*$data_order->harga_paket,
       "description" => "Pemesanan pemasangan iklan pada koran Radar Banjarmasin",
-      "invoice_duration" => 1209600,
+      "invoice_duration" => $expire_time,
       "customer" => [
           "given_names" => $data_order->nama_instansi,
           "email" => $data_order->email_instansi,

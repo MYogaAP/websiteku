@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
     return view('login');
-})->name('hero');
+})->name('index');
 
 Route::get('landingPagePro', function () {
     return view('landingPagePro');

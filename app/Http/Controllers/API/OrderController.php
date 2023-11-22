@@ -177,8 +177,26 @@ class OrderController extends Controller
             throw new ModelNotFoundException($errorMessage);
         }
 
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL => 'https://api.xendit.co/v2/invoices/' . $editOrder->OrderDetail->invoice_id,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => ['Authorization: Basic ' . config('xendit.key')],
+        ]);
+        $invoice_data = curl_exec($curl);
+        $invoice_data = json_decode($invoice_data);
+        curl_close($curl);
+
         $editOrder->OrderDetail->status_iklan = $editOrder->OrderDetail->getStatusIklanValue("Sedang Diproses");
         $editOrder->OrderDetail->status_pembayaran = $editOrder->OrderDetail->getStatusPembayaranValue("Lunas");
+        $editOrder->OrderDetail->tanggal_pembayaran = $invoice_data->paid_at;
+        $editOrder->OrderDetail->save();
         $editOrder->save();
         
         return response()->json([
