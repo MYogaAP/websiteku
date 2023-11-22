@@ -64,7 +64,7 @@
             <div class="container px-5 my-5">
                 <div class="row gx-5 align-items-center">
                     <div class="col-lg-6"><img class="img-fluid rounded mb-5 mb-lg-0"
-                            src="https://dummyimage.com/600x400/343a40/6c757d" alt="..." /></div>
+                            src="{{ asset('images/DaftarAkun.gif') }}" alt="..." /></div>
                     <div class="col-lg-6">
                         <h2 class="fw-bolder">1. Membuat Akun</h2>
                         <p class="lead fw-normal text-muted mb-0">Buatlah akun pribadi terlebih dahulu di platform kami.
@@ -79,7 +79,7 @@
             <div class="container px-5 my-5">
                 <div class="row gx-5 align-items-center">
                     <div class="col-lg-6 order-first order-lg-last"><img class="img-fluid rounded mb-5 mb-lg-0"
-                            src="https://dummyimage.com/600x400/343a40/6c757d" alt="..." /></div>
+                            src="{{ asset('images/Pesan1.gif') }}" alt="..." /></div>
                     <div class="col-lg-6">
                         <h2 class="fw-bolder">2. Pesan Jasa</h2>
                         <p class="lead fw-normal text-muted mb-0">Pesan jasa iklan sekarang. Isi formulir dengan
@@ -93,7 +93,7 @@
             <div class="container px-5 my-5">
                 <div class="row gx-5 align-items-center">
                     <div class="col-lg-6"><img class="img-fluid rounded mb-5 mb-lg-0"
-                            src="https://dummyimage.com/600x400/343a40/6c757d" alt="..." /></div>
+                            src="{{ asset('images/Pesan2.gif') }}" alt="..." /></div>
                     <div class="col-lg-6">
                         <h2 class="fw-bolder">3. Pilih Paket</h2>
                         <p class="lead fw-normal text-muted mb-0">Pilihlah paket iklan yang cocok dengan kebutuhan
@@ -108,7 +108,7 @@
             <div class="container px-5 my-5">
                 <div class="row gx-5 align-items-center">
                     <div class="col-lg-6 order-first order-lg-last"><img class="img-fluid rounded mb-5 mb-lg-0"
-                            src="https://dummyimage.com/600x400/343a40/6c757d" alt="..." /></div>
+                            src="{{ asset('images/BayarPesanan.gif') }}" alt="..." /></div>
                     <div class="col-lg-6">
                         <h2 class="fw-bolder">4. Bayar Pesanan</h2>
                         <p class="lead fw-normal text-muted mb-0">Lakukan pembayaran untuk pesanan Anda dengan mudah dan
