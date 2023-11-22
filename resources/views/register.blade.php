@@ -93,6 +93,24 @@
                                         class="form-control form-control-lg" aria-describedby="passwordHelpBlock"
                                         required>
                                 </div>
+                                @if (isset($errors_msg))
+                                    @foreach ($errors_msg as $error)
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            @foreach ($error as $msg)
+                                                {{ $msg }} <br>
+                                            @endforeach
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                @if (isset($message))
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        {{ $message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                @endif
                                 <div class="pt-1 mb-4">
                                     <button class="btn btn-dark btn-lg btn-block w-100"
                                         style="background-color: #1450A3" type="submit">Daftar</button>
@@ -104,6 +122,7 @@
                                         class="fw-bold" style="color: #393f81; text-decoration: none;">Masuk
                                         Sekarang</a></span>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -111,26 +130,7 @@
         </div>
     </section>
 
-    @if (isset($errors_msg))
-        <div class="row align-items-center justify-content-center" style="margin: -3.5rem">
-            @foreach ($errors_msg as $error)
-                <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
-                    @foreach ($error as $msg)
-                        {{ $msg }} <br>
-                    @endforeach
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endforeach
-        </div>
-    @endif
-    @if (isset($message))
-        <div class="row align-items-center justify-content-center" style="margin: -3.5rem">
-            <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
-                {{ $message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        </div>
-    @endif
+
 
     <script>
         var password = document.getElementById("password");
