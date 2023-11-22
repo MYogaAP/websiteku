@@ -175,326 +175,328 @@
                                     </thead>
                                     <tbody>
                                         @isset($response)
-                                        @foreach ($response->data as $order)
-                                            @if ($order->status_pembayaran == 'Belum Lunas')
-                                                @php
-                                                    $curl = curl_init();
-                                                    curl_setopt_array($curl, [
-                                                        CURLOPT_URL => 'https://api.xendit.co/v2/invoices/' . $order->invoice_id,
-                                                        CURLOPT_RETURNTRANSFER => true,
-                                                        CURLOPT_ENCODING => '',
-                                                        CURLOPT_MAXREDIRS => 10,
-                                                        CURLOPT_TIMEOUT => 0,
-                                                        CURLOPT_FOLLOWLOCATION => true,
-                                                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                                        CURLOPT_CUSTOMREQUEST => 'GET',
-                                                        CURLOPT_HTTPHEADER => ['Authorization: Basic ' . config('xendit.key')],
-                                                    ]);
-                                                    $invoice_data = curl_exec($curl);
-                                                    $invoice_data = json_decode($invoice_data);
-                                                    curl_close($curl);
+                                            @foreach ($response->data as $order)
+                                                @if ($order->status_pembayaran == 'Belum Lunas')
+                                                    @php
+                                                        $curl = curl_init();
+                                                        curl_setopt_array($curl, [
+                                                            CURLOPT_URL => 'https://api.xendit.co/v2/invoices/' . $order->invoice_id,
+                                                            CURLOPT_RETURNTRANSFER => true,
+                                                            CURLOPT_ENCODING => '',
+                                                            CURLOPT_MAXREDIRS => 10,
+                                                            CURLOPT_TIMEOUT => 0,
+                                                            CURLOPT_FOLLOWLOCATION => true,
+                                                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                                            CURLOPT_CUSTOMREQUEST => 'GET',
+                                                            CURLOPT_HTTPHEADER => ['Authorization: Basic ' . config('xendit.key')],
+                                                        ]);
+                                                        $invoice_data = curl_exec($curl);
+                                                        $invoice_data = json_decode($invoice_data);
+                                                        curl_close($curl);
 
-                                                    if (isset($invoice_data->status)) {
-                                                        if ($invoice_data->status == 'PAID' || $invoice_data->status == 'SETTLED') {
-                                                            $curl = curl_init();
-                                                            curl_setopt_array($curl, [
-                                                                CURLOPT_URL => gethostname() . '/websiteku/public/api/UpdatePayedOrder/' . $order->order_id,
-                                                                CURLOPT_RETURNTRANSFER => true,
-                                                                CURLOPT_ENCODING => '',
-                                                                CURLOPT_MAXREDIRS => 10,
-                                                                CURLOPT_TIMEOUT => 0,
-                                                                CURLOPT_FOLLOWLOCATION => true,
-                                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                                                CURLOPT_CUSTOMREQUEST => 'PATCH',
-                                                                CURLOPT_HTTPHEADER => ['Accept: application/json', 'Authorization: Bearer ' . Cookie::get('auth')],
-                                                            ]);
-                                                            $update = curl_exec($curl);
-                                                            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                                                            curl_close($curl);
+                                                        if (isset($invoice_data->status)) {
+                                                            if ($invoice_data->status == 'PAID' || $invoice_data->status == 'SETTLED') {
+                                                                $curl = curl_init();
+                                                                curl_setopt_array($curl, [
+                                                                    CURLOPT_URL => gethostname() . '/websiteku/public/api/UpdatePayedOrder/' . $order->order_id,
+                                                                    CURLOPT_RETURNTRANSFER => true,
+                                                                    CURLOPT_ENCODING => '',
+                                                                    CURLOPT_MAXREDIRS => 10,
+                                                                    CURLOPT_TIMEOUT => 0,
+                                                                    CURLOPT_FOLLOWLOCATION => true,
+                                                                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                                                    CURLOPT_CUSTOMREQUEST => 'PATCH',
+                                                                    CURLOPT_HTTPHEADER => ['Accept: application/json', 'Authorization: Bearer ' . Cookie::get('auth')],
+                                                                ]);
+                                                                $update = curl_exec($curl);
+                                                                $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                                                curl_close($curl);
 
-                                                            if ($http_status == 401) {
-                                                                setcookie('auth', '', time() - 3600, '/');
-                                                                $request->session()->flush();
-                                                                header('Location: ' . route('loginPage'), true, 302);
-                                                                exit();
-                                                            }
-                                                            $order->status_pembayaran = 'Lunas';
-                                                            $order->status_iklan = 'Sedang Diproses';
-                                                        } elseif ($invoice_data->status == "EXPIRED" && ($order->status_pembayaran != "Pembayaran Kedaluwarsa" || $order->status_pembayaran != "Dibatalkan")) {
-                                                            $desk_up = 'Waktu pembayaran habis.';
-                                                            $curl = curl_init();
-                                                            curl_setopt_array($curl, [
-                                                                CURLOPT_URL => gethostname() . '/websiteku/public/api/CancelOrder/' . $order->order_id.'/exp',
-                                                                CURLOPT_RETURNTRANSFER => true,
-                                                                CURLOPT_ENCODING => '',
-                                                                CURLOPT_MAXREDIRS => 10,
-                                                                CURLOPT_TIMEOUT => 0,
-                                                                CURLOPT_FOLLOWLOCATION => true,
-                                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                                                CURLOPT_CUSTOMREQUEST => 'POST',
-                                                                CURLOPT_POSTFIELDS =>
-                                                                '{
-                                                                    "detail_kemajuan": "' .$desk_up .'"
+                                                                if ($http_status == 401) {
+                                                                    setcookie('auth', '', time() - 3600, '/');
+                                                                    $request->session()->flush();
+                                                                    header('Location: ' . route('loginPage'), true, 302);
+                                                                    exit();
+                                                                }
+                                                                $order->status_pembayaran = 'Lunas';
+                                                                $order->status_iklan = 'Sedang Diproses';
+                                                            } elseif ($invoice_data->status == 'EXPIRED' && ($order->status_pembayaran != 'Pembayaran Kedaluwarsa' || $order->status_pembayaran != 'Dibatalkan')) {
+                                                                $desk_up = 'Waktu pembayaran habis.';
+                                                                $curl = curl_init();
+                                                                curl_setopt_array($curl, [
+                                                                    CURLOPT_URL => gethostname() . '/websiteku/public/api/CancelOrder/' . $order->order_id . '/exp',
+                                                                    CURLOPT_RETURNTRANSFER => true,
+                                                                    CURLOPT_ENCODING => '',
+                                                                    CURLOPT_MAXREDIRS => 10,
+                                                                    CURLOPT_TIMEOUT => 0,
+                                                                    CURLOPT_FOLLOWLOCATION => true,
+                                                                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                                                    CURLOPT_CUSTOMREQUEST => 'POST',
+                                                                    CURLOPT_POSTFIELDS =>
+                                                                        '{
+                                                                    "detail_kemajuan": "' .
+                                                                        $desk_up .
+                                                                        '"
                                                                 }',
-                                                                CURLOPT_HTTPHEADER => ['Accept: application/json', 'Content-Type: application/json', 'Authorization: Bearer ' . Cookie::get('auth')],
-                                                            ]);
-                                                            $cancel = curl_exec($curl);
-                                                            $cancel = json_decode($cancel);
-                                                            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                                                            curl_close($curl);
+                                                                    CURLOPT_HTTPHEADER => ['Accept: application/json', 'Content-Type: application/json', 'Authorization: Bearer ' . Cookie::get('auth')],
+                                                                ]);
+                                                                $cancel = curl_exec($curl);
+                                                                $cancel = json_decode($cancel);
+                                                                $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                                                curl_close($curl);
 
-                                                            if ($http_status == 401) {
-                                                                setcookie('auth', '', time() - 3600, '/');
-                                                                $request->session()->flush();
-                                                                header('Location: ' . route('loginPage'), true, 302);
-                                                                exit();
+                                                                if ($http_status == 401) {
+                                                                    setcookie('auth', '', time() - 3600, '/');
+                                                                    $request->session()->flush();
+                                                                    header('Location: ' . route('loginPage'), true, 302);
+                                                                    exit();
+                                                                }
+                                                                $order->status_pembayaran = 'Pembayaran Kedaluwarsa';
+                                                                $order->status_iklan = 'Dibatalkan';
+                                                                $order->foto_iklan = 'none';
                                                             }
-                                                            $order->status_pembayaran = 'Pembayaran Kedaluwarsa';
-                                                            $order->status_iklan = 'Dibatalkan';
-                                                            $order->foto_iklan = 'none';
                                                         }
+                                                    @endphp
+                                                @endif
+                                                @php
+                                                    if (isset($response)) {
+                                                        $start = now()
+                                                            ->parse($order->mulai_iklan)
+                                                            ->format('d-M-Y');
+                                                        $end = now()
+                                                            ->parse($order->akhir_iklan)
+                                                            ->format('d-M-Y');
                                                     }
                                                 @endphp
-                                            @endif
-                                            @php
-                                                if(isset($order_list)){
-                                                    $start = now()->parse($order->mulai_iklan)->format('d-M-Y');
-                                                    $end = now()->parse($order->akhir_iklan)->format('d-M-Y');
-                                                }
-                                            @endphp
-                                            <tr>
-                                                <td>
-                                                    <div class="container p-2">
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p>No. Order</p>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <p>:
-                                                                    @if (isset($order->nomor_order))
-                                                                        {{ $order->nomor_order }}
-                                                                    @else
-                                                                        {{ '--------------------' }}
-                                                                    @endif
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p>No. Seri</p>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <p>:
-                                                                    @if (isset($order->nomor_seri))
-                                                                        {{ $order->nomor_seri }}
-                                                                    @else
-                                                                        {{ '--------------------' }}
-                                                                    @endif
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p>No. Invoice</p>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <p>:
-                                                                    @if (isset($order->nomor_invoice))
-                                                                        {{ $order->nomor_invoice }}
-                                                                    @else
-                                                                        {{ '--------------------' }}
-                                                                    @endif
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p>Invoice</p>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <p>:
-                                                                    @if (isset($order->invoice_id))
-                                                                        <a href="{{ $xendit_link . $order->invoice_id }}"
-                                                                            target="_blank">{{ $order->invoice_id }}</a>
-                                                                    @else
-                                                                        {{ '--------------------' }}
-                                                                    @endif
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="container p-2">
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p>Nama Instansi</p>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <p>: {{ $order->nama_instansi }}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p>Ukuran Iklan</p>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <p>: {{ $order->tinggi }} x {{ $order->kolom }} mmk
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p>Tanggal Penerbitan</p>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <p>: {{ $start }} hingga
-                                                                    {{ $end }}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p>Lama Terbit</p>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <p>: {{ $order->lama_hari }} Hari</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p>Harga Paket</p>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <p>: Rp. @money($order->harga_paket) / Hari</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p>Harga Total</p>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <p>: Rp. @money($order->harga_paket * $order->lama_hari)</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p>Status Iklan</p>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <p
-                                                                    class="
-                                                                    @if($order->status_iklan == "Telah Tayang")
-                                                                        {{'text-success'}}
-                                                                    @elseif($order->status_iklan == "Menunggu Pembayaran")
-                                                                        {{'text-secondary'}}
-                                                                    @elseif($order->status_iklan == "Dibatalkan")
-                                                                        {{'text-danger'}}
-                                                                    @else
-                                                                        {{'text-primary'}}
-                                                                    @endif
-                                                                    ">
-                                                                    : {{ $order->status_iklan }}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p>Status Pembayaran</p>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <p
-                                                                    class="
-                                                                    @if($order->status_pembayaran == "Lunas")
-                                                                        {{'text-success'}}
-                                                                    @elseif($order->status_pembayaran == "Belum Lunas")
-                                                                        {{'text-secondary'}}
-                                                                    @elseif($order->status_pembayaran == "Dibatalkan" || $order->status_pembayaran == "Pembayaran Kedaluwarsa")
-                                                                        {{'text-danger'}}
-                                                                    @else
-                                                                        {{'text-primary'}}
-                                                                    @endif
-                                                                    ">
-                                                                    : {{ $order->status_pembayaran }}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p>Deskripsi Iklan</p>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <p>: {{ $order->deskripsi_iklan }}</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">
-                                                    <div class="container"
-                                                        style="max-height: 18.5rem; width: 15rem; overflow: hidden">
-                                                        @if ($order->foto_iklan == 'none')
-                                                            <a href="{{ asset('images/logo.jpeg') }}"
-                                                                target="_blank">
-                                                                <img src="{{ asset('images/logo.jpeg') }}"
-                                                                    class="card-img-top" alt=""
-                                                                    style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
-                                                            </a>
-                                                        @else
-                                                            <a href="{{ asset('storage/image/' . $order->foto_iklan) }}"
-                                                                target="_blank">
-                                                                <img src="{{ asset('storage/image/' . $order->foto_iklan) }}"
-                                                                    class="card-img-top" alt=""
-                                                                    style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
-                                                            </a>
-                                                        @endif
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    @if ($order->status_pembayaran != 'Dibatalkan')
-                                                        @if ($order->status_iklan != 'Telah Tayang')
-                                                            <div class="dropdown mb-4 text-center">
-                                                                <button class="btn btn-primary " type="button"
-                                                                    id="dropdownMenuButton" data-toggle="dropdown"
-                                                                    aria-haspopup="true" aria-expanded="false">
-                                                                    <i class="fas fa-pen-nib"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu animated--fade-in"
-                                                                    aria-labelledby="dropdownMenuButton">
-                                                                    @if ($order->status_pembayaran == 'Menunggu Konfirmasi')
-                                                                        <button id="TerimaOrderBtn"
-                                                                            class="dropdown-item text-primary"
-                                                                            data-toggle="modal"
-                                                                            data-target="#TerimaOrder"
-                                                                            data-id="{{ $order->order_id }}">
-                                                                            Terima Order</button>
-                                                                        <button id="TolakOrderBtn"
-                                                                            class="dropdown-item text-danger"
-                                                                            data-toggle="modal"
-                                                                            data-target="#TolakOrder"
-                                                                            data-id="{{ $order->order_id }}">
-                                                                            Tolak Order</button>
-                                                                    @elseif ($order->status_pembayaran == 'Belum Lunas')
-                                                                        <button id="BatalkanOrderBtn"
-                                                                            class="dropdown-item text-danger"
-                                                                            data-toggle="modal"
-                                                                            data-target="#BatalkanOrder"
-                                                                            data-id="{{ $order->order_id }}"
-                                                                            data-xenid="{{ $order->invoice_id }}">
-                                                                            Batalkan Order</button>
-                                                                    @elseif ($order->status_pembayaran != 'Dibatalkan' || $order->status_pembayaran != 'Pembayaran Kedaluwarsa')
-                                                                        <button id="PublishedOrderBtn"
-                                                                            class="dropdown-item text-primary"
-                                                                            data-toggle="modal"
-                                                                            data-target="#PublishedOrder"
-                                                                            data-id="{{ $order->order_id }}">
-                                                                            Telah Tayang</button>
-                                                                    @endif
+                                                <tr>
+                                                    <td>
+                                                        <div class="container p-2">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>No. Order</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>:
+                                                                        @if (isset($order->nomor_order))
+                                                                            {{ $order->nomor_order }}
+                                                                        @else
+                                                                            {{ '--------------------' }}
+                                                                        @endif
+                                                                    </p>
                                                                 </div>
                                                             </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>No. Seri</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>:
+                                                                        @if (isset($order->nomor_seri))
+                                                                            {{ $order->nomor_seri }}
+                                                                        @else
+                                                                            {{ '--------------------' }}
+                                                                        @endif
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>No. Invoice</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>:
+                                                                        @if (isset($order->nomor_invoice))
+                                                                            {{ $order->nomor_invoice }}
+                                                                        @else
+                                                                            {{ '--------------------' }}
+                                                                        @endif
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Invoice</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>:
+                                                                        @if (isset($order->invoice_id))
+                                                                            <a href="{{ $xendit_link . $order->invoice_id }}"
+                                                                                target="_blank">{{ $order->invoice_id }}</a>
+                                                                        @else
+                                                                            {{ '--------------------' }}
+                                                                        @endif
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="container p-2">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Nama Instansi</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>: {{ $order->nama_instansi }}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Ukuran Iklan</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>: {{ $order->tinggi }} x {{ $order->kolom }} mmk
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Tanggal Penerbitan</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>: {{ $start }} hingga
+                                                                        {{ $end }}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Lama Terbit</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>: {{ $order->lama_hari }} Hari</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Harga Paket</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>: Rp. @money($order->harga_paket) / Hari</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Harga Total</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>: Rp. @money($order->harga_paket * $order->lama_hari)</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Status Iklan</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p
+                                                                        class="
+                                                                    @if ($order->status_iklan == 'Telah Tayang') {{ 'text-success' }}
+                                                                    @elseif($order->status_iklan == 'Menunggu Pembayaran')
+                                                                        {{ 'text-secondary' }}
+                                                                    @elseif($order->status_iklan == 'Dibatalkan')
+                                                                        {{ 'text-danger' }}
+                                                                    @else
+                                                                        {{ 'text-primary' }} @endif
+                                                                    ">
+                                                                        : {{ $order->status_iklan }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Status Pembayaran</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p
+                                                                        class="
+                                                                    @if ($order->status_pembayaran == 'Lunas') {{ 'text-success' }}
+                                                                    @elseif($order->status_pembayaran == 'Belum Lunas')
+                                                                        {{ 'text-secondary' }}
+                                                                    @elseif($order->status_pembayaran == 'Dibatalkan' || $order->status_pembayaran == 'Pembayaran Kedaluwarsa')
+                                                                        {{ 'text-danger' }}
+                                                                    @else
+                                                                        {{ 'text-primary' }} @endif
+                                                                    ">
+                                                                        : {{ $order->status_pembayaran }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Deskripsi Iklan</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>: {{ $order->deskripsi_iklan }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="container"
+                                                            style="max-height: 18.5rem; width: 15rem; overflow: hidden">
+                                                            @if ($order->foto_iklan == 'none')
+                                                                <a href="{{ asset('images/logo.jpeg') }}"
+                                                                    target="_blank">
+                                                                    <img src="{{ asset('images/logo.jpeg') }}"
+                                                                        class="card-img-top" alt=""
+                                                                        style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
+                                                                </a>
+                                                            @else
+                                                                <a href="{{ asset('storage/image/' . $order->foto_iklan) }}"
+                                                                    target="_blank">
+                                                                    <img src="{{ asset('storage/image/' . $order->foto_iklan) }}"
+                                                                        class="card-img-top" alt=""
+                                                                        style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
+                                                                </a>
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        @if ($order->status_pembayaran != 'Dibatalkan')
+                                                            @if ($order->status_iklan != 'Telah Tayang')
+                                                                <div class="dropdown mb-4 text-center">
+                                                                    <button class="btn btn-primary " type="button"
+                                                                        id="dropdownMenuButton" data-toggle="dropdown"
+                                                                        aria-haspopup="true" aria-expanded="false">
+                                                                        <i class="fas fa-pen-nib"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu animated--fade-in"
+                                                                        aria-labelledby="dropdownMenuButton">
+                                                                        @if ($order->status_pembayaran == 'Menunggu Konfirmasi')
+                                                                            <button id="TerimaOrderBtn"
+                                                                                class="dropdown-item text-primary"
+                                                                                data-toggle="modal"
+                                                                                data-target="#TerimaOrder"
+                                                                                data-id="{{ $order->order_id }}">
+                                                                                Terima Order</button>
+                                                                            <button id="TolakOrderBtn"
+                                                                                class="dropdown-item text-danger"
+                                                                                data-toggle="modal"
+                                                                                data-target="#TolakOrder"
+                                                                                data-id="{{ $order->order_id }}">
+                                                                                Tolak Order</button>
+                                                                        @elseif ($order->status_pembayaran == 'Belum Lunas')
+                                                                            <button id="BatalkanOrderBtn"
+                                                                                class="dropdown-item text-danger"
+                                                                                data-toggle="modal"
+                                                                                data-target="#BatalkanOrder"
+                                                                                data-id="{{ $order->order_id }}"
+                                                                                data-xenid="{{ $order->invoice_id }}">
+                                                                                Batalkan Order</button>
+                                                                        @elseif ($order->status_pembayaran != 'Dibatalkan' || $order->status_pembayaran != 'Pembayaran Kedaluwarsa')
+                                                                            <button id="PublishedOrderBtn"
+                                                                                class="dropdown-item text-primary"
+                                                                                data-toggle="modal"
+                                                                                data-target="#PublishedOrder"
+                                                                                data-id="{{ $order->order_id }}">
+                                                                                Telah Tayang</button>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            @endif
                                                         @endif
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         @endisset
                                     </tbody>
                                 </table>
@@ -522,7 +524,8 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form action="{{ route('DownloadExportOrderData') }}" class="user" method="POST" autocomplete="off">
+                <form action="{{ route('DownloadExportOrderData') }}" class="user" method="POST"
+                    autocomplete="off">
                     @method('POST')
                     @csrf
                     <div class="modal-body">
