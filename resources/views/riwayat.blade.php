@@ -123,11 +123,11 @@
                                             }
                                             $order->status_pembayaran = "Lunas";
                                             $order->status_iklan = "Sedang Diproses";
-                                        } elseif($invoice_data->status == "EXPIRED"){
+                                        } elseif($invoice_data->status == "EXPIRED" && ($order->status_pembayaran != "Pembayaran Kedaluwarsa" || $order->status_pembayaran != "Dibatalkan")){
                                             $desk_up = "Waktu pembayaran habis.";
                                             $curl = curl_init();
                                             curl_setopt_array($curl, array(
-                                            CURLOPT_URL => gethostname().'/websiteku/public/api/CancelOrder/'.$order->order_id,
+                                            CURLOPT_URL => gethostname().'/websiteku/public/api/CancelOrder/'.$order->order_id.'/exp',
                                             CURLOPT_RETURNTRANSFER => true,
                                             CURLOPT_ENCODING => '',
                                             CURLOPT_MAXREDIRS => 10,
@@ -155,13 +155,19 @@
                                                 header("Location: " . route('loginPage'), true, 302);
                                                 exit();
                                             }
-                                            $order->status_pembayaran = "Dibatalkan";
+                                            $order->status_pembayaran = "Pembayaran Kedaluwarsa";
                                             $order->status_iklan = "Dibatalkan";
                                             $order->foto_iklan = "none";
                                         }
                                     }
                                 @endphp
                             @endif
+                            @php
+                                if(isset($order_list)){
+                                    $start = now()->parse($order->mulai_iklan)->format('d-M-Y');
+                                    $end = now()->parse($order->akhir_iklan)->format('d-M-Y');
+                                }
+                            @endphp
                             <tr>
                                 <th scope="row">
                                     <p>
@@ -195,7 +201,7 @@
                                                 <p>Tanggal Penerbitan</p>
                                             </div>
                                             <div class="col-8">
-                                                <p>: {{$order->mulai_iklan}} hingga {{$order->akhir_iklan}}</p>
+                                                <p>: {{$start}} hingga {{$start}}</p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -225,8 +231,8 @@
                                     <p class="
                                         @if($order->status_iklan == "Telah Tayang")
                                             {{'text-success'}}
-                                        @elseif($order->status_iklan == "Menunggu Konfirmasi")
-                                            {{'text-secondary'}}
+                                        @elseif($order->status_iklan == "Menunggu Pembayaran")
+                                            {{'text-primary'}}
                                         @elseif($order->status_iklan == "Dibatalkan")
                                             {{'text-danger'}}
                                         @else
@@ -263,7 +269,7 @@
                                     @if($order->status_pembayaran == "Lunas")
                                         <p class="text-success">{{$order->status_pembayaran}}</p>
                                         <a href="{{isset($order->invoice_id)? $xendit_link.$order->invoice_id : "#"}}" class="text-decoration-none" target="_blank">Invoice Disini</a>
-                                    @elseif($order->status_pembayaran == "Dibatalkan")
+                                    @elseif($order->status_pembayaran == "Dibatalkan" || $order->status_pembayaran == "Pembayaran Kedaluwarsa")
                                         <p class="text-danger">{{$order->status_pembayaran}}</p>
                                     @elseif($order->status_pembayaran == "Menunggu Konfirmasi")
                                         <p class="text-secondary">{{$order->status_pembayaran}}</p>

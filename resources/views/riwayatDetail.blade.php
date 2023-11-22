@@ -83,15 +83,12 @@
         $invoice_data = json_decode($invoice_data);
         curl_close($curl);
         
-        if(isset($invoice_data->paid)){
-            $paid_date = now()->parse($invoice_data->paid_at)->format('d-M-Y');
-        }
         if(isset($invoice_data->expiry_date)){
             $expiry_date = now()->parse($invoice_data->expiry_date)->format('d-M-Y');
         }
         if(isset($data)){
             $start = now()->parse($data->mulai_iklan)->format('d-M-Y');
-            $end = now()->parse($data->mulai_iklan)->format('d-M-Y');
+            $end = now()->parse($data->akhir_iklan)->format('d-M-Y');
         }
         
         if(isset($invoice_data->status)){
@@ -123,11 +120,11 @@
                 }
                 $data->status_pembayaran = "Lunas";
                 $data->status_iklan = "Sedang Diproses";
-            } elseif($invoice_data->status == "EXPIRED" && $data->status_pembayaran != "Dibatalkan"){
+            } elseif($invoice_data->status == "EXPIRED" && ($data->status_pembayaran != "Pembayaran Kedaluwarsa" || $data->status_pembayaran != "Dibatalkan")){
                 $desk_up = "Waktu pembayaran habis.";
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
-                CURLOPT_URL => gethostname().'/websiteku/public/api/CancelOrder/'.$data->order_id,
+                CURLOPT_URL => gethostname().'/websiteku/public/api/CancelOrder/'.$data->order_id.'/exp',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -155,7 +152,7 @@
                     header("Location: " . route('loginPage'), true, 302);
                     exit();
                 }
-                $data->status_pembayaran = "Dibatalkan";
+                $data->status_pembayaran = "Pembayaran Kedaluwarsa";
                 $data->status_iklan = "Dibatalkan";
                 $data->foto_iklan = "none";
             }
@@ -198,15 +195,15 @@
             <p class="fw-bold">Nama Pemasang <span style="padding-left: 73px;">: {{$data->nama_instansi}}</span></p>
             <p class="fw-bold">Ukuran Iklan <span style="padding-left: 111px;">: {{$data->tinggi}} x {{$data->kolom}} mmk</span></p>
             <p class="fw-bold">Tanggal Penerbitan <span style="padding-left: 55px;">: {{$start}} hingga {{$end}}</span></p>
-            <p class="fw-bold">Nilai Iklan <span style="padding-left: 135px;">: {{$data->harga_paket}}</span></p>
+            <p class="fw-bold">Nilai Iklan <span style="padding-left: 135px;">: Rp. @money($data->harga_paket)</span></p>
             <p class="fw-bold">
-                Waktu Pembayaran <span style="padding-left: 55px;">: {{isset($paid_date)?$paid_date:"-"}} </span>
+                Waktu Pembayaran <span style="padding-left: 55px;">: {{isset($data->tanggal_pembayaran)?$data->tanggal_pembayaran:"-"}} </span>
                 <span class="
-                    @if($data->status_pembayaran == "Telah Tayang")
+                    @if($data->status_pembayaran == "Lunas")
                         {{'text-success'}}
-                    @elseif($data->status_pembayaran == "Menunggu Konfirmasi")
-                        {{'text-secondary'}}
-                    @elseif($data->status_pembayaran == "Dibatalkan")
+                    @elseif($data->status_pembayaran == "Belum Lunas")
+                        {{'text-primary'}}
+                    @elseif($data->status_pembayaran == "Dibatalkan" || $data->status_pembayaran == "Pembayaran Kedaluwarsa")
                         {{'text-danger'}}
                     @else
                         {{'text-secondary'}}
@@ -230,7 +227,21 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="text-center">Pengumuman Terbit: {{$start}} hingga {{$end}}</td>
+                    <td class="text-center">
+                        Pengumuman Terbit: {{$start}} hingga {{$end}}
+                        <p class="
+                        @if($data->status_iklan == "Telah Tayang")
+                            {{'text-success'}}
+                        @elseif($data->status_iklan == "Menunggu Pembayaran")
+                            {{'text-primary'}}
+                        @elseif($data->status_iklan == "Dibatalkan")
+                            {{'text-danger'}}
+                        @else
+                            {{'text-secondary'}}
+                        @endif
+                        ">
+                        {{$data->status_iklan}}</p>
+                    </td>
                     <td class="text-center">{{$data->tinggi}} x {{$data->kolom}} mmk</td>
                     <td class="text-center"> @money($data->harga_paket)</td>
                     <td class="text-center"> @money($data->harga_paket * $data->lama_hari)</td>
@@ -262,7 +273,7 @@
         <div class="row mt-1 justify-content-md-start text-start" style="font-size: 15px">
             <p class="fw-bold col-sm-7"></p>
             <p class="fw-bold col-sm-2">JATUH TEMPO</p>
-            <p class="fw-bold col-sm-auto">: {{$expiry_date}}</p>
+            <p class="fw-bold col-sm-auto">: {{isset($expiry_date)? $expiry_date : "-"}}</p>
         </div>
     </div>
     

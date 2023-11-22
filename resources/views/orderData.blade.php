@@ -220,11 +220,11 @@
                                                             }
                                                             $order->status_pembayaran = 'Lunas';
                                                             $order->status_iklan = 'Sedang Diproses';
-                                                        } elseif ($invoice_data->status == 'EXPIRED') {
+                                                        } elseif ($invoice_data->status == "EXPIRED" && ($order->status_pembayaran != "Pembayaran Kedaluwarsa" || $order->status_pembayaran != "Dibatalkan")) {
                                                             $desk_up = 'Waktu pembayaran habis.';
                                                             $curl = curl_init();
                                                             curl_setopt_array($curl, [
-                                                                CURLOPT_URL => gethostname() . '/websiteku/public/api/CancelOrder/' . $order->order_id,
+                                                                CURLOPT_URL => gethostname() . '/websiteku/public/api/CancelOrder/' . $order->order_id.'/exp',
                                                                 CURLOPT_RETURNTRANSFER => true,
                                                                 CURLOPT_ENCODING => '',
                                                                 CURLOPT_MAXREDIRS => 10,
@@ -233,11 +233,9 @@
                                                                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                                                                 CURLOPT_CUSTOMREQUEST => 'POST',
                                                                 CURLOPT_POSTFIELDS =>
-                                                                    '{
-                                                            "detail_kemajuan": "' .
-                                                                    $desk_up .
-                                                                    '"
-                                                        }',
+                                                                '{
+                                                                    "detail_kemajuan": "' .$desk_up .'"
+                                                                }',
                                                                 CURLOPT_HTTPHEADER => ['Accept: application/json', 'Content-Type: application/json', 'Authorization: Bearer ' . Cookie::get('auth')],
                                                             ]);
                                                             $cancel = curl_exec($curl);
@@ -251,13 +249,19 @@
                                                                 header('Location: ' . route('loginPage'), true, 302);
                                                                 exit();
                                                             }
-                                                            $order->status_pembayaran = 'Dibatalkan';
+                                                            $order->status_pembayaran = 'Pembayaran Kedaluwarsa';
                                                             $order->status_iklan = 'Dibatalkan';
                                                             $order->foto_iklan = 'none';
                                                         }
                                                     }
                                                 @endphp
                                             @endif
+                                            @php
+                                                if(isset($order_list)){
+                                                    $start = now()->parse($order->mulai_iklan)->format('d-M-Y');
+                                                    $end = now()->parse($order->akhir_iklan)->format('d-M-Y');
+                                                }
+                                            @endphp
                                             <tr>
                                                 <td>
                                                     <div class="container p-2">
@@ -344,8 +348,8 @@
                                                                 <p>Tanggal Penerbitan</p>
                                                             </div>
                                                             <div class="col-8">
-                                                                <p>: {{ $order->mulai_iklan }} hingga
-                                                                    {{ $order->akhir_iklan }}</p>
+                                                                <p>: {{ $start }} hingga
+                                                                    {{ $end }}</p>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -378,13 +382,17 @@
                                                             </div>
                                                             <div class="col-8">
                                                                 <p
-                                                                    class="@if ($order->status_iklan == 'Dibatalkan') {{ 'text-danger' }}
-                                                                @elseif($order->status_iklan == 'Telah Tayang')
-                                                                    {{ 'text-success' }}
-                                                                @elseif ($order->status_iklan == 'Menunggu Pembayaran')
-                                                                    {{ 'text-secondary' }}
-                                                                @else
-                                                                    {{ 'text-primary' }} @endif">
+                                                                    class="
+                                                                    @if($order->status_iklan == "Telah Tayang")
+                                                                        {{'text-success'}}
+                                                                    @elseif($order->status_iklan == "Menunggu Pembayaran")
+                                                                        {{'text-secondary'}}
+                                                                    @elseif($order->status_iklan == "Dibatalkan")
+                                                                        {{'text-danger'}}
+                                                                    @else
+                                                                        {{'text-primary'}}
+                                                                    @endif
+                                                                    ">
                                                                     : {{ $order->status_iklan }}
                                                                 </p>
                                                             </div>
@@ -395,13 +403,17 @@
                                                             </div>
                                                             <div class="col-8">
                                                                 <p
-                                                                    class="@if ($order->status_pembayaran == 'Dibatalkan') {{ 'text-danger' }}
-                                                                @elseif($order->status_pembayaran == 'Telah Tayang')
-                                                                    {{ 'text-success' }}
-                                                                @elseif ($order->status_pembayaran == 'Belum Lunas')
-                                                                    {{ 'text-secondary' }}
-                                                                @else
-                                                                    {{ 'text-primary' }} @endif">
+                                                                    class="
+                                                                    @if($order->status_pembayaran == "Lunas")
+                                                                        {{'text-success'}}
+                                                                    @elseif($order->status_pembayaran == "Belum Lunas")
+                                                                        {{'text-secondary'}}
+                                                                    @elseif($order->status_pembayaran == "Dibatalkan" || $order->status_pembayaran == "Pembayaran Kedaluwarsa")
+                                                                        {{'text-danger'}}
+                                                                    @else
+                                                                        {{'text-primary'}}
+                                                                    @endif
+                                                                    ">
                                                                     : {{ $order->status_pembayaran }}
                                                                 </p>
                                                             </div>
@@ -468,7 +480,7 @@
                                                                             data-id="{{ $order->order_id }}"
                                                                             data-xenid="{{ $order->invoice_id }}">
                                                                             Batalkan Order</button>
-                                                                    @elseif ($order->status_pembayaran != 'Dibatalkan')
+                                                                    @elseif ($order->status_pembayaran != 'Dibatalkan' || $order->status_pembayaran != 'Pembayaran Kedaluwarsa')
                                                                         <button id="PublishedOrderBtn"
                                                                             class="dropdown-item text-primary"
                                                                             data-toggle="modal"

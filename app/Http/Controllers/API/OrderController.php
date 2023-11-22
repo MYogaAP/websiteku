@@ -354,4 +354,33 @@ class OrderController extends Controller
             'message' => 'Order gagal dibatalkan.',
         ], 404);
     }
+
+    function CancelExpiredOrder(Request $request, $order_id) {
+        try {
+            $cancelOrder = OrderData::with("OrderDetail")->findOrFail($order_id);
+        } catch (\Throwable $th) {
+            $errorMessage = "Order yang anda cari tidak ditemukan.";
+            throw new ModelNotFoundException($errorMessage);
+        }
+        $filePath = $cancelOrder->OrderDetail->foto_iklan;
+        $msg = "Dibatalkan oleh sistem.";
+
+        if (Storage::exists('\image\\'.$filePath)){            
+            $cancelOrder->OrderDetail->detail_kemajuan = isset($request->detail_kemajuan) ? $request->detail_kemajuan : $msg;
+            $cancelOrder->OrderDetail->status_iklan = $cancelOrder->OrderDetail->getStatusIklanValue('Dibatalkan');
+            $cancelOrder->OrderDetail->status_pembayaran =  $cancelOrder->OrderDetail->getStatusPembayaranValue('Pembayaran Kedaluwarsa');
+            $cancelOrder->OrderDetail->foto_iklan = 'none';
+            $cancelOrder->OrderDetail->save();
+            $cancelOrder->save();
+            Storage::delete('\image\\'.$filePath);
+
+            return response()->json([
+                'message' => 'Order telah berhasil dibatalkan.',
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Order gagal dibatalkan.',
+        ], 404);
+    }
 }
