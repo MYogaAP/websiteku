@@ -13,10 +13,9 @@ use App\Http\Controllers\CallAgentController;
 use App\Http\Controllers\CallOrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataLinkerController;
-use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
-    return view('login');
+    return view('landingPagePro');
 })->name('index');
 
 Route::get('landingPagePro', function () {
@@ -55,10 +54,6 @@ Route::get('/pemesanan', function () {
     return view('pemesanan');
 })->name('pemesanan');
 
-Route::get('/landingPageLogin', function () {
-    return view('landingPageLogin');
-})->name('landingPageLogin');
-
 Route::get('/uploadandview', function () {
     return view('uploadandview');
 })->name('uploadandview');
@@ -86,10 +81,6 @@ Route::get('/agentData', function () {
 Route::get('/riwayatDetail/{order_id}', function ($order_id) {
     return view('riwayatDetail', ['order_id' => $order_id]);
 })->name('riwayatDetail');
-
-Route::get('/landingPagePro', function () {
-    return view('landingPagePro');
-})->name('landingPagePro');
 
 Route::get('/profilePro', function () {
     return view('profilePro');

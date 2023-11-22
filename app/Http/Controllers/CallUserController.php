@@ -46,7 +46,7 @@ class CallUserController extends Controller
 
         Cookie::queue('auth', $response->auth, 720, null, null, false, true);
 
-        return view('landingPagePro');
+        return redirect()->route('loginPage');
     }
 
     function RegisterCall(Request $request) {
@@ -120,7 +120,7 @@ class CallUserController extends Controller
 
         if($http_status == 200){
             Cookie::queue('auth', $response->auth, 720, null, null, false, true);
-            return view('landingPageLogin');
+            return redirect()->route('loginPage');
         } else {
             return view('login')->with([
                 'error_msg' => "Terjadi suatu kesalahan!",
