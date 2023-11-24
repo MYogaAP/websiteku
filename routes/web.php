@@ -55,7 +55,7 @@ Route::get('/pemesanan', function () {
 })->name('pemesanan');
 
 Route::get('/uploadandview', function () {
-    return view('uploadandview');
+    return view('UploadAndView');
 })->name('uploadandview');
 
 Route::get('/panduan', function () {
@@ -75,7 +75,7 @@ Route::get('/orderData/{filter}', function () {
 })->name('orderDataFilter');
 
 Route::get('/agentData', function () {
-    return view('agentData');
+    return view('AgentData');
 })->name('agentData');
 
 Route::get('/riwayatDetail/{order_id}', function ($order_id) {

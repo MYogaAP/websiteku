@@ -276,6 +276,41 @@
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
+            document.getElementById('mulai_iklan').addEventListener('input', function (e) {
+                e.preventDefault();
+                validateDateRange();
+            });
+
+            document.getElementById('akhir_iklan').addEventListener('input', function (e) {
+                e.preventDefault();
+                validateDateRange();
+            });
+
+            function validateDateRange() {
+                var startDate = document.getElementById('mulai_iklan').value;
+                var endDate = document.getElementById('akhir_iklan').value;
+
+                if (startDate && endDate) {
+                    if (startDate > endDate) {
+                        let timerInterval;
+                        Swal.fire({
+                            title: 'Awas!',
+                            html: 'Tanggal Berakhir Tayang harus setelah Tanggal Mulai Tayang.',
+                            timer: 5000,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            },
+                            showCloseButton: true
+                        });
+                        document.getElementById('akhir_iklan').value = startDate;
+                    }
+                }
+            }
+            
             function validate(evt) {
                 var theEvent = evt || window.event;
 
