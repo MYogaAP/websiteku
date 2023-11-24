@@ -70,7 +70,7 @@
 
             $ukuran = session('ukuran_data');
             if (empty($ukuran)) {
-                header('Location: ' . route('landingPageLogin'), true, 302);
+                header('Location: ' . route('landingPagePro'), true, 302);
                 exit();
             }
         @endphp
@@ -173,7 +173,7 @@
                             <div class="card h-100">
                                 <!-- Product image-->
                                 <a href="{{ asset('storage/image_example/' . $packet->contoh_foto) }}" target="_blank" 
-                                style="width: 100%; height: 100%; border: 1px solid black;">
+                                style="width: 100%; height: 100%; border: 1px solid black; height: 21rem">
                                     <img class="card-img-top" src="{{ asset('storage/image_example/' . $packet->contoh_foto) }}"
                                     alt="..." style="object-fit: contain; width: 100%; height: 100%;"/>
                                 </a>

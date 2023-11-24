@@ -73,7 +73,7 @@
             $packet = session('packet_data');
             $auth = Cookie::get('auth');
             if (!isset($packet)) {
-                header('Location: ' . route('landingPageLogin'), true, 302);
+                header('Location: ' . route('landingPagePro'), true, 302);
                 exit();
             }
         @endphp

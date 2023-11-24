@@ -45,7 +45,7 @@
             $xendit_link = "https://checkout.xendit.co/v2/";
             $canceling = session('cancel');
         }else {
-            header("Location: " . route('landingPageLogin'), true, 302);
+            header("Location: " . route('landingPagePro'), true, 302);
             exit();
         }
     @endphp
