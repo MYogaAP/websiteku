@@ -125,8 +125,8 @@
                                 dan ####px.</label>
                             <br><label id="contact-text">Mohon upload ulang atau hubungi nomor dibawah :</label>
                         </p>
-                        <button type="button" class="btn btn-success btn-sm rounded-3">Contact Support <i
-                                class="fa-solid fa-phone mx-2"></i></button>
+                        <a href="https://wa.me/6282311904905" type="button" class="btn btn-success btn-sm rounded-3">Contact Support <i
+                                class="fa-solid fa-phone mx-2"></i></a>
                     </div>
                 </div>
             </div>
