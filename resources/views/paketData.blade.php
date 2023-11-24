@@ -205,10 +205,10 @@
                                                                             Hide Packet</button>
                                                                     @endif
                                                                 </form>
-                                                                <form action="{{route('HapusPaket', ['packet' => $list->packet_id])}}" method="post">
+                                                                <form action="{{route('HapusPaket', ['packet' => $list->packet_id])}}" method="post" id="FormDelPacket">
                                                                     @method("DELETE")
                                                                     @csrf
-                                                                    <button type="submit" class="dropdown-item">
+                                                                    <button type="submit" class="dropdown-item text-danger">
                                                                         Delete Packet</button>
                                                                 </form>
                                                             </div>
@@ -231,7 +231,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright &copy; Kerja Praktik - Universitas Lambung Mangkurat 2023</span>
                     </div>
                 </div>
             </footer>
@@ -327,6 +327,46 @@
                 if(theEvent.preventDefault) theEvent.preventDefault();
             }
         }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById("FormDelPacket").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const swal = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-outline-success",
+                    cancelButton: "btn btn-outline-danger",
+                    actions: "d-flex justify-content-center gap-3",
+                    container: "pe-4"
+                },
+                buttonsStyling: false
+            });
+
+            // Membuat Model
+            swal.fire({
+                title: "Apakah anda yakin?",
+                html: "Anda akan MENGHAPUS sebuah paket!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Teruskan",
+                cancelButtonText: "Batalkan",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('FormDelPacket').submit();
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swal.fire({
+                        title: "Aksi telah dibatalkan!",
+                        text: "Penghapusan paket dibatalkan.",
+                        icon: "error"
+                    });
+                }
+            });
+        });
     </script>
 
     <!-- Bootstrap core JavaScript-->

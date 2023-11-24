@@ -170,12 +170,12 @@
                                                                 data-id="{{$agent->user_id}}" data-nama="{{ $agent->name }}" data-username="{{ $agent->username }}" 
                                                                 data-email="{{$agent->email}}" data-nohp="{{isset($agent->no_hp) ? $agent->no_hp : ""}}" 
                                                                 data-pekerjaan="{{ isset($agent->pekerjaan) ? $agent->pekerjaan : "" }}">
-                                                                Edit Data</button>
-                                                            <form action="{{route('HapusAgent', ['agent' => $agent->user_id])}}" method="post">
+                                                                Edit Data Anggota</button>
+                                                            <form action="{{route('HapusAgent', ['agent' => $agent->user_id])}}" method="post" id="FormDelAgent">
                                                                 @method("DELETE")
                                                                 @csrf
-                                                                <button type="submit" class="dropdown-item">
-                                                                    Delete Packet</button>
+                                                                <button type="submit" class="dropdown-item text-danger">
+                                                                    Hapus Data Anggota</button>
                                                             </form>
                                                         </div>
                                                     </div>
@@ -197,7 +197,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright &copy; Kerja Praktik - Universitas Lambung Mangkurat 2023</span>
                     </div>
                 </div>
             </footer>
@@ -341,6 +341,46 @@
                 if(theEvent.preventDefault) theEvent.preventDefault();
             }
         }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById("FormDelAgent").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const swal = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-outline-success",
+                    cancelButton: "btn btn-outline-danger",
+                    actions: "d-flex justify-content-center gap-3",
+                    container: "pe-4"
+                },
+                buttonsStyling: false
+            });
+
+            // Membuat Model
+            swal.fire({
+                title: "Apakah anda yakin?",
+                html: "Anda akan MENGHAPUS seorang anggota biro iklan!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Teruskan",
+                cancelButtonText: "Batalkan",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('FormDelAgent').submit();
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swal.fire({
+                        title: "Aksi telah dibatalkan!",
+                        text: "Penghapusan anggota dibatalkan.",
+                        icon: "error"
+                    });
+                }
+            });
+        });
     </script>
 
     <!-- Bootstrap core JavaScript-->

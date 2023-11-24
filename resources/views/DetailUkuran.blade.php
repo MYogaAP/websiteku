@@ -224,7 +224,7 @@
     <!-- Footer-->
     <footer class="py-5 bg-dark">
         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
+            <p class="m-0 text-center text-white">Copyright &copy; Kerja Praktik - Universitas Lambung Mangkurat 2023</p>
         </div>
     </footer>
     <!-- Bootstrap core JS-->
