@@ -29,7 +29,7 @@ class RegisterController extends Controller
             'password' => [
                 'required',
                 'min:8',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_\-])[A-Za-z\d@$!%*?&_\-]+$/',
             ],
         ], [
             'username.required' => 'Kolom username wajib diisi.',
@@ -95,7 +95,7 @@ class RegisterController extends Controller
             'password' => [
                 'required',
                 'min:8',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_\-])[A-Za-z\d@$!%*?&_\-]+$/',
             ],
         ], [
             'username.required' => 'Kolom username wajib diisi.',
