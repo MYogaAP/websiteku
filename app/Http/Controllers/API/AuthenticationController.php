@@ -38,7 +38,7 @@ class AuthenticationController extends Controller
  
         if (!Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'user' => ['Data akun yang anda masukkan salah.'],
+                'user' => ['Password yang anda masukkan salah.'],
             ]);
         }
         
