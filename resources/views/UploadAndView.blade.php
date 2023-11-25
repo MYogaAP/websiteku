@@ -76,6 +76,29 @@
                 header('Location: ' . route('landingPagePro'), true, 302);
                 exit();
             }
+
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => '127.0.0.1/websiteku/public/api/CheckImage',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array(
+                'image'=> new CURLFILE(asset('images/logo.jpeg')),
+                'packet_id' => $packet['packet_id']
+            ),
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Authorization: Bearer '. Cookie::get('auth'),
+            ),
+            ));
+            $size = curl_exec($curl);
+            $size = json_decode($size);
+            curl_close($curl);
         @endphp
     @endif
 
@@ -122,19 +145,17 @@
                         <label class="btn btn-outline-primary" for="option2">Hitam Putih</label>
                     @endif
 
-                    <p id="status" class="mt-3" style="visibility: hidden">Status</p>
-                    <div id="status-border" class="border border-black text-center p-3 alert alert-warning"
-                        style="visibility: hidden">
-                        <p><label id="ukuran">Ukuran yang diupload tidak sesuai. Ukuran yang disarankan adalah ####px
-                                dan ####px.</label>
-                            <br><label id="contact-text">Mohon upload ulang atau hubungi nomor dibawah :</label>
+                    <p id="status" class="mt-3">Status</p>
+                    <div id="status-border" class="border border-black text-center p-3 alert alert-warning">
+                        <p><label id="ukuran">{{$size->message}}</label>
+                            <br><label id="contact-text">Jika ada masalah lain, hubungi nomor dibawah :</label>
                         </p>
                         <a href="https://wa.me/6282311904905" type="button" class="btn btn-success btn-sm rounded-3">Contact Support <i
                                 class="fa-solid fa-phone mx-2"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center">
+            {{-- <div class="row justify-content-center">
                 <div class="col-5" style="margin-top: -15px">
                     <div class="d-flex justify-content-between mt-5">
                         <div class="text-end">
@@ -148,8 +169,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            {{-- <div class="row gx-5 justify-content-center">
+            </div> --}}
+            <div class="row gx-5 justify-content-center mt-5">
                 <div class="col-lg-8 col-xl-6">
                     <div class="form-floating mb-3">
                         <div class="d-grid">
@@ -161,11 +182,12 @@
                 <div class="col-lg-8 col-xl-6">
                     <div class="form-floating mb-3">
                         <div class="d-grid">
-                            <input type="submit" id="submit-btn" class="btn btn-primary btn" value="Kirim Pesanan">
+                            <input type="submit" id="submit-btn" class="btn btn-primary btn" 
+                            value="Kirim Pesanan" disabled>
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
         </form>
     </div>
 
@@ -187,11 +209,11 @@
             const CONTACT = document.getElementById('contact-text');
 
             var subBtn = document.getElementById('submit-btn');
-            var statusText = document.getElementById('status');
+            // var statusText = document.getElementById('status');
             var statusBorder = document.getElementById('status-border');
             subBtn.disabled = true;
-            statusText.style.visibility = "hidden";
-            statusBorder.style.visibility = "hidden";
+            // statusText.style.visibility = "hidden";
+            // statusBorder.style.visibility = "hidden";
 
             var myHeaders = new Headers();
             myHeaders.append("Accept", "application/json");
@@ -215,18 +237,20 @@
                         RESULT.textContent = data.message;
                         CONTACT.textContent = "Jika ada masalah lain, hubungi nomor dibawah :"
                         subBtn.disabled = false;
-                        statusText.style.visibility = "visible";
-                        statusBorder.style.visibility = "visible";
+                        // statusText.style.visibility = "visible";
+                        // statusBorder.style.visibility = "visible";
                         statusBorder.classList.add("alert-success");
+                        statusBorder.classList.remove("alert-danger");
                         statusBorder.classList.remove("alert-warning");
                     } else {
                         RESULT.textContent = data.message;
                         CONTACT.textContent = "Mohon upload ulang atau hubungi nomor dibawah :"
                         subBtn.disabled = true;
-                        statusText.style.visibility = "visible";
-                        statusBorder.style.visibility = "visible";
-                        statusBorder.classList.add("alert-warning");
+                        // statusText.style.visibility = "visible";
+                        // statusBorder.style.visibility = "visible";
+                        statusBorder.classList.add("alert-danger");
                         statusBorder.classList.remove("alert-success");
+                        statusBorder.classList.remove("alert-warning");
                     }
                 })
                 .catch(error => console.error(error));
