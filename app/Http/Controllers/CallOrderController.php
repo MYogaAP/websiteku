@@ -378,6 +378,11 @@ class CallOrderController extends Controller
     $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE); 
     curl_close($curl);
 
+    if ($http_status == 404) {
+      $request->session()->put('danger', "Sebuah kesalahan terjadi.");
+      return redirect()->route('orderData'); 
+    }
+
     // DB
     $curl = curl_init();
     curl_setopt_array($curl, array(
