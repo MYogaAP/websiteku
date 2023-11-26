@@ -39,7 +39,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/AgentResponsibility', [OrderController::class, 'AgentResponsibilityOrders']);
         Route::get('/NeedConfirmation', [OrderController::class, 'NeedConfirmation']);
         Route::post('/UpdateOrder/{order_id}/{update_type}', [OrderController::class, 'UpdateOrder']);
-        Route::post('/UpdatePayedOrder/{order_id}', [OrderController::class, 'OrderPayed']);
+        Route::patch('/UpdatePayedOrder/{order_id}', [OrderController::class, 'OrderPayed']);
         Route::post('/ConfirmOrder/{order_id}/{update_type}', [OrderController::class, 'ConfirmOrder']);
         Route::get('/AgentOrderDetail/{order_id}', [OrderController::class, 'GetOrderDetailWithUser']);
     });
