@@ -42,7 +42,7 @@
     @php
         if(session("order_data")){
             $order_list = session("order_data");
-            $xendit_link = "https://checkout.xendit.co/v2/";
+            $xendit_link = "https://checkout-staging.xendit.co/v2/";
             $canceling = session('cancel');
         }else {
             header("Location: " . route('landingPagePro'), true, 302);
@@ -91,7 +91,7 @@
                                     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                                     CURLOPT_CUSTOMREQUEST => 'GET',
                                     CURLOPT_HTTPHEADER => array(
-                                        'Authorization: Basic '.config('xendit.key')
+                                        'Authorization: Basic '.config('xendit.test')
                                     ),
                                     ));
                                     $invoice_data = curl_exec($curl);

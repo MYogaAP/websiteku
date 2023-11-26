@@ -164,7 +164,7 @@
     </header>
     <!-- Section-->
     <section class="py-5">
-        <form action="{{ route('SimpanUkuran') }}" method="POST">
+        <form action="{{ route('SimpanUkuran') }}" method="POST" id="ukuranForm">
             @csrf
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -227,6 +227,26 @@
             <p class="m-0 text-center text-white">Copyright &copy; Kerja Praktik - Universitas Lambung Mangkurat 2023</p>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('ukuranForm');
+            var radioButtons = form.elements['data_paket'];
+            var submitButton = form.querySelector('input[type="submit"]');
+    
+            // Disable submit button by default
+            submitButton.disabled = true;
+    
+            // Add change event listener to radio buttons
+            for (var i = 0; i < radioButtons.length; i++) {
+                radioButtons[i].addEventListener('change', function () {
+                    // Enable submit button when a radio button is selected
+                    submitButton.disabled = false;
+                });
+            }
+        });
+    </script>
+
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->

@@ -24,7 +24,7 @@ class CallOrderController extends Controller
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => 'POST',
       CURLOPT_HTTPHEADER => array(
-        'Authorization: Basic '.config('xendit.key')
+        'Authorization: Basic '.config('xendit.test')
       ),
     ));
     $response = curl_exec($curl);
@@ -220,7 +220,7 @@ class CallOrderController extends Controller
     )),
     CURLOPT_HTTPHEADER => array(
       'Content-Type: application/json',
-      'Authorization: Basic '.config('xendit.key')
+      'Authorization: Basic '.config('xendit.test')
     )));
     $createInvoice = curl_exec($curl);
     $createInvoice = json_decode($createInvoice);
@@ -371,7 +371,7 @@ class CallOrderController extends Controller
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => 'POST',
       CURLOPT_HTTPHEADER => array(
-        'Authorization: Basic '.config('xendit.key')
+        'Authorization: Basic '.config('xendit.test')
       ),
     ));
     $response = curl_exec($curl);

@@ -81,7 +81,7 @@
             $response = json_decode($response);
             $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             curl_close($curl);
-            $xendit_link = 'https://checkout.xendit.co/v2/';
+            $xendit_link = 'https://checkout-staging.xendit.co/v2/';
 
             if ($http_status == 401 || $http_status == 500 || $http_status == 404) {
                 setcookie('auth', '', time() - 3600, '/');
@@ -191,7 +191,7 @@
                                                             CURLOPT_FOLLOWLOCATION => true,
                                                             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                                                             CURLOPT_CUSTOMREQUEST => 'GET',
-                                                            CURLOPT_HTTPHEADER => ['Authorization: Basic ' . config('xendit.key')],
+                                                            CURLOPT_HTTPHEADER => ['Authorization: Basic ' . config('xendit.test')],
                                                         ]);
                                                         $invoice_data = curl_exec($curl);
                                                         $invoice_data = json_decode($invoice_data);
