@@ -244,6 +244,13 @@
                     submitButton.disabled = false;
                 });
             }
+
+            if (radioButtons.length === null || radioButtons.length === undefined) {
+                radioButtons.addEventListener('change', function () {
+                    // Enable submit button when a radio button is selected
+                    submitButton.disabled = false;
+                });
+            }
         });
     </script>
 
