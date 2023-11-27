@@ -296,12 +296,12 @@
                                     placeholder="cth. RadarPaham_123Banua">
                             </div> --}}
                             <div class="mb-3">
-                                <label for="Edit_NoHP" class="form-label">No. HP</label>
+                                <label for="Edit_NoHP" class="form-label">No. HP<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="Edit_NoHP" name="nohp_anggota"
-                                    placeholder="cth. 081251839222" onkeypress='validate(event)'>
+                                    placeholder="cth. 081251839222" onkeypress='validate(event)' required>
                             </div>
                             <div class="mb-3">
-                                <label for="Edit_Pekerjaan" class="form-label">Pekerjaan</label>
+                                <label for="Edit_Pekerjaan" class="form-label">Pekerjaan<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="Edit_Pekerjaan" name="pekerjaan_anggota"
                                     placeholder="cth. Anggota Tim Iklan A" required>
                             </div>
