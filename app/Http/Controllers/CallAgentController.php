@@ -10,7 +10,7 @@ class CallAgentController extends Controller
     function AddTheAgent(Request $request) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => gethostname() . '/websiteku/public/api/AgentRegister',
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/AgentRegister',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -56,7 +56,7 @@ class CallAgentController extends Controller
     function UpdateTheAgent(Request $request) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => gethostname() .'/websiteku/public/api/AdminUpdateAgentProfile/'. $request->no_anggota,
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/AdminUpdateAgentProfile/'. $request->no_anggota,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -101,7 +101,7 @@ class CallAgentController extends Controller
     function DeleteTheAgent(Request $request, $agent) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => gethostname() . '/websiteku/public/api/DeleteAgent/'. $agent,
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/DeleteAgent/'. $agent,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,

@@ -39,7 +39,7 @@
         @php
             $curl = curl_init();
             curl_setopt_array($curl, [
-                CURLOPT_URL => gethostname().'/websiteku/public/api/AgentList',
+                CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/AgentList',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,

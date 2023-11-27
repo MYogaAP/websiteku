@@ -67,7 +67,7 @@
 
             $curl = curl_init();
             curl_setopt_array($curl, [
-                CURLOPT_URL => gethostname() . '/websiteku/public/api/' . $GetData,
+                CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/' . $GetData,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -201,7 +201,7 @@
                                                             if ($invoice_data->status == 'PAID' || $invoice_data->status == 'SETTLED') {
                                                                 $curl = curl_init();
                                                                 curl_setopt_array($curl, [
-                                                                    CURLOPT_URL => gethostname() . '/websiteku/public/api/UpdatePayedOrder/' . $order->order_id,
+                                                                    CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UpdatePayedOrder/' . $order->order_id,
                                                                     CURLOPT_RETURNTRANSFER => true,
                                                                     CURLOPT_ENCODING => '',
                                                                     CURLOPT_MAXREDIRS => 10,
@@ -227,7 +227,7 @@
                                                                 $desk_up = 'Waktu pembayaran habis.';
                                                                 $curl = curl_init();
                                                                 curl_setopt_array($curl, [
-                                                                    CURLOPT_URL => gethostname() . '/websiteku/public/api/CancelOrder/' . $order->order_id . '/exp',
+                                                                    CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/CancelOrder/' . $order->order_id . '/exp',
                                                                     CURLOPT_RETURNTRANSFER => true,
                                                                     CURLOPT_ENCODING => '',
                                                                     CURLOPT_MAXREDIRS => 10,

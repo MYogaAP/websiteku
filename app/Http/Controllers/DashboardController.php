@@ -11,7 +11,7 @@ class DashboardController extends Controller
     function AddNewPacket(Request $request) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => gethostname().'/websiteku/public/api/AddPacket',
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/AddPacket',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -56,7 +56,7 @@ class DashboardController extends Controller
     function HideThePacket(Request $request, $packet) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => gethostname().'/websiteku/public/api/HidePacket/'.$packet,
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/HidePacket/'.$packet,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -93,7 +93,7 @@ class DashboardController extends Controller
     function UnhideThePacket(Request $request, $packet) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => gethostname().'/websiteku/public/api/UnHidePacket/'.$packet,
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UnHidePacket/'.$packet,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -129,7 +129,7 @@ class DashboardController extends Controller
     function DeleteThePacket(Request $request, $packet) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => gethostname().'/websiteku/public/api/DeletePacket/'.$packet,
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/DeletePacket/'.$packet,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,

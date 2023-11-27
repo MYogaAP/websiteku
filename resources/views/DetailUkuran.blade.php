@@ -43,7 +43,7 @@
         @php
             $curl = curl_init();
             curl_setopt_array($curl, [
-                CURLOPT_URL => gethostname() . '/websiteku/public/api/UserCheck',
+                CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UserCheck',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,

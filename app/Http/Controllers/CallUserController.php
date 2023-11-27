@@ -13,10 +13,8 @@ class CallUserController extends Controller
 {
     function LoginCall(Request $request) {
         $curl = curl_init();
-        $host = $request->getHost();
-
         curl_setopt_array($curl, array(
-        CURLOPT_URL => $host.'/websiteku/public/api/UserLogin',
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UserLogin',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -51,9 +49,8 @@ class CallUserController extends Controller
 
     function RegisterCall(Request $request) {
         $curl = curl_init();
-        $host = $request->getHost();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => $host.'/websiteku/public/api/UserRegister',
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UserRegister',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -89,7 +86,7 @@ class CallUserController extends Controller
         // Login After Registering
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => $host.'/websiteku/public/api/UserLogin',
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UserLogin',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -130,10 +127,8 @@ class CallUserController extends Controller
 
     function UpdateProfileCall(Request $request) {
         $curl = curl_init();
-        $host = $request->getHost();
-
         curl_setopt_array($curl, array(
-        CURLOPT_URL => $host.'/websiteku/public/api/UpdateUserProfile',
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UpdateUserProfile',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -167,9 +162,8 @@ class CallUserController extends Controller
 
     function UpdatePasswordCall(Request $request) {
         $curl = curl_init();
-        $host = $request->getHost();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => $host.'/websiteku/public/api/UpdateUserPassword',
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UpdateUserPassword',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -217,10 +211,8 @@ class CallUserController extends Controller
 
     function LogoutCall(Request $request) {
         $curl = curl_init();
-        $host = $request->getHost();
-
         curl_setopt_array($curl, array(
-        CURLOPT_URL => $host.'/websiteku/public/api/UserLogout',
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UserLogout',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
