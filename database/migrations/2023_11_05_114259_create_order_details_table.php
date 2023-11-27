@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('deskripsi_iklan');
             $table->date('mulai_iklan');
             $table->date('akhir_iklan');
-            $table->date('tanggal_pembayaran')->nullable();
+            $table->timestamp('tanggal_pembayaran')->nullable();
             $table->integer('lama_hari');
             $table->string('foto_iklan');
             $table->enum('status_iklan', [1, 2, 3, 4, 5])->default(1);
