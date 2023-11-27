@@ -293,17 +293,17 @@
                             {{-- <div class="mb-3">
                                 <label for="Edit_Password" class="form-label">Password</label>
                                 <input type="email" class="form-control" id="Edit_Password" name="password_anggota"
-                                    placeholder="cth. user@radar.com">
+                                    placeholder="cth. RadarPaham_123Banua">
                             </div> --}}
                             <div class="mb-3">
                                 <label for="Edit_NoHP" class="form-label">No. HP</label>
                                 <input type="text" class="form-control" id="Edit_NoHP" name="nohp_anggota"
-                                    placeholder="cth. user26" onkeypress='validate(event)'>
+                                    placeholder="cth. 081251839222" onkeypress='validate(event)'>
                             </div>
                             <div class="mb-3">
                                 <label for="Edit_Pekerjaan" class="form-label">Pekerjaan</label>
                                 <input type="text" class="form-control" id="Edit_Pekerjaan" name="pekerjaan_anggota"
-                                    placeholder="cth. user26" required>
+                                    placeholder="cth. Anggota Tim Iklan A" required>
                             </div>
                             <input type="hidden" id="Id_Edit" name="no_anggota" value="">
                         </div>
