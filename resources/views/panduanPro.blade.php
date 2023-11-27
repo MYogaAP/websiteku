@@ -133,7 +133,7 @@
                                     src="{{ asset('images/cs.png') }}" alt="..." />
                             </a>
                             <br>
-                            <a class="btn btn-lg px-1" style="font-size: 15px; background-color:limegreen; color:white" href="https://wa.me/6282311904905">Hubungi Via Whatsapp</a>
+                            <a class="btn btn-lg px-1" style="font-size: 15px; background-color:limegreen; color:white" href="{{config('contactperson.contact')}}">Hubungi Via Whatsapp</a>
                         </div>
                     </div>
                 </div>
