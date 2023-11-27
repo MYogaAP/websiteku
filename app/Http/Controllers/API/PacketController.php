@@ -79,7 +79,7 @@ class PacketController extends Controller
         $extension  = '';
         $fullName = '';
         if($request->image){
-            $fileName = Str::random(30);
+            $fileName = now()->format('d-M-Y')."_".Str::random(30);
             $extension =  $request->image->extension();
             $fullName = $fileName.'.'.$extension;
 
