@@ -43,8 +43,6 @@
         }
     </script>
 
-
-
     @if (!Cookie::has('auth'))
         <script>
             window.location = "{{ route('loginPage') }}";
