@@ -204,7 +204,7 @@
             var photo = this.files[0];
             var packet_id = document.getElementById("clAXLgmxnapTRttSvxaJspEXKgGUESrS").textContent;
             const APIURL = window.location.protocol + "//" + window.location.hostname +
-                "/websiteku/public/api/CheckImage";
+                "/api/CheckImage";
             const RESULT = document.getElementById('ukuran');
             const CONTACT = document.getElementById('contact-text');
 
