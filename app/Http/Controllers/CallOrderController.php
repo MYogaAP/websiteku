@@ -269,7 +269,7 @@ class CallOrderController extends Controller
     } else {
       $request->session()->put('danger', "Sebuah kesalahan terjadi.");
     }
-    return redirect()->route('orderData'); 
+    return redirect()->route('orderData' , ['filter' => 'Sudah Konfirmasi']); 
   }
 
   function DeclineUserOrder(Request $request) {
@@ -354,7 +354,7 @@ class CallOrderController extends Controller
     } else {
       $request->session()->put('danger', "Sebuah kesalahan terjadi.");
     }
-    return redirect()->route('orderData'); 
+    return redirect()->route('orderData', ['filter' => 'Sudah Konfirmasi']); 
   }
 
   function CancelUserOrder(Request $request) {
@@ -380,7 +380,7 @@ class CallOrderController extends Controller
 
     if ($http_status == 404) {
       $request->session()->put('danger', "Sebuah kesalahan terjadi.");
-      return redirect()->route('orderData'); 
+      return redirect()->route('orderData' , ['filter' => 'Sudah Konfirmasi']); 
     }
 
     // DB
@@ -423,7 +423,7 @@ class CallOrderController extends Controller
       $request->session()->put('danger', "Sebuah kesalahan terjadi.");
     }
 
-    return redirect()->route('orderData'); 
+    return redirect()->route('orderData' , ['filter' => 'Sudah Konfirmasi']); 
   }
 
   function ExportOrderData(Request $request){
