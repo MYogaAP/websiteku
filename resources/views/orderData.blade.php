@@ -270,6 +270,11 @@
                                                             ->parse($order->akhir_iklan)
                                                             ->format('d-M-Y');
                                                     }
+                                                    if($order->tanggal_pembayaran != "-"){
+                                                        $paid = now()
+                                                            ->parse($order->tanggal_pembayaran)
+                                                            ->format('d-M-Y H:i:s');
+                                                    }
                                                 @endphp
                                                 <tr>
                                                     <td>
@@ -429,6 +434,22 @@
                                                                 </div>
                                                                 <div class="col-8">
                                                                     <p>: {{ $order->deskripsi_iklan }}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Waktu Pembayaran</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>: {{isset($paid)?$paid:"-"}} </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Progress Iklan</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>: {{isset($order->detail_kemajuan)? $order->detail_kemajuan:"-" }}</p>
                                                                 </div>
                                                             </div>
                                                         </div>

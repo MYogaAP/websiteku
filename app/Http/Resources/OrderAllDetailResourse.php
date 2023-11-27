@@ -41,6 +41,7 @@ class OrderAllDetailResourse extends JsonResource
             'status_pembayaran' => $OrderDetail->getStatusPembayaranDisplay(),
             'status_iklan' => $OrderDetail->getStatusIklanDisplay(),
             'detail_kemajuan' => $OrderDetail->detail_kemajuan,
+            'tanggal_pembayaran' => isset($OrderDetail->tanggal_pembayaran)? $OrderDetail->tanggal_pembayaran : "-",
             'nama_paket' => $PacketData->nama_paket,
             'format_warna' => $PacketData->format_warna,
             'tinggi' => $PacketData->tinggi,

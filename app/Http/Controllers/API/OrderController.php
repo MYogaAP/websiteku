@@ -195,7 +195,7 @@ class OrderController extends Controller
 
         $editOrder->OrderDetail->status_iklan = $editOrder->OrderDetail->getStatusIklanValue("Sedang Diproses");
         $editOrder->OrderDetail->status_pembayaran = $editOrder->OrderDetail->getStatusPembayaranValue("Lunas");
-        $editOrder->OrderDetail->tanggal_pembayaran = now()->parse($invoice_data->paid_at);
+        $editOrder->OrderDetail->tanggal_pembayaran = now()->parse($invoice_data->paid_at)->addHours(8);
         $editOrder->OrderDetail->save();
         $editOrder->save();
         

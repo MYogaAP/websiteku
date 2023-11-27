@@ -37,6 +37,7 @@
             window.location = "{{ route('loginPage') }}";
         </script>
     @else
+        {{-- Get Data --}}
         @php
             $curl = curl_init();
             curl_setopt_array($curl, [
@@ -66,102 +67,112 @@
                 header('Location: ' . route('verification.notice'), true, 302);
                 exit();
             }
+            if(isset($data)){
+                $start = now()->parse($data->mulai_iklan)->format('d-M-Y');
+                $end = now()->parse($data->akhir_iklan)->format('d-M-Y');
+            }
+            if($data->tanggal_pembayaran != "-"){
+                $paid = now()->parse($data->tanggal_pembayaran)->format('d-M-Y H:i:s');
+            }
         @endphp
     @endif
-    @php
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://api.xendit.co/v2/invoices/'.$data->invoice_id,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'GET',
-        CURLOPT_HTTPHEADER => array(
-            'Authorization: Basic '.config('xendit.test')
-        ),
-        ));
-        $invoice_data = curl_exec($curl);
-        $invoice_data = json_decode($invoice_data);
-        curl_close($curl);
-        
-        if(isset($invoice_data->expiry_date)){
-            $expiry_date = now()->parse($invoice_data->expiry_date)->format('d-M-Y');
-        }
-        if(isset($data)){
-            $start = now()->parse($data->mulai_iklan)->format('d-M-Y');
-            $end = now()->parse($data->akhir_iklan)->format('d-M-Y');
-        }
-        
-        if(isset($invoice_data->status)){
-            if($invoice_data->status == "PAID" || $invoice_data->status == "SETTLED"){
-                $curl = curl_init();
-                curl_setopt_array($curl, array(
-                CURLOPT_URL => gethostname().'/websiteku/public/api/UpdatePayedOrder/'.$data->order_id,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'PATCH',
-                CURLOPT_HTTPHEADER => array(
-                    'Accept: application/json',
-                    'Authorization: Bearer '.Cookie::get('auth')
-                ),
-                ));
-                $update = curl_exec($curl);
-                $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                curl_close($curl);
 
-                if($http_status == 401){
-                    setcookie("auth", "", time() - 3600, "/");
-                    $request->session()->flush();
-                    header("Location: " . route('loginPage'), true, 302);
-                    exit();
-                }
-                $data->status_pembayaran = "Lunas";
-                $data->status_iklan = "Sedang Diproses";
-            } elseif($invoice_data->status == "EXPIRED" && ($data->status_pembayaran != "Pembayaran Kedaluwarsa" || $data->status_pembayaran != "Dibatalkan")){
-                $desk_up = "Waktu pembayaran habis.";
-                $curl = curl_init();
-                curl_setopt_array($curl, array(
-                CURLOPT_URL => gethostname().'/websiteku/public/api/CancelOrder/'.$data->order_id.'/exp',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => '{
-                    "detail_kemajuan": "'.$desk_up.'"
-                }',
-                CURLOPT_HTTPHEADER => array(
-                    'Accept: application/json',
-                    'Content-Type: application/json',
-                    'Authorization: Bearer '.Cookie::get('auth')
-                ),
-                ));
-                $cancel = curl_exec($curl);
-                $cancel = json_decode($cancel);
-                $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                curl_close($curl);
-
-                if($http_status == 401){
-                    setcookie("auth", "", time() - 3600, "/");
-                    $request->session()->flush();
-                    header("Location: " . route('loginPage'), true, 302);
-                    exit();
-                }
-                $data->status_pembayaran = "Pembayaran Kedaluwarsa";
-                $data->status_iklan = "Dibatalkan";
-                $data->foto_iklan = "none";
+    {{-- Xendit Update --}}
+    @if ($data->status_pembayaran == "Belum Lunas")
+        @php
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.xendit.co/v2/invoices/'.$data->invoice_id,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Basic '.config('xendit.test')
+            ),
+            ));
+            $invoice_data = curl_exec($curl);
+            $invoice_data = json_decode($invoice_data);
+            curl_close($curl);
+            
+            if(isset($invoice_data->expiry_date)){
+                $expiry_date = now()->parse($invoice_data->expiry_date)->addHours(8)->format('d-M-Y H:i:s');
             }
-        }
-    @endphp
+            if(isset($invoice_data->invoice_url)){
+                $link = $invoice_data->invoice_url;
+            }
+            
+            if(isset($invoice_data->status)){
+                if($invoice_data->status == "PAID" || $invoice_data->status == "SETTLED"){
+                    $curl = curl_init();
+                    curl_setopt_array($curl, array(
+                    CURLOPT_URL => gethostname().'/websiteku/public/api/UpdatePayedOrder/'.$data->order_id,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'PATCH',
+                    CURLOPT_HTTPHEADER => array(
+                        'Accept: application/json',
+                        'Authorization: Bearer '.Cookie::get('auth')
+                    ),
+                    ));
+                    $update = curl_exec($curl);
+                    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                    curl_close($curl);
+
+                    if($http_status == 401){
+                        setcookie("auth", "", time() - 3600, "/");
+                        $request->session()->flush();
+                        header("Location: " . route('loginPage'), true, 302);
+                        exit();
+                    }
+                    $data->status_pembayaran = "Lunas";
+                    $data->status_iklan = "Sedang Diproses";
+                } elseif($invoice_data->status == "EXPIRED" && ($data->status_pembayaran != "Pembayaran Kedaluwarsa" || $data->status_pembayaran != "Dibatalkan")){
+                    $desk_up = "Waktu pembayaran habis.";
+                    $curl = curl_init();
+                    curl_setopt_array($curl, array(
+                    CURLOPT_URL => gethostname().'/websiteku/public/api/CancelOrder/'.$data->order_id.'/exp',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => '{
+                        "detail_kemajuan": "'.$desk_up.'"
+                    }',
+                    CURLOPT_HTTPHEADER => array(
+                        'Accept: application/json',
+                        'Content-Type: application/json',
+                        'Authorization: Bearer '.Cookie::get('auth')
+                    ),
+                    ));
+                    $cancel = curl_exec($curl);
+                    $cancel = json_decode($cancel);
+                    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                    curl_close($curl);
+
+                    if($http_status == 401){
+                        setcookie("auth", "", time() - 3600, "/");
+                        $request->session()->flush();
+                        header("Location: " . route('loginPage'), true, 302);
+                        exit();
+                    }
+                    $data->status_pembayaran = "Pembayaran Kedaluwarsa";
+                    $data->status_iklan = "Dibatalkan";
+                    $data->foto_iklan = "none";
+                }
+            }
+        @endphp
+    @endif
 
     {{-- Navigation Bar --}}
     <x-nav-bar-riwayat />
@@ -201,7 +212,7 @@
             <p class="fw-bold">Tanggal Penerbitan <span style="padding-left: 55px;">: {{$start}} hingga {{$end}}</span></p>
             <p class="fw-bold">Nilai Iklan <span style="padding-left: 135px;">: Rp. @money($data->harga_paket)</span></p>
             <p class="fw-bold">
-                Waktu Pembayaran <span style="padding-left: 55px;">: {{isset($data->tanggal_pembayaran)?$data->tanggal_pembayaran:"-"}} </span>
+                Waktu Pembayaran <span style="padding-left: 55px;">: {{isset($paid)?$paid:"-"}} </span>
                 <span class="
                     @if($data->status_pembayaran == "Lunas")
                         {{'text-success'}}
@@ -277,7 +288,40 @@
         <div class="row mt-1 justify-content-md-start text-start" style="font-size: 15px">
             <p class="fw-bold col-sm-7"></p>
             <p class="fw-bold col-sm-2">JATUH TEMPO</p>
-            <p class="fw-bold col-sm-auto">: {{isset($expiry_date)? $expiry_date : "-"}}</p>
+            <p class="fw-bold col-sm-auto  
+                @if($data->status_pembayaran == "Lunas")
+                    {{'text-success'}}
+                @elseif($data->status_pembayaran == "Belum Lunas")
+                    {{'text-primary'}}
+                @elseif($data->status_pembayaran == "Dibatalkan" || $data->status_pembayaran == "Pembayaran Kedaluwarsa")
+                    {{'text-danger'}}
+                @else
+                    {{'text-secondary'}}
+                @endif
+            ">: @if($data->status_pembayaran == "Belum Lunas")
+                    {{$expiry_date}}
+                @else
+                    {{$data->status_pembayaran}}
+                @endif
+            </p>
+        </div>
+        <div class="row mt-1 justify-content-md-start text-start" style="font-size: 15px">
+            <p class="fw-bold col-sm-7"></p>
+            <p class="fw-bold col-sm-2">
+                @if($data->status_pembayaran == "Lunas")
+                    Link Invoice
+                @else
+                    Link Pembayaran
+                @endif
+            </p>
+            <p class="fw-bold col-sm-2">
+                @if($data->status_pembayaran == "Belum Lunas" || $data->status_pembayaran == "Lunas")
+                    <a href="{{isset($link)? $link : "#"}}" 
+                        class="text-decoration-none btn btn-sm w-100 btn-outline-primary rounded" target="_blank">Disini</a>
+                @else
+                    {{$data->status_pembayaran}}
+                @endif
+            </p>
         </div>
     </div>
     
