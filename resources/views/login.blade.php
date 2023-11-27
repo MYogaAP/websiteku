@@ -7,7 +7,7 @@
     <title>Jasa Iklan Radar Banjarmasin</title>
 
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="{{asset('favicon.ico')}}" />
+    <link rel="icon" type="image/x-icon" href="{{asset('public/favicon.ico')}}" />
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -44,7 +44,7 @@
         @php
             $curl = curl_init();
             curl_setopt_array($curl, [
-                CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UserCheck',
+                CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/UserCheck',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -110,7 +110,7 @@
                     <div class="card" style="border-radius: 1rem;">
                         <div class="row g-0">
                             <div class="col-md-6 col-lg-5 d-none d-md-block">
-                                <img src="{{ asset('images/loginPage.png') }}" alt="login form" class="img-fluid"
+                                <img src="{{ asset('public/images/loginPage.png') }}" alt="login form" class="img-fluid"
                                     style="border-radius: 1rem 0 0 1rem;" />
                             </div>
                             <div class="col-md-6 col-lg-7 d-flex align-items-center">

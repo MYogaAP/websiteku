@@ -8,11 +8,11 @@
     <meta name="author" content="" />
     <title>Periklanan Radar Banjarmasin</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="{{asset('favicon.ico')}}" />
+    <link rel="icon" type="image/x-icon" href="{{asset('public/favicon.ico')}}" />
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link type="text/css" href="{{ asset('customerStyle/css/styles.css') }}" rel="stylesheet" />
+    <link type="text/css" href="{{ asset('public/customerStyle/css/styles.css') }}" rel="stylesheet" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,7 +64,7 @@
             <div class="container px-5 my-5">
                 <div class="row gx-5 align-items-center">
                     <div class="col-lg-6"><img class="img-fluid rounded mb-5 mb-lg-0"
-                            src="{{ asset('images/DaftarAkun.gif') }}" alt="..." /></div>
+                            src="{{ asset('public/images/DaftarAkun.gif') }}" alt="..." /></div>
                     <div class="col-lg-6">
                         <h2 class="fw-bolder">1. Membuat Akun</h2>
                         <p class="lead fw-normal text-muted mb-0">Buatlah akun pribadi terlebih dahulu di platform kami.
@@ -79,7 +79,7 @@
             <div class="container px-5 my-5">
                 <div class="row gx-5 align-items-center">
                     <div class="col-lg-6 order-first order-lg-last"><img class="img-fluid rounded mb-5 mb-lg-0"
-                            src="{{ asset('images/Pesan1.gif') }}" alt="..." /></div>
+                            src="{{ asset('public/images/Pesan1.gif') }}" alt="..." /></div>
                     <div class="col-lg-6">
                         <h2 class="fw-bolder">2. Pesan Jasa</h2>
                         <p class="lead fw-normal text-muted mb-0">Pesan jasa iklan sekarang. Isi formulir dengan
@@ -93,7 +93,7 @@
             <div class="container px-5 my-5">
                 <div class="row gx-5 align-items-center">
                     <div class="col-lg-6"><img class="img-fluid rounded mb-5 mb-lg-0"
-                            src="{{ asset('images/Pesan2.gif') }}" alt="..." /></div>
+                            src="{{ asset('public/images/Pesan2.gif') }}" alt="..." /></div>
                     <div class="col-lg-6">
                         <h2 class="fw-bolder">3. Pilih Paket</h2>
                         <p class="lead fw-normal text-muted mb-0">Pilihlah paket iklan yang cocok dengan kebutuhan
@@ -108,7 +108,7 @@
             <div class="container px-5 my-5">
                 <div class="row gx-5 align-items-center">
                     <div class="col-lg-6 order-first order-lg-last"><img class="img-fluid rounded mb-5 mb-lg-0"
-                            src="{{ asset('images/BayarPesanan.gif') }}" alt="..." /></div>
+                            src="{{ asset('public/images/BayarPesanan.gif') }}" alt="..." /></div>
                     <div class="col-lg-6">
                         <h2 class="fw-bolder">4. Bayar Pesanan</h2>
                         <p class="lead fw-normal text-muted mb-0">Lakukan pembayaran untuk pesanan Anda dengan mudah dan
@@ -130,7 +130,7 @@
                         <div class="text-center">
                             <a href="">
                                 <img class="img-fluid rounded-circle mb-4 px-4"
-                                    src="{{ asset('images/cs.png') }}" alt="..." />
+                                    src="{{ asset('public/images/cs.png') }}" alt="..." />
                             </a>
                             <br>
                             <a class="btn btn-lg px-1" style="font-size: 15px; background-color:limegreen; color:white" href="{{config('contactperson.contact')}}">Hubungi Via Whatsapp</a>

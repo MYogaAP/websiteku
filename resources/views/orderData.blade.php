@@ -12,22 +12,22 @@
     <title>Admin Dashboard - Radar Banjarmasin</title>
 
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="{{asset('favicon.ico')}}" />
+    <link rel="icon" type="image/x-icon" href="{{asset('public/favicon.ico')}}" />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <!-- Custom fonts for this template -->
-    <link href="{{ asset('adminStyle/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('public/adminStyle/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{{ asset('adminStyle/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/adminStyle/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
     <!-- Custom styles for this page -->
-    <link href="{{ asset('adminStyle/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/adminStyle/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 </head>
 
 <body id="page-top" class="content">
@@ -65,7 +65,7 @@
 
             $curl = curl_init();
             curl_setopt_array($curl, [
-                CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/' . $GetData,
+                CURLOPT_URL => request()->getSchemeAndHttpHost().'/api//' . $GetData,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -79,7 +79,7 @@
             $response = json_decode($response);
             $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             curl_close($curl);
-            $xendit_link = 'https://checkout-staging.xendit.co/v2/';
+            $xendit_link = 'https://checkout.xendit.co/v2/';
 
             if ($http_status == 401 || $http_status == 500 || $http_status == 404) {
                 setcookie('auth', '', time() - 3600, '/');
@@ -189,7 +189,7 @@
                                                             CURLOPT_FOLLOWLOCATION => true,
                                                             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                                                             CURLOPT_CUSTOMREQUEST => 'GET',
-                                                            CURLOPT_HTTPHEADER => ['Authorization: Basic ' . config('xendit.test')],
+                                                            CURLOPT_HTTPHEADER => ['Authorization: Basic ' . config('xendit.key')],
                                                         ]);
                                                         $invoice_data = curl_exec($curl);
                                                         $invoice_data = json_decode($invoice_data);
@@ -199,7 +199,7 @@
                                                             if ($invoice_data->status == 'PAID' || $invoice_data->status == 'SETTLED') {
                                                                 $curl = curl_init();
                                                                 curl_setopt_array($curl, [
-                                                                    CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UpdatePayedOrder/' . $order->order_id,
+                                                                    CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/UpdatePayedOrder/' . $order->order_id,
                                                                     CURLOPT_RETURNTRANSFER => true,
                                                                     CURLOPT_ENCODING => '',
                                                                     CURLOPT_MAXREDIRS => 10,
@@ -225,7 +225,7 @@
                                                                 $desk_up = 'Waktu pembayaran habis.';
                                                                 $curl = curl_init();
                                                                 curl_setopt_array($curl, [
-                                                                    CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/CancelOrder/' . $order->order_id . '/exp',
+                                                                    CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/CancelOrder/' . $order->order_id . '/exp',
                                                                     CURLOPT_RETURNTRANSFER => true,
                                                                     CURLOPT_ENCODING => '',
                                                                     CURLOPT_MAXREDIRS => 10,
@@ -456,16 +456,16 @@
                                                         <div class="container"
                                                             style="max-height: 18.5rem; width: 15rem; overflow: hidden">
                                                             @if ($order->foto_iklan == 'none')
-                                                                <a href="{{ asset('images/logo.jpeg') }}"
+                                                                <a href="{{ asset('public/images/logo.jpeg') }}"
                                                                     target="_blank">
-                                                                    <img src="{{ asset('images/logo.jpeg') }}"
+                                                                    <img src="{{ asset('public/images/logo.jpeg') }}"
                                                                         class="card-img-top" alt=""
                                                                         style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
                                                                 </a>
                                                             @else
-                                                                <a href="{{ asset('storage/image/' . $order->foto_iklan) }}"
+                                                                <a href="{{ asset('public/storage/image/' . $order->foto_iklan) }}"
                                                                     target="_blank">
-                                                                    <img src="{{ asset('storage/image/' . $order->foto_iklan) }}"
+                                                                    <img src="{{ asset('public/storage/image/' . $order->foto_iklan) }}"
                                                                         class="card-img-top" alt=""
                                                                         style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
                                                                 </a>
@@ -778,21 +778,21 @@
     @endphp
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('adminStyle/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('adminStyle/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('public/adminStyle/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('public/adminStyle/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="{{ asset('adminStyle/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('public/adminStyle/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="{{ asset('adminStyle/js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ asset('public/adminStyle/js/sb-admin-2.min.js') }}"></script>
 
     <!-- Page level plugins -->
-    <script src="{{ asset('adminStyle/vendor/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('adminStyle/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('public/adminStyle/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('public/adminStyle/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
     <!-- Page level custom scripts -->
-    <script src="{{ asset('adminStyle/js/demo/datatables-demo.js') }}"></script>
+    <script src="{{ asset('public/adminStyle/js/demo/datatables-demo.js') }}"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

@@ -8,11 +8,11 @@
     <meta name="author" content="" />
     <title>Periklanan Radar Banjarmasin</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="{{asset('favicon.ico')}}" />
+    <link rel="icon" type="image/x-icon" href="{{asset('public/favicon.ico')}}" />
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link type="text/css" href="{{ asset('customerStyle/css/styles.css') }}" rel="stylesheet" />
+    <link type="text/css" href="{{ asset('public/customerStyle/css/styles.css') }}" rel="stylesheet" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,7 +23,7 @@
         rel="stylesheet">
     <style>
         header {
-            background-image: url({{ asset('customerStyle/background-home.png') }});
+            background-image: url({{ asset('public/customerStyle/background-home.png') }});
         }
 
         body {
@@ -52,7 +52,7 @@
             @php
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
-                CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UserCheck',
+                CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/UserCheck',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,

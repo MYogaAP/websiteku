@@ -24,7 +24,7 @@ class CallOrderController extends Controller
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => 'POST',
       CURLOPT_HTTPHEADER => array(
-        'Authorization: Basic '.config('xendit.test')
+        'Authorization: Basic '.config('xendit.key')
       ),
     ));
     $response = curl_exec($curl);
@@ -34,7 +34,7 @@ class CallOrderController extends Controller
     // DB
     $curl = curl_init();
     curl_setopt_array($curl, array(
-      CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/CancelOrder/'.$order,
+      CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/CancelOrder/'.$order,
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => '',
       CURLOPT_MAXREDIRS => 10,
@@ -89,7 +89,7 @@ class CallOrderController extends Controller
     // Store The Order
     $curl = curl_init();
     curl_setopt_array($curl, array(
-    CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/StoreOrder',
+    CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/StoreOrder',
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,
@@ -141,7 +141,7 @@ class CallOrderController extends Controller
     // Get Order Data
     $curl = curl_init();
     curl_setopt_array($curl, array(
-      CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/OrderDetail/'.$request->order_id,
+      CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/OrderDetail/'.$request->order_id,
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => '',
       CURLOPT_MAXREDIRS => 10,
@@ -220,7 +220,7 @@ class CallOrderController extends Controller
     )),
     CURLOPT_HTTPHEADER => array(
       'Content-Type: application/json',
-      'Authorization: Basic '.config('xendit.test')
+      'Authorization: Basic '.config('xendit.key')
     )));
     $createInvoice = curl_exec($curl);
     $createInvoice = json_decode($createInvoice);
@@ -229,7 +229,7 @@ class CallOrderController extends Controller
     // Update Database
     $curl = curl_init();
     curl_setopt_array($curl, array(
-      CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/ConfirmOrder/'.$request->order_id.'/1',
+      CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/ConfirmOrder/'.$request->order_id.'/1',
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => '',
       CURLOPT_MAXREDIRS => 10,
@@ -276,7 +276,7 @@ class CallOrderController extends Controller
     $desk_up = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "Dibatalkan oleh agent.";
     $curl = curl_init();
     curl_setopt_array($curl, array(
-    CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/ConfirmOrder/'.$request->order_id.'/2',
+    CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/ConfirmOrder/'.$request->order_id.'/2',
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,
@@ -319,7 +319,7 @@ class CallOrderController extends Controller
     $desk_up = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "Iklan telah ditayangkan pada koran.";
     $curl = curl_init();
     curl_setopt_array($curl, array(
-      CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UpdateOrder/'.$request->order_id.'/1',
+      CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/UpdateOrder/'.$request->order_id.'/1',
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => '',
       CURLOPT_MAXREDIRS => 10,
@@ -371,7 +371,7 @@ class CallOrderController extends Controller
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => 'POST',
       CURLOPT_HTTPHEADER => array(
-        'Authorization: Basic '.config('xendit.test')
+        'Authorization: Basic '.config('xendit.key')
       ),
     ));
     $response = curl_exec($curl);
@@ -386,7 +386,7 @@ class CallOrderController extends Controller
     // DB
     $curl = curl_init();
     curl_setopt_array($curl, array(
-      CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/CancelOrder/'.$request->order_id,
+      CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/CancelOrder/'.$request->order_id,
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => '',
       CURLOPT_MAXREDIRS => 10,

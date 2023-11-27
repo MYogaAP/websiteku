@@ -8,11 +8,11 @@
     <meta name="author" content="" />
     <title>Jasa Iklan Radar Banjarmasin</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="{{asset('favicon.ico')}}" />
+    <link rel="icon" type="image/x-icon" href="{{asset('public/favicon.ico')}}" />
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link type="text/css" href="{{ asset('customerStyle/css/styles.css') }}" rel="stylesheet" />
+    <link type="text/css" href="{{ asset('public/customerStyle/css/styles.css') }}" rel="stylesheet" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +26,7 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         header {
-            background-image: url({{ asset('customerStyle/background-home.png') }});
+            background-image: url({{ asset('public/customerStyle/background-home.png') }});
         }
 
         body {
@@ -122,7 +122,7 @@
             @php
                 $curl = curl_init();
                 curl_setopt_array($curl, [
-                    CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UserCheck',
+                    CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/UserCheck',
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => '',
                     CURLOPT_MAXREDIRS => 10,
@@ -176,7 +176,7 @@
                         </div>
                     </div>
                     <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5"
-                            src="{{ asset('images/koran-1.png') }}" alt="..." /></div>
+                            src="{{ asset('public/images/koran-1.png') }}" alt="..." /></div>
                 </div>
             </div>
             <div class="scroll-down-indicator">
@@ -232,7 +232,7 @@
                         <div class="text-center">
                             <div class="fs-4 mb-5 fst-italic">"Ciptakan jejak sukses bisnismu melalui iklan koran yang tepat sasaran."</div>
                             <div class="d-flex align-items-center justify-content-center">
-                                <img class="rounded-circle me-3" src="{{ asset('images/40.png') }}" alt="..." />
+                                <img class="rounded-circle me-3" src="{{ asset('public/images/40.png') }}" alt="..." />
                                 <div class="fw-bold">
                                     Radar Banjarmasin
                                     <span class="fw-bold text-primary mx-1">-</span>
@@ -258,7 +258,7 @@
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script src="{{ asset('customerStyle/css/script.js') }}"></script>
+    <script src="{{ asset('public/customerStyle/css/script.js') }}"></script>
 </body>
 
 </html>

@@ -39,7 +39,7 @@
 
             <div class="row">
                 <div class="col">
-                    <img class="shadow-lg" style="max-height: 70vh" src="{{ asset('images/koran.png') }}" alt="">
+                    <img class="shadow-lg" style="max-height: 70vh" src="{{ asset('public/images/koran.png') }}" alt="">
                         <br><br>
                         <div class="fw-bold text-start">Iklan Kolom</div>
                             <p class="text-start">

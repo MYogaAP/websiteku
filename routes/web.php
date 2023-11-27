@@ -189,7 +189,7 @@ Route::get('/email/verify', function () {
 Route::get('/email/verify/{id}/{hash}', function ($id, $hash) {
     $curl = curl_init();
     curl_setopt_array($curl, array(
-    CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/VerifEmailUserAPI/'.$id.'/'.$hash,
+    CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/VerifEmailUserAPI/'.$id.'/'.$hash,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,
@@ -225,7 +225,7 @@ Route::get('/email/verify/{id}/{hash}', function ($id, $hash) {
 Route::post('/email/verification-notification', function () {
     $curl = curl_init();
     curl_setopt_array($curl, array(
-    CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/SendVerifEmail',
+    CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/SendVerifEmail',
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,

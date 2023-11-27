@@ -12,22 +12,22 @@
     <title>Admin Dashboard - Radar Banjarmasin</title>
 
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="{{asset('favicon.ico')}}" />
+    <link rel="icon" type="image/x-icon" href="{{asset('public/favicon.ico')}}" />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <!-- Custom fonts for this template -->
-    <link href="{{ asset('adminStyle/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('public/adminStyle/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{{ asset('adminStyle/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/adminStyle/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
     <!-- Custom styles for this page -->
-    <link href="{{ asset('adminStyle/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/adminStyle/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
     <style>
         input[type="number"]::-webkit-outer-spin-button,
@@ -58,7 +58,7 @@
     @php
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/AgentPacketList',
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/AgentPacketList',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -178,8 +178,8 @@
                                                         </div>
                                                     </td>
                                                     <td class="text-center" style="max-height: 21rem; width: 17rem; overflow: hidden">
-                                                        <a href="{{ asset('storage/image_example/'.$list->contoh_foto) }}" target="_blank">
-                                                        <img src="{{ asset('storage/image_example/'.$list->contoh_foto) }}" class="card-img-top" alt="" style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
+                                                        <a href="{{ asset('public/storage/image_example/'.$list->contoh_foto) }}" target="_blank">
+                                                        <img src="{{ asset('public/storage/image_example/'.$list->contoh_foto) }}" class="card-img-top" alt="" style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
                                                         </a>
                                                     </td>
                                                     <td class="{{$list->hidden == 'yes' ? 'text-secondary h5 text-center' : 'text-primary h5 text-center'}}">
@@ -370,21 +370,21 @@
     </script>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('adminStyle/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('adminStyle/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('public/adminStyle/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('public/adminStyle/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="{{ asset('adminStyle/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('public/adminStyle/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="{{ asset('adminStyle/js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ asset('public/adminStyle/js/sb-admin-2.min.js') }}"></script>
 
     <!-- Page level plugins -->
-    <script src="{{ asset('adminStyle/vendor/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('adminStyle/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('public/adminStyle/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('public/adminStyle/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
     <!-- Page level custom scripts -->
-    <script src="{{ asset('adminStyle/js/demo/datatables-demo.js') }}"></script>
+    <script src="{{ asset('public/adminStyle/js/demo/datatables-demo.js') }}"></script>
 </body>
 
 </html>

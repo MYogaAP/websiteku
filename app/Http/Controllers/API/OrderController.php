@@ -187,7 +187,7 @@ class OrderController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPHEADER => ['Authorization: Basic ' . config('xendit.test')],
+            CURLOPT_HTTPHEADER => ['Authorization: Basic ' . config('xendit.key')],
         ]);
         $invoice_data = curl_exec($curl);
         $invoice_data = json_decode($invoice_data);
@@ -216,7 +216,7 @@ class OrderController extends Controller
         $msgTerima = "Telah diterima oleh anggota tim Biro Iklan Radar Banjarmasin";
 
         if($update_type == 1) {
-            if (Storage::exists('\image\\'.$filePath)){
+            if (Storage::exists('\public\image\\'.$filePath)){
                 $confirmOrder->OrderDetail->status_iklan = $confirmOrder->OrderDetail->getStatusIklanValue("Menunggu Pembayaran");
                 $confirmOrder->OrderDetail->status_pembayaran = $confirmOrder->OrderDetail->getStatusPembayaranValue("Belum Lunas");
                 $confirmOrder->OrderDetail->invoice_id = $request->invoice_id;
@@ -233,14 +233,14 @@ class OrderController extends Controller
                 ]);
             }
         } elseif ($update_type == 2) {            
-            if (Storage::exists('\image\\'.$filePath)){                
+            if (Storage::exists('\public\image\\'.$filePath)){                
                 $confirmOrder->OrderDetail->detail_kemajuan = isset($request->detail_kemajuan) ? $request->detail_kemajuan : $msgTolak;
                 $confirmOrder->OrderDetail->status_iklan = $confirmOrder->OrderDetail->getStatusIklanValue('Dibatalkan');
                 $confirmOrder->OrderDetail->status_pembayaran =  $confirmOrder->OrderDetail->getStatusPembayaranValue('Dibatalkan');
                 $confirmOrder->OrderDetail->foto_iklan = 'none';
                 $confirmOrder->OrderDetail->save();
                 $confirmOrder->save();
-                Storage::delete('\image\\'.$filePath);
+                Storage::delete('\public\image\\'.$filePath);
 
                 return response()->json([
                     'message' => 'Order telah berhasil dibatalkan.',
@@ -325,7 +325,7 @@ class OrderController extends Controller
             $extension =  $request->image->extension();
             $fullName = $fileName.'.'.$extension;
 
-            Storage::putFileAs('image', $request->image, $fullName);
+            Storage::putFileAs('\public\image', $request->image, $fullName);
         }
 
         $request['foto_iklan'] = $fullName;
@@ -353,14 +353,14 @@ class OrderController extends Controller
         $filePath = $cancelOrder->OrderDetail->foto_iklan;
         $msg = "Dibatalkan oleh sistem.";
 
-        if (Storage::exists('\image\\'.$filePath)){            
+        if (Storage::exists('\public\image\\'.$filePath)){            
             $cancelOrder->OrderDetail->detail_kemajuan = isset($request->detail_kemajuan) ? $request->detail_kemajuan : $msg;
             $cancelOrder->OrderDetail->status_iklan = $cancelOrder->OrderDetail->getStatusIklanValue('Dibatalkan');
             $cancelOrder->OrderDetail->status_pembayaran =  $cancelOrder->OrderDetail->getStatusPembayaranValue('Dibatalkan');
             $cancelOrder->OrderDetail->foto_iklan = 'none';
             $cancelOrder->OrderDetail->save();
             $cancelOrder->save();
-            Storage::delete('\image\\'.$filePath);
+            Storage::delete('\public\image\\'.$filePath);
 
             return response()->json([
                 'message' => 'Order telah berhasil dibatalkan.',
@@ -382,14 +382,14 @@ class OrderController extends Controller
         $filePath = $cancelOrder->OrderDetail->foto_iklan;
         $msg = "Dibatalkan oleh sistem.";
 
-        if (Storage::exists('\image\\'.$filePath)){            
+        if (Storage::exists('\public\image\\'.$filePath)){            
             $cancelOrder->OrderDetail->detail_kemajuan = isset($request->detail_kemajuan) ? $request->detail_kemajuan : $msg;
             $cancelOrder->OrderDetail->status_iklan = $cancelOrder->OrderDetail->getStatusIklanValue('Dibatalkan');
             $cancelOrder->OrderDetail->status_pembayaran =  $cancelOrder->OrderDetail->getStatusPembayaranValue('Pembayaran Kedaluwarsa');
             $cancelOrder->OrderDetail->foto_iklan = 'none';
             $cancelOrder->OrderDetail->save();
             $cancelOrder->save();
-            Storage::delete('\image\\'.$filePath);
+            Storage::delete('\public\image\\'.$filePath);
 
             return response()->json([
                 'message' => 'Order telah berhasil dibatalkan.',

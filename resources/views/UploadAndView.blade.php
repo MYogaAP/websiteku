@@ -7,7 +7,7 @@
     <title>Jasa Iklan Radar Banjarmasin</title>
 
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="{{asset('favicon.ico')}}" />
+    <link rel="icon" type="image/x-icon" href="{{asset('public/favicon.ico')}}" />
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -45,7 +45,7 @@
         @php
             $curl = curl_init();
             curl_setopt_array($curl, [
-                CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UserCheck',
+                CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/UserCheck',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -79,7 +79,7 @@
 
             $curl = curl_init();
             curl_setopt_array($curl, array(
-            CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/CheckImage',
+            CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/CheckImage',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -88,7 +88,7 @@
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => array(
-                'image'=> new CURLFILE(asset('images/logo.jpeg')),
+                'image'=> new CURLFILE(asset('public/images/logo.jpeg')),
                 'packet_id' => $packet['packet_id']
             ),
             CURLOPT_HTTPHEADER => array(
@@ -113,10 +113,10 @@
             </div>
             <div class="row mt-5">
                 <div class="col">
-                    <a href="{{ asset('storage/image_example/' . $packet['contoh_foto']) }}" target="_blank"
+                    <a href="{{ asset('public/storage/image_example/' . $packet['contoh_foto']) }}" target="_blank"
                         style="width: 100%; height: 100%;">
                         <div class="container" style="width: 17rem; height: 21rem; overflow: hidden">
-                            <img src="{{ asset('storage/image_example/' . $packet['contoh_foto']) }}"
+                            <img src="{{ asset('public/storage/image_example/' . $packet['contoh_foto']) }}"
                                 class="card-img-top" alt="..."
                                 style="border: 1px solid black; object-fit: contain; width: 100%; height: 100%">
                         </div>

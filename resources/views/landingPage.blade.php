@@ -32,7 +32,7 @@
         @php
             $curl = curl_init();
             curl_setopt_array($curl, [
-                CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UserCheck',
+                CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/UserCheck',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <img class="shadow-lg" style="max-height: 50vh" src="{{ asset('images/koran.png') }}"
+                    <img class="shadow-lg" style="max-height: 50vh" src="{{ asset('public/images/koran.png') }}"
                         alt="">
                 </div>
             </div>

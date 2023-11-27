@@ -7,7 +7,7 @@
     <title>Jasa Iklan Radar Banjarmasin</title>
 
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="{{asset('favicon.ico')}}" />
+    <link rel="icon" type="image/x-icon" href="{{asset('public/favicon.ico')}}" />
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -42,7 +42,7 @@
     @php
         if(session("order_data")){
             $order_list = session("order_data");
-            $xendit_link = "https://checkout-staging.xendit.co/v2/";
+            $xendit_link = "https://checkout.xendit.co/v2/";
             $canceling = session('cancel');
         }else {
             header("Location: " . route('landingPagePro'), true, 302);
@@ -91,7 +91,7 @@
                                     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                                     CURLOPT_CUSTOMREQUEST => 'GET',
                                     CURLOPT_HTTPHEADER => array(
-                                        'Authorization: Basic '.config('xendit.test')
+                                        'Authorization: Basic '.config('xendit.key')
                                     ),
                                     ));
                                     $invoice_data = curl_exec($curl);
@@ -102,7 +102,7 @@
                                         if($invoice_data->status == "PAID" || $invoice_data->status == "SETTLED"){
                                             $curl = curl_init();
                                             curl_setopt_array($curl, array(
-                                            CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UpdatePayedOrder/'.$order->order_id,
+                                            CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/UpdatePayedOrder/'.$order->order_id,
                                             CURLOPT_RETURNTRANSFER => true,
                                             CURLOPT_ENCODING => '',
                                             CURLOPT_MAXREDIRS => 10,
@@ -131,7 +131,7 @@
                                             $desk_up = "Waktu pembayaran habis.";
                                             $curl = curl_init();
                                             curl_setopt_array($curl, array(
-                                            CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/CancelOrder/'.$order->order_id.'/exp',
+                                            CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/CancelOrder/'.$order->order_id.'/exp',
                                             CURLOPT_RETURNTRANSFER => true,
                                             CURLOPT_ENCODING => '',
                                             CURLOPT_MAXREDIRS => 10,
@@ -259,12 +259,12 @@
                                 <td class="align-middle">
                                     <div class="container" style="max-height: 21rem; width: 17rem; overflow: hidden"> 
                                         @if($order->foto_iklan == "none")
-                                            <a href="{{ asset('images/logo.jpeg') }}" target="_blank">
-                                                <img src="{{ asset('images/logo.jpeg') }}" class="card-img-top" alt="" style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
+                                            <a href="{{ asset('public/images/logo.jpeg') }}" target="_blank">
+                                                <img src="{{ asset('public/images/logo.jpeg') }}" class="card-img-top" alt="" style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
                                             </a>
                                         @else
-                                            <a href="{{ asset('storage/image/'.$order->foto_iklan) }}" target="_blank">
-                                                <img src="{{ asset('storage/image/'.$order->foto_iklan) }}" class="card-img-top" alt="" style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
+                                            <a href="{{ asset('public/storage/image/'.$order->foto_iklan) }}" target="_blank">
+                                                <img src="{{ asset('public/storage/image/'.$order->foto_iklan) }}" class="card-img-top" alt="" style="border: 1px solid black; object-fit:contain; width: 100%; height: 100%">
                                             </a>
                                         @endif
                                     </div>

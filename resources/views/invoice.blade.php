@@ -43,7 +43,7 @@
                 <div class="card mx-auto shadow-sm rounded-3" style="width: 17rem;">
                     <div class="card-body bg-outline-primary rounded-3" style="background-color: #4E95F8">
                         <h5 style="color: white" class="fw-bold mb-3">SCAN QR-CODE</h5>
-                        <img src="{{ asset('images/QR.png') }}" class="card-img-top rounded-3" alt="..." style="background-color:white">
+                        <img src="{{ asset('public/images/QR.png') }}" class="card-img-top rounded-3" alt="..." style="background-color:white">
                     </div>
                 </div>
             </div>

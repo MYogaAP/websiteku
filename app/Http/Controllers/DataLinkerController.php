@@ -12,7 +12,7 @@ class DataLinkerController extends Controller
     function SendToDetailUkuran(Request $request) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/AllPacketList',
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/AllPacketList',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -51,7 +51,7 @@ class DataLinkerController extends Controller
     function SendToUploadAndView(Request $request) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/GetPacketColor/'. $request->data_paket,
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/GetPacketColor/'. $request->data_paket,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -83,7 +83,7 @@ class DataLinkerController extends Controller
         $page = session('ukuran_page') + 1;
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/PacketList?page='.$page,
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/PacketList?page='.$page,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -110,7 +110,7 @@ class DataLinkerController extends Controller
         $page = session('ukuran_page') - 1;
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/PacketList?page='.$page,
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/PacketList?page='.$page,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -137,7 +137,7 @@ class DataLinkerController extends Controller
     function SendToRiwayat(Request $request) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UserOrdersList',
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/UserOrdersList',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -173,7 +173,7 @@ class DataLinkerController extends Controller
         $page = session('order_page') + 1;
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UserOrdersList?page='.$page,
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/UserOrdersList?page='.$page,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -200,7 +200,7 @@ class DataLinkerController extends Controller
         $page = session('order_page') - 1;
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UserOrdersList?page='.$page,
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/UserOrdersList?page='.$page,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -226,7 +226,7 @@ class DataLinkerController extends Controller
     function LoadNumberOrderData(Request $request, $page) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/UserOrdersList?page='.$page,
+        CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/UserOrdersList?page='.$page,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,

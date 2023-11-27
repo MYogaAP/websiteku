@@ -83,7 +83,7 @@ class PacketController extends Controller
             $extension =  $request->image->extension();
             $fullName = $fileName.'.'.$extension;
 
-            Storage::putFileAs('image_example', $request->image, $fullName);
+            Storage::putFileAs('\public\image_example', $request->image, $fullName);
         }
 
         if(!$request->harga_paket){
@@ -114,7 +114,7 @@ class PacketController extends Controller
         $data = PacketData::where('packet_id', $packet_id)->get();
 
         $filePath = $data[0]->contoh_foto;
-        if (Storage::exists('\image_example\\'.$filePath)){
+        if (Storage::exists('\public\image_example\\'.$filePath)){
             $affected = PacketData::where('packet_id', $packet_id)
             ->update([
                 'nama_paket' => $data[0]->nama_paket."_unavailable_".Str::random(15),
@@ -123,7 +123,7 @@ class PacketController extends Controller
             ]);
             $affected = PacketData::where('packet_id', $packet_id)
             ->delete();
-            Storage::delete('\image_example\\'.$filePath);
+            Storage::delete('\public\image_example\\'.$filePath);
 
             return response()->json([
                 'message' => 'Paket telah berhasil dihapus.',
