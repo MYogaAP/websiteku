@@ -195,7 +195,7 @@
                                                 type="submit">Perbaharui Data</button></div>
                                     </div>
                                 </form>
-                                <form action="{{route('LogoutCall')}}" method='POST'>
+                                <form action="{{route('LogoutCall')}}" method='POST' id="FormLogout">
                                     @method('DELETE')
                                     @csrf
                                     <div class="form-floating mb-3">
@@ -233,6 +233,36 @@
                 if(theEvent.preventDefault) theEvent.preventDefault();
             }
         }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById("FormLogout").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const swal = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-outline-success",
+                    cancelButton: "btn btn-outline-danger",
+                    actions: "d-flex justify-content-center gap-3"
+                },
+                buttonsStyling: false
+            });
+
+            // Membuat Model
+            swal.fire({
+                title: "Apakah anda yakin ingin keluar?",
+                html: "Anda akan KELUAR dari akun anda!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Teruskan",
+                cancelButtonText: "Batalkan",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('FormLogout').submit();
+                }
+            });
+        });
     </script>
 
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
