@@ -128,7 +128,7 @@
 
                     if($http_status == 401){
                         setcookie("auth", "", time() - 3600, "/");
-                        $request->session()->flush();
+                        session()->flush();
                         header("Location: " . route('loginPage'), true, 302);
                         exit();
                     }
@@ -162,7 +162,7 @@
 
                     if($http_status == 401){
                         setcookie("auth", "", time() - 3600, "/");
-                        $request->session()->flush();
+                        session()->flush();
                         header("Location: " . route('loginPage'), true, 302);
                         exit();
                     }
@@ -323,6 +323,26 @@
                 @endif
             </p>
         </div>
+        <div class="row mt-1 justify-content-md-start text-start mb-5" style="font-size: 15px">
+            <p class="fw-bold col-sm-7"></p>
+            <div class="fw-bold col">
+                @if ($data->status_pembayaran == "Menunggu Konfirmasi")
+                    <form action="{{route('CancelingOrderCall', ['order' => $data->order_id])}}" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <input type="submit" class="btn btn-outline-danger rounded btn-sm w-100" value="Batalkan">
+                    </form>
+                @elseif ($data->status_pembayaran == "Belum Lunas")
+                    <form action="{{route('DeleteOrderCall', ['order' => $data->order_id])}}" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <input type="hidden" name="xendit_id" value="{{$data->invoice_id}}">
+                        <input type="submit" class="btn btn-outline-danger rounded btn-sm w-100" value="Batalkan">
+                    </form>
+                @endif
+            </div>
+        </div>
+        
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
