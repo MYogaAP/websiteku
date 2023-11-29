@@ -73,7 +73,7 @@ class CallOrderController extends Controller
     // Get Data
     $curl = curl_init();
     curl_setopt_array($curl, [
-      CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/OrderDetail/'. $order,
+      CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/OrderDetail/'. $order,
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => '',
       CURLOPT_MAXREDIRS => 10,
@@ -104,7 +104,7 @@ class CallOrderController extends Controller
     // DB
     $curl = curl_init();
     curl_setopt_array($curl, array(
-      CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/CancelOrder/'.$order,
+      CURLOPT_URL => request()->getSchemeAndHttpHost().'/api/CancelOrder/'.$order,
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => '',
       CURLOPT_MAXREDIRS => 10,
