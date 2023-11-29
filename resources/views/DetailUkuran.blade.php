@@ -157,7 +157,7 @@
     <header class="bg-light py-2 mt-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center mb-5">
-                <h1 class="fw-bolder">Pilih Paket Iklan</h1>
+                <h1 class="fw-bolder">Pilih Ukuran Iklan</h1>
                 <p class="lead fw-normal text-muted mb-0">Sesuaikan paket dengan kebutuhan iklan anda</p>
             </div>
         </div>
