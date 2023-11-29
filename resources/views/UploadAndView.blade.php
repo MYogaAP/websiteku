@@ -150,7 +150,7 @@
                         <p><label id="ukuran">{{$size->message}}</label>
                             <br><label id="contact-text">Jika ada masalah lain, hubungi nomor dibawah :</label>
                         </p>
-                        <a href="{{config('contactperson.contact')}}" type="button" class="btn btn-success btn-sm rounded-3">Contact Support <i
+                        <a href="{{config('contactperson.contact')}}" type="button" class="btn btn-success btn-sm rounded-3" target="_blank">Contact Support <i
                                 class="fa-solid fa-phone mx-2"></i></a>
                     </div>
                 </div>
