@@ -121,7 +121,7 @@
 
                                             if($http_status == 401){
                                                 setcookie("auth", "", time() - 3600, "/");
-                                                $request->session()->flush();
+                                                session()->flush();
                                                 header("Location: " . route('loginPage'), true, 302);
                                                 exit();
                                             }
@@ -155,7 +155,7 @@
 
                                             if($http_status == 401){
                                                 setcookie("auth", "", time() - 3600, "/");
-                                                $request->session()->flush();
+                                                session()->flush();
                                                 header("Location: " . route('loginPage'), true, 302);
                                                 exit();
                                             }
@@ -288,6 +288,11 @@
                                         <p class="text-danger">{{$order->status_pembayaran}}</p>
                                     @elseif($order->status_pembayaran == "Menunggu Konfirmasi")
                                         <p class="text-secondary">{{$order->status_pembayaran}}</p>
+                                        <p><form action="{{route('CancelingOrderCall', ['order' => $order->order_id])}}" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <input type="submit" class="btn btn-outline-danger rounded btn-sm w-100" value="Batalkan">
+                                        </form></p>
                                     @endif
                                 </td>
                             </tr>
@@ -325,6 +330,10 @@
             </div>
         </div>
     </div>
+
+    @php
+        session()->forget('cancel');
+    @endphp
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">

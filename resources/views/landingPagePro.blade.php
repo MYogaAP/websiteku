@@ -147,7 +147,6 @@
                     header('Location: ' . route('verification.notice'), true, 302);
                     exit();
                 }
-                session()->flush();
             @endphp
             @if ($user_data->role == 'admin' || $user_data->role == 'agent')
                 <script>

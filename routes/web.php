@@ -105,6 +105,7 @@ Route::get('/UkuranHalamanSebelumnya', [DataLinkerController::class, 'LoadPrevPa
 Route::post('/NewOrderCall', [CallOrderController::class, 'NewOrderCall'])->name('NewOrderCall');
 Route::post('/DownloadExportOrderData', [CallOrderController::class, 'ExportOrderData'])->name('DownloadExportOrderData');
 Route::delete('/DeleteOrderCall/{order}', [CallOrderController::class, 'DeleteOrderCall'])->name('DeleteOrderCall');
+Route::delete('/CancelingOrderCall/{order}', [CallOrderController::class, 'CancelingOrderCall'])->name('CancelingOrderCall');
 
 // Riwayat
 Route::get('/SendToRiwayat', [DataLinkerController::class, 'SendToRiwayat'])->name('SendToRiwayatUser');

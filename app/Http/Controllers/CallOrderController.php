@@ -47,6 +47,7 @@ class CallOrderController extends Controller
       }',
       CURLOPT_HTTPHEADER => array(
         'Accept: application/json',
+        'Content-Type: application/json',
         'Authorization: Bearer '.Cookie::get('auth')
       ),
     ));
@@ -63,7 +64,76 @@ class CallOrderController extends Controller
     }
 
     $request->session()->put('cancel', $cancel);
+    return redirect()->route('UserOrderHalamanNomor', ['page' => $request->session()->get('order_page', 'default')]); 
+  }
 
+  function CancelingOrderCall(Request $request, $order) {
+    $desk_up = "Dibatalkan oleh Pengguna.";
+
+    // Get Data
+    $curl = curl_init();
+    curl_setopt_array($curl, [
+      CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/OrderDetail/'. $order,
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'GET',
+      CURLOPT_HTTPHEADER => ['Accept: application/json', 'Authorization: Bearer ' . Cookie::get('auth')],
+    ]);
+    $data = curl_exec($curl);
+    $data = json_decode($data);
+    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+    $data = $data->data[0];
+
+    if($data->status_iklan != "Menunggu Konfirmasi"){
+      $request->session()->put('cancel', "Sebuah kesalahan terjadi");
+      return redirect()->route('UserOrderHalamanNomor', ['page' => $request->session()->get('order_page', 'default')]); 
+    }
+
+    if ($http_status == 401 || $http_status == 500 || $http_status == 404) {
+      setcookie('auth', '', time() - 3600, '/');
+      session()->flush();
+      header('Location: ' . route('loginPage'), true, 302);
+      exit();
+    }
+
+    // DB
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => request()->getSchemeAndHttpHost().'/websiteku/public/api/CancelOrder/'.$order,
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_POSTFIELDS => '{
+        "detail_kemajuan": '.$desk_up.'
+      }',
+      CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer '.Cookie::get('auth')
+      ),
+    ));
+    $cancel = curl_exec($curl);
+    $cancel = json_decode($cancel);
+    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+
+    if ($http_status == 401 || $http_status == 500 || $http_status == 404) {
+      setcookie('auth', '', time() - 3600, '/');
+      session()->flush();
+      header('Location: ' . route('loginPage'), true, 302);
+      exit();
+    }
+
+    $request->session()->put('cancel', $cancel);
     return redirect()->route('UserOrderHalamanNomor', ['page' => $request->session()->get('order_page', 'default')]); 
   }
 
@@ -83,7 +153,7 @@ class CallOrderController extends Controller
     $start = Carbon::parse($mulai); 
     $end = Carbon::parse($akhir);
     $days = 1 + ($start->diffInDaysFiltered(function(Carbon $date) {
-      return !$date->isSunday();
+      return !$date->isSunday(); // Without Sunday
     }, $end));
 
     // Store The Order
@@ -126,6 +196,8 @@ class CallOrderController extends Controller
       exit();
     }
 
+    session()->forget('form_data', 'default');
+    session()->forget('packet_data', 'default');
     return redirect()->route('SendToRiwayatUser');
   }
 
