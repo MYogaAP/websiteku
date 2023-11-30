@@ -123,7 +123,7 @@
                                     <div class="form-outline mb-4">
                                         <form method="POST" action="{{ route('LoginCall') }}">
                                             @csrf
-                                            Username or Email
+                                            Username atau Email
                                             <input type="username" name="username" class="form-control form-control-lg"
                                                 id="exampleFormControlInput1" required>
                                     </div>

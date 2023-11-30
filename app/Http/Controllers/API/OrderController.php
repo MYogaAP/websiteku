@@ -51,18 +51,8 @@ class OrderController extends Controller
         return OrderDetailedResource::collection($order);
     }
 
-    function GetOrderDetailWithUser($order_id) {
-        $order = OrderData::with(['OrderDetail', 'User', 'OrderDetail.PacketData' => function ($query) {
-            $query->withTrashed();
-        }])
-        ->where("order_id", $order_id)
-        ->get();
-        return $order;
-        // return OrderAllDetailResourse::collection($order);
-    }
-
     function AllDetailedOrders() {
-        $orders = OrderData::with(['OrderDetail', 'OrderDetail.PacketData' => function ($query) {
+        $orders = OrderData::with(['OrderDetail', 'User', 'Agent', 'OrderDetail.PacketData' => function ($query) {
             $query->withTrashed();
         }])
         ->whereDoesntHave('OrderDetail', function ($query) {
@@ -85,11 +75,11 @@ class OrderController extends Controller
             ->latest()
         )
         ->get();
-        return OrderDetailedResource::collection($orders);
+        return OrderAllDetailResourse::collection($orders);
     }
 
     function AgentResponsibilityOrders() {
-        $orders = OrderData::with(['OrderDetail', 'OrderDetail.PacketData' => function ($query) {
+        $orders = OrderData::with(['OrderDetail', 'User', 'Agent', 'OrderDetail.PacketData' => function ($query) {
             $query->withTrashed();
         }])
         ->where('agent_id', Auth::user()->user_id)
@@ -113,11 +103,11 @@ class OrderController extends Controller
             ->latest()
         )
         ->get();
-        return OrderDetailedResource::collection($orders);
+        return OrderAllDetailResourse::collection($orders);
     }
 
     function NeedConfirmation() {
-        $orders = OrderData::with(['OrderDetail', 'OrderDetail.PacketData' => function ($query) {
+        $orders = OrderData::with(['OrderDetail', 'User', 'Agent', 'OrderDetail.PacketData' => function ($query) {
             $query->withTrashed();
         }])
         ->whereHas('OrderDetail', function ($query) {
@@ -140,7 +130,7 @@ class OrderController extends Controller
             ->latest()
         )
         ->get();
-        return OrderDetailedResource::collection($orders);
+        return OrderAllDetailResourse::collection($orders);
     }
 
     function UpdateOrder(Request $request, $order_id, $update_type) {
@@ -270,11 +260,13 @@ class OrderController extends Controller
             'image'=>[
                 'required',
                 'image',
-            'dimensions:width='.$width.',height='.$height,
+                'dimensions:width='.$width.',height='.$height,
             ],
         ];
 
         $messages = [
+            'required' => 'Kolom gambar wajib diisi.',
+            'image' => 'Berkas yang diunggah harus berupa gambar.',
             'dimensions' => 'Ukuran yang diupload tidak sesuai. Ukuran yang disarankan adalah '.$width.'px lebar dan '.$height.'px tinggi.',
         ];
 
