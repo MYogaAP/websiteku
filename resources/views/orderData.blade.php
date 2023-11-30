@@ -168,7 +168,7 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th class="text-secondary">Detail Nomor</th>
+                                            <th class="text-secondary">Detail Utama</th>
                                             <th class="text-secondary">Detail Iklan</th>
                                             <th class="text-secondary">Foto Iklan</th>
                                             <th class="text-secondary">Action</th>
@@ -281,12 +281,12 @@
                                                                 <div class="col">
                                                                     <p>No. Order</p>
                                                                 </div>
-                                                                <div class="col-8">
+                                                                <div class="col-9">
                                                                     <p>:
                                                                         @if (isset($order->nomor_order))
                                                                             {{ $order->nomor_order }}
                                                                         @else
-                                                                            {{ '--------------------' }}
+                                                                        --------------------
                                                                         @endif
                                                                     </p>
                                                                 </div>
@@ -295,12 +295,12 @@
                                                                 <div class="col">
                                                                     <p>No. Seri</p>
                                                                 </div>
-                                                                <div class="col-8">
+                                                                <div class="col-9">
                                                                     <p>:
                                                                         @if (isset($order->nomor_seri))
                                                                             {{ $order->nomor_seri }}
                                                                         @else
-                                                                            {{ '--------------------' }}
+                                                                        --------------------
                                                                         @endif
                                                                     </p>
                                                                 </div>
@@ -309,12 +309,12 @@
                                                                 <div class="col">
                                                                     <p>No. Invoice</p>
                                                                 </div>
-                                                                <div class="col-8">
+                                                                <div class="col-9">
                                                                     <p>:
                                                                         @if (isset($order->nomor_invoice))
                                                                             {{ $order->nomor_invoice }}
                                                                         @else
-                                                                            {{ '--------------------' }}
+                                                                        --------------------
                                                                         @endif
                                                                     </p>
                                                                 </div>
@@ -323,13 +323,41 @@
                                                                 <div class="col">
                                                                     <p>Invoice</p>
                                                                 </div>
-                                                                <div class="col-8">
+                                                                <div class="col-9">
                                                                     <p>:
                                                                         @if (isset($order->invoice_id))
                                                                             <a href="{{ $xendit_link . $order->invoice_id }}"
                                                                                 target="_blank">{{ $order->invoice_id }}</a>
                                                                         @else
-                                                                            {{ '--------------------' }}
+                                                                        --------------------
+                                                                        @endif
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Anggota</p>
+                                                                </div>
+                                                                <div class="col-9">
+                                                                    <p>:
+                                                                        @if ($order->nama_agent != "-")
+                                                                            {{ $order->nama_agent }}
+                                                                        @else
+                                                                        --------------------
+                                                                        @endif
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Email Anggota</p>
+                                                                </div>
+                                                                <div class="col-9">
+                                                                    <p>:
+                                                                        @if ($order->email_agent != "-")
+                                                                            {{ $order->email_agent }}
+                                                                        @else
+                                                                        --------------------
                                                                         @endif
                                                                     </p>
                                                                 </div>
@@ -338,6 +366,14 @@
                                                     </td>
                                                     <td>
                                                         <div class="container p-2">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p>Pemesan</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>: {{$order->nama_pemesan}}</p>
+                                                                </div>
+                                                            </div>
                                                             <div class="row">
                                                                 <div class="col">
                                                                     <p>Nama Instansi</p>

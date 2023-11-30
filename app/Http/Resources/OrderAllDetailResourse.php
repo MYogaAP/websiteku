@@ -19,6 +19,7 @@ class OrderAllDetailResourse extends JsonResource
         $data = json_decode(json_encode(parent::toArray($request)));
         $PacketData = $data->order_detail->packet_data;
         $UserData = $data->user;
+        $AgentData = $data->agent;
         try {
             $OrderDetail = OrderDetail::findOrFail($this->order_detail_id);
         } catch (\Throwable $th) {
@@ -32,7 +33,9 @@ class OrderAllDetailResourse extends JsonResource
             'nomor_seri' => $this->nomor_seri,
             'nama_instansi' => $OrderDetail->nama_instansi,
             'email_instansi' => $OrderDetail->email_instansi,
+            'nomor_instansi' => $OrderDetail->nomor_instansi,
             'deskripsi_iklan' => $OrderDetail->deskripsi_iklan,
+            'alamat_instansi' => $OrderDetail->alamat_instansi,
             'mulai_iklan' => $OrderDetail->mulai_iklan,
             'akhir_iklan'=> $OrderDetail->akhir_iklan,
             'lama_hari' => $OrderDetail->lama_hari,
@@ -47,9 +50,9 @@ class OrderAllDetailResourse extends JsonResource
             'tinggi' => $PacketData->tinggi,
             'kolom' => $PacketData->kolom,
             'harga_paket' => $PacketData->harga_paket,
-            // 'harga_paket' => $PacketData->harga_paket,
-            // 'harga_paket' => $PacketData->harga_paket,
-            // 'harga_paket' => $PacketData->harga_paket,
+            'nama_pemesan' => isset($UserData->name)? $UserData->name:"-",
+            'nama_agent' => isset($AgentData->name)? $AgentData->name:"-",
+            'email_agent' => isset($AgentData->email)? $AgentData->email:"-",
         ];
     }
 }

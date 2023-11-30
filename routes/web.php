@@ -137,7 +137,11 @@ Route::get('/forgot-password', function () {
 
 Route::post('/forgot-password', function (Request $request) {
     $request->validate(
-        ['email' => 'required|email']
+        ['email' => 'required|email'],
+        [
+            'email.required' => 'Kolom email wajib diisi.',
+            'email.email' => 'Masukkan alamat email yang valid.',
+        ]
     );
  
     $status = Password::sendResetLink(
@@ -161,7 +165,15 @@ Route::post('/reset-password', function (Request $request) {
     $request->validate([
         'token' => 'required',
         'email' => 'required|email',
-        'password' => 'required|min:8|confirmed',
+        'password' => 'required|min:8|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_\-])[A-Za-z\d@$!%*?&_\-]+$/',
+    ], [
+        'token.required' => 'Kolom token wajib diisi.',
+        'email.required' => 'Kolom email wajib diisi.',
+        'email.email' => 'Masukkan alamat email yang valid.',
+        'password.required' => 'Kolom password wajib diisi.',
+        'password.min' => 'Password harus minimal :min karakter.',
+        'password.confirmed' => 'Konfirmasi password tidak cocok.',
+        'password.regex' => 'Password harus mengandung huruf kapital, huruf kecil, satu angka dan satu simbol.',
     ]);
  
     $status = Password::reset(
