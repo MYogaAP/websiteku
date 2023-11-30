@@ -177,18 +177,6 @@
                                         placeholder="Pekerjaan" value="{{$data->pekerjaan}}"/>
                                         <label for="pekerjaan">Pekerjaan</label>
                                     </div>
-                                    <div class="d-none" id="submitSuccessMessage">
-                                        <div class="text-center mb-3">
-                                            <div class="fw-bolder">Form submission successful!</div>
-                                            To activate this form, sign up at
-                                            <br />
-                                            <a
-                                                href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
-                                        </div>
-                                    </div>
-                                    <div class="d-none" id="submitErrorMessage">
-                                        <div class="text-center text-danger mb-3">Error sending message!</div>
-                                    </div>
                                     <!-- Submit Button-->
                                     <div class="form-floating mb-3">
                                         <div class="d-grid"><button class="btn btn-primary btn " id="submitButton"
@@ -241,8 +229,8 @@
             event.preventDefault();
             const swal = Swal.mixin({
                 customClass: {
-                    confirmButton: "btn btn-outline-success",
-                    cancelButton: "btn btn-outline-danger",
+                    confirmButton: "btn btn-outline-danger",
+                    cancelButton: "btn btn-outline-primary",
                     actions: "d-flex justify-content-center gap-3"
                 },
                 buttonsStyling: false
@@ -254,8 +242,8 @@
                 html: "Anda akan KELUAR dari akun anda!",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonText: "Teruskan",
-                cancelButtonText: "Batalkan",
+                confirmButtonText: "Keluar",
+                cancelButtonText: "Kembali",
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
