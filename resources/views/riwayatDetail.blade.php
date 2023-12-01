@@ -327,7 +327,7 @@
             <p class="fw-bold col-sm-7"></p>
             <div class="fw-bold col">
                 @if ($data->status_pembayaran == "Menunggu Konfirmasi")
-                    <form action="{{route('CancelingOrderCall', ['order' => $data->order_id])}}" method="POST">
+                    <form action="{{route('CancelingOrderCall', ['order' => $data->order_id])}}" method="POST" id="FormBatalkanOrder">
                         @method('DELETE')
                         @csrf
                         <input type="submit" class="btn btn-outline-danger rounded btn-sm w-100" value="Batalkan">
@@ -337,13 +337,69 @@
                         @method('DELETE')
                         @csrf
                         <input type="hidden" name="xendit_id" value="{{$data->invoice_id}}">
-                        <input type="submit" class="btn btn-outline-danger rounded btn-sm w-100" value="Batalkan">
+                        <input type="submit" class="btn btn-outline-danger rounded btn-sm w-100" value="Batalkan" id="FormBatalkanXendit">
                     </form>
                 @endif
             </div>
         </div>
-        
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById("FormBatalkanOrder").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const swal = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-outline-danger",
+                    cancelButton: "btn btn-outline-primary",
+                    actions: "d-flex justify-content-center gap-3"
+                },
+                buttonsStyling: false
+            });
+
+            // Membuat Model
+            swal.fire({
+                title: "Apakah anda yakin ingin membatalkan?",
+                html: "Anda akan MEMBATALKAN sebuah order!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Lanjutkan",
+                cancelButtonText: "Kembali",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('FormBatalkanOrder').submit();
+                }
+            });
+        });
+
+        document.getElementById("FormBatalkanXendit").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const swal = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-outline-danger",
+                    cancelButton: "btn btn-outline-primary",
+                    actions: "d-flex justify-content-center gap-3"
+                },
+                buttonsStyling: false
+            });
+
+            // Membuat Model
+            swal.fire({
+                title: "Apakah anda yakin ingin membatalkan pembayaran?",
+                html: "Anda akan MEMBATALKAN pembayaran sebuah order!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Lanjutkan",
+                cancelButtonText: "Kembali",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('FormBatalkanXendit').submit();
+                }
+            });
+        });
+    </script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
