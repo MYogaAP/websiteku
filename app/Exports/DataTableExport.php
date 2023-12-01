@@ -27,7 +27,7 @@ class DataTableExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        $data = OrderData::with(['OrderDetail', 'OrderDetail.PacketData' => function ($query) {
+        $data = OrderData::with(['OrderDetail', 'User', 'Agent', 'OrderDetail.PacketData' => function ($query) {
             $query->withTrashed();
         }])
         // ->whereHas('OrderDetail', function ($query) {
