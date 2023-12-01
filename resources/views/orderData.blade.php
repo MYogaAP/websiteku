@@ -376,6 +376,14 @@
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col">
+                                                                    <p>Email Pemesan</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <p>: {{$order->email_pemesan}}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
                                                                     <p>Nama Instansi</p>
                                                                 </div>
                                                                 <div class="col-8">

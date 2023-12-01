@@ -86,7 +86,11 @@ class DataTableExport implements FromCollection, WithHeadings
             'Kolom',
             'Harga Paket',
             'Total Harga',
-            'Waktu Pembayaran'
+            'Waktu Pembayaran',
+            'Pemesan',
+            'Email Pemesan',
+            'Anggota Yang Bertanggung Jawab',
+            'Email Anggota'
         ];
     }
 }
