@@ -51,6 +51,7 @@ class OrderAllDetailResourse extends JsonResource
             'kolom' => $PacketData->kolom,
             'harga_paket' => $PacketData->harga_paket,
             'nama_pemesan' => isset($UserData->name)? $UserData->name:"-",
+            'email_pemesan' => isset($UserData->email)? $UserData->email:"-",
             'nama_agent' => isset($AgentData->name)? $AgentData->name:"-",
             'email_agent' => isset($AgentData->email)? $AgentData->email:"-",
         ];

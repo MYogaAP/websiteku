@@ -19,6 +19,8 @@ class OrderExportResource extends JsonResource
         // Order Data
         $data = json_decode(json_encode(parent::toArray($request)));
         $PacketData = $data->order_detail->packet_data;
+        $UserData = $data->user;
+        $AgentData = $data->agent;
         try {
             $OrderDetail = OrderDetail::findOrFail($this->order_detail_id);
         } catch (\Throwable $th) {
@@ -49,7 +51,11 @@ class OrderExportResource extends JsonResource
             'kolom' => $PacketData->kolom,
             'harga_paket' => $PacketData->harga_paket,
             'total_harga' => $PacketData->harga_paket * $OrderDetail->lama_hari,
-            'tanggal_pembayaran' => isset($OrderDetail->tanggal_pembayaran)? $OrderDetail->tanggal_pembayaran : "-"
+            'tanggal_pembayaran' => isset($OrderDetail->tanggal_pembayaran)? $OrderDetail->tanggal_pembayaran : "-",
+            'nama_pemesan' => isset($UserData->name)? $UserData->name:"-",
+            'email_pemesan' => isset($UserData->email)? $UserData->email:"-",
+            'nama_agent' => isset($AgentData->name)? $AgentData->name:"-",
+            'email_agent' => isset($AgentData->email)? $AgentData->email:"-",
         ];
     }
 }
