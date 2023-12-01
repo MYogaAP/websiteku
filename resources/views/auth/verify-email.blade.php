@@ -89,11 +89,17 @@
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                     <div class="card shadow-2-strong" style="border-radius: 1rem;">
                         <div class="card-body p-5">
+                            @if ($http_status == 200)
                             <div class="d-flex align-items-center justify-content-center mb-3 pb-1">
                                 <span class="h3 fw-bold mb-0 text-center">Email Anda Telah Terverifikasi</span>
                             </div>
+                            @else
+                            <div class="d-flex align-items-center justify-content-center mb-3 pb-1">
+                                <span class="h3 fw-bold mb-0 text-center">Mohon Verifikasi Email Anda</span>
+                            </div>
+                            @endif
                             @if ($http_status == 200)
-                                <a href="{{ route('landingPagePro') }}" class="d-flex btn btn-primary rounded-pill px-5 justify-content-center align-items-center">Masuk Beranda</a>
+                                <a href="{{ route('landingPagePro') }}" class="btn btn-primary btn-lg btn-block w-100">Masuk Beranda</a>
                             @else
                                 <form method="POST" action="{{ route('verification.send') }}">
                                     @csrf
