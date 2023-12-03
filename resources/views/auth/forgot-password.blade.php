@@ -89,11 +89,13 @@
                         <div class="card-body p-4" style="background-color: #1450A3;">
                             @if ($errors->any())
                                 <div class="row align-items-center justify-content-center" style="margin: -2rem">
-                                    <div class="alert alert-success alert-dismissible fade show text-center"
+                                    <div class="alert alert-danger alert-dismissible fade show text-center"
                                         role="alert">
                                         @foreach ($errors->all() as $data)
                                             {{ $data }} <br>
                                         @endforeach
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
                                     </div>
                                 </div>
                             @endif
