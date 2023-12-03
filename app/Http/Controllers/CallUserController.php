@@ -147,7 +147,6 @@ class CallUserController extends Controller
             'Content-Type: application/json'
         ),
         ));
-
         $response = curl_exec($curl);
         $response = json_decode($response);
         $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
@@ -155,9 +154,13 @@ class CallUserController extends Controller
 
         if($http_status == 401){
             return View('profilePro');
+        } else if ($http_status == 200){
+            return View('profilePro')->with(['MessageSuccess' => $response->message]);
+        } else if ($http_status == 422){
+            return View('profilePro')->with(['MessageWarning' => [$response->message]]);
         }
 
-        return View('profilePro')->with(['MessageSuccess' => $response->message]);
+        return View('profilePro')->with(['MessageWarning' => ['Terjadi sebuah kesalahan']]);
     }
 
     function UpdatePasswordCall(Request $request) {

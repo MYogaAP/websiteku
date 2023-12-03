@@ -77,7 +77,7 @@
                                     </div>
                                     <div class="pt-1 mb-4">
                                         <button type="submit" class="btn btn-dark btn-lg btn-block w-100"
-                                            style="background-color: #1450A3">Kirim</button>
+                                            style="background-color: #1450A3">Reset Password</button>
                                     </div>
                                 </form>
                             </div>
@@ -89,6 +89,8 @@
                                             @foreach ($errors->all() as $data)
                                                 {{ $data }} <br>
                                             @endforeach
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
                                         </div>
                                     </div>
                                 @endif
