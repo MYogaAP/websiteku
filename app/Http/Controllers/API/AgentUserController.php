@@ -39,19 +39,11 @@ class AgentUserController extends Controller
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_\-])[A-Za-z\d@$!%*?&_\-]+$/',
             ],
         ], [
-            'username.required' => 'Kolom username wajib diisi.',
-            'username.unique' => 'Username sudah digunakan.',
-            'username.max' => 'Username tidak boleh lebih dari :max karakter.',
-            'username.min' => 'Username harus minimal :min karakter.',
-            'username.alpha_dash' => 'Username hanya boleh berisi huruf, angka, dan garis bawah.',
-        
-            'email.required' => 'Kolom email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email sudah digunakan.',
-        
-            'password.required' => 'Kolom password wajib diisi.',
-            'password.min' => 'Password harus minimal :min karakter.',
-            'password.regex' => 'Password harus mengandung huruf kapital, huruf kecil, satu angka dan satu simbol.',
+            'old_password.required' => 'Kolom password lama wajib diisi.',
+
+            'password.required' => 'Kolom password baru wajib diisi.',
+            'password.min' => 'Password baru harus minimal :min karakter.',
+            'password.regex' => 'Password baru harus mengandung huruf kapital, huruf kecil, satu angka dan satu simbol.',
         ]);
 
         $currentAccount = Auth::user()->user_id;
@@ -65,7 +57,7 @@ class AgentUserController extends Controller
             ], 404);
         } elseif (Hash::check($newPassword, $currentPassword)){
             return response()->json([
-                'message' => 'The password baru yang anda masukkan sama dengan password lama anda.',
+                'message' => 'Password baru yang anda masukkan sama dengan password lama anda.',
             ], 404);
         } else {
             $updateData = User::findOrFail($currentAccount);
@@ -87,17 +79,23 @@ class AgentUserController extends Controller
     function UpdateProfile(Request $request) {
         $newProfile = $request->validate([
             'name' => [
+                'required',
                 'max:255'
             ],
             'no_hp' => [
+                'required',
                 'numeric'
             ],
             'pekerjaan' => [
                 'max:255'
             ]
         ], [
+            'name.required' => 'Kolom nama wajib diisi.',
             'name.max' => 'Nama tidak boleh lebih dari :max karakter.',
+
+            'no_hp.required' => 'Nomor HP wajib diisi.',
             'no_hp.numeric' => 'Nomor HP harus berupa angka.',
+            
             'pekerjaan.max' => 'Pekerjaan tidak boleh lebih dari :max karakter.',
         ]);
 

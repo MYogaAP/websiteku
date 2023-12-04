@@ -198,7 +198,13 @@ class CallOrderController extends Controller
 
     session()->forget('form_data', 'default');
     session()->forget('packet_data', 'default');
-    return redirect()->route('SendToRiwayatUser');
+    if($http_status == 200){
+      session()->put('message', $response->message);
+      return redirect()->route('SendToRiwayatUser');
+    } else {
+      session()->put('error', "Sebuah kesalahan terjadi.");
+      return redirect()->route('SendToRiwayatUser');
+    }
   }
 
   function AcceptUserOrder(Request $request) {

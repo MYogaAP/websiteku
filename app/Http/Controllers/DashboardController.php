@@ -46,6 +46,8 @@ class DashboardController extends Controller
 
         if($http_status == 200){
             $request->session()->put('success', $response->message);
+        } else if ($http_status) {
+            $request->session()->put('danger', $response->message);
         } else {
             $request->session()->put('danger', "Sebuah kesalahan terjadi.");
         }
@@ -158,6 +160,8 @@ class DashboardController extends Controller
             $request->session()->put('success', $response->message);
         } elseif ($http_status == 404) {
             $request->session()->put('danger', $response->message);
+        } else {
+            $request->session()->put('danger', 'Sebuah kesalahan terjadi!');
         }
         return redirect()->route('paketData');
     }

@@ -131,23 +131,23 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Apakah anda yakin ingin keluar?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    Select "Logout" below if you are ready to end your current session.
+                    Anda akan KELUAR dari akun anda dan menyelesaikan sesi ini.
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">
-                        Cancel
+                        Kembali
                     </button>
                     <form action="{{route('LogoutCall')}}" method='POST'>
                         @method('DELETE')
                         @csrf
                         <button type="submit" class="btn btn-primary" type="button">
-                            Logout
+                            Keluar
                         </button>
                     </form>
                 </div>

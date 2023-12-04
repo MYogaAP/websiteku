@@ -198,7 +198,7 @@
                                 <!-- Name input-->
                                 <div class="form-floating mb-3">
                                     <input class="form-control" id="nama_instansi" name="nama_instansi" type="text"
-                                        placeholder="Nama Instansi"
+                                        required placeholder="Nama Instansi"
                                         value="@if(isset($nama)){{$nama}}@endif">
                                     <label for="nama_instansi"><span class="text-danger inline">*</span>Nama Instansi</label>
                                 </div>
@@ -268,7 +268,7 @@
                                 <!-- Submit Button-->
                                 <div class="d-grid">
                                     <button class="btn btn-primary btn-lg" id="submitButton" type="submit">
-                                        Submit
+                                        Selanjutnya
                                     </button>
                                 </div>
                             </form>

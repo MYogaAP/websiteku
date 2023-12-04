@@ -725,7 +725,7 @@
                                 <label for="detail_kemajuan" class="form-label">Detail Penolakan Iklan<span
                                         class="text-danger">*</span></label>
                                 <textarea class="form-control" rows="3" id="detail_kemajuan" name="detail_kemajuan"
-                                    placeholder="cth. pesanan kami tolak karena ...."></textarea>
+                                    placeholder="cth. pesanan kami tolak karena ...." required></textarea>
                             </div>
                         </div>
                     </div>

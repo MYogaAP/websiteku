@@ -52,10 +52,24 @@
 
     {{-- Content --}}
     <div class="container text-center mt-5 border rounded-4">
-        @if(isset($canceling->message))
+        @isset($canceling->message)
             <div class="d-flex justify-content-center">
                 <div class="mb-1 mt-3 alert alert-success w-50">
                     {{ $canceling->message }}
+                </div>
+            </div>
+        @endisset
+        @if(session()->has('message'))
+            <div class="d-flex justify-content-center">
+                <div class="mb-1 mt-3 alert alert-success w-50">
+                    {{ session()->get('message') }}
+                </div>
+            </div>
+        @endif
+        @if(session()->has('error'))
+            <div class="d-flex justify-content-center">
+                <div class="mb-1 mt-3 alert alert-danger w-50">
+                    {{ session()->get('error') }}
                 </div>
             </div>
         @endif
@@ -272,8 +286,10 @@
                                 <td>
                                     @if($order->status_pembayaran == "Belum Lunas")
                                         <p class="text-secondary">{{$order->status_pembayaran}}</p>
-                                        <p><a href="{{isset($order->invoice_id)? $xendit_link.$order->invoice_id : "#"}}" class="text-decoration-none btn btn-sm w-100 btn-outline-primary rounded" target="_blank">Bayar Disini</a></p>
-                                        <p><form action="{{route('DeleteOrderCall', ['order' => $order->order_id])}}" method="POST" id="FormBatalkanXendit">
+                                        <p><a href="{{isset($order->invoice_id)? $xendit_link.$order->invoice_id : "#"}}" class="text-decoration-none btn btn-sm w-100 btn-outline-primary rounded" target="_blank">
+                                            Bayar Disini
+                                        </a></p>
+                                        <p><form action="{{route('DeleteOrderCall', ['order' => $order->order_id])}}" method="POST" class="FormBatalkanXendit">
                                             @method('DELETE')
                                             @csrf
                                             <input type="hidden" name="xendit_id" value="{{$order->invoice_id}}">
@@ -288,7 +304,7 @@
                                         <p class="text-danger">{{$order->status_pembayaran}}</p>
                                     @elseif($order->status_pembayaran == "Menunggu Konfirmasi")
                                         <p class="text-secondary">{{$order->status_pembayaran}}</p>
-                                        <p><form action="{{route('CancelingOrderCall', ['order' => $order->order_id])}}" method="POST" id="FormBatalkanOrder">
+                                        <p><form action="{{route('CancelingOrderCall', ['order' => $order->order_id])}}" method="POST" class="FormBatalkanOrder">
                                             @method('DELETE')
                                             @csrf
                                             <input type="submit" class="btn btn-outline-danger rounded btn-sm w-100" value="Batalkan">
@@ -337,57 +353,73 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.getElementById("FormBatalkanOrder").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const swal = Swal.mixin({
-                customClass: {
-                    confirmButton: "btn btn-outline-danger",
-                    cancelButton: "btn btn-outline-primary",
-                    actions: "d-flex justify-content-center gap-3"
-                },
-                buttonsStyling: false
-            });
+        // Get all elements with the class "FormBatalkanOrder"
+        const forms = document.querySelectorAll(".FormBatalkanOrder");
 
-            // Membuat Model
-            swal.fire({
-                title: "Apakah anda yakin ingin membatalkan?",
-                html: "Anda akan MEMBATALKAN sebuah order!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Lanjutkan",
-                cancelButtonText: "Kembali",
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('FormBatalkanOrder').submit();
-                }
+        // Iterate over each form
+        forms.forEach((form) => {
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const swal = Swal.mixin({
+                    customClass: {
+                        confirmButton: "btn btn-outline-danger",
+                        cancelButton: "btn btn-outline-primary",
+                        actions: "d-flex justify-content-center gap-3"
+                    },
+                    buttonsStyling: false
+                });
+
+                // Membuat Model
+                swal.fire({
+                    title: "Apakah anda yakin ingin membatalkan?",
+                    html: "Anda akan MEMBATALKAN sebuah order!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Lanjutkan",
+                    cancelButtonText: "Kembali",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Submit the specific form that triggered the event
+                        form.submit();
+                    }
+                });
             });
         });
+    </script>
 
-        document.getElementById("FormBatalkanXendit").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const swal = Swal.mixin({
-                customClass: {
-                    confirmButton: "btn btn-outline-danger",
-                    cancelButton: "btn btn-outline-primary",
-                    actions: "d-flex justify-content-center gap-3"
-                },
-                buttonsStyling: false
-            });
+    <script>
+        // Get all elements with the class "FormBatalkanXendit"
+        const forms = document.querySelectorAll(".FormBatalkanXendit");
 
-            // Membuat Model
-            swal.fire({
-                title: "Apakah anda yakin ingin membatalkan pembayaran?",
-                html: "Anda akan MEMBATALKAN pembayaran sebuah order!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Lanjutkan",
-                cancelButtonText: "Kembali",
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('FormBatalkanXendit').submit();
-                }
+        // Iterate over each form
+        forms.forEach((form) => {
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const swal = Swal.mixin({
+                    customClass: {
+                        confirmButton: "btn btn-outline-danger",
+                        cancelButton: "btn btn-outline-primary",
+                        actions: "d-flex justify-content-center gap-3"
+                    },
+                    buttonsStyling: false
+                });
+
+                // Membuat Model
+                swal.fire({
+                    title: "Apakah anda yakin ingin membatalkan pembayaran?",
+                    html: "Anda akan MEMBATALKAN pembayaran sebuah order!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Lanjutkan",
+                    cancelButtonText: "Kembali",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Submit the specific form that triggered the event
+                        form.submit();
+                    }
+                });
             });
         });
     </script>

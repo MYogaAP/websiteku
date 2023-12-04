@@ -133,7 +133,7 @@
                                     <!-- Old Password input-->
                                     <div class="form-floating mb-3">
                                         <input class="form-control" id="old_password" name="old_password" type="password" placeholder=""
-                                            data-sb-validations="required" />
+                                            data-sb-validations="required" required/>
                                         <label for="old_password">Password Lama</label>
                                         <div class="invalid-feedback" data-sb-feedback="old_password:required">password lama
                                             dibutuhkan.
@@ -142,7 +142,7 @@
                                     <!-- Password input-->
                                     <div class="form-floating mb-3">
                                         <input class="form-control" id="password" name="password" type="password" placeholder=""
-                                            data-sb-validations="required" />
+                                            data-sb-validations="required" required/>
                                         <label for="password">Password Baru</label>
                                         <div class="invalid-feedback" data-sb-feedback="password:required">password baru
                                             dibutuhkan.
@@ -160,7 +160,7 @@
                                     <div class="form-floating mb-3">
                                         <input class="form-control" id="nama" type="text" name="nama"
                                             placeholder="cth. Abdul Hafiz" data-sb-validations="required" 
-                                            value="{{$data->name}}"/>
+                                            value="{{$data->name}}" required/>
                                         <label for="nama">Nama Lengkap</label>
                                         <div class="invalid-feedback" data-sb-feedback="phone:required">Nama anda dibutuhkan.
                                         </div>
@@ -168,7 +168,7 @@
                                     <!-- Phone number input-->
                                     <div class="form-floating mb-3">
                                         <input class="form-control" id="no_hp" type="tel" name="no_hp"
-                                            placeholder="cth. 081515759080" value="{{$data->no_hp}}" onkeypress='validate(event)'/>
+                                            placeholder="cth. 081515759080" value="{{$data->no_hp}}" onkeypress='validate(event)' required/>
                                         <label for="no_hp">Nomor Handphone</label>
                                     </div>
                                     <!-- Phone number input-->
