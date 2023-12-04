@@ -109,8 +109,10 @@
                                     @if (session()->has('dangers'))
                                         <div class="alert alert-danger alert-dismissable">
                                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                            @foreach (session()->get('dangers') as $msg)
-                                                {{$msg}}     
+                                            @foreach (session()->get('dangers') as $msgs)
+                                                @foreach ($msgs as $msg)
+                                                    {{$msg}}
+                                                @endforeach
                                             @endforeach
                                         </div>
                                     @endif
@@ -171,7 +173,7 @@
                                                                 data-email="{{$agent->email}}" data-nohp="{{isset($agent->no_hp) ? $agent->no_hp : ""}}" 
                                                                 data-pekerjaan="{{ isset($agent->pekerjaan) ? $agent->pekerjaan : "" }}">
                                                                 Edit Data Anggota</button>
-                                                            <form action="{{route('HapusAgent', ['agent' => $agent->user_id])}}" method="post" id="FormDelAgent">
+                                                            <form action="{{route('HapusAgent', ['agent' => $agent->user_id])}}" method="post" class="FormDelAgent">
                                                                 @method("DELETE")
                                                                 @csrf
                                                                 <button type="submit" class="dropdown-item text-danger">
@@ -321,6 +323,7 @@
     @php
         session()->forget('success');
         session()->forget('danger');
+        session()->forget('dangers');
     @endphp
 
     <script>
@@ -345,40 +348,44 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.getElementById("FormDelAgent").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const swal = Swal.mixin({
-                customClass: {
-                    confirmButton: "btn btn-outline-success",
-                    cancelButton: "btn btn-outline-danger",
-                    actions: "d-flex justify-content-center gap-3",
-                    container: "pe-4"
-                },
-                buttonsStyling: false
-            });
-
-            // Membuat Model
-            swal.fire({
-                title: "Apakah anda yakin?",
-                html: "Anda akan MENGHAPUS seorang anggota biro iklan!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Teruskan",
-                cancelButtonText: "Batalkan",
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('FormDelAgent').submit();
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swal.fire({
-                        title: "Aksi telah dibatalkan!",
-                        text: "Penghapusan anggota dibatalkan.",
-                        icon: "error"
-                    });
-                }
+        // Get all elements with the class "FormDelAgent"
+        const forms = document.querySelectorAll(".FormDelAgent");
+    
+        // Iterate over each form
+        forms.forEach((form) => {
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const swal = Swal.mixin({
+                    customClass: {
+                        confirmButton: "btn btn-outline-success",
+                        cancelButton: "btn btn-outline-danger",
+                        actions: "d-flex justify-content-center gap-3",
+                        container: "pe-4"
+                    },
+                    buttonsStyling: false
+                });
+    
+                // Membuat Model
+                swal.fire({
+                    title: "Apakah anda yakin?",
+                    html: "Anda akan MENGHAPUS seorang anggota biro iklan!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Teruskan",
+                    cancelButtonText: "Batalkan",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Submit the specific form that triggered the event
+                        form.submit();
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        swal.fire({
+                            title: "Aksi telah dibatalkan!",
+                            text: "Penghapusan anggota dibatalkan.",
+                            icon: "error"
+                        });
+                    }
+                });
             });
         });
     </script>

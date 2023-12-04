@@ -206,7 +206,7 @@
                         <div class="form-floating mb-3">
                             <div class="d-grid">
                                 <a href="{{ route('pemesanan') }}" class="btn btn-primary btn">
-                                    Kembali</a>
+                                    Sebelumnya</a>
                             </div>
                         </div>
                     </div>

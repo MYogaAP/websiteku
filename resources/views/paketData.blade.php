@@ -194,7 +194,7 @@
                                                             </button>
                                                             <div class="dropdown-menu animated--fade-in"
                                                                 aria-labelledby="dropdownMenuButton">
-                                                                <form action="#" method="post">
+                                                                <form action="#" method="post" id="VisibilityForm">
                                                                     @method("PATCH")
                                                                     @csrf
                                                                     @if ($list->hidden == "yes")
@@ -205,7 +205,7 @@
                                                                             Hide Packet</button>
                                                                     @endif
                                                                 </form>
-                                                                <form action="{{route('HapusPaket', ['packet' => $list->packet_id])}}" method="post" id="FormDelPacket">
+                                                                <form action="{{route('HapusPaket', ['packet' => $list->packet_id])}}" method="post" class="FormDelPacket">
                                                                     @method("DELETE")
                                                                     @csrf
                                                                     <button type="submit" class="dropdown-item text-danger">
@@ -273,12 +273,12 @@
                                 <div class="mb-3">
                                     <label for="tinggi_paket" class="form-label">Tinggi<span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="tinggi_paket" name="tinggi_paket"
-                                        placeholder="50" min="1" max="530" required onkeypress='validate(event)'>
+                                        placeholder="50 (50 - 530)" min="1" max="530" required onkeypress='validate(event)'>
                                 </div>
                                 <div class="mb-3">
                                     <label for="kolom_paket" class="form-label">Kolom<span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="kolom_paket" name="kolom_paket"
-                                        placeholder="1" min="1" max="6" required onkeypress='validate(event)'>
+                                        placeholder="1 (1 - 6)" min="1" max="6" required onkeypress='validate(event)'>
                                 </div>
                                 <div class="mb-3">
                                     <label for="format_warna_paket" class="form-label">Format Warna<span class="text-danger">*</span></label>
@@ -326,45 +326,60 @@
                 theEvent.returnValue = false;
                 if(theEvent.preventDefault) theEvent.preventDefault();
             }
+
+            const inputElement = event.target;
+            const minValue = parseInt(inputElement.min);
+            const maxValue = parseInt(inputElement.max);
+            const currentValue = parseInt(inputElement.value + event.key);
+
+            if (isNaN(currentValue) || currentValue < minValue || currentValue > maxValue) {
+                event.preventDefault();
+            }
         }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.getElementById("FormDelPacket").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const swal = Swal.mixin({
-                customClass: {
-                    confirmButton: "btn btn-outline-success",
-                    cancelButton: "btn btn-outline-danger",
-                    actions: "d-flex justify-content-center gap-3",
-                    container: "pe-4"
-                },
-                buttonsStyling: false
-            });
+        // Get all elements with the class "FormDelPacket"
+        const forms = document.querySelectorAll(".FormDelPacket");
 
-            // Membuat Model
-            swal.fire({
-                title: "Apakah anda yakin?",
-                html: "Anda akan MENGHAPUS sebuah paket!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Teruskan",
-                cancelButtonText: "Batalkan",
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('FormDelPacket').submit();
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swal.fire({
-                        title: "Aksi telah dibatalkan!",
-                        text: "Penghapusan paket dibatalkan.",
-                        icon: "error"
-                    });
-                }
+        // Iterate over each form
+        forms.forEach((form) => {
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const swal = Swal.mixin({
+                    customClass: {
+                        confirmButton: "btn btn-outline-success",
+                        cancelButton: "btn btn-outline-danger",
+                        actions: "d-flex justify-content-center gap-3",
+                        container: "pe-4"
+                    },
+                    buttonsStyling: false
+                });
+
+                // Membuat Model
+                swal.fire({
+                    title: "Apakah anda yakin?",
+                    html: "Anda akan MENGHAPUS sebuah paket!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Teruskan",
+                    cancelButtonText: "Batalkan",
+                    reverseButtons: true
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        // Submit the specific form that triggered the event
+                        form.submit();
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        swal.fire({
+                            title: "Aksi telah dibatalkan!",
+                            text: "Penghapusan paket dibatalkan.",
+                            icon: "error"
+                        });
+                    }
+                });
             });
         });
     </script>

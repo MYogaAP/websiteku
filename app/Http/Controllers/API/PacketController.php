@@ -106,7 +106,7 @@ class PacketController extends Controller
         $packet_data = PacketData::create($request->all());
 
         return response()->json([
-            'message' => 'Packet telah berhasil ditambahkan.',
+            'message' => 'Paket telah berhasil ditambahkan.',
         ]);
     }
 

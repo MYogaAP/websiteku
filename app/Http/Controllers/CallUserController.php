@@ -206,8 +206,8 @@ class CallUserController extends Controller
         }
 
         if($http_status == 200){
-            return View('profilePro')->with([
-                "MessageSuccess" => $response->message
+            return View('login')->with([
+                "message" => $response->message
             ]);
         }
     }

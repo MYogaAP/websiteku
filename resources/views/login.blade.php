@@ -61,23 +61,23 @@
 
             if ($http_status == 401 || $http_status == 500 || $http_status == 404) {
                 setcookie('auth', '', time() - 3600, '/');
-                header('Location: ' . route('loginPage'), true, 302);
-                exit();
             }
             if ($http_status == 403) {
                 header('Location: ' . route('verification.notice'), true, 302);
                 exit();
             }
         @endphp
-        @if ($user_data->role == 'admin' || $user_data->role == 'agent')
-            <script>
-                window.location = "{{ route('orderData') }}";
-            </script>
-        @else
-            <script>
-                window.location = "{{ route('landingPagePro') }}";
-            </script>
-        @endif
+        @isset($user_data->role)
+            @if ($user_data->role == 'admin' || $user_data->role == 'agent')
+                <script>
+                    window.location = "{{ route('orderData') }}";
+                </script>
+            @else
+                <script>
+                    window.location = "{{ route('landingPagePro') }}";
+                </script>
+            @endif
+        @endisset
     @endif
 
     {{-- Content --}}

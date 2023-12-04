@@ -331,7 +331,7 @@ class OrderController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Order telah berhasil kirimkan.',
+            'message' => 'Order telah berhasil dikirimkan.',
         ]);
     }
 
