@@ -196,7 +196,7 @@
                                     <i class="fa-solid fa-handshake-simple"></i>
                                 </div>
                                 <h2 class="h5 fw-bold">Kemudahan Akses</h2>
-                                <p class="mb-0" style="text-align:justify">Proses pemesanan yang dapat dilakukan kapan saja dan di mana saja 
+                                <p class="mb-0" style="text-align:justify">Proses pengajuan yang dapat dilakukan kapan saja dan di mana saja 
                                     menghemat waktu dan tenaga Anda. Tidak perlu lagi datang langsung ke kantor 
                                     untuk melakukan transaksi, memberikan fleksibilitas yang signifikan.</p>
                             </div>

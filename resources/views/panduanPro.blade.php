@@ -48,10 +48,10 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xxl-6">
                         <div class="text-center my-5">
-                            <h1 class="fw-bolder mb-3">Panduan Pemesanan Iklan
+                            <h1 class="fw-bolder mb-3">Panduan Pengajuan Pemasangan Iklan
                             </h1>
                             <p class="lead fw-normal text-muted mb-4">Nikmati kenyamanan 
-                                dalam proses pemesanan di Radar Banjarmasin yang disederhanakan 
+                                dalam proses pengajuan di Radar Banjarmasin yang disederhanakan 
                                 melalui empat langkah mudah. Kami berkomitmen untuk memberikan layanan 
                                 terbaik bagi Anda!</p>
                         </div>

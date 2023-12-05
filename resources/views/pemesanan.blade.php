@@ -185,7 +185,7 @@
                         <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
                             <i class="bi bi-envelope"></i>
                         </div>
-                        <h1 class="fw-bolder">Pemesanan Iklan</h1>
+                        <h1 class="fw-bolder">Pengajuan Pemasangan Iklan</h1>
                         <p class="lead fw-normal text-muted mb-0">
                             Isi formulir dengan detail keperluan iklan anda
                         </p>
