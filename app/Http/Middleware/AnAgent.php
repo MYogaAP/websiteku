@@ -18,7 +18,7 @@ class AnAgent
     {
         $currentUser = Auth::user();
 
-        if ($currentUser->role == 'costumer') {
+        if ($currentUser->role == 'customer') {
             return response()->json([
                 'message' => 'Anda bukan seorang anggota biro iklan.',
             ], 401);

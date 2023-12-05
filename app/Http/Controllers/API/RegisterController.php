@@ -48,7 +48,7 @@ class RegisterController extends Controller
         ]);
 
         $request->merge(['name' => 'user_'.Str::random(10)."_".$request->username]);
-        $request->merge(['role' => 'costumer']); // Making the user as costumer
+        $request->merge(['role' => 'customer']); // Making the user as customer
 
         $newData = User::create($request->all());
         event(new Registered($newData));

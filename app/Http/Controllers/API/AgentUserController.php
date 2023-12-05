@@ -159,7 +159,7 @@ class AgentUserController extends Controller
         $deleteData->name = $deleteData->name.Str::random(30);
         $deleteData->username = $deleteData->username.Str::random(30);
         $deleteData->email = $deleteData->email.Str::random(30);
-        $deleteData->role = "costumer";
+        $deleteData->role = "customer";
         $deleteData->no_hp = "";
         $deleteData->pekerjaan = "";
         $deleteData->save();

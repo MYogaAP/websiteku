@@ -259,7 +259,7 @@ class CallOrderController extends Controller
     CURLOPT_POSTFIELDS => json_encode(array(
       "external_id" => $request->nomor_invoice,
       "amount" => $data_order->lama_hari*$data_order->harga_paket,
-      "description" => "Pemesanan pemasangan iklan pada koran Radar Banjarmasin",
+      "description" => "Pembayaran pemasangan iklan pada koran Radar Banjarmasin",
       "invoice_duration" => $expire_time,
       "customer" => [
           "given_names" => $data_order->nama_instansi,
