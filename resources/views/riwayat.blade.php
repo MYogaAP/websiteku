@@ -349,6 +349,7 @@
 
     @php
         session()->forget('cancel');
+        session()->forget('message');
     @endphp
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

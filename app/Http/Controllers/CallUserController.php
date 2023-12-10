@@ -233,6 +233,8 @@ class CallUserController extends Controller
         curl_close($curl);
 
         setcookie("auth", "", time() - 3600, "/");
+        session()->forget('form_data');
+        session()->forget('packet_data');
 
         if($http_status == 200){
             return View('login')->with([
