@@ -28,6 +28,18 @@
     <!-- Custom styles for this page -->
     <link href="{{ asset('adminStyle/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
+    <style>
+        .sidebar {
+            flex: 0 0 auto; /* Do not grow or shrink */
+            height: 100%;
+            background-color: #333;
+            color: white;
+        }
+
+        #content {
+            flex: 1; /* Grow to fill available space */
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -62,18 +74,6 @@
             }
         @endphp
     @endif
-
-    <script>
-        window.onload = function() {
-            var sidebar = $('.sidebar');
-            var content = $('.content');
-
-            if (content.height() > sidebar.height() )
-                sidebar.css('height', content.height());
-            else
-                sidebar.css('height', sidebar.height());
-        }
-    </script>
 
     <!-- Page Wrapper -->
     <div id="wrapper" class="content">
