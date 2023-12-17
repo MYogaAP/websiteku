@@ -38,23 +38,21 @@
         input[type="number"] {
             -moz-appearance: textfield;
         }
-    </style>
 
+        .sidebar {
+            flex: 0 0 auto; /* Do not grow or shrink */
+            height: 100%;
+            background-color: #333;
+            color: white;
+        }
+
+        #content {
+            flex: 1; /* Grow to fill available space */
+        }
+    </style>
 </head>
 
 <body id="page-top" class="content">
-    <script>
-        window.onload = function() {
-            var sidebar = $('.sidebar');
-            var content = $('.content');
-
-            if (content.height() > sidebar.height() )
-                sidebar.css('height', content.height());
-            else
-                sidebar.css('height', sidebar.height());
-        }
-    </script>
-
     @php
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -400,6 +398,61 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('public/adminStyle/js/demo/datatables-demo.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            var dataTable = $('#dataTable').DataTable(); // Use the existing DataTable instance
+
+            // Add custom search input for "Detail Paket" and "Status Visibilitas" columns
+            if (!$('#dataTable thead tr:eq(1) th input').length) {
+                $('#dataTable thead tr').clone(true).appendTo('#dataTable thead');
+                $('#dataTable thead tr:eq(1) th').each(function(i) {
+                    // Disable sorting for the custom search input columns
+                    $(this).removeClass('sorting sorting_asc sorting_desc')
+                        .off('click')
+                        .removeAttr('aria-sort');
+
+                    if (i === 0) { 
+                        var title = $(this).text();
+                        $(this).html('<input type="text" class="form-control" placeholder="Pencarian ' + title + '" />');
+
+                        var input = $('input', this).on('keyup change', function() {
+                            if (dataTable.column(i).search() !== this.value) {
+                                dataTable.column(i).search(this.value).draw();
+                            }
+                        });
+
+                        // Prevent sorting when the input is focused
+                        input.on('click', function(e) {
+                            e.stopPropagation();
+                        });
+                    } else if (i === 2) {
+                        var title = $(this).text();
+                        $(this).html('<select class="form-control"><option value="">Pencarian Status</option><option value="Visible">Visible</option><option value="Hidden">Hidden</option></select>');
+
+                        var select = $('select', this).on('change', function() {
+                            if (dataTable.column(i).search() !== this.value) {
+                                dataTable.column(i).search(this.value).draw();
+                            }
+                        });
+
+                        // Prevent sorting when the select is focused
+                        select.on('click', function(e) {
+                            e.stopPropagation();
+                        });
+                    } else {
+                        // For other column, leave it empty or customize as needed
+                        $(this).html('<input type="text" class="form-control" style="display: none;" />');
+                    }
+                });
+
+                // Prevent sorting when the cloned row is clicked
+                $('#dataTable thead tr:eq(1)').on('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

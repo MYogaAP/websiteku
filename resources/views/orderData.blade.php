@@ -28,6 +28,19 @@
 
     <!-- Custom styles for this page -->
     <link href="{{ asset('public/adminStyle/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+    <style>
+        .sidebar {
+            flex: 0 0 auto; /* Do not grow or shrink */
+            height: 100%;
+            background-color: #333;
+            color: white;
+        }
+
+        #content {
+            flex: 1; /* Grow to fill available space */
+        }
+    </style>
 </head>
 
 <body id="page-top" class="content">
@@ -41,8 +54,10 @@
             else
                 sidebar.css('height', sidebar.height());
         }
-    </script>
+    </style>
+</head>
 
+<body id="page-top" class="content">
     @if (!Cookie::has('auth'))
         <script>
             window.location = "{{ route('loginPage') }}";
@@ -171,7 +186,7 @@
                                             <th class="text-secondary">Detail Utama</th>
                                             <th class="text-secondary">Detail Iklan</th>
                                             <th class="text-secondary">Foto Iklan</th>
-                                            <th class="text-secondary">Action</th>
+                                            <th class="text-secondary">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -899,8 +914,6 @@
         });
     </script>
 
-
-
     <script>
         $(document).on("click", "#TerimaOrderBtn", function() {
             var OrderId = $(this).data('id');
@@ -919,6 +932,29 @@
             var XenditId = $(this).data('xenid');
             $(".modal-body #order_id").val(OrderId);
             $(".modal-body #xendit_id").val(XenditId);
+        });
+        $(document).ready(function() {
+            var dataTable = $('#dataTable').DataTable(); // Use the existing DataTable instance
+
+            // Add search input for each column if not already added
+            if (!$('#dataTable thead tr:eq(1) th input').length) {
+                $('#dataTable thead tr').clone(true).appendTo('#dataTable thead');
+                $('#dataTable thead tr:eq(1) th').each(function(i) {
+                    if (i < 2) { // Exclude the third column (index 2) or more
+                        var title = $(this).text();
+                        $(this).html('<input type="text" class="form-control" placeholder="Pencarian ' + title + '" />');
+
+                        $('input', this).on('keyup change', function() {
+                            if (dataTable.column(i).search() !== this.value) {
+                                dataTable.column(i).search(this.value).draw();
+                            }
+                        });
+                    } else {
+                        // For other column, leave it empty or customize as needed
+                        $(this).html('<input type="text" class="form-control" style="display: none;" />');
+                    }
+                });
+            }
         });
     </script>
 </body>
