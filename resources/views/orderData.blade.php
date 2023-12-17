@@ -44,20 +44,6 @@
 </head>
 
 <body id="page-top" class="content">
-    <script>
-        window.onload = function() {
-            var sidebar = $('.sidebar');
-            var content = $('.content');
-
-            if (content.height() > sidebar.height())
-                sidebar.css('height', content.height());
-            else
-                sidebar.css('height', sidebar.height());
-        }
-    </style>
-</head>
-
-<body id="page-top" class="content">
     @if (!Cookie::has('auth'))
         <script>
             window.location = "{{ route('loginPage') }}";
