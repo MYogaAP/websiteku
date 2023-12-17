@@ -423,6 +423,47 @@
             $(".modal-body #Id_Edit").val( AgentId );
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            var dataTable = $('#dataTable').DataTable(); // Use the existing DataTable instance
+
+            // Add custom search input for "Detail Anggota" and "Email" columns
+            if (!$('#dataTable thead tr:eq(1) th input').length) {
+                $('#dataTable thead tr').clone(true).appendTo('#dataTable thead');
+                $('#dataTable thead tr:eq(1) th').each(function(i) {
+                    // Disable sorting for the custom search input columns
+                    $(this).removeClass('sorting sorting_asc sorting_desc')
+                        .off('click')
+                        .removeAttr('aria-sort');
+
+                    if (i < 2) { 
+                        var title = $(this).text();
+                        $(this).html('<input type="text" class="form-control" placeholder="Pencarian ' + title + '" />');
+
+                        var input = $('input', this).on('keyup change', function() {
+                            if (dataTable.column(i).search() !== this.value) {
+                                dataTable.column(i).search(this.value).draw();
+                            }
+                        });
+
+                        // Prevent sorting when the input is focused
+                        input.on('click', function(e) {
+                            e.stopPropagation();
+                        });
+                    } else {
+                        // For other column, leave it empty or customize as needed
+                        $(this).html('<input type="text" class="form-control" style="display: none;" />');
+                    }
+                });
+
+                // Prevent sorting when the cloned row is clicked
+                $('#dataTable thead tr:eq(1)').on('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
