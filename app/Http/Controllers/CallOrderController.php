@@ -214,7 +214,6 @@ class CallOrderController extends Controller
       'nomor_seri' => 'required',
     ]);
     $desk_up = isset($request->detail_kemajuan) ? $request->detail_kemajuan : "Telah diterima oleh anggota tim Biro Iklan Radar Banjarmasin";
-    $expire_time = 1209600; //2 Weeks in minutes
 
     // Get Order Data
     $curl = curl_init();
@@ -237,6 +236,21 @@ class CallOrderController extends Controller
     $data_order = $data_order->data[0];
     $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     curl_close($curl);
+
+    if(isset($data_order)){
+      $start = now()->parse($data_order->mulai_iklan);
+      $expire_time = 1; // In seconds
+
+      // Setting today and 1 day before start at 5 PM
+      $today = now();
+      $counting = $start->copy()->subDay()->setHour(17)->setMinute(0)->setSecond(0);
+
+      // Check if the $counting date is not in the past
+      if (!($counting->isPast())) {
+        // Calculate the difference in seconds, but limit it to a maximum of two weeks (1209600 seconds)
+        $expire_time = min($counting->diffInSeconds($today), 1209600);
+      }
+    }
 
     if ($http_status == 401 || $http_status == 500) {
       setcookie('auth', '', time() - 3600, '/');
@@ -302,7 +316,13 @@ class CallOrderController extends Controller
     )));
     $createInvoice = curl_exec($curl);
     $createInvoice = json_decode($createInvoice);
+    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     curl_close($curl);
+
+    if($http_status != 200) {
+      $request->session()->put('danger', "Sebuah kesalahan terjadi pada pemanggilan Xendit.");
+      return redirect()->route('orderData' , ['filter' => 'Sudah Konfirmasi']); 
+    }
 
     // Update Database
     $curl = curl_init();
