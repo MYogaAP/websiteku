@@ -39,11 +39,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/AgentResponsibility', [OrderController::class, 'AgentResponsibilityOrders']);
         Route::get('/NeedConfirmation', [OrderController::class, 'NeedConfirmation']);
         Route::post('/UpdateOrder/{order_id}/{update_type}', [OrderController::class, 'UpdateOrder']);
-        Route::patch('/UpdatePayedOrder/{order_id}', [OrderController::class, 'OrderPayed']);
         Route::post('/ConfirmOrder/{order_id}/{update_type}', [OrderController::class, 'ConfirmOrder']);
     });
     Route::get('/OrderDetail/{order_id}', [OrderController::class, 'GetOrderDetail'])->name('getorderdetail');
     Route::post('/StoreOrder', [OrderController::class, 'StoreOrder']);
+    Route::patch('/UpdatePayedOrder/{order_id}', [OrderController::class, 'OrderPayed']);
     Route::post('/CancelOrder/{order_id}', [OrderController::class, 'CancelOrder']);
     Route::post('/CancelOrder/{order_id}/exp', [OrderController::class, 'CancelExpiredOrder']);
 });

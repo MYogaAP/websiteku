@@ -74,6 +74,7 @@
             if($data->tanggal_pembayaran != "-"){
                 $paid = now()->parse($data->tanggal_pembayaran)->format('d-M-Y H:i:s');
             }
+            $link = "https://checkout-staging.xendit.co/v2/";
         @endphp
     @endif
 
@@ -100,9 +101,6 @@
             
             if(isset($invoice_data->expiry_date)){
                 $expiry_date = now()->parse($invoice_data->expiry_date)->addHours(8)->format('d-M-Y H:i:s');
-            }
-            if(isset($invoice_data->invoice_url)){
-                $link = $invoice_data->invoice_url;
             }
             
             if(isset($invoice_data->status)){
@@ -213,17 +211,6 @@
             <p class="fw-bold">Nilai Iklan <span style="padding-left: 135px;">: Rp. @money($data->harga_paket)</span></p>
             <p class="fw-bold">
                 Waktu Pembayaran <span style="padding-left: 55px;">: {{isset($paid)?$paid:"-"}} </span>
-                <span class="
-                    @if($data->status_pembayaran == "Lunas")
-                        {{'text-success'}}
-                    @elseif($data->status_pembayaran == "Belum Lunas")
-                        {{'text-primary'}}
-                    @elseif($data->status_pembayaran == "Dibatalkan" || $data->status_pembayaran == "Pembayaran Kedaluwarsa")
-                        {{'text-danger'}}
-                    @else
-                        {{'text-secondary'}}
-                    @endif
-                ">{{$data->status_pembayaran}}</span>
             </p>
             <p class="fw-bold">Jenis Pembayaran <span style="padding-left: 68px;">: TRANSFER</span></p>
             <p class="fw-bold">Kontak Person <span style="padding-left: 97px;">: {{$data->nomor_instansi}}</span></p>
@@ -244,7 +231,7 @@
                 <tr>
                     <td class="text-center">
                         Pengumuman Terbit: {{$start}} hingga {{$end}}
-                        <p class="
+                        <p class="fw-bold 
                         @if($data->status_iklan == "Telah Tayang")
                             {{'text-success'}}
                         @elseif($data->status_iklan == "Menunggu Pembayaran")
@@ -316,7 +303,7 @@
             </p>
             <p class="fw-bold col-sm-2">
                 @if($data->status_pembayaran == "Belum Lunas" || $data->status_pembayaran == "Lunas")
-                    <a href="{{isset($link)? $link : "#"}}" 
+                    <a href="{{isset($data->invoice_id)? $link.$data->invoice_id : "#"}}" 
                         class="text-decoration-none btn btn-sm w-100 btn-outline-primary rounded" target="_blank">Disini</a>
                 @else
                     {{$data->status_pembayaran}}
