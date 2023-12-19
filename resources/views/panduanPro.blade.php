@@ -96,9 +96,24 @@
                             src="{{ asset('public/images/Pesan2.gif') }}" alt="..." /></div>
                     <div class="col-lg-6">
                         <h2 class="fw-bolder">3. Pilih Paket</h2>
-                        <p class="lead fw-normal text-muted mb-0">Pilihlah paket iklan yang cocok dengan kebutuhan
+                        <p class="lead fw-normal text-muted mb-3">Pilihlah paket iklan yang cocok dengan kebutuhan
                             spesifik iklan Anda. Dengan berbagai opsi paket yang tersedia, kami memastikan Anda
                             mendapatkan solusi yang sesuai untuk menyampaikan iklan Anda secara optimal.</p>
+                            <p class="lead fw-normal text-muted mb-3">
+                                Ukuran iklan berdasarkan mmk dapat dirubah menjadi px dengan menggunakan hitungan berikut:
+                            </p>
+                            <p class="lead fw-normal text-muted mb-3">
+                                Untuk setiap 50 milimeter akan menjadi 500 pixel. <br>
+                            </p>
+                            <p class="lead fw-normal text-muted mb-0">
+                                Untuk 1 Kolom menjadi 470 pixel. <br>
+                                Untuk 2 Kolom menjadi 975 pixel. <br>
+                                Untuk 3 Kolom menjadi 1480 pixel. <br>
+                                Untuk 4 Kolom menjadi 1985 pixel. <br>
+                                Untuk 5 Kolom menjadi 2495 pixel. <br>
+                                Untuk 6 Kolom menjadi 3000 pixel. 
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

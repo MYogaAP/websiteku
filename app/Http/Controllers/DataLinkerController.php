@@ -244,7 +244,7 @@ class DataLinkerController extends Controller
         curl_close($curl);
 
         $request->session()->put('order_data', $response);
-        $request->session()->put('order_page', $page);
+        $request->session()->put('order_page', (int)$page);
 
         return redirect()->route('riwayat');
     }
