@@ -186,6 +186,17 @@
                                         <p>Rp. @money($packet->harga_paket)</p>
                                         <!-- Product size-->
                                         <p>Ukuran Iklan {{ $packet->tinggi }} mm x {{ $packet->kolom }} kolom</p>
+                                        <!-- Product color-->
+                                        <p>
+                                            Format Warna Iklan : 
+                                        </p>
+                                        <p>
+                                            @if ($packet->format_warna == 'fc')
+                                                <span class="text-primary fw-bold">Full Warna</span>
+                                            @else
+                                                <span class="fw-bold">Hitam Putih</span>
+                                            @endif
+                                        </p>
                                     </div>
                                 </div>
                                 <!-- Product actions-->
